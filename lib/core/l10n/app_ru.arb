@@ -1,0 +1,513 @@
+{
+  "@@locale": "ru",
+
+  "appName": "TM Shop",
+  "@appName": { "description": "Store name next to the logo. TODO: replace with the real brand name" },
+  "comingSoon": "Этот раздел скоро появится",
+  "@comingSoon": { "description": "Toast for destinations that are not built yet" },
+  "offlineTitle": "Нет соединения",
+  "@offlineTitle": { "description": "Full-screen offline state title" },
+  "offlineMessage": "Проверьте интернет — мы обновим страницу, как только связь появится",
+  "@offlineMessage": { "description": "Full-screen offline state text" },
+
+  "catalogAllProducts": "Все товары",
+  "@catalogAllProducts": { "description": "Link next to a category name that opens all its products" },
+  "catalogFilters": "Фильтры",
+  "@catalogFilters": { "description": "Toolbar button and filters sheet title" },
+  "catalogFiltersActive": "Фильтры, выбрано: {count}",
+  "@catalogFiltersActive": {
+    "description": "Screen-reader label of the Filters button with a badge",
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "catalogSortTitle": "Сортировка",
+  "@catalogSortTitle": { "description": "Sort sheet title" },
+  "catalogViewGrid": "Показать плиткой",
+  "@catalogViewGrid": { "description": "Accessibility label: switch product list to a 2-column grid" },
+  "catalogViewList": "Показать списком",
+  "@catalogViewList": { "description": "Accessibility label: switch product list to rows" },
+  "catalogProductCount": "{count, plural, one{{formatted} товар} few{{formatted} товара} other{{formatted} товаров}}",
+  "@catalogProductCount": {
+    "description": "Number of products found. formatted is count with spaces, e.g. «1 248»",
+    "placeholders": {
+      "count": { "type": "int" },
+      "formatted": { "type": "String", "example": "1 248" }
+    }
+  },
+  "catalogClearFilters": "Сбросить все",
+  "@catalogClearFilters": { "description": "Removes all active filters above the product list" },
+  "catalogEmptyFilteredTitle": "Ничего не нашлось",
+  "@catalogEmptyFilteredTitle": { "description": "No products for the chosen filters" },
+  "catalogEmptyFilteredText": "Попробуйте убрать часть фильтров",
+  "@catalogEmptyFilteredText": { "description": "Hint under «Ничего не нашлось»" },
+  "catalogEmptyTitle": "Здесь пока пусто",
+  "@catalogEmptyTitle": { "description": "Category has no products at all" },
+  "catalogEmptyText": "В этой категории скоро появятся товары",
+  "@catalogEmptyText": { "description": "Text for an empty category" },
+  "catalogNotFoundTitle": "Категория не найдена",
+  "@catalogNotFoundTitle": { "description": "Opened a link to a category that no longer exists" },
+  "catalogNotFoundText": "Возможно, она переехала. Загляните в каталог",
+  "@catalogNotFoundText": { "description": "Text for a missing category" },
+  "listLoadMoreError": "Не удалось загрузить ещё",
+  "@listLoadMoreError": { "description": "Under a list when the next page fails" },
+
+  "sortPopular": "Популярные",
+  "@sortPopular": { "description": "Sort option" },
+  "sortPriceAsc": "Сначала дешёвые",
+  "@sortPriceAsc": { "description": "Sort option" },
+  "sortPriceDesc": "Сначала дорогие",
+  "@sortPriceDesc": { "description": "Sort option" },
+  "sortNewest": "Новинки",
+  "@sortNewest": { "description": "Sort option" },
+  "sortRating": "С высоким рейтингом",
+  "@sortRating": { "description": "Sort option" },
+  "sortSales": "Хиты продаж",
+  "@sortSales": { "description": "Sort option" },
+
+  "filtersShow": "{count, plural, one{Показать {formatted} товар} few{Показать {formatted} товара} other{Показать {formatted} товаров}}",
+  "@filtersShow": {
+    "description": "Primary button of the filters sheet",
+    "placeholders": {
+      "count": { "type": "int" },
+      "formatted": { "type": "String", "example": "1 248" }
+    }
+  },
+  "filtersApply": "Показать товары",
+  "@filtersApply": { "description": "Primary button of the filters sheet when the count is unknown (offline)" },
+  "filtersNothing": "Ничего не найдено",
+  "@filtersNothing": { "description": "Disabled primary button when the draft filters match nothing" },
+  "filtersReset": "Сбросить",
+  "@filtersReset": { "description": "Clears the draft in the filters sheet" },
+  "filtersPriceFrom": "От",
+  "@filtersPriceFrom": { "description": "Lower price input label" },
+  "filtersPriceTo": "До",
+  "@filtersPriceTo": { "description": "Upper price input label" },
+  "filtersShowAll": "Показать все ({count})",
+  "@filtersShowAll": {
+    "description": "Expands a long filter list",
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "filtersShowLess": "Свернуть",
+  "@filtersShowLess": { "description": "Collapses a long filter list" },
+  "filtersSearch": "Найти",
+  "@filtersSearch": { "description": "Search field inside a long filter list (brands)" },
+  "filtersSelected": "Выбрано: {count}",
+  "@filtersSelected": {
+    "description": "Summary under a collapsed filter group",
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "filtersOption": "{label} · {count}",
+  "@filtersOption": {
+    "description": "Filter chip: value and number of products",
+    "placeholders": {
+      "label": { "type": "String", "example": "Taobao" },
+      "count": { "type": "int" }
+    }
+  },
+  "priceRangeChip": "{min}–{max} TMT",
+  "@priceRangeChip": {
+    "description": "Active price filter chip",
+    "placeholders": {
+      "min": { "type": "String", "example": "100" },
+      "max": { "type": "String", "example": "500" }
+    }
+  },
+  "priceFromChip": "от {min} TMT",
+  "@priceFromChip": {
+    "description": "Active price filter chip with a lower bound only",
+    "placeholders": { "min": { "type": "String", "example": "100" } }
+  },
+  "priceToChip": "до {max} TMT",
+  "@priceToChip": {
+    "description": "Active price filter chip with an upper bound only",
+    "placeholders": { "max": { "type": "String", "example": "500" } }
+  },
+
+  "actionBack": "Назад",
+  "@actionBack": { "description": "Accessibility label of a back button" },
+  "actionGoTo": "Перейти",
+  "@actionGoTo": { "description": "Toast action that opens the related screen, e.g. the cart" },
+  "actionShowMore": "Ещё",
+  "@actionShowMore": { "description": "Expands a clipped text (title, review)" },
+  "actionShowLess": "Свернуть",
+  "@actionShowLess": { "description": "Collapses an expanded text" },
+  "regionTitle": "Регион доставки",
+  "@regionTitle": { "description": "Region picker sheet title" },
+  "regionChange": "Сменить регион доставки",
+  "@regionChange": { "description": "Accessibility hint of the region chip" },
+  "galleryCounter": "{current}/{total}",
+  "@galleryCounter": {
+    "description": "Photo counter on the product gallery",
+    "placeholders": { "current": { "type": "int" }, "total": { "type": "int" } }
+  },
+  "ratingSpoken": "Рейтинг {rating} из 5",
+  "@ratingSpoken": {
+    "description": "Screen-reader text for star ratings",
+    "placeholders": { "rating": { "type": "String", "example": "4,7" } }
+  },
+  "reviewCount": "{count, plural, one{{count} отзыв} few{{count} отзыва} other{{count} отзывов}}",
+  "@reviewCount": {
+    "description": "Number of reviews",
+    "placeholders": { "count": { "type": "int" } }
+  },
+
+  "productPriceDepends": "Цена зависит от варианта",
+  "@productPriceDepends": { "description": "Under the price while variants with different prices are not chosen" },
+  "productTier": "от {quantity} шт — {price}",
+  "@productTier": {
+    "description": "Quantity price step",
+    "placeholders": {
+      "quantity": { "type": "int" },
+      "price": { "type": "String", "example": "180 TMT" }
+    }
+  },
+  "productInStock": "В наличии: {count} шт",
+  "@productInStock": {
+    "description": "Stock of the chosen variant",
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "productFewLeft": "Осталось {count} шт",
+  "@productFewLeft": {
+    "description": "Low stock of the chosen variant",
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "productOutOfStock": "Нет в наличии",
+  "@productOutOfStock": { "description": "Variant or product sold out" },
+  "productUnavailableText": "Этот товар больше не продаётся. Посмотрите похожие ниже",
+  "@productUnavailableText": { "description": "Banner on a product taken off sale" },
+  "productNotFoundTitle": "Товар не найден",
+  "@productNotFoundTitle": { "description": "Opened a link to a product that does not exist" },
+  "productNotFoundText": "Возможно, ссылка устарела",
+  "@productNotFoundText": { "description": "Text for a missing product" },
+  "productSelectOption": "Выберите: {option}",
+  "@productSelectOption": {
+    "description": "Disabled add-to-cart button until a variant property is chosen",
+    "placeholders": { "option": { "type": "String", "example": "Размер" } }
+  },
+  "productQuantity": "Количество",
+  "@productQuantity": { "description": "Label next to the quantity stepper" },
+  "productComment": "Комментарий для оператора",
+  "@productComment": { "description": "Optional note saved with the cart line" },
+  "productCommentHint": "Например: проверьте цвет перед выкупом",
+  "@productCommentHint": { "description": "Hint in the operator comment field" },
+  "productDelivery": "Доставка",
+  "@productDelivery": { "description": "Delivery block title" },
+  "productDeliveryError": "Не удалось рассчитать доставку",
+  "@productDeliveryError": { "description": "Delivery quotes failed to load" },
+  "productHowTitle": "Как это работает",
+  "@productHowTitle": { "description": "Collapsible explainer of the bought-to-order model" },
+  "productHowBuy": "Товар выкупается под ваш заказ — обычно за 1–2 дня",
+  "@productHowBuy": { "description": "Explainer line" },
+  "productHowCancel": "Отменить заказ можно только до выкупа",
+  "@productHowCancel": { "description": "Explainer line" },
+  "productHowWeight": "Точный вес и цена доставки станут известны на складе в Китае",
+  "@productHowWeight": { "description": "Explainer line" },
+  "productDescription": "Описание",
+  "@productDescription": { "description": "Section title" },
+  "productShowAll": "Показать полностью",
+  "@productShowAll": { "description": "Expands the folded description" },
+  "productSpecs": "Характеристики",
+  "@productSpecs": { "description": "Section title" },
+  "productSeller": "Продавец",
+  "@productSeller": { "description": "Section title" },
+  "productSellerStats": "★ {rating} · {sales} продаж",
+  "@productSellerStats": {
+    "description": "Seller rating and sales",
+    "placeholders": {
+      "rating": { "type": "String", "example": "4,8" },
+      "sales": { "type": "String", "example": "12 тыс." }
+    }
+  },
+  "productSellerAll": "Все товары продавца",
+  "@productSellerAll": { "description": "Opens the seller's products" },
+  "productReviews": "Отзывы",
+  "@productReviews": { "description": "Section title" },
+  "productAllReviews": "Все отзывы",
+  "@productAllReviews": { "description": "Opens the full reviews screen" },
+  "productTranslated": "Переведено с китайского",
+  "@productTranslated": { "description": "Label on reviews imported from the marketplace" },
+  "productSimilar": "Похожие товары",
+  "@productSimilar": { "description": "Carousel title" },
+  "productBoughtTogether": "С этим покупают",
+  "@productBoughtTogether": { "description": "Carousel title" },
+  "productQuickOrder": "Быстрый заказ",
+  "@productQuickOrder": { "description": "Link above the sticky buttons" },
+  "productFindSimilar": "Найти похожие",
+  "@productFindSimilar": { "description": "Photo search by this product's image" },
+  "productPriceAlert": "Сообщить о снижении цены",
+  "@productPriceAlert": { "description": "Accessibility label of the bell next to the rating" },
+  "productAdded": "Добавлено в корзину",
+  "@productAdded": { "description": "Toast after adding to the cart" },
+  "productVideo": "Видео",
+  "@productVideo": { "description": "Accessibility label of a video slide in the gallery" },
+
+  "cartSelectAll": "Выбрать все",
+  "@cartSelectAll": { "description": "Tick that selects every cart line" },
+  "cartSelectedCount": "Выбрано: {selected} из {total}",
+  "@cartSelectedCount": {
+    "description": "Next to «Выбрать все»",
+    "placeholders": { "selected": { "type": "int" }, "total": { "type": "int" } }
+  },
+  "cartOtherSeller": "Другие товары",
+  "@cartOtherSeller": { "description": "Group for lines whose seller is unknown" },
+  "cartChinaDelivery": "Доставка по Китаю: {amount}",
+  "@cartChinaDelivery": {
+    "description": "Under a seller group",
+    "placeholders": { "amount": { "type": "String", "example": "24 TMT" } }
+  },
+  "cartChinaDeliveryPending": "Доставка по Китаю рассчитывается",
+  "@cartChinaDeliveryPending": { "description": "Under a seller group before the server answers" },
+  "cartPriceChanged": "Цена изменилась: {oldPrice} → {newPrice}",
+  "@cartPriceChanged": {
+    "description": "Warning on a line whose price changed since adding",
+    "placeholders": {
+      "oldPrice": { "type": "String", "example": "216 TMT" },
+      "newPrice": { "type": "String", "example": "231 TMT" }
+    }
+  },
+  "cartUnavailable": "Нет в наличии — не попадёт в заказ",
+  "@cartUnavailable": { "description": "Warning on a sold-out line" },
+  "cartRemoved": "Товар удалён из корзины",
+  "@cartRemoved": { "description": "Toast after swiping a line away" },
+  "cartSelectLine": "Выбрать для заказа: {title}",
+  "@cartSelectLine": {
+    "description": "Accessibility label of a line's tick",
+    "placeholders": { "title": { "type": "String" } }
+  },
+  "cartChangeVariant": "Изменить вариант",
+  "@cartChangeVariant": { "description": "Accessibility hint of the variant chip; also the sheet title" },
+  "cartSaveVariant": "Сохранить",
+  "@cartSaveVariant": { "description": "Confirms the new variant in the sheet" },
+  "cartVariantGone": "Этот товар больше не продаётся",
+  "@cartVariantGone": { "description": "Variant sheet for a product taken off sale" },
+  "cartPromo": "Промокод",
+  "@cartPromo": { "description": "Collapsible promo code row" },
+  "cartPromoHint": "Введите промокод",
+  "@cartPromoHint": { "description": "Promo code field hint" },
+  "cartPromoApply": "Применить",
+  "@cartPromoApply": { "description": "Applies the promo code" },
+  "cartPromoApplied": "Промокод {code} применён",
+  "@cartPromoApplied": {
+    "description": "Chip once the server accepted the code",
+    "placeholders": { "code": { "type": "String", "example": "SALE10" } }
+  },
+  "cartCheckout": "Оформить",
+  "@cartCheckout": { "description": "Primary button of the cart" },
+  "cartNothingSelected": "Отметьте товары для заказа",
+  "@cartNothingSelected": { "description": "Shown when no line is ticked" },
+  "cartEmptyTitle": "В корзине пока пусто",
+  "@cartEmptyTitle": { "description": "Empty cart title" },
+  "cartEmptyText": "Добавьте товары с главной или из каталога",
+  "@cartEmptyText": { "description": "Empty cart text" },
+  "cartQuoteError": "Не удалось пересчитать итог",
+  "@cartQuoteError": { "description": "Inline note when the server total failed" },
+  "cartBreakdownTitle": "Сумма заказа",
+  "@cartBreakdownTitle": { "description": "Money breakdown sheet title" },
+
+  "homeNotifications": "Уведомления",
+  "@homeNotifications": { "description": "Accessibility label of the bell button in the Home header" },
+  "homeLanguageSwitch": "Сменить язык",
+  "@homeLanguageSwitch": { "description": "Accessibility hint of the RU/TK toggle in the Home header" },
+  "homeStoryNew": "Новое видео: {title}",
+  "@homeStoryNew": {
+    "description": "Accessibility label of an unwatched video story",
+    "placeholders": { "title": { "type": "String", "example": "Распаковка" } }
+  },
+  "homePasteLinkTitle": "Вставьте ссылку на товар",
+  "@homePasteLinkTitle": { "description": "Title of the card that opens the add-by-link flow" },
+  "homePasteLinkHint": "{sources} — найдём товар и посчитаем цену",
+  "@homePasteLinkHint": {
+    "description": "Hint under the paste-link title. sources is a list of marketplace names",
+    "placeholders": { "sources": { "type": "String", "example": "Taobao, 1688, Tmall" } }
+  },
+  "homeAllCategories": "Все категории",
+  "@homeAllCategories": { "description": "Last cell of the category shortcuts grid" },
+  "homeDeliveryTerms": "Сроки доставки",
+  "@homeDeliveryTerms": { "description": "Heading above the delivery types in «Как мы работаем»" },
+  "homeForYou": "Для вас",
+  "@homeForYou": { "description": "Title of the endless product grid at the bottom of Home" },
+  "homeForYouError": "Не удалось загрузить товары",
+  "@homeForYouError": { "description": "Shown at the bottom of the grid when the next page fails" },
+  "homeEmptyTitle": "Витрина скоро наполнится",
+  "@homeEmptyTitle": { "description": "Empty Home title (server sent no sections)" },
+  "homeEmptyText": "Загляните в каталог — там уже есть товары",
+  "@homeEmptyText": { "description": "Empty Home text" },
+  "homeRefreshFailed": "Не удалось обновить главную",
+  "@homeRefreshFailed": { "description": "Toast when refresh fails but older content is shown" },
+
+  "tabHome": "Главная",
+  "@tabHome": { "description": "Bottom navigation tab and root screen title: home" },
+  "tabCatalog": "Каталог",
+  "@tabCatalog": { "description": "Bottom navigation tab and root screen title: catalog" },
+  "tabCart": "Корзина",
+  "@tabCart": { "description": "Bottom navigation tab and root screen title: cart" },
+  "tabFavourites": "Избранное",
+  "@tabFavourites": { "description": "Bottom navigation tab and root screen title: favourites" },
+  "tabProfile": "Профиль",
+  "@tabProfile": { "description": "Bottom navigation tab and root screen title: profile" },
+  "navCartCount": "{count, plural, one{{count} товар} few{{count} товара} other{{count} товаров}}",
+  "@navCartCount": {
+    "description": "Screen-reader text for the cart tab badge",
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "navUnread": "есть непрочитанные уведомления",
+  "@navUnread": { "description": "Screen-reader text for the unread dot on the profile tab" },
+  "navTabSemantics": "{tab}, {state}",
+  "@navTabSemantics": {
+    "description": "Screen-reader label of a tab that has a badge, e.g. «Корзина, 3 товара»",
+    "placeholders": {
+      "tab": { "type": "String", "example": "Корзина" },
+      "state": { "type": "String", "example": "3 товара" }
+    }
+  },
+
+  "actionAddToCart": "В корзину",
+  "@actionAddToCart": { "description": "Secondary button that adds the product to the cart" },
+  "actionBuyNow": "Купить сейчас",
+  "@actionBuyNow": { "description": "Primary button that starts checkout for one product" },
+  "actionNext": "Далее",
+  "@actionNext": { "description": "Generic primary button that moves to the next step" },
+  "actionCancel": "Отмена",
+  "@actionCancel": { "description": "Generic cancel button" },
+  "actionRetry": "Повторить",
+  "@actionRetry": { "description": "Button that repeats a failed request" },
+  "actionUndo": "Отменить",
+  "@actionUndo": { "description": "Toast action that reverts the last action, e.g. a delete" },
+  "actionSeeAll": "Все",
+  "@actionSeeAll": { "description": "Link in a section header that opens the full list; an arrow icon follows it" },
+  "actionGoToCatalog": "В каталог",
+  "@actionGoToCatalog": { "description": "Empty-state button that opens the catalog" },
+  "actionClose": "Закрыть",
+  "@actionClose": { "description": "Accessibility label of a close (×) icon button" },
+  "actionShare": "Поделиться",
+  "@actionShare": { "description": "Accessibility label of a share icon button" },
+  "actionRemove": "Удалить",
+  "@actionRemove": { "description": "Accessibility label of the × on a removable chip" },
+
+  "loading": "Загрузка",
+  "@loading": { "description": "Accessibility label for skeletons and spinners" },
+
+  "priceTmt": "{amount} TMT",
+  "@priceTmt": {
+    "description": "Price in manat. amount is already grouped, e.g. «1 216»",
+    "placeholders": { "amount": { "type": "String", "example": "1 216" } }
+  },
+  "priceMinusTmt": "−{amount} TMT",
+  "@priceMinusTmt": {
+    "description": "Negative amount, e.g. a discount line",
+    "placeholders": { "amount": { "type": "String", "example": "120" } }
+  },
+  "priceSpoken": "{amount, plural, one{{amount} манат} few{{amount} маната} other{{amount} манатов}}",
+  "@priceSpoken": {
+    "description": "Price read by the screen reader",
+    "placeholders": { "amount": { "type": "int" } }
+  },
+  "priceWithOldSpoken": "{price}, было {oldPrice}",
+  "@priceWithOldSpoken": {
+    "description": "Screen-reader phrase for a discounted price. Both values come from priceSpoken",
+    "placeholders": {
+      "price": { "type": "String", "example": "216 манатов" },
+      "oldPrice": { "type": "String", "example": "260 манатов" }
+    }
+  },
+  "discountPercent": "−{percent}%",
+  "@discountPercent": {
+    "description": "Discount badge",
+    "placeholders": { "percent": { "type": "int" } }
+  },
+
+  "badgeHit": "Хит",
+  "@badgeHit": { "description": "Badge for a best-selling product" },
+  "badgeNew": "Новинка",
+  "@badgeNew": { "description": "Badge for a new product" },
+  "badgeIllustration": "иллюстрация",
+  "@badgeIllustration": { "description": "Small chip on AI-generated product photos" },
+
+  "productSold": "продано {count}",
+  "@productSold": {
+    "description": "Sold counter caption on a product tile",
+    "placeholders": { "count": { "type": "String", "example": "1,2 тыс." } }
+  },
+  "compactThousands": "{value} тыс.",
+  "@compactThousands": {
+    "description": "Compact number in thousands",
+    "placeholders": { "value": { "type": "String", "example": "1,2" } }
+  },
+  "compactMillions": "{value} млн",
+  "@compactMillions": {
+    "description": "Compact number in millions",
+    "placeholders": { "value": { "type": "String", "example": "3,4" } }
+  },
+
+  "favouriteAdd": "Добавить в избранное",
+  "@favouriteAdd": { "description": "Accessibility label of the empty heart button" },
+  "favouriteRemove": "Убрать из избранного",
+  "@favouriteRemove": { "description": "Accessibility label of the filled heart button" },
+
+  "quantityDecrease": "Уменьшить количество",
+  "@quantityDecrease": { "description": "Accessibility label of the minus button" },
+  "quantityIncrease": "Увеличить количество",
+  "@quantityIncrease": { "description": "Accessibility label of the plus button" },
+
+  "skuSizeChart": "Размерная сетка",
+  "@skuSizeChart": { "description": "Link that opens the size chart" },
+  "skuUnavailable": "{option} — нет в наличии",
+  "@skuUnavailable": {
+    "description": "Accessibility label of a greyed-out SKU option",
+    "placeholders": { "option": { "type": "String", "example": "XL" } }
+  },
+
+  "searchHint": "Искать товары",
+  "@searchHint": { "description": "Search bar placeholder" },
+  "searchByPhoto": "Поиск по фото",
+  "@searchByPhoto": { "description": "Accessibility label of the camera icon in the search bar" },
+
+  "phoneLabel": "Номер телефона",
+  "@phoneLabel": { "description": "Phone field label" },
+  "otpLabel": "Код из СМС",
+  "@otpLabel": { "description": "Accessibility label of the OTP boxes" },
+
+  "deliveryAfterWeighing": "уточнится после взвешивания",
+  "@deliveryAfterWeighing": { "description": "Shown instead of an exact international delivery price" },
+  "deliveryAfterWeighingInfo": "Точный вес станет известен, когда товар приедет на наш склад в Китае. Мы пересчитаем доставку и сообщим вам.",
+  "@deliveryAfterWeighingInfo": { "description": "Tooltip that explains why delivery is an estimate" },
+
+  "moneyItems": "Товары",
+  "@moneyItems": { "description": "Money breakdown row: goods total" },
+  "moneyChinaDelivery": "Доставка по Китаю",
+  "@moneyChinaDelivery": { "description": "Money breakdown row: delivery inside China" },
+  "moneyInternationalDelivery": "Международная доставка",
+  "@moneyInternationalDelivery": { "description": "Money breakdown row: delivery to Turkmenistan" },
+  "moneyDiscount": "Скидка",
+  "@moneyDiscount": { "description": "Money breakdown row: discount" },
+  "moneyTotal": "Итого",
+  "@moneyTotal": { "description": "Money breakdown total row" },
+  "totalSpoken": "Итого: {amount}",
+  "@totalSpoken": {
+    "description": "Screen-reader phrase for the total in the sticky bar. amount comes from priceSpoken",
+    "placeholders": { "amount": { "type": "String", "example": "1216 манатов" } }
+  },
+
+  "progressToMinimum": "Добавьте товаров ещё на {amount}",
+  "@progressToMinimum": {
+    "description": "Shown under the cart progress bar when the order is below the minimum",
+    "placeholders": { "amount": { "type": "String", "example": "120 TMT" } }
+  },
+  "progressMinimumReached": "Минимальная сумма заказа набрана",
+  "@progressMinimumReached": { "description": "Shown when the cart reaches the minimum order sum" },
+
+  "countdownWithDays": "{days} д {time}",
+  "@countdownWithDays": {
+    "description": "Countdown longer than a day, e.g. «2 д 04:15:09»",
+    "placeholders": {
+      "days": { "type": "int" },
+      "time": { "type": "String", "example": "04:15:09" }
+    }
+  },
+
+  "offlineBanner": "Нет соединения с интернетом",
+  "@offlineBanner": { "description": "Thin bar at the top when the device is offline" },
+  "errorGenericTitle": "Что-то пошло не так",
+  "@errorGenericTitle": { "description": "Default error state title" },
+  "errorGenericMessage": "Проверьте интернет и попробуйте ещё раз",
+  "@errorGenericMessage": { "description": "Default error state text" }
+}

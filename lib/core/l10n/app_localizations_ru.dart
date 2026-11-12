@@ -1409,4 +1409,124 @@ class AppLocalizationsRu extends AppLocalizations {
   String priceAlertsSwitch(String title) {
     return 'Сообщать о снижении цены: $title';
   }
+
+  @override
+  String get walletHeroCaption => 'Доступно для оплаты заказов';
+
+  @override
+  String walletDebt(String amount) {
+    return 'Долг $amount';
+  }
+
+  @override
+  String get walletPayDebt => 'Погасить';
+
+  @override
+  String get walletTopUp => 'Пополнить';
+
+  @override
+  String get walletHistory => 'История операций';
+
+  @override
+  String get walletNoOperations => 'Операций пока нет';
+
+  @override
+  String get walletLoadMoreFailed => 'Не удалось загрузить ещё';
+
+  @override
+  String get walletTopUpTitle => 'Пополнение баланса';
+
+  @override
+  String get walletTopUpAmount => 'Сумма, TMT';
+
+  @override
+  String walletTopUpRange(String min, String max) {
+    return 'От $min до $max TMT';
+  }
+
+  @override
+  String get walletTopUpByCard => 'Пополнить картой';
+
+  @override
+  String get walletTopUpDone => 'Баланс пополнен';
+
+  @override
+  String get walletSurchargePaid => 'Доплата оплачена';
+
+  @override
+  String get walletDone => 'Готово';
+
+  @override
+  String get walletPaymentTimeout =>
+      'Банк пока не ответил. Если деньги списались, баланс обновится сам';
+
+  @override
+  String get walletPaymentFailedText => 'Деньги не списаны. Попробуйте ещё раз';
+
+  @override
+  String get walletPayTitle => 'Чем оплатить';
+
+  @override
+  String get walletPayFromBalance => 'С баланса';
+
+  @override
+  String get walletPayByCard => 'Картой';
+
+  @override
+  String walletAvailable(String amount) {
+    return 'Доступно $amount';
+  }
+
+  @override
+  String walletNotEnough(String amount) {
+    return 'Недостаточно средств: $amount';
+  }
+
+  @override
+  String get walletTabDue => 'К оплате';
+
+  @override
+  String get walletTabRefunds => 'Возвраты';
+
+  @override
+  String walletPayUntil(String date) {
+    return 'Оплатить до $date';
+  }
+
+  @override
+  String get walletNoSurchargesTitle => 'Доплат нет';
+
+  @override
+  String get walletNoSurchargesText =>
+      'Если после взвешивания или у продавца изменится цена, счёт появится здесь';
+
+  @override
+  String get walletNoRefundsTitle => 'Возвратов нет';
+
+  @override
+  String get walletNoRefundsText =>
+      'Здесь появятся деньги, которые мы вернём за отменённые товары';
+
+  @override
+  String get walletRefundToBalance => 'На баланс';
+
+  @override
+  String get walletRefundToCard => 'На карту';
+
+  @override
+  String get walletRefundInCash => 'Наличными';
+
+  @override
+  String walletRefundLine(String destination, String date) {
+    return '$destination · $date';
+  }
+
+  @override
+  String get walletRefundCreated => 'Оформлен';
+
+  @override
+  String get walletRefundApproved => 'Одобрен';
+
+  @override
+  String get walletRefundPaid => 'Выплачен';
 }

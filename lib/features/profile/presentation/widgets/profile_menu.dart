@@ -113,6 +113,8 @@ class CustomerMenu extends StatelessWidget {
     required this.onOpenParcels,
     required this.onOpenViewed,
     required this.onOpenPriceAlerts,
+    required this.onOpenBalance,
+    required this.onOpenSurcharges,
     required this.onComingSoon,
     super.key,
   });
@@ -122,6 +124,8 @@ class CustomerMenu extends StatelessWidget {
   final VoidCallback onOpenParcels;
   final VoidCallback onOpenViewed;
   final VoidCallback onOpenPriceAlerts;
+  final VoidCallback onOpenBalance;
+  final VoidCallback onOpenSurcharges;
   final VoidCallback onComingSoon;
 
   @override
@@ -144,12 +148,12 @@ class CustomerMenu extends StatelessWidget {
             MenuRow(
               icon: AppIcons.refund,
               title: l10n.profileSurcharges,
-              onTap: onComingSoon,
+              onTap: onOpenSurcharges,
             ),
             MenuRow(
               icon: AppIcons.wallet,
               title: l10n.profileBalance,
-              onTap: onComingSoon,
+              onTap: onOpenBalance,
             ),
           ],
         ),

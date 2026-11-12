@@ -1358,4 +1358,124 @@ class AppLocalizationsTk extends AppLocalizations {
   String priceAlertsSwitch(String title) {
     return 'Arzanlama barada habar ber: $title';
   }
+
+  @override
+  String get walletHeroCaption => 'Sargytlary tölemek üçin elýeterli';
+
+  @override
+  String walletDebt(String amount) {
+    return 'Bergi $amount';
+  }
+
+  @override
+  String get walletPayDebt => 'Üzmek';
+
+  @override
+  String get walletTopUp => 'Doldurmak';
+
+  @override
+  String get walletHistory => 'Amallaryň taryhy';
+
+  @override
+  String get walletNoOperations => 'Entek amal ýok';
+
+  @override
+  String get walletLoadMoreFailed => 'Ýene ýükläp bolmady';
+
+  @override
+  String get walletTopUpTitle => 'Balansy doldurmak';
+
+  @override
+  String get walletTopUpAmount => 'Möçberi, TMT';
+
+  @override
+  String walletTopUpRange(String min, String max) {
+    return '$min-den $max TMT-a çenli';
+  }
+
+  @override
+  String get walletTopUpByCard => 'Kart bilen doldurmak';
+
+  @override
+  String get walletTopUpDone => 'Balans dolduryldy';
+
+  @override
+  String get walletSurchargePaid => 'Goşmaça töleg tölendi';
+
+  @override
+  String get walletDone => 'Taýýar';
+
+  @override
+  String get walletPaymentTimeout =>
+      'Bank entek jogap bermedi. Pul alnan bolsa, balans özi täzelener';
+
+  @override
+  String get walletPaymentFailedText => 'Pul alynmady. Täzeden synanyşyň';
+
+  @override
+  String get walletPayTitle => 'Nähili tölemeli';
+
+  @override
+  String get walletPayFromBalance => 'Balansdan';
+
+  @override
+  String get walletPayByCard => 'Kart bilen';
+
+  @override
+  String walletAvailable(String amount) {
+    return 'Elýeterli $amount';
+  }
+
+  @override
+  String walletNotEnough(String amount) {
+    return 'Serişde ýeterlik däl: $amount';
+  }
+
+  @override
+  String get walletTabDue => 'Tölemeli';
+
+  @override
+  String get walletTabRefunds => 'Gaýtarymlar';
+
+  @override
+  String walletPayUntil(String date) {
+    return '$date çenli tölemeli';
+  }
+
+  @override
+  String get walletNoSurchargesTitle => 'Goşmaça töleg ýok';
+
+  @override
+  String get walletNoSurchargesText =>
+      'Agramy ölçenenden soň ýa-da satyjyda baha üýtgese, hasap şu ýerde peýda bolar';
+
+  @override
+  String get walletNoRefundsTitle => 'Gaýtarym ýok';
+
+  @override
+  String get walletNoRefundsText =>
+      'Ýatyrylan harytlar üçin gaýtarjak pulumyz şu ýerde peýda bolar';
+
+  @override
+  String get walletRefundToBalance => 'Balansa';
+
+  @override
+  String get walletRefundToCard => 'Karta';
+
+  @override
+  String get walletRefundInCash => 'Nagt';
+
+  @override
+  String walletRefundLine(String destination, String date) {
+    return '$destination · $date';
+  }
+
+  @override
+  String get walletRefundCreated => 'Resmileşdirildi';
+
+  @override
+  String get walletRefundApproved => 'Tassyklandy';
+
+  @override
+  String get walletRefundPaid => 'Tölendi';
 }

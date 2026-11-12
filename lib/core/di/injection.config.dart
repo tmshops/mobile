@@ -26,6 +26,8 @@ import 'package:tmshop/core/dev/fake_backend/fake_auth_backend.dart' as _i107;
 import 'package:tmshop/core/dev/fake_backend/fake_favourites_backend.dart'
     as _i994;
 import 'package:tmshop/core/dev/fake_backend/fake_orders_backend.dart' as _i435;
+import 'package:tmshop/core/dev/fake_backend/fake_wallet_backend.dart'
+    as _i1035;
 import 'package:tmshop/core/di/register_module.dart' as _i730;
 import 'package:tmshop/core/favourites/favourites_cubit.dart' as _i935;
 import 'package:tmshop/core/favourites/favourites_repository.dart' as _i703;
@@ -163,6 +165,18 @@ import 'package:tmshop/features/product/domain/usecases/record_view_use_case.dar
     as _i568;
 import 'package:tmshop/features/product/presentation/bloc/product_bloc.dart'
     as _i448;
+import 'package:tmshop/features/wallet/data/datasources/wallet_remote_data_source.dart'
+    as _i892;
+import 'package:tmshop/features/wallet/data/repositories/wallet_repository_impl.dart'
+    as _i403;
+import 'package:tmshop/features/wallet/domain/repositories/wallet_repository.dart'
+    as _i942;
+import 'package:tmshop/features/wallet/presentation/bloc/balance_cubit.dart'
+    as _i240;
+import 'package:tmshop/features/wallet/presentation/bloc/surcharges_cubit.dart'
+    as _i354;
+import 'package:tmshop/features/wallet/presentation/bloc/wallet_payment_cubit.dart'
+    as _i568;
 
 const String _dev = 'dev';
 
@@ -182,10 +196,6 @@ extension GetItInjectableX on _i174.GetIt {
       () => registerModule.catalogCacheBox,
       instanceName: 'catalog_cache',
       preResolve: true,
-    );
-    gh.lazySingleton<_i107.FakeAuthBackend>(
-      () => _i107.FakeAuthBackend(),
-      registerFor: {_dev},
     );
     gh.lazySingleton<_i994.FakeFavouritesBackend>(
       () => _i994.FakeFavouritesBackend(),
@@ -242,8 +252,19 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i767.FakeCatalogRemoteDataSource(gh<_i566.NetworkInfo>()),
       registerFor: {_dev},
     );
+    gh.lazySingleton<_i1035.FakeWalletBackend>(
+      () => _i1035.FakeWalletBackend(gh<_i435.FakeOrdersBackend>()),
+      registerFor: {_dev},
+    );
     gh.lazySingleton<_i210.ProductRepository>(
       () => _i270.ProductRepositoryImpl(gh<_i777.ProductRemoteDataSource>()),
+    );
+    gh.lazySingleton<_i892.WalletRemoteDataSource>(
+      () => _i892.FakeWalletRemoteDataSource(
+        gh<_i566.NetworkInfo>(),
+        gh<_i1035.FakeWalletBackend>(),
+      ),
+      registerFor: {_dev},
     );
     gh.lazySingleton<_i331.VariantsRemoteDataSource>(
       () => _i331.FakeVariantsRemoteDataSource(gh<_i566.NetworkInfo>()),
@@ -295,12 +316,8 @@ extension GetItInjectableX on _i174.GetIt {
       ),
       registerFor: {_dev},
     );
-    gh.lazySingleton<_i14.LoginRemoteDataSource>(
-      () => _i14.FakeLoginRemoteDataSource(
-        gh<_i107.FakeAuthBackend>(),
-        gh<_i566.NetworkInfo>(),
-      ),
-      registerFor: {_dev},
+    gh.lazySingleton<_i942.WalletRepository>(
+      () => _i403.WalletRepositoryImpl(gh<_i892.WalletRemoteDataSource>()),
     );
     gh.lazySingleton<_i932.CheckoutRemoteDataSource>(
       () => _i932.FakeCheckoutRemoteDataSource(
@@ -372,6 +389,10 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i96.FavouritesViewCubit>(
       () => _i96.FavouritesViewCubit(gh<_i1065.FavouriteOffersRepository>()),
     );
+    gh.lazySingleton<_i107.FakeAuthBackend>(
+      () => _i107.FakeAuthBackend(gh<_i1035.FakeWalletBackend>()),
+      registerFor: {_dev},
+    );
     gh.lazySingleton<_i470.CatalogRepository>(
       () => _i698.CatalogRepositoryImpl(
         gh<_i164.CatalogRemoteDataSource>(),
@@ -418,6 +439,15 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i623.VariantsRepository>(
       () => _i331.VariantsRepositoryImpl(gh<_i331.VariantsRemoteDataSource>()),
     );
+    gh.factory<_i240.BalanceCubit>(
+      () => _i240.BalanceCubit(gh<_i942.WalletRepository>()),
+    );
+    gh.factory<_i354.SurchargesCubit>(
+      () => _i354.SurchargesCubit(gh<_i942.WalletRepository>()),
+    );
+    gh.factory<_i568.WalletPaymentCubit>(
+      () => _i568.WalletPaymentCubit(gh<_i942.WalletRepository>()),
+    );
     gh.lazySingleton<_i703.FavouritesRepository>(
       () => _i703.FavouritesRepositoryImpl(
         gh<_i703.FavouritesRemoteDataSource>(),
@@ -441,6 +471,13 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i867.OrdersRemoteDataSource>(),
         gh<_i867.OrdersLocalDataSource>(),
       ),
+    );
+    gh.lazySingleton<_i14.LoginRemoteDataSource>(
+      () => _i14.FakeLoginRemoteDataSource(
+        gh<_i107.FakeAuthBackend>(),
+        gh<_i566.NetworkInfo>(),
+      ),
+      registerFor: {_dev},
     );
     gh.lazySingleton<_i935.FavouritesCubit>(
       () => _i935.FavouritesCubit(gh<_i703.FavouritesRepository>()),

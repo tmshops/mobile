@@ -58,6 +58,8 @@ void main() {
             onOpenParcels: () => taps.add('parcels'),
             onOpenViewed: () => taps.add('viewed'),
             onOpenPriceAlerts: () => taps.add('alerts'),
+            onOpenBalance: () => taps.add('balance'),
+            onOpenSurcharges: () => taps.add('surcharges'),
             onComingSoon: () => taps.add('soon'),
           ),
         ),
@@ -88,12 +90,24 @@ void main() {
     expect(find.text(ru.profileWholesaleBadge), findsOneWidget);
     expect(find.text(MoneyFormat.tmt(ru, 86)), findsOneWidget);
 
+    // The debt figure pays the debt.
+    await tester.tap(find.text(MoneyFormat.tmt(ru, 86)));
     await tester.tap(find.text(ru.profileOrders));
     await tester.tap(find.text(ru.profileParcels));
+    await tester.tap(find.text(ru.profileSurcharges));
+    await tester.tap(find.text(ru.profileBalance).last);
     await tester.ensureVisible(find.text(ru.profilePriceAlerts));
     await tester.tap(find.text(ru.profileViewed));
     await tester.tap(find.text(ru.profilePriceAlerts));
-    expect(taps, ['orders', 'parcels', 'viewed', 'alerts']);
+    expect(taps, [
+      'surcharges',
+      'orders',
+      'parcels',
+      'surcharges',
+      'balance',
+      'viewed',
+      'alerts',
+    ]);
     verify(() => cubits.auth.refresh('ru')).called(1);
   });
 

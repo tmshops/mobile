@@ -1062,5 +1062,94 @@
   "@priceAlertsSwitch": {
     "description": "Screen-reader label of a price alert switch",
     "placeholders": { "title": { "type": "String" } }
-  }
+  },
+
+  "walletHeroCaption": "Доступно для оплаты заказов",
+  "@walletHeroCaption": { "description": "Caption under the balance on the hero card" },
+  "walletDebt": "Долг {amount}",
+  "@walletDebt": {
+    "description": "Debt row on the balance card",
+    "placeholders": { "amount": { "type": "String" } }
+  },
+  "walletPayDebt": "Погасить",
+  "@walletPayDebt": { "description": "Opens the surcharges to pay the debt" },
+  "walletTopUp": "Пополнить",
+  "@walletTopUp": { "description": "Top-up button on the balance card" },
+  "walletHistory": "История операций",
+  "@walletHistory": { "description": "Heading of the balance operations" },
+  "walletNoOperations": "Операций пока нет",
+  "@walletNoOperations": { "description": "Empty balance history" },
+  "walletLoadMoreFailed": "Не удалось загрузить ещё",
+  "@walletLoadMoreFailed": { "description": "Next page of operations failed" },
+  "walletTopUpTitle": "Пополнение баланса",
+  "@walletTopUpTitle": { "description": "Top-up sheet title" },
+  "walletTopUpAmount": "Сумма, TMT",
+  "@walletTopUpAmount": { "description": "Top-up amount field label" },
+  "walletTopUpRange": "От {min} до {max} TMT",
+  "@walletTopUpRange": {
+    "description": "Allowed top-up amounts",
+    "placeholders": { "min": { "type": "String" }, "max": { "type": "String" } }
+  },
+  "walletTopUpByCard": "Пополнить картой",
+  "@walletTopUpByCard": { "description": "Starts a card top-up" },
+  "walletTopUpDone": "Баланс пополнен",
+  "@walletTopUpDone": { "description": "Top-up success title" },
+  "walletSurchargePaid": "Доплата оплачена",
+  "@walletSurchargePaid": { "description": "Surcharge paid: toast and success title" },
+  "walletDone": "Готово",
+  "@walletDone": { "description": "Leaves the wallet payment result" },
+  "walletPaymentTimeout": "Банк пока не ответил. Если деньги списались, баланс обновится сам",
+  "@walletPaymentTimeout": { "description": "No final payment answer after a minute" },
+  "walletPaymentFailedText": "Деньги не списаны. Попробуйте ещё раз",
+  "@walletPaymentFailedText": { "description": "Under a failed wallet payment" },
+  "walletPayTitle": "Чем оплатить",
+  "@walletPayTitle": { "description": "Surcharge payment method sheet title" },
+  "walletPayFromBalance": "С баланса",
+  "@walletPayFromBalance": { "description": "Pay a surcharge from the balance" },
+  "walletPayByCard": "Картой",
+  "@walletPayByCard": { "description": "Pay a surcharge by card" },
+  "walletAvailable": "Доступно {amount}",
+  "@walletAvailable": {
+    "description": "Balance available for paying",
+    "placeholders": { "amount": { "type": "String" } }
+  },
+  "walletNotEnough": "Недостаточно средств: {amount}",
+  "@walletNotEnough": {
+    "description": "Balance too small for this surcharge",
+    "placeholders": { "amount": { "type": "String" } }
+  },
+  "walletTabDue": "К оплате",
+  "@walletTabDue": { "description": "Surcharges tab" },
+  "walletTabRefunds": "Возвраты",
+  "@walletTabRefunds": { "description": "Refunds tab" },
+  "walletPayUntil": "Оплатить до {date}",
+  "@walletPayUntil": {
+    "description": "Surcharge deadline",
+    "placeholders": { "date": { "type": "String" } }
+  },
+  "walletNoSurchargesTitle": "Доплат нет",
+  "@walletNoSurchargesTitle": { "description": "No surcharges to pay" },
+  "walletNoSurchargesText": "Если после взвешивания или у продавца изменится цена, счёт появится здесь",
+  "@walletNoSurchargesText": { "description": "Explains when surcharges appear" },
+  "walletNoRefundsTitle": "Возвратов нет",
+  "@walletNoRefundsTitle": { "description": "No refunds" },
+  "walletNoRefundsText": "Здесь появятся деньги, которые мы вернём за отменённые товары",
+  "@walletNoRefundsText": { "description": "Explains when refunds appear" },
+  "walletRefundToBalance": "На баланс",
+  "@walletRefundToBalance": { "description": "Refund destination" },
+  "walletRefundToCard": "На карту",
+  "@walletRefundToCard": { "description": "Refund destination" },
+  "walletRefundInCash": "Наличными",
+  "@walletRefundInCash": { "description": "Refund destination" },
+  "walletRefundLine": "{destination} · {date}",
+  "@walletRefundLine": {
+    "description": "Where a refund goes and when it was made",
+    "placeholders": { "destination": { "type": "String" }, "date": { "type": "String" } }
+  },
+  "walletRefundCreated": "Оформлен",
+  "@walletRefundCreated": { "description": "Refund status" },
+  "walletRefundApproved": "Одобрен",
+  "@walletRefundApproved": { "description": "Refund status" },
+  "walletRefundPaid": "Выплачен",
+  "@walletRefundPaid": { "description": "Refund status" }
 }

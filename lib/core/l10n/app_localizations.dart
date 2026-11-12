@@ -2371,6 +2371,216 @@ abstract class AppLocalizations {
   /// In ru, this message translates to:
   /// **'Сообщать о снижении цены: {title}'**
   String priceAlertsSwitch(String title);
+
+  /// Caption under the balance on the hero card
+  ///
+  /// In ru, this message translates to:
+  /// **'Доступно для оплаты заказов'**
+  String get walletHeroCaption;
+
+  /// Debt row on the balance card
+  ///
+  /// In ru, this message translates to:
+  /// **'Долг {amount}'**
+  String walletDebt(String amount);
+
+  /// Opens the surcharges to pay the debt
+  ///
+  /// In ru, this message translates to:
+  /// **'Погасить'**
+  String get walletPayDebt;
+
+  /// Top-up button on the balance card
+  ///
+  /// In ru, this message translates to:
+  /// **'Пополнить'**
+  String get walletTopUp;
+
+  /// Heading of the balance operations
+  ///
+  /// In ru, this message translates to:
+  /// **'История операций'**
+  String get walletHistory;
+
+  /// Empty balance history
+  ///
+  /// In ru, this message translates to:
+  /// **'Операций пока нет'**
+  String get walletNoOperations;
+
+  /// Next page of operations failed
+  ///
+  /// In ru, this message translates to:
+  /// **'Не удалось загрузить ещё'**
+  String get walletLoadMoreFailed;
+
+  /// Top-up sheet title
+  ///
+  /// In ru, this message translates to:
+  /// **'Пополнение баланса'**
+  String get walletTopUpTitle;
+
+  /// Top-up amount field label
+  ///
+  /// In ru, this message translates to:
+  /// **'Сумма, TMT'**
+  String get walletTopUpAmount;
+
+  /// Allowed top-up amounts
+  ///
+  /// In ru, this message translates to:
+  /// **'От {min} до {max} TMT'**
+  String walletTopUpRange(String min, String max);
+
+  /// Starts a card top-up
+  ///
+  /// In ru, this message translates to:
+  /// **'Пополнить картой'**
+  String get walletTopUpByCard;
+
+  /// Top-up success title
+  ///
+  /// In ru, this message translates to:
+  /// **'Баланс пополнен'**
+  String get walletTopUpDone;
+
+  /// Surcharge paid: toast and success title
+  ///
+  /// In ru, this message translates to:
+  /// **'Доплата оплачена'**
+  String get walletSurchargePaid;
+
+  /// Leaves the wallet payment result
+  ///
+  /// In ru, this message translates to:
+  /// **'Готово'**
+  String get walletDone;
+
+  /// No final payment answer after a minute
+  ///
+  /// In ru, this message translates to:
+  /// **'Банк пока не ответил. Если деньги списались, баланс обновится сам'**
+  String get walletPaymentTimeout;
+
+  /// Under a failed wallet payment
+  ///
+  /// In ru, this message translates to:
+  /// **'Деньги не списаны. Попробуйте ещё раз'**
+  String get walletPaymentFailedText;
+
+  /// Surcharge payment method sheet title
+  ///
+  /// In ru, this message translates to:
+  /// **'Чем оплатить'**
+  String get walletPayTitle;
+
+  /// Pay a surcharge from the balance
+  ///
+  /// In ru, this message translates to:
+  /// **'С баланса'**
+  String get walletPayFromBalance;
+
+  /// Pay a surcharge by card
+  ///
+  /// In ru, this message translates to:
+  /// **'Картой'**
+  String get walletPayByCard;
+
+  /// Balance available for paying
+  ///
+  /// In ru, this message translates to:
+  /// **'Доступно {amount}'**
+  String walletAvailable(String amount);
+
+  /// Balance too small for this surcharge
+  ///
+  /// In ru, this message translates to:
+  /// **'Недостаточно средств: {amount}'**
+  String walletNotEnough(String amount);
+
+  /// Surcharges tab
+  ///
+  /// In ru, this message translates to:
+  /// **'К оплате'**
+  String get walletTabDue;
+
+  /// Refunds tab
+  ///
+  /// In ru, this message translates to:
+  /// **'Возвраты'**
+  String get walletTabRefunds;
+
+  /// Surcharge deadline
+  ///
+  /// In ru, this message translates to:
+  /// **'Оплатить до {date}'**
+  String walletPayUntil(String date);
+
+  /// No surcharges to pay
+  ///
+  /// In ru, this message translates to:
+  /// **'Доплат нет'**
+  String get walletNoSurchargesTitle;
+
+  /// Explains when surcharges appear
+  ///
+  /// In ru, this message translates to:
+  /// **'Если после взвешивания или у продавца изменится цена, счёт появится здесь'**
+  String get walletNoSurchargesText;
+
+  /// No refunds
+  ///
+  /// In ru, this message translates to:
+  /// **'Возвратов нет'**
+  String get walletNoRefundsTitle;
+
+  /// Explains when refunds appear
+  ///
+  /// In ru, this message translates to:
+  /// **'Здесь появятся деньги, которые мы вернём за отменённые товары'**
+  String get walletNoRefundsText;
+
+  /// Refund destination
+  ///
+  /// In ru, this message translates to:
+  /// **'На баланс'**
+  String get walletRefundToBalance;
+
+  /// Refund destination
+  ///
+  /// In ru, this message translates to:
+  /// **'На карту'**
+  String get walletRefundToCard;
+
+  /// Refund destination
+  ///
+  /// In ru, this message translates to:
+  /// **'Наличными'**
+  String get walletRefundInCash;
+
+  /// Where a refund goes and when it was made
+  ///
+  /// In ru, this message translates to:
+  /// **'{destination} · {date}'**
+  String walletRefundLine(String destination, String date);
+
+  /// Refund status
+  ///
+  /// In ru, this message translates to:
+  /// **'Оформлен'**
+  String get walletRefundCreated;
+
+  /// Refund status
+  ///
+  /// In ru, this message translates to:
+  /// **'Одобрен'**
+  String get walletRefundApproved;
+
+  /// Refund status
+  ///
+  /// In ru, this message translates to:
+  /// **'Выплачен'**
+  String get walletRefundPaid;
 }
 
 class _AppLocalizationsDelegate

@@ -313,7 +313,7 @@ void main() {
         ParcelView(
           number: parcel.number,
           onOpenOrder: (_) {},
-          onPaySurcharge: () => surcharges++,
+          onPaySurcharge: () async => surcharges++,
         ),
         providers: [BlocProvider<ParcelCubit>.value(value: cubit)],
         locale: locale,

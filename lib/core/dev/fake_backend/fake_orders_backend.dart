@@ -198,6 +198,26 @@ class FakeOrdersBackend {
       ..history.add(('paid', _now()));
   }
 
+  /// Called by [FakeWalletBackend] when a weight surcharge is paid: the
+  /// parcel flies on, and so do its items.
+  void markSurchargePaid(String parcelNumber) {
+    final p = _parcels[parcelNumber];
+    if (p == null || p.status != 'awaiting_surcharge') return;
+    final now = _now();
+    p
+      ..status = 'in_transit'
+      ..surcharge = null
+      ..history.add(('in_transit', now));
+    for (final ref in p.items) {
+      final order = _orders[ref.orderNumber];
+      if (order == null) continue;
+      for (final item in order.items) {
+        if (item.id == ref.itemId) item.status = 'in_transit';
+      }
+      order.history.add(('in_transit', now));
+    }
+  }
+
   // ── Rendering ─────────────────────────────────────────────────────────
 
   Map<String, dynamic> _summary(String lang, _Order o) => {

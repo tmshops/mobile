@@ -22,7 +22,7 @@ class ParcelTrackingCard extends StatelessWidget {
     final c = context.colors;
     final (from, to) = (parcel.etaFrom, parcel.etaTo);
     final weight = parcel.weightGrams;
-    return OrdersCard(
+    return ContentCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -108,7 +108,7 @@ class SurchargeCard extends StatelessWidget {
     final l10n = context.l10n;
     final c = context.colors;
     final isRefund = surcharge.amount < 0;
-    return OrdersCard(
+    return ContentCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -175,7 +175,7 @@ class PickupCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final c = context.colors;
-    return OrdersCard(
+    return ContentCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -248,7 +248,7 @@ class CourierCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    return OrdersCard(
+    return ContentCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -342,7 +342,7 @@ class FormingCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final until = parcel.freeStorageUntil;
-    return OrdersCard(
+    return ContentCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -388,7 +388,7 @@ class ParcelItemsCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final c = context.colors;
-    return OrdersCard(
+    return ContentCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -455,7 +455,7 @@ class DeliveredNote extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    return OrdersCard(
+    return ContentCard(
       color: StatusTone.success.tint(context.colors),
       child: Text(
         l10n.parcelClaimUntil(AppDates.dayMonth(l10n, claimUntil)),

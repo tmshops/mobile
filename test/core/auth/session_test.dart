@@ -11,6 +11,8 @@ import 'package:tmshop/core/auth/session_repository.dart';
 import 'package:tmshop/core/auth/token_storage.dart';
 import 'package:tmshop/core/auth/user_profile.dart';
 import 'package:tmshop/core/dev/fake_backend/fake_auth_backend.dart';
+import 'package:tmshop/core/dev/fake_backend/fake_orders_backend.dart';
+import 'package:tmshop/core/dev/fake_backend/fake_wallet_backend.dart';
 import 'package:tmshop/core/error/exceptions.dart';
 import 'package:tmshop/core/error/failures.dart';
 
@@ -156,7 +158,7 @@ void main() {
 
   group('FakeAuthBackend', () {
     test('right code signs in; wrong ones count down to a new code', () {
-      final backend = FakeAuthBackend();
+      final backend = FakeAuthBackend(FakeWalletBackend(FakeOrdersBackend()));
       final request = backend.requestCode('ru', '65123456');
       final id = request['request_id'] as String;
 
@@ -180,7 +182,10 @@ void main() {
 
     test('a new code waits 60 s; blocked phones are refused', () {
       var now = DateTime(2026, 11, 12, 10);
-      final backend = FakeAuthBackend(now: () => now);
+      final backend = FakeAuthBackend(
+        FakeWalletBackend(FakeOrdersBackend()),
+        now: () => now,
+      );
       backend.requestCode('tk', '65000001');
       expect(
         () => backend.requestCode('tk', '65000001'),
@@ -204,7 +209,9 @@ void main() {
 
     test('the profile parses into the entity', () {
       final model = UserProfileModel.fromJson(
-        FakeAuthBackend().profile('fake.61127777'),
+        FakeAuthBackend(
+          FakeWalletBackend(FakeOrdersBackend()),
+        ).profile('fake.61127777'),
       );
       final profile = model.toEntity();
       expect(profile.isWholesale, isTrue);

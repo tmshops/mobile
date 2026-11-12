@@ -98,7 +98,7 @@ class _ParcelCard extends StatelessWidget {
     final l10n = context.l10n;
     final c = context.colors;
     final (from, to) = (parcel.etaFrom, parcel.etaTo);
-    return OrdersCard(
+    return ContentCard(
       onTap: onTap,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

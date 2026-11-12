@@ -23,7 +23,7 @@ class OrderStatusHeader extends StatelessWidget {
     final c = context.colors;
     final tone = order.status.code.tone;
     final deadline = order.payDeadline;
-    return OrdersCard(
+    return ContentCard(
       color: tone.tint(c),
       child: Semantics(
         liveRegion: true,
@@ -109,7 +109,7 @@ class ProblemCard extends StatelessWidget {
     if (problem == null) return const SizedBox.shrink();
     final c = context.colors;
     final deadline = problem.deadline;
-    return OrdersCard(
+    return ContentCard(
       child: DecoratedBox(
         decoration: BoxDecoration(
           border: BorderDirectional(
@@ -197,7 +197,7 @@ class OrderItemsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    return OrdersCard(
+    return ContentCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [

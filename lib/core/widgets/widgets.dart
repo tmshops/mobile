@@ -9,6 +9,7 @@ export 'inputs/otp_field.dart';
 export 'inputs/phone_field.dart';
 export 'layout/app_bottom_sheet.dart';
 export 'layout/collapsible_section.dart';
+export 'layout/content_card.dart';
 export 'layout/expandable_text.dart';
 export 'layout/root_tab_page.dart';
 export 'layout/sticky_action_bar.dart';

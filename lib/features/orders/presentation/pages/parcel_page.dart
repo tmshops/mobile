@@ -24,8 +24,9 @@ class ParcelPage extends StatelessWidget {
   final String number;
   final ValueChanged<String> onOpenOrder;
 
-  /// Surcharge payment comes with the balance screens (UI_DESIGN §7.18).
-  final VoidCallback onPaySurcharge;
+  /// Opens the surcharge payment (UI_DESIGN §7.18); the parcel reloads
+  /// when it returns.
+  final Future<void> Function() onPaySurcharge;
 
   @override
   Widget build(BuildContext context) => BlocProvider(
@@ -52,7 +53,7 @@ class ParcelView extends StatelessWidget {
 
   final String number;
   final ValueChanged<String> onOpenOrder;
-  final VoidCallback onPaySurcharge;
+  final Future<void> Function() onPaySurcharge;
 
   @override
   Widget build(BuildContext context) {
@@ -93,7 +94,10 @@ class ParcelView extends StatelessWidget {
                 state: state,
                 parcel: parcel,
                 onOpenOrder: onOpenOrder,
-                onPaySurcharge: onPaySurcharge,
+                onPaySurcharge: () async {
+                  await onPaySurcharge();
+                  await cubit.refresh();
+                },
               ),
             ),
           ),

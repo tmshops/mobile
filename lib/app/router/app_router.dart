@@ -27,6 +27,11 @@ import '../../features/orders/presentation/pages/parcel_page.dart';
 import '../../features/orders/presentation/pages/parcels_page.dart';
 import '../../features/product/presentation/pages/product_page.dart';
 import '../../features/profile/presentation/pages/profile_page.dart';
+import '../../features/wallet/presentation/bloc/wallet_payment_cubit.dart';
+import '../../features/wallet/presentation/pages/balance_page.dart';
+import '../../features/wallet/presentation/pages/surcharges_page.dart';
+import '../../features/wallet/presentation/pages/wallet_payment_page.dart';
+import '../../features/wallet/presentation/widgets/surcharges_view.dart';
 import '../shell/app_shell.dart';
 import '../shell/app_tab.dart';
 import 'app_routes.dart';
@@ -117,6 +122,8 @@ GoRouter createAppRouter({
               onOpenParcels: () => context.push(AppRoutes.parcels),
               onOpenViewed: () => context.push(AppRoutes.viewed),
               onOpenPriceAlerts: () => context.push(AppRoutes.priceAlerts),
+              onOpenBalance: () => context.push(AppRoutes.balance),
+              onOpenSurcharges: () => context.push(AppRoutes.surcharges),
               onComingSoon: () => showComingSoon(context),
             ),
             routes: _profileRoutes,
@@ -170,6 +177,17 @@ GoRouter createAppRouter({
         },
       ),
       GoRoute(
+        path: AppRoutes.walletPay,
+        builder: (context, state) => switch (state.extra) {
+          final WalletPayment payment => WalletPaymentPage(
+            payment: payment,
+            onDone: () => context.pop(),
+          ),
+          // Nothing to check without the payment (a restored deep link).
+          _ => const _ComingSoonPage(),
+        },
+      ),
+      GoRoute(
         path: AppRoutes.login,
         builder: (context, state) => LoginPage(
           // Back where the customer came from: the guarded route; without
@@ -204,8 +222,31 @@ String? _guard(AuthState auth, Uri uri) {
   return null;
 }
 
-/// Orders, parcels, viewed and price alerts inside the Profile tab.
+/// Orders, parcels, money, viewed and price alerts inside the Profile tab.
 final _profileRoutes = <RouteBase>[
+  GoRoute(
+    path: AppRoutes.balancePath,
+    builder: (context, _) => BalancePage(
+      onPayDebt: () => context.push(AppRoutes.surcharges),
+      onOpenOrder: (n) => context.push(AppRoutes.order(n)),
+      onOpenPayment: (payment) => _openWalletPayment(context, payment),
+    ),
+  ),
+  GoRoute(
+    path: AppRoutes.surchargesPath,
+    builder: (context, state) {
+      final query = state.uri.queryParameters;
+      return SurchargesPage(
+        initialTab: query[AppRoutes.tabParam] == AppRoutes.refundsTab
+            ? SurchargesTab.refunds
+            : SurchargesTab.due,
+        payParcel: query[AppRoutes.parcelPayParam],
+        onOpenOrder: (n) => context.push(AppRoutes.order(n)),
+        onOpenParcel: (n) => context.push(AppRoutes.parcel(n)),
+        onOpenPayment: (payment) => _openWalletPayment(context, payment),
+      );
+    },
+  ),
   GoRoute(
     path: AppRoutes.viewedPath,
     builder: (context, _) => ViewedPage(
@@ -266,13 +307,17 @@ final _profileRoutes = <RouteBase>[
             key: ValueKey(number),
             number: number,
             onOpenOrder: (n) => context.push(AppRoutes.order(n)),
-            onPaySurcharge: () => showComingSoon(context),
+            onPaySurcharge: () =>
+                context.push(AppRoutes.surchargesWith(payParcel: number)),
           );
         },
       ),
     ],
   ),
 ];
+
+Future<void> _openWalletPayment(BuildContext context, WalletPayment payment) =>
+    context.push<void>(AppRoutes.walletPay, extra: payment);
 
 void _openProduct(BuildContext context, ProductSummary product) =>
     context.push(AppRoutes.product(product.id), extra: product);

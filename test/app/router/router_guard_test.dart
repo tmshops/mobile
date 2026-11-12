@@ -109,6 +109,18 @@ void main() {
     expect(location(), AppRoutes.viewed);
   });
 
+  test('money screens need an account; a parcel opens its payment', () {
+    expect(AppRoutes.needsLogin(AppRoutes.balance), isTrue);
+    expect(AppRoutes.needsLogin(AppRoutes.walletPay), isTrue);
+    final link = AppRoutes.surchargesWith(payParcel: 'P-5518');
+    expect(AppRoutes.needsLogin(link), isTrue);
+    expect(Uri.parse(link).queryParameters[AppRoutes.parcelPayParam], 'P-5518');
+    expect(
+      AppRoutes.surchargesWith(isRefunds: true),
+      '${AppRoutes.surcharges}?${AppRoutes.tabParam}=${AppRoutes.refundsTab}',
+    );
+  });
+
   testWidgets('checkout keeps its promo code through login', (tester) async {
     await pump(tester, const AuthState.guest());
     final checkout = AppRoutes.checkoutWith('TM10');

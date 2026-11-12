@@ -22,7 +22,7 @@ class OrderParcelsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    return OrdersCard(
+    return ContentCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -63,7 +63,7 @@ class OrderDeliveryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    return OrdersCard(
+    return ContentCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -94,7 +94,7 @@ class OrderMoneyCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final c = context.colors;
-    return OrdersCard(
+    return ContentCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -181,7 +181,7 @@ class OrderHistoryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final events = history.reversed.toList();
-    return OrdersCard(
+    return ContentCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [

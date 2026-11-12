@@ -1,28 +1,32 @@
 import 'package:injectable/injectable.dart';
 
 import '../../error/exceptions.dart';
+import 'fake_wallet_backend.dart';
 
 /// Dev stand-in for sign-in by phone and the profile API (TZ §5.2, §7.2).
 ///
 /// Dev rules, so every screen state can be tried:
 /// - the code is always [devCode];
 /// - a phone ending in [blockedSuffix] belongs to a blocked customer;
-/// - a phone ending in [debtSuffix] owes a surcharge;
+/// - balance and debt come from [FakeWalletBackend]: every account owes
+///   a parcel surcharge, a phone ending in
+///   [FakeWalletBackend.debtSuffix] owes more;
 /// - a phone starting with [wholesalePrefix] is in the wholesale group.
 ///
 /// Tokens carry the phone, so a session survives an app restart even
 /// though this server forgets everything.
 @LazySingleton(env: [Environment.dev])
 class FakeAuthBackend {
-  FakeAuthBackend({@ignoreParam DateTime Function()? now})
+  FakeAuthBackend(this._wallet, {@ignoreParam DateTime Function()? now})
     : _now = now ?? DateTime.now;
 
+  /// Owns balance and debt, so paying a surcharge shows in the profile.
+  final FakeWalletBackend _wallet;
   final DateTime Function() _now;
 
   static const devCode = '1234';
   static const codeLength = 4;
   static const blockedSuffix = '9999';
-  static const debtSuffix = '7777';
   static const wholesalePrefix = '61';
   static const resendAfter = Duration(seconds: 60);
   static const codeLifetime = Duration(minutes: 5);
@@ -117,16 +121,17 @@ class FakeAuthBackend {
     return _profile(accessToken.substring(_tokenPrefix.length));
   }
 
-  static Map<String, dynamic> _profile(String phone) {
+  Map<String, dynamic> _profile(String phone) {
     final isKnown = phone == _knownPhone;
+    final wallet = _wallet.open(phone);
     return {
       'id': 'u-$phone',
       'phone': phone,
       'first_name': isKnown ? 'Айна' : '',
       'last_name': isKnown ? 'Атаева' : '',
       'region_id': 'ashgabat',
-      'balance': isKnown ? 120 : 0,
-      'debt': phone.endsWith(debtSuffix) ? 86 : 0,
+      'balance': wallet.balance,
+      'debt': wallet.debt,
       'bonuses': isKnown ? 35 : 0,
       'is_wholesale': phone.startsWith(wholesalePrefix),
     };

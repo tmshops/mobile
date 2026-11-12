@@ -38,6 +38,27 @@ abstract final class AppRoutes {
   static String parcel(String number) =>
       '$parcels/${Uri.encodeComponent(number)}';
 
+  static const balancePath = 'balance';
+  static const balance = '$profile/$balancePath';
+
+  static const surchargesPath = 'surcharges';
+  static const surcharges = '$profile/$surchargesPath';
+
+  static const tabParam = 'tab';
+  static const refundsTab = 'refunds';
+  static const parcelPayParam = 'pay_parcel';
+
+  /// «Доплаты и возвраты»: on the refunds tab, or opening the payment of
+  /// [payParcel]'s surcharge at once.
+  static String surchargesWith({bool isRefunds = false, String? payParcel}) =>
+      Uri(
+        path: surcharges,
+        queryParameters: {
+          if (isRefunds) tabParam: refundsTab,
+          parcelPayParam: ?payParcel,
+        },
+      ).toString();
+
   static const viewedPath = 'viewed';
   static const viewed = '$profile/$viewedPath';
 
@@ -73,6 +94,9 @@ abstract final class AppRoutes {
   static String payment(String orderNumber) =>
       '/pay/${Uri.encodeComponent(orderNumber)}';
 
+  /// Card payment of a top-up or surcharge; the payment comes as `extra`.
+  static const walletPay = '/wallet/pay';
+
   static const fromParam = 'from';
 
   static const login = '/login';
@@ -88,6 +112,9 @@ abstract final class AppRoutes {
       location.startsWith(orders) ||
       location.startsWith(parcels) ||
       location.startsWith(priceAlerts) ||
+      location.startsWith(balance) ||
+      location.startsWith(surcharges) ||
+      location.startsWith(walletPay) ||
       location.startsWith('/pay/');
 
   /// Dev-only component catalogue; registered in debug builds only.

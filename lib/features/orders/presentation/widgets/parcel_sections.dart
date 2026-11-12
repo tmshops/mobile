@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/l10n/l10n.dart';
 import '../../../../core/theme/theme.dart';
+import '../../../../core/utils/external_links.dart';
 import '../../../../core/utils/app_dates.dart';
 import '../../../../core/utils/money_format.dart';
 import '../../../../core/widgets/widgets.dart';
@@ -221,12 +222,13 @@ class PickupCard extends StatelessWidget {
             icon: AppIcons.mapPin,
             title: pickup.pointName,
             text: pickup.address,
+            onTap: () => ExternalLinks.map(context, pickup.address),
           ),
           _PlaceRow(icon: AppIcons.clock, title: pickup.hours),
           _PlaceRow(
             icon: AppIcons.phone,
             title: pickup.phone,
-            onTap: () => copyWithToast(context, pickup.phone),
+            onTap: () => ExternalLinks.call(context, pickup.phone),
           ),
           if (pickup.amountDue > 0)
             InfoRow(
@@ -257,7 +259,7 @@ class CourierCard extends StatelessWidget {
           _PlaceRow(
             icon: AppIcons.phone,
             title: courier.phone,
-            onTap: () => copyWithToast(context, courier.phone),
+            onTap: () => ExternalLinks.call(context, courier.phone),
           ),
           if (courier.amountDue > 0)
             InfoRow(

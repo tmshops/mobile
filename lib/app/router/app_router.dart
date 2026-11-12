@@ -8,6 +8,7 @@ import '../../core/navigation/stream_listenable.dart';
 import '../../core/navigation/tab_reselect_scope.dart';
 import '../../core/product/domain/product_summary.dart';
 import '../../core/theme/theme.dart';
+import '../../core/utils/external_links.dart';
 import '../../core/widgets/widgets.dart';
 import '../../features/auth/presentation/pages/login_page.dart';
 import '../../features/cart/presentation/pages/cart_page.dart';
@@ -20,6 +21,8 @@ import '../../features/favourites/presentation/pages/favourites_page.dart';
 import '../../features/favourites/presentation/pages/price_alerts_page.dart';
 import '../../features/favourites/presentation/pages/viewed_page.dart';
 import '../../features/home/presentation/pages/home_page.dart';
+import '../../features/info/domain/entities/info.dart';
+import '../../features/info/presentation/pages/info_pages.dart';
 import '../../features/kit/presentation/pages/kit_page.dart';
 import '../../features/notifications/presentation/pages/notifications_page.dart';
 import '../../features/orders/presentation/pages/order_page.dart';
@@ -42,6 +45,7 @@ import '../shell/app_shell.dart';
 import '../shell/app_tab.dart';
 import 'app_routes.dart';
 import 'home_navigation.dart';
+import 'not_found_page.dart';
 
 /// Builds the app router: five tabs, each with its own stack (TZ §4).
 ///
@@ -60,6 +64,9 @@ GoRouter createAppRouter({
     initialLocation: initialLocation,
     refreshListenable: StreamListenable(auth.stream),
     redirect: (context, state) => _guard(auth.state, state.uri),
+    // Unknown links (TZ §4): «Не найдено» with a way home.
+    errorBuilder: (context, _) =>
+        NotFoundPage(onHome: () => context.go(AppRoutes.home)),
     routes: [
       StatefulShellRoute(
         builder: (context, state, shell) =>
@@ -134,6 +141,7 @@ GoRouter createAppRouter({
               onEditProfile: () => context.push(AppRoutes.profileEdit),
               onOpenNotifications: () => context.push(AppRoutes.notifications),
               onOpenMyReviews: () => context.push(AppRoutes.myReviews),
+              onOpenInfo: () => context.push(AppRoutes.info),
               onComingSoon: () => showComingSoon(context),
             ),
             routes: _profileRoutes,
@@ -159,6 +167,7 @@ GoRouter createAppRouter({
             // Plain login: back to this page afterwards.
             onLogin: () => context.push(AppRoutes.login),
             onAllReviews: () => context.push(AppRoutes.productReviews(id)),
+            onHome: () => context.go(AppRoutes.home),
             onComingSoon: () => showComingSoon(context),
           );
         },
@@ -188,7 +197,7 @@ GoRouter createAppRouter({
             AppRoutes.payment(order.number),
             extra: order,
           ),
-          onReadOffer: () => showComingSoon(context),
+          onReadOffer: () => _openInfo(context, InfoTopic.offer),
         ),
       ),
       GoRoute(
@@ -224,6 +233,29 @@ GoRouter createAppRouter({
         },
       ),
       GoRoute(
+        path: AppRoutes.info,
+        builder: (context, _) =>
+            InfoMenuPage(onOpen: (topic) => _openInfo(context, topic)),
+        routes: [
+          GoRoute(
+            path: AppRoutes.infoPagePath,
+            builder: (context, state) {
+              final slug = state.pathParameters[AppRoutes.topicParam] ?? '';
+              final topic = InfoTopic.fromSlug(slug);
+              if (topic == null) {
+                return NotFoundPage(onHome: () => context.go(AppRoutes.home));
+              }
+              return InfoTopicPage(
+                key: ValueKey(topic),
+                topic: topic,
+                onOpenTopic: (t) => _openInfo(context, t),
+                onTapLink: (link) => _openInfoLink(context, link),
+              );
+            },
+          ),
+        ],
+      ),
+      GoRoute(
         path: AppRoutes.notifications,
         builder: (context, _) =>
             NotificationsPage(onOpen: (link) => openAppLink(context, link)),
@@ -250,7 +282,7 @@ GoRouter createAppRouter({
             if (context.canPop()) return context.pop();
             context.go(AppRoutes.profile);
           },
-          onReadPolicy: () => showComingSoon(context),
+          onReadPolicy: () => _openInfo(context, InfoTopic.privacy),
           onGoogle: () => showComingSoon(context),
         ),
       ),
@@ -402,6 +434,20 @@ final _profileRoutes = <RouteBase>[
 
 Future<void> _openWalletPayment(BuildContext context, WalletPayment payment) =>
     context.push<void>(AppRoutes.walletPay, extra: payment);
+
+void _openInfo(BuildContext context, InfoTopic topic) =>
+    context.push(AppRoutes.infoPage(topic.slug));
+
+/// A link inside an information page: another screen of the app, or a
+/// website / phone / email outside it.
+void _openInfoLink(BuildContext context, String link) {
+  final uri = Uri.tryParse(link);
+  if (uri != null && uri.hasScheme) {
+    ExternalLinks.url(context, link);
+  } else {
+    openAppLink(context, link);
+  }
+}
 
 void _openProduct(BuildContext context, ProductSummary product) =>
     context.push(AppRoutes.product(product.id), extra: product);

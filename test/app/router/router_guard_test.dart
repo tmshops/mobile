@@ -7,11 +7,14 @@ import 'package:mocktail/mocktail.dart';
 import 'package:tmshop/app/router/app_router.dart';
 import 'package:tmshop/app/router/app_routes.dart';
 import 'package:tmshop/app/router/home_navigation.dart';
+import 'package:tmshop/app/router/not_found_page.dart';
+import 'package:tmshop/features/info/presentation/widgets/info_menu_view.dart';
 import 'package:tmshop/core/auth/auth_cubit.dart';
 import 'package:tmshop/core/auth/user_profile.dart';
 import 'package:tmshop/core/di/injection.dart';
 import 'package:tmshop/core/l10n/l10n.dart';
 import 'package:tmshop/core/theme/theme.dart';
+import 'package:tmshop/core/widgets/widgets.dart';
 import 'package:tmshop/features/auth/presentation/bloc/login_bloc.dart';
 import 'package:tmshop/features/auth/presentation/widgets/login_view.dart';
 import 'package:tmshop/features/orders/presentation/bloc/order_cubit.dart';
@@ -179,5 +182,23 @@ void main() {
       findsOneWidget,
     );
     expect(location(), AppRoutes.order('10228'));
+  });
+
+  testWidgets('an unknown link shows «Не найдено»', (tester) async {
+    await pump(tester, const AuthState.guest());
+    await go(tester, '/no-such-page');
+    expect(find.byType(NotFoundPage), findsOneWidget);
+
+    await go(tester, AppRoutes.infoPage('no-such-topic'));
+    expect(find.byType(NotFoundPage), findsOneWidget);
+
+    expect(find.byType(PrimaryButton), findsOneWidget);
+  });
+
+  testWidgets('information is open to guests', (tester) async {
+    await pump(tester, const AuthState.guest());
+    await go(tester, AppRoutes.info);
+    expect(find.byType(InfoMenuView), findsOneWidget);
+    expect(AppRoutes.needsLogin(AppRoutes.infoPage('offer')), isFalse);
   });
 }

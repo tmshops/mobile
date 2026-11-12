@@ -13,6 +13,8 @@ import '../core/network/connectivity_cubit.dart';
 import '../core/price_alerts/price_alerts_cubit.dart';
 import '../core/region/region_cubit.dart';
 import '../core/theme/theme.dart';
+import '../features/config/presentation/bloc/app_config_cubit.dart';
+import '../features/config/presentation/widgets/app_access_gate.dart';
 import 'router/app_router.dart';
 
 class TmshopApp extends StatefulWidget {
@@ -43,6 +45,11 @@ class _TmshopAppState extends State<TmshopApp> {
       providers: [
         BlocProvider(create: (_) => getIt<LocaleCubit>()),
         BlocProvider(create: (_) => getIt<ConnectivityCubit>()),
+        BlocProvider(
+          create: (context) =>
+              getIt<AppConfigCubit>()
+                ..load(context.read<LocaleCubit>().state.languageCode),
+        ),
         BlocProvider.value(value: _auth),
         BlocProvider(create: (_) => getIt<CartCubit>()..load()),
         BlocProvider(create: (_) => getIt<FavouritesCubit>()..load()),
@@ -70,6 +77,8 @@ class _TmshopAppState extends State<TmshopApp> {
             localizationsDelegates: AppLocales.delegates,
             supportedLocales: AppLocales.supported,
             routerConfig: _router,
+            builder: (_, router) =>
+                AppAccessGate(child: router ?? const SizedBox.shrink()),
           ),
         ),
       ),

@@ -1842,4 +1842,133 @@ class AppLocalizationsTk extends AppLocalizations {
   String reviewsRejectReason(String reason) {
     return 'Sebäbi: $reason';
   }
+
+  @override
+  String externalCopied(String value) {
+    return 'Göçürildi: $value';
+  }
+
+  @override
+  String get serviceUpdateTitle => 'Programmany täzeläň';
+
+  @override
+  String get serviceUpdateText =>
+      'Bu wersiýa indi işlemeýär. Täzesi programma dükanynda size garaşýar';
+
+  @override
+  String get serviceUpdateAction => 'Täzelemek';
+
+  @override
+  String get serviceMaintenanceTitle => 'Biz basym gaýdyp geleris';
+
+  @override
+  String get serviceMaintenanceText =>
+      'Tehniki işler geçirilýär. Birazdan giriň';
+
+  @override
+  String get serviceMaintenanceAction => 'Täzeden barlamak';
+
+  @override
+  String get serviceBlockedTitle => 'Hasabyňyz petiklendi';
+
+  @override
+  String get serviceBlockedText =>
+      'Goldawa jaň ediň — näme bolandygyny we petigi nädip aýyrmalydygyny aýdarys';
+
+  @override
+  String get serviceBlockedAction => 'Goldawa jaň etmek';
+
+  @override
+  String get serviceNotFoundTitle => 'Sahypa tapylmady';
+
+  @override
+  String get serviceNotFoundText => 'Belki, salgy köne ýa-da ýalňyş ýazylan';
+
+  @override
+  String get serviceHomeAction => 'Baş sahypa';
+
+  @override
+  String get infoAbout => 'Biz barada';
+
+  @override
+  String get infoDelivery => 'Eltip bermek we töleg';
+
+  @override
+  String get infoPickupPoints => 'Bermek nokatlary';
+
+  @override
+  String get infoReturns => 'Yzyna gaýtarmak';
+
+  @override
+  String get infoFaq => 'Sorag-jogaplar';
+
+  @override
+  String get infoContacts => 'Habarlaşmak';
+
+  @override
+  String get infoOffer => 'Köpçülikleýin teklip';
+
+  @override
+  String get infoPrivacy => 'Gizlinlik syýasaty';
+
+  @override
+  String get infoDocuments => 'Resminamalar';
+
+  @override
+  String get infoDeliveryTypes => 'Eltip bermegiň usullary';
+
+  @override
+  String infoDeliveryTerm(String term, String minWeight) {
+    return '$term · $minWeight';
+  }
+
+  @override
+  String infoPerKgFrom(String price) {
+    return '$price/kg-dan';
+  }
+
+  @override
+  String get infoTariffs => 'Welaýatlar boýunça nyrhlar';
+
+  @override
+  String get infoTariffsCaption => 'Halkara eltip bermek, 1 kg üçin TMT';
+
+  @override
+  String get infoTariffRegion => 'Sebit';
+
+  @override
+  String get infoTariffDash => '—';
+
+  @override
+  String get infoTariffNone => 'Eltilmeýär';
+
+  @override
+  String get infoPointsEmpty => 'Bermek nokatlary entek ýok';
+
+  @override
+  String get infoCall => 'Jaň etmek';
+
+  @override
+  String get infoWrite => 'Ýazmak';
+
+  @override
+  String get infoRoute => 'Ugur';
+
+  @override
+  String get infoTelegram => 'Telegram';
+
+  @override
+  String get infoWhatsapp => 'WhatsApp';
+
+  @override
+  String get infoOffice => 'Ofis';
+
+  @override
+  String get infoFaqSearchHint => 'Soraglardan gözlemek';
+
+  @override
+  String get infoFaqNothingTitle => 'Hiç zat tapylmady';
+
+  @override
+  String get infoFaqNothingText => 'Bizden soraň — iş wagtynda jogap bereris';
 }

@@ -27,6 +27,14 @@ abstract final class HiveBoxes {
   /// Recently viewed products as one JSON list, newest first. Device
   /// only. `Box<String>`.
   static const viewed = 'viewed';
+
+  /// Last app config (min version, maintenance, contacts) as JSON, so a
+  /// launch without network still knows them (TZ §8.2). `LazyBox<String>`.
+  static const configCache = 'config_cache';
+
+  /// Information pages per language and page, as JSON, for reading
+  /// offline. `LazyBox<String>`.
+  static const infoCache = 'info_cache';
 }
 
 /// Keys inside [HiveBoxes.settings].

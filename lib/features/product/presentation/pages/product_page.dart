@@ -17,6 +17,7 @@ class ProductPage extends StatelessWidget {
     required this.onLogin,
     required this.onAllReviews,
     required this.onComingSoon,
+    this.onHome,
     this.preview,
     super.key,
   });
@@ -30,6 +31,9 @@ class ProductPage extends StatelessWidget {
   final VoidCallback onLogin;
   final VoidCallback onAllReviews;
   final VoidCallback onComingSoon;
+
+  /// «На главную» when the product is gone.
+  final VoidCallback? onHome;
 
   @override
   Widget build(BuildContext context) {
@@ -49,6 +53,7 @@ class ProductPage extends StatelessWidget {
         onLogin: onLogin,
         onAllReviews: onAllReviews,
         onComingSoon: onComingSoon,
+        onHome: onHome,
       ),
     );
   }

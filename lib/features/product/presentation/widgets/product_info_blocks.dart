@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 
 import '../../../../core/l10n/l10n.dart';
 import '../../../../core/theme/theme.dart';
@@ -67,15 +66,6 @@ class DescriptionBlock extends StatefulWidget {
 
   final String html;
 
-  /// Anything else (script, iframe, forms, embeds) renders as nothing.
-  static const allowedTags = {
-    'p', 'br', 'b', 'strong', 'i', 'em', 'u', 'span', 'div', //
-    'h1', 'h2', 'h3', 'h4', 'ul', 'ol', 'li', 'img', 'table', 'thead',
-    'tbody', 'tr', 'th', 'td', 'blockquote', 'hr', 'body', 'html', 'a',
-    'small', 'sup', 'sub', 's', 'code', 'pre', 'figure', 'figcaption',
-    'section', 'article',
-  };
-
   @override
   State<DescriptionBlock> createState() => _DescriptionBlockState();
 }
@@ -110,14 +100,7 @@ class _DescriptionBlockState extends State<DescriptionBlock> {
       child: SizeChangedLayoutNotifier(
         child: KeyedSubtree(
           key: _contentKey,
-          child: HtmlWidget(
-            widget.html,
-            textStyle: context.text.body,
-            customWidgetBuilder: (element) =>
-                DescriptionBlock.allowedTags.contains(element.localName)
-                ? null
-                : const SizedBox.shrink(),
-          ),
+          child: ServerHtml(html: widget.html),
         ),
       ),
     );

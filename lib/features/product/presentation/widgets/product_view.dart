@@ -33,6 +33,7 @@ class ProductView extends StatefulWidget {
     required this.onLogin,
     required this.onAllReviews,
     required this.onComingSoon,
+    this.onHome,
     super.key,
   });
 
@@ -47,6 +48,9 @@ class ProductView extends StatefulWidget {
 
   /// For actions whose screens do not exist yet (checkout, reviews, …).
   final VoidCallback onComingSoon;
+
+  /// «На главную» on «Товар не найден».
+  final VoidCallback? onHome;
 
   @override
   State<ProductView> createState() => _ProductViewState();
@@ -190,6 +194,7 @@ class _ProductViewState extends State<ProductView> {
                 onComingSoon: widget.onComingSoon,
                 onPriceAlert: _togglePriceAlert,
                 onAllReviews: widget.onAllReviews,
+                onHome: widget.onHome,
               ),
               _TopButtons(
                 cartKey: _cartKey,
@@ -224,6 +229,7 @@ class _Body extends StatelessWidget {
     required this.onComingSoon,
     required this.onPriceAlert,
     required this.onAllReviews,
+    required this.onHome,
   });
 
   final ProductState state;
@@ -232,18 +238,19 @@ class _Body extends StatelessWidget {
   final VoidCallback onComingSoon;
   final VoidCallback onPriceAlert;
   final VoidCallback onAllReviews;
+  final VoidCallback? onHome;
 
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final failure = state.failure;
     if (state.status == ProductStatus.notFound) {
-      return Center(
-        child: EmptyState(
-          icon: AppIcons.package,
-          title: l10n.productNotFoundTitle,
-          message: l10n.productNotFoundText,
-        ),
+      return ServiceView(
+        icon: AppIcons.package,
+        title: l10n.productNotFoundTitle,
+        message: l10n.productNotFoundText,
+        actionLabel: l10n.serviceHomeAction,
+        onAction: onHome,
       );
     }
     if (state.details == null && failure != null) {

@@ -25,6 +25,7 @@ class ProfilePage extends StatefulWidget {
     required this.onEditProfile,
     required this.onOpenNotifications,
     required this.onOpenMyReviews,
+    required this.onOpenInfo,
     required this.onComingSoon,
     super.key,
   });
@@ -40,6 +41,7 @@ class ProfilePage extends StatefulWidget {
   final VoidCallback onEditProfile;
   final VoidCallback onOpenNotifications;
   final VoidCallback onOpenMyReviews;
+  final VoidCallback onOpenInfo;
 
   /// Sections not built yet (balance, addresses, settings, …).
   final VoidCallback onComingSoon;
@@ -75,7 +77,7 @@ class _ProfilePageState extends State<ProfilePage> {
             AuthGuest() => SliverList.list(
               children: [
                 GuestSignInCard(onLogin: widget.onLogin),
-                GuestMenu(onComingSoon: widget.onComingSoon),
+                GuestMenu(onOpenInfo: widget.onOpenInfo),
               ],
             ),
             AuthSignedIn(:final profile) => SliverList.list(
@@ -97,6 +99,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   onOpenSettings: widget.onOpenSettings,
                   onOpenNotifications: widget.onOpenNotifications,
                   onOpenMyReviews: widget.onOpenMyReviews,
+                  onOpenInfo: widget.onOpenInfo,
                   onComingSoon: widget.onComingSoon,
                 ),
               ],

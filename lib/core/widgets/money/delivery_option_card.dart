@@ -5,7 +5,8 @@ import '../selection/radio_mark.dart';
 
 /// Radio card for a delivery type (air / express / truck).
 ///
-/// Pass [disabledReason] to show the option greyed out with an explanation
+/// Without [onTap] the card is read-only (no radio mark), e.g. on the
+/// «Доставка и оплата» page. Pass [disabledReason] to show the option greyed out with an explanation
 /// instead of hiding it.
 class DeliveryOptionCard extends StatelessWidget {
   const DeliveryOptionCard({
@@ -28,7 +29,9 @@ class DeliveryOptionCard extends StatelessWidget {
   /// Formatted price or «уточнится после взвешивания».
   final String priceLabel;
   final bool isSelected;
-  final VoidCallback onTap;
+
+  /// `null` = read-only.
+  final VoidCallback? onTap;
   final String? disabledReason;
 
   @override
@@ -37,10 +40,11 @@ class DeliveryOptionCard extends StatelessWidget {
     final t = context.text;
     final reason = disabledReason;
     final isEnabled = reason == null;
+    final isSelectable = onTap != null;
 
     return Semantics(
-      inMutuallyExclusiveGroup: true,
-      checked: isSelected,
+      inMutuallyExclusiveGroup: isSelectable,
+      checked: isSelectable ? isSelected : null,
       enabled: isEnabled,
       child: Opacity(
         opacity: isEnabled ? 1 : AppOpacity.disabled,
@@ -92,8 +96,10 @@ class DeliveryOptionCard extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(width: AppSpacing.x8),
-                  RadioMark(isSelected: isSelected),
+                  if (isSelectable) ...[
+                    const SizedBox(width: AppSpacing.x8),
+                    RadioMark(isSelected: isSelected),
+                  ],
                 ],
               ),
             ),

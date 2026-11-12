@@ -45,7 +45,7 @@ void openHomeDestination(BuildContext context, HomeDestination destination) {
 /// screens not built yet show a toast.
 void openAppLink(BuildContext context, String link) {
   final path = Uri.tryParse(link)?.path ?? '';
-  const overMenu = ['/product/', '/pay/', AppRoutes.promotions];
+  const overMenu = ['/product/', '/pay/', AppRoutes.promotions, AppRoutes.info];
   const inTabs = [
     AppRoutes.accountPrefix,
     AppRoutes.profile,

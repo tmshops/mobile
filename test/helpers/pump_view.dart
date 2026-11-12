@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:tmshop/core/l10n/l10n.dart';
 import 'package:tmshop/core/theme/theme.dart';
+import 'package:tmshop/core/utils/external_links.dart';
 
 import 'mock_blocs.dart';
 
@@ -55,4 +57,35 @@ Future<void> scrollThrough(
     await tester.drag(scrollable, const Offset(0, -600), warnIfMissed: false);
     await tester.pump();
   }
+}
+
+/// Answers clipboard writes (the test binding has no clipboard) and returns
+/// what was copied. Call inside a test; it is undone after it.
+List<String> mockClipboard() {
+  final copied = <String>[];
+  final messenger =
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger;
+  messenger.setMockMethodCallHandler(SystemChannels.platform, (call) async {
+    if (call.method == 'Clipboard.setData') {
+      copied.add((call.arguments as Map)['text'] as String);
+    }
+    return null;
+  });
+  addTearDown(
+    () => messenger.setMockMethodCallHandler(SystemChannels.platform, null),
+  );
+  return copied;
+}
+
+/// Records what [ExternalLinks] would open instead of leaving the test.
+/// [canOpen] `false` plays a device with no app for it.
+List<Uri> mockExternalLinks({bool canOpen = true}) {
+  final opened = <Uri>[];
+  final original = ExternalLinks.launch;
+  ExternalLinks.launch = (uri) async {
+    opened.add(uri);
+    return canOpen;
+  };
+  addTearDown(() => ExternalLinks.launch = original);
+  return opened;
 }

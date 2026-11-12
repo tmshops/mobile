@@ -481,4 +481,59 @@ abstract final class AppIcons {
     fontFamily: _regular,
     fontPackage: _package,
   );
+  static const IconData telegram = IconData(
+    0xe5bc,
+    fontFamily: _regular,
+    fontPackage: _package,
+  );
+  static const IconData whatsapp = IconData(
+    0xe5d0,
+    fontFamily: _regular,
+    fontPackage: _package,
+  );
+  static const IconData email = IconData(
+    0xe218,
+    fontFamily: _regular,
+    fontPackage: _package,
+  );
+  static const IconData maintenance = IconData(
+    0xe5d4,
+    fontFamily: _regular,
+    fontPackage: _package,
+  );
+  static const IconData update = IconData(
+    0xe030,
+    fontFamily: _regular,
+    fontPackage: _package,
+  );
+  static const IconData blocked = IconData(
+    0xe3de,
+    fontFamily: _regular,
+    fontPackage: _package,
+  );
+  static const IconData document = IconData(
+    0xe23a,
+    fontFamily: _regular,
+    fontPackage: _package,
+  );
+  static const IconData privacy = IconData(
+    0xe40c,
+    fontFamily: _regular,
+    fontPackage: _package,
+  );
+  static const IconData store = IconData(
+    0xe470,
+    fontFamily: _regular,
+    fontPackage: _package,
+  );
+  static const IconData returns = IconData(
+    0xe08a,
+    fontFamily: _regular,
+    fontPackage: _package,
+  );
+  static const IconData map = IconData(
+    0xe31a,
+    fontFamily: _regular,
+    fontPackage: _package,
+  );
 }

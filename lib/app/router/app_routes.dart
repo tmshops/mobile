@@ -128,6 +128,17 @@ abstract final class AppRoutes {
 
   static String promo(String slug) => '/promo/${Uri.encodeComponent(slug)}';
 
+  /// «Информация» and one of its pages (TZ §5.19). Over the menu, so the
+  /// offer and policy open from login and checkout too.
+  static const info = '/info';
+
+  static const topicParam = 'topic';
+
+  /// Relative to [info].
+  static const infoPagePath = ':$topicParam';
+
+  static String infoPage(String slug) => '$info/${Uri.encodeComponent(slug)}';
+
   /// Notification centre (UI_DESIGN §7.21).
   static const notifications = '/notifications';
 

@@ -3211,6 +3211,246 @@ abstract class AppLocalizations {
   /// In ru, this message translates to:
   /// **'Причина: {reason}'**
   String reviewsRejectReason(String reason);
+
+  /// Toast after a phone, link or address was copied instead of opened
+  ///
+  /// In ru, this message translates to:
+  /// **'Скопировано: {value}'**
+  String externalCopied(String value);
+
+  /// Service screen title: this app version is no longer supported
+  ///
+  /// In ru, this message translates to:
+  /// **'Обновите приложение'**
+  String get serviceUpdateTitle;
+
+  /// Service screen text: update required
+  ///
+  /// In ru, this message translates to:
+  /// **'Эта версия больше не работает. Новая уже ждёт вас в магазине приложений'**
+  String get serviceUpdateText;
+
+  /// Button: open the app in the store
+  ///
+  /// In ru, this message translates to:
+  /// **'Обновить'**
+  String get serviceUpdateAction;
+
+  /// Service screen title: maintenance
+  ///
+  /// In ru, this message translates to:
+  /// **'Мы скоро вернёмся'**
+  String get serviceMaintenanceTitle;
+
+  /// Service screen text: maintenance, when the server sent no text
+  ///
+  /// In ru, this message translates to:
+  /// **'Идут технические работы. Загляните чуть позже'**
+  String get serviceMaintenanceText;
+
+  /// Button: ask the server whether maintenance is over
+  ///
+  /// In ru, this message translates to:
+  /// **'Проверить снова'**
+  String get serviceMaintenanceAction;
+
+  /// Service screen title: the customer account is blocked
+  ///
+  /// In ru, this message translates to:
+  /// **'Аккаунт заблокирован'**
+  String get serviceBlockedTitle;
+
+  /// Service screen text: blocked account
+  ///
+  /// In ru, this message translates to:
+  /// **'Позвоните в поддержку — расскажем, что случилось и как снять блокировку'**
+  String get serviceBlockedText;
+
+  /// Button: call support from the blocked screen
+  ///
+  /// In ru, this message translates to:
+  /// **'Позвонить в поддержку'**
+  String get serviceBlockedAction;
+
+  /// Service screen title: unknown link
+  ///
+  /// In ru, this message translates to:
+  /// **'Страница не найдена'**
+  String get serviceNotFoundTitle;
+
+  /// Service screen text: unknown link
+  ///
+  /// In ru, this message translates to:
+  /// **'Возможно, ссылка устарела или в ней опечатка'**
+  String get serviceNotFoundText;
+
+  /// Button: go to Home from a not-found screen
+  ///
+  /// In ru, this message translates to:
+  /// **'На главную'**
+  String get serviceHomeAction;
+
+  /// Info page title
+  ///
+  /// In ru, this message translates to:
+  /// **'О нас'**
+  String get infoAbout;
+
+  /// Info page title
+  ///
+  /// In ru, this message translates to:
+  /// **'Доставка и оплата'**
+  String get infoDelivery;
+
+  /// Info page title
+  ///
+  /// In ru, this message translates to:
+  /// **'Пункты выдачи'**
+  String get infoPickupPoints;
+
+  /// Info page title
+  ///
+  /// In ru, this message translates to:
+  /// **'Возврат'**
+  String get infoReturns;
+
+  /// Info page title (FAQ)
+  ///
+  /// In ru, this message translates to:
+  /// **'Вопросы и ответы'**
+  String get infoFaq;
+
+  /// Info page title; also the button on an empty FAQ search
+  ///
+  /// In ru, this message translates to:
+  /// **'Контакты'**
+  String get infoContacts;
+
+  /// Info page title
+  ///
+  /// In ru, this message translates to:
+  /// **'Публичная оферта'**
+  String get infoOffer;
+
+  /// Info page title
+  ///
+  /// In ru, this message translates to:
+  /// **'Политика конфиденциальности'**
+  String get infoPrivacy;
+
+  /// Info menu group heading above offer and policy
+  ///
+  /// In ru, this message translates to:
+  /// **'Документы'**
+  String get infoDocuments;
+
+  /// Heading above delivery type cards
+  ///
+  /// In ru, this message translates to:
+  /// **'Способы доставки'**
+  String get infoDeliveryTypes;
+
+  /// Delivery card caption: term and minimum weight
+  ///
+  /// In ru, this message translates to:
+  /// **'{term} · {minWeight}'**
+  String infoDeliveryTerm(String term, String minWeight);
+
+  /// Lowest price per kg of a delivery type
+  ///
+  /// In ru, this message translates to:
+  /// **'от {price}/кг'**
+  String infoPerKgFrom(String price);
+
+  /// Heading above the tariff table
+  ///
+  /// In ru, this message translates to:
+  /// **'Тарифы по регионам'**
+  String get infoTariffs;
+
+  /// Unit of the tariff table
+  ///
+  /// In ru, this message translates to:
+  /// **'Международная доставка, TMT за 1 кг'**
+  String get infoTariffsCaption;
+
+  /// Tariff table: first column header
+  ///
+  /// In ru, this message translates to:
+  /// **'Регион'**
+  String get infoTariffRegion;
+
+  /// Tariff table: the type is not delivered to the region
+  ///
+  /// In ru, this message translates to:
+  /// **'—'**
+  String get infoTariffDash;
+
+  /// Screen-reader text for a dash in the tariff table
+  ///
+  /// In ru, this message translates to:
+  /// **'Не доставляется'**
+  String get infoTariffNone;
+
+  /// Empty pickup points list
+  ///
+  /// In ru, this message translates to:
+  /// **'Пунктов выдачи пока нет'**
+  String get infoPointsEmpty;
+
+  /// Hint: tapping calls this number
+  ///
+  /// In ru, this message translates to:
+  /// **'Позвонить'**
+  String get infoCall;
+
+  /// Hint: tapping opens a chat or email
+  ///
+  /// In ru, this message translates to:
+  /// **'Написать'**
+  String get infoWrite;
+
+  /// Button: route to a pickup point or the office
+  ///
+  /// In ru, this message translates to:
+  /// **'Маршрут'**
+  String get infoRoute;
+
+  /// Messenger name
+  ///
+  /// In ru, this message translates to:
+  /// **'Telegram'**
+  String get infoTelegram;
+
+  /// Messenger name
+  ///
+  /// In ru, this message translates to:
+  /// **'WhatsApp'**
+  String get infoWhatsapp;
+
+  /// Contacts: heading above the office card
+  ///
+  /// In ru, this message translates to:
+  /// **'Офис'**
+  String get infoOffice;
+
+  /// FAQ search field hint
+  ///
+  /// In ru, this message translates to:
+  /// **'Поиск по вопросам'**
+  String get infoFaqSearchHint;
+
+  /// FAQ search has no matches
+  ///
+  /// In ru, this message translates to:
+  /// **'Ничего не нашлось'**
+  String get infoFaqNothingTitle;
+
+  /// FAQ search has no matches: invitation to contact
+  ///
+  /// In ru, this message translates to:
+  /// **'Спросите нас — ответим в рабочее время'**
+  String get infoFaqNothingText;
 }
 
 class _AppLocalizationsDelegate

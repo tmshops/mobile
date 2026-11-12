@@ -1896,4 +1896,134 @@ class AppLocalizationsRu extends AppLocalizations {
   String reviewsRejectReason(String reason) {
     return 'Причина: $reason';
   }
+
+  @override
+  String externalCopied(String value) {
+    return 'Скопировано: $value';
+  }
+
+  @override
+  String get serviceUpdateTitle => 'Обновите приложение';
+
+  @override
+  String get serviceUpdateText =>
+      'Эта версия больше не работает. Новая уже ждёт вас в магазине приложений';
+
+  @override
+  String get serviceUpdateAction => 'Обновить';
+
+  @override
+  String get serviceMaintenanceTitle => 'Мы скоро вернёмся';
+
+  @override
+  String get serviceMaintenanceText =>
+      'Идут технические работы. Загляните чуть позже';
+
+  @override
+  String get serviceMaintenanceAction => 'Проверить снова';
+
+  @override
+  String get serviceBlockedTitle => 'Аккаунт заблокирован';
+
+  @override
+  String get serviceBlockedText =>
+      'Позвоните в поддержку — расскажем, что случилось и как снять блокировку';
+
+  @override
+  String get serviceBlockedAction => 'Позвонить в поддержку';
+
+  @override
+  String get serviceNotFoundTitle => 'Страница не найдена';
+
+  @override
+  String get serviceNotFoundText =>
+      'Возможно, ссылка устарела или в ней опечатка';
+
+  @override
+  String get serviceHomeAction => 'На главную';
+
+  @override
+  String get infoAbout => 'О нас';
+
+  @override
+  String get infoDelivery => 'Доставка и оплата';
+
+  @override
+  String get infoPickupPoints => 'Пункты выдачи';
+
+  @override
+  String get infoReturns => 'Возврат';
+
+  @override
+  String get infoFaq => 'Вопросы и ответы';
+
+  @override
+  String get infoContacts => 'Контакты';
+
+  @override
+  String get infoOffer => 'Публичная оферта';
+
+  @override
+  String get infoPrivacy => 'Политика конфиденциальности';
+
+  @override
+  String get infoDocuments => 'Документы';
+
+  @override
+  String get infoDeliveryTypes => 'Способы доставки';
+
+  @override
+  String infoDeliveryTerm(String term, String minWeight) {
+    return '$term · $minWeight';
+  }
+
+  @override
+  String infoPerKgFrom(String price) {
+    return 'от $price/кг';
+  }
+
+  @override
+  String get infoTariffs => 'Тарифы по регионам';
+
+  @override
+  String get infoTariffsCaption => 'Международная доставка, TMT за 1 кг';
+
+  @override
+  String get infoTariffRegion => 'Регион';
+
+  @override
+  String get infoTariffDash => '—';
+
+  @override
+  String get infoTariffNone => 'Не доставляется';
+
+  @override
+  String get infoPointsEmpty => 'Пунктов выдачи пока нет';
+
+  @override
+  String get infoCall => 'Позвонить';
+
+  @override
+  String get infoWrite => 'Написать';
+
+  @override
+  String get infoRoute => 'Маршрут';
+
+  @override
+  String get infoTelegram => 'Telegram';
+
+  @override
+  String get infoWhatsapp => 'WhatsApp';
+
+  @override
+  String get infoOffice => 'Офис';
+
+  @override
+  String get infoFaqSearchHint => 'Поиск по вопросам';
+
+  @override
+  String get infoFaqNothingTitle => 'Ничего не нашлось';
+
+  @override
+  String get infoFaqNothingText => 'Спросите нас — ответим в рабочее время';
 }

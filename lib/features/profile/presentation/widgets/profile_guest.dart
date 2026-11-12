@@ -55,9 +55,9 @@ class GuestSignInCard extends StatelessWidget {
 
 /// A guest sees language, region and information (TZ §5.14).
 class GuestMenu extends StatelessWidget {
-  const GuestMenu({required this.onComingSoon, super.key});
+  const GuestMenu({required this.onOpenInfo, super.key});
 
-  final VoidCallback onComingSoon;
+  final VoidCallback onOpenInfo;
 
   @override
   Widget build(BuildContext context) => MenuGroup(
@@ -67,7 +67,7 @@ class GuestMenu extends StatelessWidget {
       MenuRow(
         icon: AppIcons.info,
         title: context.l10n.profileInfo,
-        onTap: onComingSoon,
+        onTap: onOpenInfo,
       ),
     ],
   );

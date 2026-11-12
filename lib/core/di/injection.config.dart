@@ -23,8 +23,10 @@ import 'package:tmshop/core/auth/token_storage.dart' as _i274;
 import 'package:tmshop/core/cart/cart_cubit.dart' as _i1001;
 import 'package:tmshop/core/cart/cart_repository.dart' as _i361;
 import 'package:tmshop/core/dev/fake_backend/fake_auth_backend.dart' as _i107;
+import 'package:tmshop/core/dev/fake_backend/fake_config_backend.dart' as _i211;
 import 'package:tmshop/core/dev/fake_backend/fake_favourites_backend.dart'
     as _i994;
+import 'package:tmshop/core/dev/fake_backend/fake_info_backend.dart' as _i385;
 import 'package:tmshop/core/dev/fake_backend/fake_notifications_backend.dart'
     as _i605;
 import 'package:tmshop/core/dev/fake_backend/fake_orders_backend.dart' as _i435;
@@ -112,6 +114,14 @@ import 'package:tmshop/features/checkout/presentation/bloc/checkout_bloc.dart'
     as _i888;
 import 'package:tmshop/features/checkout/presentation/bloc/payment_cubit.dart'
     as _i850;
+import 'package:tmshop/features/config/data/datasources/config_data_sources.dart'
+    as _i451;
+import 'package:tmshop/features/config/data/repositories/config_repository_impl.dart'
+    as _i710;
+import 'package:tmshop/features/config/domain/repositories/config_repository.dart'
+    as _i496;
+import 'package:tmshop/features/config/presentation/bloc/app_config_cubit.dart'
+    as _i10;
 import 'package:tmshop/features/favourites/data/datasources/favourite_offers_remote_data_source.dart'
     as _i46;
 import 'package:tmshop/features/favourites/data/repositories/favourite_offers_repository_impl.dart'
@@ -141,6 +151,14 @@ import 'package:tmshop/features/home/domain/usecases/get_recommendations_use_cas
 import 'package:tmshop/features/home/presentation/bloc/for_you_bloc.dart'
     as _i594;
 import 'package:tmshop/features/home/presentation/bloc/home_bloc.dart' as _i621;
+import 'package:tmshop/features/info/data/datasources/info_data_sources.dart'
+    as _i208;
+import 'package:tmshop/features/info/data/repositories/info_repository_impl.dart'
+    as _i626;
+import 'package:tmshop/features/info/domain/repositories/info_repository.dart'
+    as _i513;
+import 'package:tmshop/features/info/presentation/bloc/info_cubits.dart'
+    as _i429;
 import 'package:tmshop/features/notifications/data/datasources/notifications_remote_data_source.dart'
     as _i442;
 import 'package:tmshop/features/notifications/data/repositories/notifications_repository_impl.dart'
@@ -247,12 +265,25 @@ extension GetItInjectableX on _i174.GetIt {
       () => registerModule.secureStorage,
     );
     await gh.singletonAsync<_i965.LazyBox<String>>(
+      () => registerModule.configCacheBox,
+      instanceName: 'config_cache',
+      preResolve: true,
+    );
+    await gh.singletonAsync<_i965.LazyBox<String>>(
       () => registerModule.catalogCacheBox,
       instanceName: 'catalog_cache',
       preResolve: true,
     );
+    gh.lazySingleton<_i211.FakeConfigBackend>(
+      () => _i211.FakeConfigBackend(),
+      registerFor: {_dev},
+    );
     gh.lazySingleton<_i994.FakeFavouritesBackend>(
       () => _i994.FakeFavouritesBackend(),
+      registerFor: {_dev},
+    );
+    gh.lazySingleton<_i385.FakeInfoBackend>(
+      () => _i385.FakeInfoBackend(),
       registerFor: {_dev},
     );
     gh.lazySingleton<_i605.FakeNotificationsBackend>(
@@ -266,6 +297,11 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i636.FakePromotionsBackend>(
       () => _i636.FakePromotionsBackend(),
       registerFor: {_dev},
+    );
+    gh.lazySingleton<_i451.ConfigLocalDataSource>(
+      () => _i451.ConfigLocalDataSourceImpl(
+        gh<_i1055.LazyBox<String>>(instanceName: 'config_cache'),
+      ),
     );
     await gh.singletonAsync<_i965.Box<String>>(
       () => registerModule.favouritesBox,
@@ -288,6 +324,11 @@ extension GetItInjectableX on _i174.GetIt {
     await gh.singletonAsync<_i965.Box<String>>(
       () => registerModule.viewedBox,
       instanceName: 'viewed',
+      preResolve: true,
+    );
+    await gh.singletonAsync<_i965.LazyBox<String>>(
+      () => registerModule.infoCacheBox,
+      instanceName: 'info_cache',
       preResolve: true,
     );
     await gh.singletonAsync<_i965.LazyBox<String>>(
@@ -355,10 +396,24 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i19.FakeRegionRemoteDataSource(gh<_i566.NetworkInfo>()),
       registerFor: {_dev},
     );
+    gh.lazySingleton<_i451.ConfigRemoteDataSource>(
+      () => _i451.FakeConfigRemoteDataSource(
+        gh<_i566.NetworkInfo>(),
+        gh<_i211.FakeConfigBackend>(),
+      ),
+      registerFor: {_dev},
+    );
     gh.lazySingleton<_i49.CatalogLocalDataSource>(
       () => _i49.CatalogLocalDataSourceImpl(
         gh<_i1055.LazyBox<String>>(instanceName: 'catalog_cache'),
       ),
+    );
+    gh.lazySingleton<_i208.InfoRemoteDataSource>(
+      () => _i208.FakeInfoRemoteDataSource(
+        gh<_i566.NetworkInfo>(),
+        gh<_i385.FakeInfoBackend>(),
+      ),
+      registerFor: {_dev},
     );
     gh.lazySingleton<_i932.CheckoutLocalDataSource>(
       () => _i932.CheckoutLocalDataSource(
@@ -448,6 +503,11 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i568.RecordViewUseCase>(
       () => _i568.RecordViewUseCase(gh<_i263.ViewedRepository>()),
     );
+    gh.lazySingleton<_i208.InfoLocalDataSource>(
+      () => _i208.InfoLocalDataSourceImpl(
+        gh<_i1055.LazyBox<String>>(instanceName: 'info_cache'),
+      ),
+    );
     gh.lazySingleton<_i867.OrdersLocalDataSource>(
       () => _i867.OrdersLocalDataSource(
         gh<_i1055.LazyBox<String>>(instanceName: 'account'),
@@ -520,11 +580,20 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i442.NotificationsRemoteDataSource>(),
       ),
     );
+    gh.lazySingleton<_i496.ConfigRepository>(
+      () => _i710.ConfigRepositoryImpl(
+        gh<_i451.ConfigRemoteDataSource>(),
+        gh<_i451.ConfigLocalDataSource>(),
+      ),
+    );
     gh.lazySingleton<_i465.HomeRepository>(
       () => _i740.HomeRepositoryImpl(
         gh<_i1066.HomeRemoteDataSource>(),
         gh<_i795.HomeLocalDataSource>(),
       ),
+    );
+    gh.lazySingleton<_i10.AppConfigCubit>(
+      () => _i10.AppConfigCubit(gh<_i496.ConfigRepository>()),
     );
     gh.lazySingleton<_i895.FetchHomeUseCase>(
       () => _i895.FetchHomeUseCase(gh<_i465.HomeRepository>()),
@@ -561,6 +630,12 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i568.WalletPaymentCubit>(
       () => _i568.WalletPaymentCubit(gh<_i942.WalletRepository>()),
+    );
+    gh.lazySingleton<_i513.InfoRepository>(
+      () => _i626.InfoRepositoryImpl(
+        gh<_i208.InfoRemoteDataSource>(),
+        gh<_i208.InfoLocalDataSource>(),
+      ),
     );
     gh.factory<_i553.ProductReviewsCubit>(
       () => _i553.ProductReviewsCubit(gh<_i357.ReviewsRepository>()),
@@ -639,6 +714,21 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i508.VariantPickerCubit>(
       () => _i508.VariantPickerCubit(gh<_i623.VariantsRepository>()),
+    );
+    gh.factory<_i429.InfoArticleCubit>(
+      () => _i429.InfoArticleCubit(gh<_i513.InfoRepository>()),
+    );
+    gh.factory<_i429.DeliveryTermsCubit>(
+      () => _i429.DeliveryTermsCubit(gh<_i513.InfoRepository>()),
+    );
+    gh.factory<_i429.PickupPointsCubit>(
+      () => _i429.PickupPointsCubit(gh<_i513.InfoRepository>()),
+    );
+    gh.factory<_i429.ContactsCubit>(
+      () => _i429.ContactsCubit(gh<_i513.InfoRepository>()),
+    );
+    gh.factory<_i429.FaqCubit>(
+      () => _i429.FaqCubit(gh<_i513.InfoRepository>()),
     );
     gh.lazySingleton<_i238.SessionRepository>(
       () => _i238.SessionRepositoryImpl(

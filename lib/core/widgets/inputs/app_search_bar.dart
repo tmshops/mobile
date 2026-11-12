@@ -15,6 +15,7 @@ class AppSearchBar extends StatelessWidget {
     this.onSubmitted,
     this.onCameraTap,
     this.autofocus = false,
+    this.hintText,
     super.key,
   });
 
@@ -26,6 +27,9 @@ class AppSearchBar extends StatelessWidget {
   /// `null` hides the camera button.
   final VoidCallback? onCameraTap;
   final bool autofocus;
+
+  /// Defaults to the product search hint.
+  final String? hintText;
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +46,7 @@ class AppSearchBar extends StatelessWidget {
       textInputAction: TextInputAction.search,
       style: context.text.body,
       decoration: InputDecoration(
-        hintText: l10n.searchHint,
+        hintText: hintText ?? l10n.searchHint,
         contentPadding: const EdgeInsets.symmetric(vertical: AppSpacing.x12),
         prefixIcon: Icon(
           AppIcons.search,

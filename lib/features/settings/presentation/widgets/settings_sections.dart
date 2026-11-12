@@ -6,32 +6,6 @@ import '../../../../core/theme/theme.dart';
 import '../../../../core/widgets/widgets.dart';
 import '../../domain/entities/account_settings.dart';
 
-/// Small heading above a [MenuGroup].
-class GroupHeader extends StatelessWidget {
-  const GroupHeader(this.text, {super.key});
-
-  final String text;
-
-  @override
-  Widget build(BuildContext context) => Padding(
-    padding: const EdgeInsets.fromLTRB(
-      AppSpacing.screen + AppSpacing.x4,
-      AppSpacing.x8,
-      AppSpacing.screen,
-      AppSpacing.x8,
-    ),
-    child: Semantics(
-      header: true,
-      child: Text(
-        text,
-        style: context.text.caption.copyWith(
-          color: context.colors.inkSecondary,
-        ),
-      ),
-    ),
-  );
-}
-
 String channelTitle(AppLocalizations l10n, CodeChannel channel) =>
     switch (channel) {
       CodeChannel.sms => l10n.settingsChannelSms,

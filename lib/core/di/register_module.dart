@@ -54,4 +54,16 @@ abstract class RegisterModule {
   @Named(HiveBoxes.viewed)
   @singleton
   Future<Box<String>> get viewedBox => Hive.openBox<String>(HiveBoxes.viewed);
+
+  @preResolve
+  @Named(HiveBoxes.configCache)
+  @singleton
+  Future<LazyBox<String>> get configCacheBox =>
+      Hive.openLazyBox<String>(HiveBoxes.configCache);
+
+  @preResolve
+  @Named(HiveBoxes.infoCache)
+  @singleton
+  Future<LazyBox<String>> get infoCacheBox =>
+      Hive.openLazyBox<String>(HiveBoxes.infoCache);
 }

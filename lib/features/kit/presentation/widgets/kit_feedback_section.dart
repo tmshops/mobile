@@ -10,12 +10,14 @@ import 'kit_section.dart';
 class KitFeedbackSection extends StatelessWidget {
   const KitFeedbackSection({super.key});
 
+  static const double _serviceHeight = 440;
+
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final s = KitSamples.of(context);
     return KitSection(
-      title: 'Loading · Empty · Error · Offline · Toast · Sheet',
+      title: 'Loading · Empty · Error · Service · Offline · Toast · Sheet',
       children: [
         const Row(
           children: [
@@ -33,6 +35,18 @@ class KitFeedbackSection extends StatelessWidget {
           onAction: () {},
         ),
         ErrorState(onRetry: () {}),
+        // ServiceView scrolls on its own, so it gets a bounded box here.
+        SizedBox(
+          height: _serviceHeight,
+          child: ServiceView(
+            icon: AppIcons.maintenance,
+            title: l10n.serviceMaintenanceTitle,
+            message: l10n.serviceMaintenanceText,
+            actionLabel: l10n.serviceMaintenanceAction,
+            actionIcon: AppIcons.retry,
+            onAction: () {},
+          ),
+        ),
         const ClipRRect(
           borderRadius: AppRadii.imageBorder,
           child: OfflineBanner(),

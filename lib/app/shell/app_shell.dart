@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../core/cart/cart_cubit.dart';
 import '../../core/l10n/l10n.dart';
+import '../../core/notifications/notifications_counter.dart';
 import '../../core/navigation/tab_reselect_scope.dart';
 import '../../core/widgets/widgets.dart';
 import 'app_tab.dart';
@@ -16,15 +17,11 @@ class AppShell extends StatelessWidget {
   const AppShell({
     required this.navigationShell,
     required this.reselectSignals,
-    this.hasUnread = false,
     super.key,
   });
 
   final StatefulNavigationShell navigationShell;
   final List<TabReselectSignal> reselectSignals;
-
-  // Fed by NotificationsCounterCubit once it exists (TZ §3).
-  final bool hasUnread;
 
   void _onTap(int index) {
     final isReselect = index == navigationShell.currentIndex;
@@ -56,7 +53,11 @@ class AppShell extends StatelessWidget {
                   activeIcon: tab.activeIcon,
                   label: tab.label(l10n),
                   badgeCount: tab == AppTab.cart ? cartCount : 0,
-                  hasDot: tab == AppTab.profile && hasUnread,
+                  hasDot:
+                      tab == AppTab.profile &&
+                      context.select<NotificationsCounterCubit, bool>(
+                        (unread) => unread.state > 0,
+                      ),
                 ),
             ],
           ),

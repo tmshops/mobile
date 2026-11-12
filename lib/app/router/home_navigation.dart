@@ -26,12 +26,37 @@ void openHomeDestination(BuildContext context, HomeDestination destination) {
       context.push(AppRoutes.product(id), extra: preview);
     case LinkDestination(link: ProductLink(:final id)):
       context.push(AppRoutes.product(id));
+    case NotificationsDestination():
+      context.push(AppRoutes.notifications);
     case SearchDestination() ||
         PhotoSearchDestination() ||
         PasteLinkDestination() ||
-        NotificationsDestination() ||
         VideoFeedDestination() ||
         LinkDestination():
       showComingSoon(context);
+  }
+}
+
+/// Opens a link in the website format (TZ §4), as notifications and
+/// pushes carry them. Full-screen pages open on top; tab screens switch
+/// to their tab, so back leads through that tab's own stack. Links to
+/// screens not built yet show a toast.
+void openAppLink(BuildContext context, String link) {
+  final path = Uri.tryParse(link)?.path ?? '';
+  const overMenu = ['/product/', '/pay/'];
+  const inTabs = [
+    AppRoutes.accountPrefix,
+    AppRoutes.profile,
+    AppRoutes.catalog,
+    AppRoutes.cart,
+    AppRoutes.favourites,
+    AppRoutes.home,
+  ];
+  if (overMenu.any(path.startsWith)) {
+    context.push(link);
+  } else if (inTabs.any(path.startsWith)) {
+    context.go(link);
+  } else {
+    showComingSoon(context);
   }
 }

@@ -2875,6 +2875,60 @@ abstract class AppLocalizations {
   /// In ru, this message translates to:
   /// **'Номер изменён'**
   String get profileEditPhoneChanged;
+
+  /// Marks every notification read
+  ///
+  /// In ru, this message translates to:
+  /// **'Прочитать все'**
+  String get notificationsReadAll;
+
+  /// Group of notifications before today
+  ///
+  /// In ru, this message translates to:
+  /// **'Ранее'**
+  String get notificationsEarlier;
+
+  /// Empty notification centre
+  ///
+  /// In ru, this message translates to:
+  /// **'Уведомлений пока нет'**
+  String get notificationsEmptyTitle;
+
+  /// Empty notification centre hint
+  ///
+  /// In ru, this message translates to:
+  /// **'Здесь появятся новости о ваших заказах'**
+  String get notificationsEmptyText;
+
+  /// Behind a row swiped to mark it read
+  ///
+  /// In ru, this message translates to:
+  /// **'Прочитано'**
+  String get notificationsMarkRead;
+
+  /// Less than a minute ago
+  ///
+  /// In ru, this message translates to:
+  /// **'только что'**
+  String get dateJustNow;
+
+  /// Minutes ago
+  ///
+  /// In ru, this message translates to:
+  /// **'{count} мин назад'**
+  String dateMinutesAgo(int count);
+
+  /// Hours ago
+  ///
+  /// In ru, this message translates to:
+  /// **'{count} ч назад'**
+  String dateHoursAgo(int count);
+
+  /// Unread count above the list
+  ///
+  /// In ru, this message translates to:
+  /// **'Непрочитанных: {count}'**
+  String notificationsUnread(int count);
 }
 
 class _AppLocalizationsDelegate

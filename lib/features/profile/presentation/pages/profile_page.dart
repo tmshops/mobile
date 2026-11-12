@@ -23,6 +23,7 @@ class ProfilePage extends StatefulWidget {
     required this.onOpenSurcharges,
     required this.onOpenSettings,
     required this.onEditProfile,
+    required this.onOpenNotifications,
     required this.onComingSoon,
     super.key,
   });
@@ -36,6 +37,7 @@ class ProfilePage extends StatefulWidget {
   final VoidCallback onOpenSurcharges;
   final VoidCallback onOpenSettings;
   final VoidCallback onEditProfile;
+  final VoidCallback onOpenNotifications;
 
   /// Sections not built yet (balance, addresses, settings, …).
   final VoidCallback onComingSoon;
@@ -91,6 +93,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   onOpenBalance: widget.onOpenBalance,
                   onOpenSurcharges: widget.onOpenSurcharges,
                   onOpenSettings: widget.onOpenSettings,
+                  onOpenNotifications: widget.onOpenNotifications,
                   onComingSoon: widget.onComingSoon,
                 ),
               ],

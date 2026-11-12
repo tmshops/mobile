@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/l10n/l10n.dart';
+import '../../../../core/notifications/notifications_counter.dart';
 import '../../../../core/locale/locale_cubit.dart';
 import '../../../../core/navigation/tab_reselect_scroll.dart';
 import '../../../../core/network/connectivity_cubit.dart';
@@ -157,6 +158,9 @@ class _HomeScrollView extends StatelessWidget {
             onNotifications: () =>
                 onNavigate(const HomeDestination.notifications()),
             onOpenKit: onOpenKit,
+            hasUnread: context.select<NotificationsCounterCubit, bool>(
+              (unread) => unread.state > 0,
+            ),
           ),
         ),
         PinnedHeaderSliver(

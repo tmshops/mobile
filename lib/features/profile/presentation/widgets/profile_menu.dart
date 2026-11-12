@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/l10n/l10n.dart';
+import '../../../../core/notifications/notifications_counter.dart';
 import '../../../../core/theme/theme.dart';
 import '../../../../core/widgets/widgets.dart';
 
@@ -16,6 +18,7 @@ class CustomerMenu extends StatelessWidget {
     required this.onOpenBalance,
     required this.onOpenSurcharges,
     required this.onOpenSettings,
+    required this.onOpenNotifications,
     required this.onComingSoon,
     super.key,
   });
@@ -28,6 +31,7 @@ class CustomerMenu extends StatelessWidget {
   final VoidCallback onOpenBalance;
   final VoidCallback onOpenSurcharges;
   final VoidCallback onOpenSettings;
+  final VoidCallback onOpenNotifications;
   final VoidCallback onComingSoon;
 
   @override
@@ -84,7 +88,13 @@ class CustomerMenu extends StatelessWidget {
             MenuRow(
               icon: AppIcons.bell,
               title: l10n.profileNotifications,
-              onTap: onComingSoon,
+              onTap: onOpenNotifications,
+              trailing: switch (context.select<NotificationsCounterCubit, int>(
+                (c) => c.state,
+              )) {
+                0 => null,
+                final count => CountBadge(count: count),
+              },
             ),
           ],
         ),

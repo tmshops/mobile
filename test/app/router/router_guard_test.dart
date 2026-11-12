@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:tmshop/app/router/app_router.dart';
 import 'package:tmshop/app/router/app_routes.dart';
+import 'package:tmshop/app/router/home_navigation.dart';
 import 'package:tmshop/core/auth/auth_cubit.dart';
 import 'package:tmshop/core/auth/user_profile.dart';
 import 'package:tmshop/core/di/injection.dart';
@@ -113,6 +114,7 @@ void main() {
     expect(AppRoutes.needsLogin(AppRoutes.balance), isTrue);
     expect(AppRoutes.needsLogin(AppRoutes.settings), isTrue);
     expect(AppRoutes.needsLogin(AppRoutes.profileEdit), isTrue);
+    expect(AppRoutes.needsLogin(AppRoutes.notifications), isTrue);
     expect(AppRoutes.needsLogin(AppRoutes.deleteAccount), isTrue);
     expect(AppRoutes.needsLogin(AppRoutes.walletPay), isTrue);
     final link = AppRoutes.surchargesWith(payParcel: 'P-5518');
@@ -147,5 +149,29 @@ void main() {
     await go(tester, '/account/orders/10228');
     expect(location(), AppRoutes.order('10228'));
     expect(find.byType(OrderView), findsOneWidget);
+  });
+
+  testWidgets('notification links: tabs switch, unbuilt ones toast', (
+    tester,
+  ) async {
+    await pump(
+      tester,
+      const AuthState.signedIn(UserProfile(id: 'u', phone: '65123456')),
+    );
+    openAppLink(
+      tester.element(find.byType(Scaffold).first),
+      '/account/orders/10228',
+    );
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 500));
+    expect(location(), AppRoutes.order('10228'));
+
+    openAppLink(tester.element(find.byType(Scaffold).first), '/promo/x');
+    await tester.pump();
+    expect(
+      find.text(lookupAppLocalizations(AppLocales.ru).comingSoon),
+      findsOneWidget,
+    );
+    expect(location(), AppRoutes.order('10228'));
   });
 }

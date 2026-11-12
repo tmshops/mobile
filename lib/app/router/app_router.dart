@@ -21,6 +21,7 @@ import '../../features/favourites/presentation/pages/price_alerts_page.dart';
 import '../../features/favourites/presentation/pages/viewed_page.dart';
 import '../../features/home/presentation/pages/home_page.dart';
 import '../../features/kit/presentation/pages/kit_page.dart';
+import '../../features/notifications/presentation/pages/notifications_page.dart';
 import '../../features/orders/presentation/pages/order_page.dart';
 import '../../features/orders/presentation/pages/orders_page.dart';
 import '../../features/orders/presentation/pages/parcel_page.dart';
@@ -128,6 +129,7 @@ GoRouter createAppRouter({
               onOpenSurcharges: () => context.push(AppRoutes.surcharges),
               onOpenSettings: () => context.push(AppRoutes.settings),
               onEditProfile: () => context.push(AppRoutes.profileEdit),
+              onOpenNotifications: () => context.push(AppRoutes.notifications),
               onComingSoon: () => showComingSoon(context),
             ),
             routes: _profileRoutes,
@@ -179,6 +181,11 @@ GoRouter createAppRouter({
           // Opened from a link (SMS /pay/…): needs the orders API.
           _ => const _ComingSoonPage(),
         },
+      ),
+      GoRoute(
+        path: AppRoutes.notifications,
+        builder: (context, _) =>
+            NotificationsPage(onOpen: (link) => openAppLink(context, link)),
       ),
       GoRoute(
         path: AppRoutes.walletPay,

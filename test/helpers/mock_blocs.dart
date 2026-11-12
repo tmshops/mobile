@@ -12,6 +12,7 @@ import 'package:tmshop/core/price_alerts/price_alerts_cubit.dart';
 import 'package:tmshop/core/product/domain/product_summary.dart';
 import 'package:tmshop/core/locale/locale_cubit.dart';
 import 'package:tmshop/core/network/connectivity_cubit.dart';
+import 'package:tmshop/core/notifications/notifications_counter.dart';
 import 'package:tmshop/core/region/region.dart';
 import 'package:tmshop/core/region/region_cubit.dart';
 import 'package:tmshop/features/home/presentation/bloc/for_you_bloc.dart';
@@ -39,6 +40,9 @@ class MockFavouritesCubit extends MockCubit<FavouritesState>
 class MockPriceAlertsCubit extends MockCubit<PriceAlertsState>
     implements PriceAlertsCubit {}
 
+class MockNotificationsCounterCubit extends MockCubit<int>
+    implements NotificationsCounterCubit {}
+
 const sampleRegions = [
   Region(id: 'ashgabat', name: 'Ашхабад'),
   Region(id: 'mary', name: 'Марыйский велаят'),
@@ -53,6 +57,7 @@ class GlobalCubits {
     AuthState auth = const AuthState.guest(),
     FavouritesState favourites = const FavouritesState(),
     PriceAlertsState priceAlerts = const PriceAlertsState(),
+    int unread = 0,
   }) {
     registerFallbackValue(
       const ProductSummary(id: '', title: '', imageUrl: '', price: 0),
@@ -66,6 +71,8 @@ class GlobalCubits {
     ).thenAnswer((_) async => const []);
     when(() => this.favourites.restore(any())).thenAnswer((_) async {});
     when(() => this.priceAlerts.state).thenReturn(priceAlerts);
+    when(() => this.unread.state).thenReturn(unread);
+    when(this.unread.refresh).thenAnswer((_) async {});
     when(() => this.priceAlerts.load(any())).thenAnswer((_) async {});
     registerFallbackValue(
       const CartItem(
@@ -99,6 +106,7 @@ class GlobalCubits {
   final auth = MockAuthCubit();
   final favourites = MockFavouritesCubit();
   final priceAlerts = MockPriceAlertsCubit();
+  final unread = MockNotificationsCounterCubit();
 
   List<BlocProvider> get providers => [
     BlocProvider<LocaleCubit>.value(value: locale),
@@ -108,5 +116,6 @@ class GlobalCubits {
     BlocProvider<AuthCubit>.value(value: auth),
     BlocProvider<FavouritesCubit>.value(value: favourites),
     BlocProvider<PriceAlertsCubit>.value(value: priceAlerts),
+    BlocProvider<NotificationsCounterCubit>.value(value: unread),
   ];
 }

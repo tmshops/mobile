@@ -496,5 +496,15 @@
   "profileEditPhoneText": "Täze belgä kod ibereris. Köne belgi bilen hasaba girip bolmaz.",
   "profileEditCodeSent": "Kod {destination} belgä iberildi",
   "profileEditOtherNumber": "Başga belgi",
-  "profileEditPhoneChanged": "Belgi üýtgedildi"
+  "profileEditPhoneChanged": "Belgi üýtgedildi",
+
+  "notificationsReadAll": "Hemmesini okalan et",
+  "notificationsEarlier": "Öňräk",
+  "notificationsEmptyTitle": "Entek habarnama ýok",
+  "notificationsEmptyText": "Sargytlaryňyz barada täzelikler şu ýerde peýda bolar",
+  "notificationsMarkRead": "Okaldy",
+  "dateJustNow": "ýaňy",
+  "dateMinutesAgo": "{count} min öň",
+  "dateHoursAgo": "{count} sag öň",
+  "notificationsUnread": "Okalmadyk: {count}"
 }

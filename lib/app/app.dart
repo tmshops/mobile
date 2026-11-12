@@ -8,6 +8,7 @@ import '../core/di/injection.dart';
 import '../core/favourites/favourites_cubit.dart';
 import '../core/l10n/l10n.dart';
 import '../core/locale/locale_cubit.dart';
+import '../core/notifications/notifications_counter.dart';
 import '../core/network/connectivity_cubit.dart';
 import '../core/price_alerts/price_alerts_cubit.dart';
 import '../core/region/region_cubit.dart';
@@ -46,6 +47,7 @@ class _TmshopAppState extends State<TmshopApp> {
         BlocProvider(create: (_) => getIt<CartCubit>()..load()),
         BlocProvider(create: (_) => getIt<FavouritesCubit>()..load()),
         BlocProvider(create: (_) => getIt<PriceAlertsCubit>()),
+        BlocProvider(create: (_) => getIt<NotificationsCounterCubit>()),
         BlocProvider(
           create: (context) =>
               getIt<RegionCubit>()
@@ -79,14 +81,17 @@ class _TmshopAppState extends State<TmshopApp> {
   static void _onSessionChanged(BuildContext context, AuthState auth) {
     final favourites = context.read<FavouritesCubit>();
     final alerts = context.read<PriceAlertsCubit>();
+    final unread = context.read<NotificationsCounterCubit>();
     final languageCode = context.read<LocaleCubit>().state.languageCode;
     switch (auth) {
       case AuthSignedIn():
         favourites.signedIn(languageCode);
         alerts.load(languageCode);
+        unread.refresh();
       case AuthGuest():
         favourites.signedOut();
         alerts.clear();
+        unread.clear();
       case AuthUnknown():
         break;
     }

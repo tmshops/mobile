@@ -62,6 +62,7 @@ void main() {
             onOpenSurcharges: () => taps.add('surcharges'),
             onOpenSettings: () => taps.add('settings'),
             onEditProfile: () => taps.add('edit'),
+            onOpenNotifications: () => taps.add('notifications'),
             onComingSoon: () => taps.add('soon'),
           ),
         ),

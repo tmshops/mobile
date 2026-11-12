@@ -104,6 +104,9 @@ abstract final class AppRoutes {
   static String payment(String orderNumber) =>
       '/pay/${Uri.encodeComponent(orderNumber)}';
 
+  /// Notification centre (UI_DESIGN §7.21).
+  static const notifications = '/notifications';
+
   /// Card payment of a top-up or surcharge; the payment comes as `extra`.
   static const walletPay = '/wallet/pay';
 
@@ -127,6 +130,7 @@ abstract final class AppRoutes {
       location.startsWith(profileEdit) ||
       location.startsWith(surcharges) ||
       location.startsWith(walletPay) ||
+      location == notifications ||
       location.startsWith('/pay/');
 
   /// Dev-only component catalogue; registered in debug builds only.

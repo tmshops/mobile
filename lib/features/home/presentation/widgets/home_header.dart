@@ -11,6 +11,7 @@ class HomeHeader extends StatelessWidget {
     required this.onLanguageToggle,
     required this.onNotifications,
     this.onOpenKit,
+    this.hasUnread = false,
     super.key,
   });
 
@@ -20,6 +21,11 @@ class HomeHeader extends StatelessWidget {
 
   /// Debug builds only.
   final VoidCallback? onOpenKit;
+
+  /// Unread notifications: a dot on the bell.
+  final bool hasUnread;
+
+  static const double _dot = 8;
 
   @override
   Widget build(BuildContext context) {
@@ -47,8 +53,18 @@ class HomeHeader extends StatelessWidget {
           _LanguageToggle(locale: locale, onTap: onLanguageToggle),
           IconButton(
             onPressed: onNotifications,
-            tooltip: context.l10n.homeNotifications,
-            icon: Icon(AppIcons.bell, color: context.colors.ink),
+            tooltip: hasUnread
+                ? context.l10n.navTabSemantics(
+                    context.l10n.homeNotifications,
+                    context.l10n.navUnread,
+                  )
+                : context.l10n.homeNotifications,
+            icon: Badge(
+              isLabelVisible: hasUnread,
+              smallSize: _dot,
+              backgroundColor: context.colors.primary,
+              child: Icon(AppIcons.bell, color: context.colors.ink),
+            ),
           ),
         ],
       ),

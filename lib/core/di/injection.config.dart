@@ -25,6 +25,8 @@ import 'package:tmshop/core/cart/cart_repository.dart' as _i361;
 import 'package:tmshop/core/dev/fake_backend/fake_auth_backend.dart' as _i107;
 import 'package:tmshop/core/dev/fake_backend/fake_favourites_backend.dart'
     as _i994;
+import 'package:tmshop/core/dev/fake_backend/fake_notifications_backend.dart'
+    as _i605;
 import 'package:tmshop/core/dev/fake_backend/fake_orders_backend.dart' as _i435;
 import 'package:tmshop/core/dev/fake_backend/fake_settings_backend.dart'
     as _i333;
@@ -37,6 +39,7 @@ import 'package:tmshop/core/locale/locale_cubit.dart' as _i280;
 import 'package:tmshop/core/locale/locale_repository.dart' as _i630;
 import 'package:tmshop/core/network/connectivity_cubit.dart' as _i726;
 import 'package:tmshop/core/network/network_info.dart' as _i566;
+import 'package:tmshop/core/notifications/notifications_counter.dart' as _i363;
 import 'package:tmshop/core/price_alerts/price_alerts_cubit.dart' as _i1065;
 import 'package:tmshop/core/price_alerts/price_alerts_repository.dart' as _i944;
 import 'package:tmshop/core/product/data/variants_repository_impl.dart'
@@ -135,6 +138,14 @@ import 'package:tmshop/features/home/domain/usecases/get_recommendations_use_cas
 import 'package:tmshop/features/home/presentation/bloc/for_you_bloc.dart'
     as _i594;
 import 'package:tmshop/features/home/presentation/bloc/home_bloc.dart' as _i621;
+import 'package:tmshop/features/notifications/data/datasources/notifications_remote_data_source.dart'
+    as _i442;
+import 'package:tmshop/features/notifications/data/repositories/notifications_repository_impl.dart'
+    as _i26;
+import 'package:tmshop/features/notifications/domain/repositories/notifications_repository.dart'
+    as _i780;
+import 'package:tmshop/features/notifications/presentation/bloc/notifications_cubit.dart'
+    as _i683;
 import 'package:tmshop/features/orders/data/datasources/orders_data_sources.dart'
     as _i867;
 import 'package:tmshop/features/orders/data/repositories/orders_repository_impl.dart'
@@ -223,6 +234,10 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i994.FakeFavouritesBackend>(
       () => _i994.FakeFavouritesBackend(),
+      registerFor: {_dev},
+    );
+    gh.lazySingleton<_i605.FakeNotificationsBackend>(
+      () => _i605.FakeNotificationsBackend(),
       registerFor: {_dev},
     );
     gh.lazySingleton<_i435.FakeOrdersBackend>(
@@ -367,6 +382,20 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i46.FavouriteOffersRemoteDataSource>(),
       ),
     );
+    gh.lazySingleton<_i442.NotificationsRemoteDataSource>(
+      () => _i442.FakeNotificationsRemoteDataSource(
+        gh<_i566.NetworkInfo>(),
+        gh<_i605.FakeNotificationsBackend>(),
+      ),
+      registerFor: {_dev},
+    );
+    gh.lazySingleton<_i363.NotificationsCountRemoteDataSource>(
+      () => _i363.FakeNotificationsCountRemoteDataSource(
+        gh<_i566.NetworkInfo>(),
+        gh<_i605.FakeNotificationsBackend>(),
+      ),
+      registerFor: {_dev},
+    );
     gh.lazySingleton<_i526.RegionRepository>(
       () => _i526.RegionRepositoryImpl(
         gh<_i19.RegionRemoteDataSource>(),
@@ -430,12 +459,22 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i49.CatalogLocalDataSource>(),
       ),
     );
+    gh.lazySingleton<_i363.NotificationsCountRepository>(
+      () => _i363.NotificationsCountRepositoryImpl(
+        gh<_i363.NotificationsCountRemoteDataSource>(),
+      ),
+    );
     gh.lazySingleton<_i734.SessionRemoteDataSource>(
       () => _i734.FakeSessionRemoteDataSource(
         gh<_i107.FakeAuthBackend>(),
         gh<_i566.NetworkInfo>(),
       ),
       registerFor: {_dev},
+    );
+    gh.lazySingleton<_i780.NotificationsRepository>(
+      () => _i26.NotificationsRepositoryImpl(
+        gh<_i442.NotificationsRemoteDataSource>(),
+      ),
     );
     gh.lazySingleton<_i465.HomeRepository>(
       () => _i740.HomeRepositoryImpl(
@@ -547,6 +586,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i1065.PriceAlertsCubit>(
       () => _i1065.PriceAlertsCubit(gh<_i944.PriceAlertsRepository>()),
     );
+    gh.factory<_i683.NotificationsCubit>(
+      () => _i683.NotificationsCubit(gh<_i780.NotificationsRepository>()),
+    );
     gh.lazySingleton<_i579.FetchCategoryTreeUseCase>(
       () => _i579.FetchCategoryTreeUseCase(gh<_i470.CatalogRepository>()),
     );
@@ -561,6 +603,11 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i128.GetCategoryUseCase>(
       () => _i128.GetCategoryUseCase(gh<_i470.CatalogRepository>()),
+    );
+    gh.lazySingleton<_i363.NotificationsCounterCubit>(
+      () => _i363.NotificationsCounterCubit(
+        gh<_i363.NotificationsCountRepository>(),
+      ),
     );
     gh.lazySingleton<_i779.LoadSavedRecipientUseCase>(
       () => _i779.LoadSavedRecipientUseCase(gh<_i837.CheckoutRepository>()),

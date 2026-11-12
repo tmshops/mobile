@@ -37,6 +37,15 @@ abstract final class AppDates {
     };
   }
 
+  /// «только что», «5 мин назад», «3 ч назад», then «24 ноября».
+  static String ago(AppLocalizations l10n, DateTime date, DateTime now) {
+    final passed = now.difference(date);
+    if (passed.inMinutes < 1) return l10n.dateJustNow;
+    if (passed.inHours < 1) return l10n.dateMinutesAgo(passed.inMinutes);
+    if (passed.inDays < 1) return l10n.dateHoursAgo(passed.inHours);
+    return dayMonth(l10n, date);
+  }
+
   /// «24 ноября, 14:30».
   static String dayMonthTime(AppLocalizations l10n, DateTime date) =>
       l10n.dateDayMonthTime(dayMonth(l10n, date), time(date));

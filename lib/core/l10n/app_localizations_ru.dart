@@ -1705,4 +1705,37 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get profileEditPhoneChanged => 'Номер изменён';
+
+  @override
+  String get notificationsReadAll => 'Прочитать все';
+
+  @override
+  String get notificationsEarlier => 'Ранее';
+
+  @override
+  String get notificationsEmptyTitle => 'Уведомлений пока нет';
+
+  @override
+  String get notificationsEmptyText => 'Здесь появятся новости о ваших заказах';
+
+  @override
+  String get notificationsMarkRead => 'Прочитано';
+
+  @override
+  String get dateJustNow => 'только что';
+
+  @override
+  String dateMinutesAgo(int count) {
+    return '$count мин назад';
+  }
+
+  @override
+  String dateHoursAgo(int count) {
+    return '$count ч назад';
+  }
+
+  @override
+  String notificationsUnread(int count) {
+    return 'Непрочитанных: $count';
+  }
 }

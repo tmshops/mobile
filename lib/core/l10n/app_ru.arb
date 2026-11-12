@@ -1278,5 +1278,33 @@
   "profileEditOtherNumber": "Другой номер",
   "@profileEditOtherNumber": { "description": "Back to entering the new number" },
   "profileEditPhoneChanged": "Номер изменён",
-  "@profileEditPhoneChanged": { "description": "Toast after the phone changed" }
+  "@profileEditPhoneChanged": { "description": "Toast after the phone changed" },
+
+  "notificationsReadAll": "Прочитать все",
+  "@notificationsReadAll": { "description": "Marks every notification read" },
+  "notificationsEarlier": "Ранее",
+  "@notificationsEarlier": { "description": "Group of notifications before today" },
+  "notificationsEmptyTitle": "Уведомлений пока нет",
+  "@notificationsEmptyTitle": { "description": "Empty notification centre" },
+  "notificationsEmptyText": "Здесь появятся новости о ваших заказах",
+  "@notificationsEmptyText": { "description": "Empty notification centre hint" },
+  "notificationsMarkRead": "Прочитано",
+  "@notificationsMarkRead": { "description": "Behind a row swiped to mark it read" },
+  "dateJustNow": "только что",
+  "@dateJustNow": { "description": "Less than a minute ago" },
+  "dateMinutesAgo": "{count} мин назад",
+  "@dateMinutesAgo": {
+    "description": "Minutes ago",
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "dateHoursAgo": "{count} ч назад",
+  "@dateHoursAgo": {
+    "description": "Hours ago",
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "notificationsUnread": "Непрочитанных: {count}",
+  "@notificationsUnread": {
+    "description": "Unread count above the list",
+    "placeholders": { "count": { "type": "int" } }
+  }
 }

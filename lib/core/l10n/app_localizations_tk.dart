@@ -1648,4 +1648,38 @@ class AppLocalizationsTk extends AppLocalizations {
 
   @override
   String get profileEditPhoneChanged => 'Belgi üýtgedildi';
+
+  @override
+  String get notificationsReadAll => 'Hemmesini okalan et';
+
+  @override
+  String get notificationsEarlier => 'Öňräk';
+
+  @override
+  String get notificationsEmptyTitle => 'Entek habarnama ýok';
+
+  @override
+  String get notificationsEmptyText =>
+      'Sargytlaryňyz barada täzelikler şu ýerde peýda bolar';
+
+  @override
+  String get notificationsMarkRead => 'Okaldy';
+
+  @override
+  String get dateJustNow => 'ýaňy';
+
+  @override
+  String dateMinutesAgo(int count) {
+    return '$count min öň';
+  }
+
+  @override
+  String dateHoursAgo(int count) {
+    return '$count sag öň';
+  }
+
+  @override
+  String notificationsUnread(int count) {
+    return 'Okalmadyk: $count';
+  }
 }

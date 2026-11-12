@@ -26,6 +26,8 @@ import 'package:tmshop/core/dev/fake_backend/fake_auth_backend.dart' as _i107;
 import 'package:tmshop/core/dev/fake_backend/fake_favourites_backend.dart'
     as _i994;
 import 'package:tmshop/core/dev/fake_backend/fake_orders_backend.dart' as _i435;
+import 'package:tmshop/core/dev/fake_backend/fake_settings_backend.dart'
+    as _i333;
 import 'package:tmshop/core/dev/fake_backend/fake_wallet_backend.dart'
     as _i1035;
 import 'package:tmshop/core/di/register_module.dart' as _i730;
@@ -165,6 +167,18 @@ import 'package:tmshop/features/product/domain/usecases/record_view_use_case.dar
     as _i568;
 import 'package:tmshop/features/product/presentation/bloc/product_bloc.dart'
     as _i448;
+import 'package:tmshop/features/settings/data/datasources/settings_remote_data_source.dart'
+    as _i48;
+import 'package:tmshop/features/settings/data/repositories/settings_repository_impl.dart'
+    as _i182;
+import 'package:tmshop/features/settings/domain/repositories/settings_repository.dart'
+    as _i461;
+import 'package:tmshop/features/settings/presentation/bloc/channel_link_cubit.dart'
+    as _i762;
+import 'package:tmshop/features/settings/presentation/bloc/delete_account_cubit.dart'
+    as _i827;
+import 'package:tmshop/features/settings/presentation/bloc/settings_cubit.dart'
+    as _i640;
 import 'package:tmshop/features/wallet/data/datasources/wallet_remote_data_source.dart'
     as _i892;
 import 'package:tmshop/features/wallet/data/repositories/wallet_repository_impl.dart'
@@ -313,6 +327,13 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i46.FakeFavouriteOffersRemoteDataSource(
         gh<_i566.NetworkInfo>(),
         gh<_i994.FakeFavouritesBackend>(),
+      ),
+      registerFor: {_dev},
+    );
+    gh.lazySingleton<_i333.FakeSettingsBackend>(
+      () => _i333.FakeSettingsBackend(
+        gh<_i435.FakeOrdersBackend>(),
+        gh<_i1035.FakeWalletBackend>(),
       ),
       registerFor: {_dev},
     );
@@ -466,6 +487,13 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i280.LocaleCubit>(
       () => _i280.LocaleCubit(gh<_i630.LocaleRepository>()),
     );
+    gh.lazySingleton<_i48.SettingsRemoteDataSource>(
+      () => _i48.FakeSettingsRemoteDataSource(
+        gh<_i566.NetworkInfo>(),
+        gh<_i333.FakeSettingsBackend>(),
+      ),
+      registerFor: {_dev},
+    );
     gh.lazySingleton<_i1026.OrdersRepository>(
       () => _i847.OrdersRepositoryImpl(
         gh<_i867.OrdersRemoteDataSource>(),
@@ -484,6 +512,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i1039.GetCartQuoteUseCase>(
       () => _i1039.GetCartQuoteUseCase(gh<_i142.CartQuoteRepository>()),
+    );
+    gh.lazySingleton<_i461.SettingsRepository>(
+      () => _i182.SettingsRepositoryImpl(gh<_i48.SettingsRemoteDataSource>()),
     );
     gh.factory<_i508.VariantPickerCubit>(
       () => _i508.VariantPickerCubit(gh<_i623.VariantsRepository>()),
@@ -552,6 +583,15 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i292.GetCachedCategoryTreeUseCase>(),
         gh<_i579.FetchCategoryTreeUseCase>(),
       ),
+    );
+    gh.factory<_i762.ChannelLinkCubit>(
+      () => _i762.ChannelLinkCubit(gh<_i461.SettingsRepository>()),
+    );
+    gh.factory<_i827.DeleteAccountCubit>(
+      () => _i827.DeleteAccountCubit(gh<_i461.SettingsRepository>()),
+    );
+    gh.factory<_i640.SettingsCubit>(
+      () => _i640.SettingsCubit(gh<_i461.SettingsRepository>()),
     );
     gh.factory<_i448.ProductBloc>(
       () => _i448.ProductBloc(

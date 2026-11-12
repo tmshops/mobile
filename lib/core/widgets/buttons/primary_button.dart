@@ -12,6 +12,7 @@ class PrimaryButton extends StatelessWidget {
     this.isLoading = false,
     this.isExpanded = true,
     this.size = AppButtonSize.large,
+    this.isDanger = false,
     super.key,
   });
 
@@ -26,6 +27,9 @@ class PrimaryButton extends StatelessWidget {
   final bool isExpanded;
   final AppButtonSize size;
 
+  /// Red, for an irreversible action such as deleting the account.
+  final bool isDanger;
+
   @override
   Widget build(BuildContext context) {
     final c = context.colors;
@@ -33,6 +37,7 @@ class PrimaryButton extends StatelessWidget {
         .copyWith(
           backgroundColor: WidgetStateProperty.resolveWith((states) {
             if (states.contains(WidgetState.disabled)) return c.divider;
+            if (isDanger) return c.danger;
             if (states.contains(WidgetState.pressed)) return c.primaryPressed;
             return c.primary;
           }),

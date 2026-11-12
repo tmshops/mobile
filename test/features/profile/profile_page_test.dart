@@ -60,6 +60,7 @@ void main() {
             onOpenPriceAlerts: () => taps.add('alerts'),
             onOpenBalance: () => taps.add('balance'),
             onOpenSurcharges: () => taps.add('surcharges'),
+            onOpenSettings: () => taps.add('settings'),
             onComingSoon: () => taps.add('soon'),
           ),
         ),
@@ -121,17 +122,16 @@ void main() {
     expect(find.text('+993 65 12 34 56'), findsOneWidget);
   });
 
-  testWidgets('sign-out asks first', (tester) async {
+  testWidgets('settings open from the menu; sign-out lives there', (
+    tester,
+  ) async {
     await pump(tester, const AuthState.signedIn(_customer));
-    final row = find.text(ru.profileSignOut);
+    final row = find.text(ru.profileSettings);
     await tester.ensureVisible(row);
     await tester.pump();
     await tester.tap(row);
-    await tester.pump(const Duration(milliseconds: 500));
-    expect(find.text(ru.profileSignOutTitle), findsOneWidget);
-    await tester.tap(find.text(ru.profileSignOut).last);
-    await tester.pump(const Duration(milliseconds: 500));
-    verify(() => cubits.auth.signOut()).called(1);
+    expect(taps, ['settings']);
+    expect(find.text(ru.profileSignOut), findsNothing);
   });
 
   for (final width in [360.0, 412.0]) {

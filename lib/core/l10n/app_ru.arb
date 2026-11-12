@@ -1151,5 +1151,96 @@
   "walletRefundApproved": "Одобрен",
   "@walletRefundApproved": { "description": "Refund status" },
   "walletRefundPaid": "Выплачен",
-  "@walletRefundPaid": { "description": "Refund status" }
+  "@walletRefundPaid": { "description": "Refund status" },
+
+  "settingsCodeChannel": "Код входа приходит в",
+  "@settingsCodeChannel": { "description": "Heading of the login-code channel choice" },
+  "settingsChannelSms": "SMS",
+  "@settingsChannelSms": { "description": "Code channel" },
+  "settingsChannelTelegram": "Telegram",
+  "@settingsChannelTelegram": { "description": "Code channel" },
+  "settingsChannelEmail": "Email",
+  "@settingsChannelEmail": { "description": "Code channel" },
+  "settingsLink": "Привязать",
+  "@settingsLink": { "description": "Links a channel or account not linked yet" },
+  "settingsRequired": "Обязательные",
+  "@settingsRequired": { "description": "Under a service notification type that cannot be turned off" },
+  "settingsLoadFailed": "Не удалось загрузить настройки аккаунта",
+  "@settingsLoadFailed": { "description": "Server settings failed to load" },
+  "settingsGoogle": "Google аккаунт",
+  "@settingsGoogle": { "description": "Google account row" },
+  "settingsAbout": "О приложении",
+  "@settingsAbout": { "description": "About row" },
+  "settingsVersion": "Версия {version}",
+  "@settingsVersion": {
+    "description": "App version",
+    "placeholders": { "version": { "type": "String" } }
+  },
+  "settingsDeleteAccount": "Удалить аккаунт",
+  "@settingsDeleteAccount": { "description": "Danger row and the deletion screen title" },
+  "settingsChannelLinked": "Код входа будет приходить в {channel}",
+  "@settingsChannelLinked": {
+    "description": "Toast after linking a channel",
+    "placeholders": { "channel": { "type": "String" } }
+  },
+  "settingsLinkTitle": "Привязать {channel}",
+  "@settingsLinkTitle": {
+    "description": "Channel link sheet title",
+    "placeholders": { "channel": { "type": "String" } }
+  },
+  "settingsEmailLabel": "Email",
+  "@settingsEmailLabel": { "description": "Email field label" },
+  "settingsGetCode": "Получить код",
+  "@settingsGetCode": { "description": "Sends a code to the email" },
+  "settingsEmailCodeSent": "Мы отправили код на почту. Введите его:",
+  "@settingsEmailCodeSent": { "description": "Above the email code field" },
+  "settingsTelegramSteps": "Откройте Telegram, найдите {bot} и отправьте ему этот код. Потом нажмите «Проверить».",
+  "@settingsTelegramSteps": {
+    "description": "How to link Telegram",
+    "placeholders": { "bot": { "type": "String" } }
+  },
+  "settingsTelegramNotYet": "Бот ещё не получил код. Отправьте его и проверьте снова",
+  "@settingsTelegramNotYet": { "description": "Telegram check found no message yet" },
+  "settingsTelegramCheck": "Проверить",
+  "@settingsTelegramCheck": { "description": "Checks that the bot got the code" },
+  "settingsCodeCopied": "Код скопирован",
+  "@settingsCodeCopied": { "description": "Toast after copying the Telegram code" },
+  "settingsDeleted": "Аккаунт удалён",
+  "@settingsDeleted": { "description": "Toast after deleting the account" },
+  "settingsDeleteTitle": "Удалить аккаунт?",
+  "@settingsDeleteTitle": { "description": "Deletion warning title" },
+  "settingsDeleteLoseOrders": "Удалятся заказы, посылки и история операций",
+  "@settingsDeleteLoseOrders": { "description": "Deletion consequence" },
+  "settingsDeleteLoseFavourites": "Удалятся избранное, адреса и подписки",
+  "@settingsDeleteLoseFavourites": { "description": "Deletion consequence" },
+  "settingsDeleteForever": "Восстановить аккаунт будет нельзя",
+  "@settingsDeleteForever": { "description": "Deletion consequence" },
+  "settingsDeleteActiveOrders": "{count, plural, one{{count} активный заказ} few{{count} активных заказа} other{{count} активных заказов}}. После удаления следить за ними в приложении не получится",
+  "@settingsDeleteActiveOrders": {
+    "description": "Warning about active orders",
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "settingsDeleteBalance": "На балансе {amount} — после удаления они сгорят. Потратьте их или напишите в поддержку",
+  "@settingsDeleteBalance": {
+    "description": "Warning about money left on the balance",
+    "placeholders": { "amount": { "type": "String" } }
+  },
+  "settingsDeleteBlocked": "Сейчас аккаунт удалить нельзя",
+  "@settingsDeleteBlocked": { "description": "Deletion refused without a server reason" },
+  "settingsDeletePayDebt": "Погасить долг {amount}",
+  "@settingsDeletePayDebt": {
+    "description": "Opens surcharges from the deletion screen",
+    "placeholders": { "amount": { "type": "String" } }
+  },
+  "settingsDeleteKeep": "Оставить аккаунт",
+  "@settingsDeleteKeep": { "description": "Leaves the deletion flow" },
+  "settingsDeleteCodeTitle": "Подтвердите удаление",
+  "@settingsDeleteCodeTitle": { "description": "Deletion code step title" },
+  "settingsDeleteCodeSent": "Код отправлен в SMS на {phone}",
+  "@settingsDeleteCodeSent": {
+    "description": "Where the deletion code went",
+    "placeholders": { "phone": { "type": "String" } }
+  },
+  "settingsDeleteFinal": "Удалить аккаунт навсегда",
+  "@settingsDeleteFinal": { "description": "Final destructive button" }
 }

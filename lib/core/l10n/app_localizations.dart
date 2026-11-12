@@ -2581,6 +2581,204 @@ abstract class AppLocalizations {
   /// In ru, this message translates to:
   /// **'Выплачен'**
   String get walletRefundPaid;
+
+  /// Heading of the login-code channel choice
+  ///
+  /// In ru, this message translates to:
+  /// **'Код входа приходит в'**
+  String get settingsCodeChannel;
+
+  /// Code channel
+  ///
+  /// In ru, this message translates to:
+  /// **'SMS'**
+  String get settingsChannelSms;
+
+  /// Code channel
+  ///
+  /// In ru, this message translates to:
+  /// **'Telegram'**
+  String get settingsChannelTelegram;
+
+  /// Code channel
+  ///
+  /// In ru, this message translates to:
+  /// **'Email'**
+  String get settingsChannelEmail;
+
+  /// Links a channel or account not linked yet
+  ///
+  /// In ru, this message translates to:
+  /// **'Привязать'**
+  String get settingsLink;
+
+  /// Under a service notification type that cannot be turned off
+  ///
+  /// In ru, this message translates to:
+  /// **'Обязательные'**
+  String get settingsRequired;
+
+  /// Server settings failed to load
+  ///
+  /// In ru, this message translates to:
+  /// **'Не удалось загрузить настройки аккаунта'**
+  String get settingsLoadFailed;
+
+  /// Google account row
+  ///
+  /// In ru, this message translates to:
+  /// **'Google аккаунт'**
+  String get settingsGoogle;
+
+  /// About row
+  ///
+  /// In ru, this message translates to:
+  /// **'О приложении'**
+  String get settingsAbout;
+
+  /// App version
+  ///
+  /// In ru, this message translates to:
+  /// **'Версия {version}'**
+  String settingsVersion(String version);
+
+  /// Danger row and the deletion screen title
+  ///
+  /// In ru, this message translates to:
+  /// **'Удалить аккаунт'**
+  String get settingsDeleteAccount;
+
+  /// Toast after linking a channel
+  ///
+  /// In ru, this message translates to:
+  /// **'Код входа будет приходить в {channel}'**
+  String settingsChannelLinked(String channel);
+
+  /// Channel link sheet title
+  ///
+  /// In ru, this message translates to:
+  /// **'Привязать {channel}'**
+  String settingsLinkTitle(String channel);
+
+  /// Email field label
+  ///
+  /// In ru, this message translates to:
+  /// **'Email'**
+  String get settingsEmailLabel;
+
+  /// Sends a code to the email
+  ///
+  /// In ru, this message translates to:
+  /// **'Получить код'**
+  String get settingsGetCode;
+
+  /// Above the email code field
+  ///
+  /// In ru, this message translates to:
+  /// **'Мы отправили код на почту. Введите его:'**
+  String get settingsEmailCodeSent;
+
+  /// How to link Telegram
+  ///
+  /// In ru, this message translates to:
+  /// **'Откройте Telegram, найдите {bot} и отправьте ему этот код. Потом нажмите «Проверить».'**
+  String settingsTelegramSteps(String bot);
+
+  /// Telegram check found no message yet
+  ///
+  /// In ru, this message translates to:
+  /// **'Бот ещё не получил код. Отправьте его и проверьте снова'**
+  String get settingsTelegramNotYet;
+
+  /// Checks that the bot got the code
+  ///
+  /// In ru, this message translates to:
+  /// **'Проверить'**
+  String get settingsTelegramCheck;
+
+  /// Toast after copying the Telegram code
+  ///
+  /// In ru, this message translates to:
+  /// **'Код скопирован'**
+  String get settingsCodeCopied;
+
+  /// Toast after deleting the account
+  ///
+  /// In ru, this message translates to:
+  /// **'Аккаунт удалён'**
+  String get settingsDeleted;
+
+  /// Deletion warning title
+  ///
+  /// In ru, this message translates to:
+  /// **'Удалить аккаунт?'**
+  String get settingsDeleteTitle;
+
+  /// Deletion consequence
+  ///
+  /// In ru, this message translates to:
+  /// **'Удалятся заказы, посылки и история операций'**
+  String get settingsDeleteLoseOrders;
+
+  /// Deletion consequence
+  ///
+  /// In ru, this message translates to:
+  /// **'Удалятся избранное, адреса и подписки'**
+  String get settingsDeleteLoseFavourites;
+
+  /// Deletion consequence
+  ///
+  /// In ru, this message translates to:
+  /// **'Восстановить аккаунт будет нельзя'**
+  String get settingsDeleteForever;
+
+  /// Warning about active orders
+  ///
+  /// In ru, this message translates to:
+  /// **'{count, plural, one{{count} активный заказ} few{{count} активных заказа} other{{count} активных заказов}}. После удаления следить за ними в приложении не получится'**
+  String settingsDeleteActiveOrders(int count);
+
+  /// Warning about money left on the balance
+  ///
+  /// In ru, this message translates to:
+  /// **'На балансе {amount} — после удаления они сгорят. Потратьте их или напишите в поддержку'**
+  String settingsDeleteBalance(String amount);
+
+  /// Deletion refused without a server reason
+  ///
+  /// In ru, this message translates to:
+  /// **'Сейчас аккаунт удалить нельзя'**
+  String get settingsDeleteBlocked;
+
+  /// Opens surcharges from the deletion screen
+  ///
+  /// In ru, this message translates to:
+  /// **'Погасить долг {amount}'**
+  String settingsDeletePayDebt(String amount);
+
+  /// Leaves the deletion flow
+  ///
+  /// In ru, this message translates to:
+  /// **'Оставить аккаунт'**
+  String get settingsDeleteKeep;
+
+  /// Deletion code step title
+  ///
+  /// In ru, this message translates to:
+  /// **'Подтвердите удаление'**
+  String get settingsDeleteCodeTitle;
+
+  /// Where the deletion code went
+  ///
+  /// In ru, this message translates to:
+  /// **'Код отправлен в SMS на {phone}'**
+  String settingsDeleteCodeSent(String phone);
+
+  /// Final destructive button
+  ///
+  /// In ru, this message translates to:
+  /// **'Удалить аккаунт навсегда'**
+  String get settingsDeleteFinal;
 }
 
 class _AppLocalizationsDelegate

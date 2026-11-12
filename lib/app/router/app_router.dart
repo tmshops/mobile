@@ -27,6 +27,7 @@ import '../../features/orders/presentation/pages/parcel_page.dart';
 import '../../features/orders/presentation/pages/parcels_page.dart';
 import '../../features/product/presentation/pages/product_page.dart';
 import '../../features/profile/presentation/pages/profile_page.dart';
+import '../../features/settings/presentation/pages/settings_page.dart';
 import '../../features/wallet/presentation/bloc/wallet_payment_cubit.dart';
 import '../../features/wallet/presentation/pages/balance_page.dart';
 import '../../features/wallet/presentation/pages/surcharges_page.dart';
@@ -124,6 +125,7 @@ GoRouter createAppRouter({
               onOpenPriceAlerts: () => context.push(AppRoutes.priceAlerts),
               onOpenBalance: () => context.push(AppRoutes.balance),
               onOpenSurcharges: () => context.push(AppRoutes.surcharges),
+              onOpenSettings: () => context.push(AppRoutes.settings),
               onComingSoon: () => showComingSoon(context),
             ),
             routes: _profileRoutes,
@@ -224,6 +226,26 @@ String? _guard(AuthState auth, Uri uri) {
 
 /// Orders, parcels, money, viewed and price alerts inside the Profile tab.
 final _profileRoutes = <RouteBase>[
+  GoRoute(
+    path: AppRoutes.settingsPath,
+    builder: (context, _) => SettingsPage(
+      onDeleteAccount: () => context.push(AppRoutes.deleteAccount),
+      // Back to the Profile root first: once signed out, every account
+      // route would redirect to login.
+      onSignedOut: () => context.go(AppRoutes.profile),
+      onGoogle: () => showComingSoon(context),
+    ),
+    routes: [
+      GoRoute(
+        path: AppRoutes.deleteAccountPath,
+        builder: (context, _) => DeleteAccountPage(
+          onPayDebt: () => context.push(AppRoutes.surcharges),
+          onKeep: () => context.pop(),
+          onDeleted: () => context.go(AppRoutes.profile),
+        ),
+      ),
+    ],
+  ),
   GoRoute(
     path: AppRoutes.balancePath,
     builder: (context, _) => BalancePage(

@@ -1529,4 +1529,129 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get walletRefundPaid => 'Выплачен';
+
+  @override
+  String get settingsCodeChannel => 'Код входа приходит в';
+
+  @override
+  String get settingsChannelSms => 'SMS';
+
+  @override
+  String get settingsChannelTelegram => 'Telegram';
+
+  @override
+  String get settingsChannelEmail => 'Email';
+
+  @override
+  String get settingsLink => 'Привязать';
+
+  @override
+  String get settingsRequired => 'Обязательные';
+
+  @override
+  String get settingsLoadFailed => 'Не удалось загрузить настройки аккаунта';
+
+  @override
+  String get settingsGoogle => 'Google аккаунт';
+
+  @override
+  String get settingsAbout => 'О приложении';
+
+  @override
+  String settingsVersion(String version) {
+    return 'Версия $version';
+  }
+
+  @override
+  String get settingsDeleteAccount => 'Удалить аккаунт';
+
+  @override
+  String settingsChannelLinked(String channel) {
+    return 'Код входа будет приходить в $channel';
+  }
+
+  @override
+  String settingsLinkTitle(String channel) {
+    return 'Привязать $channel';
+  }
+
+  @override
+  String get settingsEmailLabel => 'Email';
+
+  @override
+  String get settingsGetCode => 'Получить код';
+
+  @override
+  String get settingsEmailCodeSent => 'Мы отправили код на почту. Введите его:';
+
+  @override
+  String settingsTelegramSteps(String bot) {
+    return 'Откройте Telegram, найдите $bot и отправьте ему этот код. Потом нажмите «Проверить».';
+  }
+
+  @override
+  String get settingsTelegramNotYet =>
+      'Бот ещё не получил код. Отправьте его и проверьте снова';
+
+  @override
+  String get settingsTelegramCheck => 'Проверить';
+
+  @override
+  String get settingsCodeCopied => 'Код скопирован';
+
+  @override
+  String get settingsDeleted => 'Аккаунт удалён';
+
+  @override
+  String get settingsDeleteTitle => 'Удалить аккаунт?';
+
+  @override
+  String get settingsDeleteLoseOrders =>
+      'Удалятся заказы, посылки и история операций';
+
+  @override
+  String get settingsDeleteLoseFavourites =>
+      'Удалятся избранное, адреса и подписки';
+
+  @override
+  String get settingsDeleteForever => 'Восстановить аккаунт будет нельзя';
+
+  @override
+  String settingsDeleteActiveOrders(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count активных заказов',
+      few: '$count активных заказа',
+      one: '$count активный заказ',
+    );
+    return '$_temp0. После удаления следить за ними в приложении не получится';
+  }
+
+  @override
+  String settingsDeleteBalance(String amount) {
+    return 'На балансе $amount — после удаления они сгорят. Потратьте их или напишите в поддержку';
+  }
+
+  @override
+  String get settingsDeleteBlocked => 'Сейчас аккаунт удалить нельзя';
+
+  @override
+  String settingsDeletePayDebt(String amount) {
+    return 'Погасить долг $amount';
+  }
+
+  @override
+  String get settingsDeleteKeep => 'Оставить аккаунт';
+
+  @override
+  String get settingsDeleteCodeTitle => 'Подтвердите удаление';
+
+  @override
+  String settingsDeleteCodeSent(String phone) {
+    return 'Код отправлен в SMS на $phone';
+  }
+
+  @override
+  String get settingsDeleteFinal => 'Удалить аккаунт навсегда';
 }

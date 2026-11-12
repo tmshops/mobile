@@ -1478,4 +1478,123 @@ class AppLocalizationsTk extends AppLocalizations {
 
   @override
   String get walletRefundPaid => 'Tölendi';
+
+  @override
+  String get settingsCodeChannel => 'Giriş kody şu ýere gelýär';
+
+  @override
+  String get settingsChannelSms => 'SMS';
+
+  @override
+  String get settingsChannelTelegram => 'Telegram';
+
+  @override
+  String get settingsChannelEmail => 'E-poçta';
+
+  @override
+  String get settingsLink => 'Baglamak';
+
+  @override
+  String get settingsRequired => 'Hökmany';
+
+  @override
+  String get settingsLoadFailed => 'Hasabyň sazlamalaryny ýükläp bolmady';
+
+  @override
+  String get settingsGoogle => 'Google hasaby';
+
+  @override
+  String get settingsAbout => 'Programma barada';
+
+  @override
+  String settingsVersion(String version) {
+    return 'Wersiýa $version';
+  }
+
+  @override
+  String get settingsDeleteAccount => 'Hasaby pozmak';
+
+  @override
+  String settingsChannelLinked(String channel) {
+    return 'Giriş kody $channel arkaly geler';
+  }
+
+  @override
+  String settingsLinkTitle(String channel) {
+    return '$channel baglamak';
+  }
+
+  @override
+  String get settingsEmailLabel => 'E-poçta';
+
+  @override
+  String get settingsGetCode => 'Kod almak';
+
+  @override
+  String get settingsEmailCodeSent =>
+      'Kody e-poçtaňyza iberdik. Şu ýere giriziň:';
+
+  @override
+  String settingsTelegramSteps(String bot) {
+    return 'Telegram-y açyň, $bot tapyň we oňa şu kody iberiň. Soňra «Barlamak» basyň.';
+  }
+
+  @override
+  String get settingsTelegramNotYet =>
+      'Bot entek kody almady. Iberiň we täzeden barlaň';
+
+  @override
+  String get settingsTelegramCheck => 'Barlamak';
+
+  @override
+  String get settingsCodeCopied => 'Kod göçürildi';
+
+  @override
+  String get settingsDeleted => 'Hasap pozuldy';
+
+  @override
+  String get settingsDeleteTitle => 'Hasaby pozmalymy?';
+
+  @override
+  String get settingsDeleteLoseOrders =>
+      'Sargytlar, posylkalar we amallaryň taryhy pozular';
+
+  @override
+  String get settingsDeleteLoseFavourites =>
+      'Halanlar, salgylar we ýazylmalar pozular';
+
+  @override
+  String get settingsDeleteForever => 'Hasaby dikeltmek mümkin bolmaz';
+
+  @override
+  String settingsDeleteActiveOrders(int count) {
+    return 'Işjeň sargytlar: $count. Pozulandan soň olary programmada yzarlap bolmaz';
+  }
+
+  @override
+  String settingsDeleteBalance(String amount) {
+    return 'Balansda $amount bar — pozulandan soň ýanar. Olary harçlaň ýa-da goldawa ýazyň';
+  }
+
+  @override
+  String get settingsDeleteBlocked => 'Häzir hasaby pozup bolmaýar';
+
+  @override
+  String settingsDeletePayDebt(String amount) {
+    return '$amount bergini üzmek';
+  }
+
+  @override
+  String get settingsDeleteKeep => 'Hasaby galdyrmak';
+
+  @override
+  String get settingsDeleteCodeTitle => 'Pozmagy tassyklaň';
+
+  @override
+  String settingsDeleteCodeSent(String phone) {
+    return 'Kod SMS bilen $phone belgä iberildi';
+  }
+
+  @override
+  String get settingsDeleteFinal => 'Hasaby hemişelik pozmak';
 }

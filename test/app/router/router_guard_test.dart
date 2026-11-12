@@ -111,6 +111,8 @@ void main() {
 
   test('money screens need an account; a parcel opens its payment', () {
     expect(AppRoutes.needsLogin(AppRoutes.balance), isTrue);
+    expect(AppRoutes.needsLogin(AppRoutes.settings), isTrue);
+    expect(AppRoutes.needsLogin(AppRoutes.deleteAccount), isTrue);
     expect(AppRoutes.needsLogin(AppRoutes.walletPay), isTrue);
     final link = AppRoutes.surchargesWith(payParcel: 'P-5518');
     expect(AppRoutes.needsLogin(link), isTrue);

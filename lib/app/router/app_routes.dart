@@ -59,6 +59,13 @@ abstract final class AppRoutes {
         },
       ).toString();
 
+  static const settingsPath = 'settings';
+  static const settings = '$profile/$settingsPath';
+
+  /// Relative to [settings].
+  static const deleteAccountPath = 'delete-account';
+  static const deleteAccount = '$settings/$deleteAccountPath';
+
   static const viewedPath = 'viewed';
   static const viewed = '$profile/$viewedPath';
 
@@ -113,6 +120,7 @@ abstract final class AppRoutes {
       location.startsWith(parcels) ||
       location.startsWith(priceAlerts) ||
       location.startsWith(balance) ||
+      location.startsWith(settings) ||
       location.startsWith(surcharges) ||
       location.startsWith(walletPay) ||
       location.startsWith('/pay/');

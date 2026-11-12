@@ -13,12 +13,18 @@ class CartPage extends StatelessWidget {
   const CartPage({
     required this.onOpenProduct,
     required this.onOpenCatalog,
+    required this.onCheckout,
     required this.onComingSoon,
     super.key,
   });
 
   final ValueChanged<String> onOpenProduct;
   final VoidCallback onOpenCatalog;
+
+  /// Opens checkout with the promo code accepted here, if any.
+  final ValueChanged<String?> onCheckout;
+
+  /// Quick order is not built yet.
   final VoidCallback onComingSoon;
 
   @override
@@ -35,6 +41,7 @@ class CartPage extends StatelessWidget {
       child: CartView(
         onOpenProduct: onOpenProduct,
         onOpenCatalog: onOpenCatalog,
+        onCheckout: onCheckout,
         onComingSoon: onComingSoon,
       ),
     );

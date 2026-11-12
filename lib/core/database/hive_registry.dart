@@ -14,12 +14,20 @@ abstract final class HiveBoxes {
 
   /// Guest cart lines as one JSON list. `Box<String>`.
   static const cart = 'cart';
+
+  /// Personal data of the signed-in customer: profile, orders and parcels
+  /// as JSON. Cleared on sign-out (TZ §7.2). `LazyBox<String>`.
+  static const account = 'account';
 }
 
 /// Keys inside [HiveBoxes.settings].
 abstract final class SettingsKeys {
   static const languageCode = 'language_code';
   static const regionId = 'region_id';
+
+  /// Last checkout recipient and courier address (JSON) until login.
+  static const checkoutRecipient = 'checkout_recipient';
+  static const checkoutAddress = 'checkout_address';
 }
 
 /// Adapter type ids. None yet: cached API responses are stored as JSON

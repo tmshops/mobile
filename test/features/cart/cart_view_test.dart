@@ -23,11 +23,13 @@ void main() {
   late GlobalCubits cubits;
   late int openedCatalog;
   late int comingSoon;
+  late List<String?> checkouts;
 
   setUp(() {
     quoteBloc = _MockQuoteBloc();
     openedCatalog = 0;
     comingSoon = 0;
+    checkouts = [];
   });
 
   Future<void> pump(
@@ -74,6 +76,7 @@ void main() {
           home: CartView(
             onOpenProduct: (_) {},
             onOpenCatalog: () => openedCatalog++,
+            onCheckout: checkouts.add,
             onComingSoon: () => comingSoon++,
           ),
         ),
@@ -132,15 +135,13 @@ void main() {
     await tester.pumpWidget(const SizedBox());
   });
 
-  testWidgets('enough ticked: «Оформить» says checkout is coming', (
-    tester,
-  ) async {
+  testWidgets('enough ticked: «Оформить» opens checkout', (tester) async {
     final cart = CartState(
       items: [for (final l in sampleCart('ru')) l.copyWith(quantity: 5)],
     );
     await pump(tester, cart: cart, quote: quoted('ru', cart));
     await tester.tap(find.text('Оформить'));
-    expect(comingSoon, 1);
+    expect(checkouts, [null]);
     await tester.pumpWidget(const SizedBox());
   });
 

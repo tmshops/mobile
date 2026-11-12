@@ -21,6 +21,7 @@ class CartView extends StatelessWidget {
   const CartView({
     required this.onOpenProduct,
     required this.onOpenCatalog,
+    required this.onCheckout,
     required this.onComingSoon,
     super.key,
   });
@@ -28,7 +29,10 @@ class CartView extends StatelessWidget {
   final ValueChanged<String> onOpenProduct;
   final VoidCallback onOpenCatalog;
 
-  /// Checkout and quick order are not built yet.
+  /// Opens checkout with the promo code accepted here, if any.
+  final ValueChanged<String?> onCheckout;
+
+  /// Quick order is not built yet.
   final VoidCallback onComingSoon;
 
   @override
@@ -66,6 +70,7 @@ class CartView extends StatelessWidget {
             quoteState: quoteState,
             onOpenProduct: onOpenProduct,
             onOpenCatalog: onOpenCatalog,
+            onCheckout: onCheckout,
             onComingSoon: onComingSoon,
           ),
         ),
@@ -80,6 +85,7 @@ class _CartScaffold extends StatelessWidget {
     required this.quoteState,
     required this.onOpenProduct,
     required this.onOpenCatalog,
+    required this.onCheckout,
     required this.onComingSoon,
   });
 
@@ -87,6 +93,11 @@ class _CartScaffold extends StatelessWidget {
   final CartQuoteState quoteState;
   final ValueChanged<String> onOpenProduct;
   final VoidCallback onOpenCatalog;
+
+  /// Opens checkout with the promo code accepted here, if any.
+  final ValueChanged<String?> onCheckout;
+
+  /// Quick order is not built yet.
   final VoidCallback onComingSoon;
 
   @override
@@ -137,7 +148,9 @@ class _CartScaffold extends StatelessWidget {
         summary: quote?.summary,
         isLoading: quoteState.isLoading,
         canCheckout: canCheckout,
-        onCheckout: onComingSoon,
+        onCheckout: () => onCheckout(
+          quote?.promo?.isApplied ?? false ? quote?.promo?.code : null,
+        ),
         onQuickOrder: onComingSoon,
       ),
       slivers: [

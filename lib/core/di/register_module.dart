@@ -1,4 +1,5 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hive_ce_flutter/hive_ce_flutter.dart';
 import 'package:injectable/injectable.dart';
 
@@ -9,6 +10,9 @@ import '../database/hive_registry.dart';
 abstract class RegisterModule {
   @lazySingleton
   Connectivity get connectivity => Connectivity();
+
+  @lazySingleton
+  FlutterSecureStorage get secureStorage => const FlutterSecureStorage();
 
   @preResolve
   @Named(HiveBoxes.settings)
@@ -33,4 +37,10 @@ abstract class RegisterModule {
   @Named(HiveBoxes.cart)
   @singleton
   Future<Box<String>> get cartBox => Hive.openBox<String>(HiveBoxes.cart);
+
+  @preResolve
+  @Named(HiveBoxes.account)
+  @singleton
+  Future<LazyBox<String>> get accountBox =>
+      Hive.openLazyBox<String>(HiveBoxes.account);
 }

@@ -11,12 +11,19 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 
 import 'package:connectivity_plus/connectivity_plus.dart' as _i895;
+import 'package:flutter_secure_storage/flutter_secure_storage.dart' as _i558;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:hive_ce/hive_ce.dart' as _i1055;
 import 'package:hive_ce_flutter/hive_ce_flutter.dart' as _i965;
 import 'package:injectable/injectable.dart' as _i526;
+import 'package:tmshop/core/auth/auth_cubit.dart' as _i154;
+import 'package:tmshop/core/auth/session_data.dart' as _i734;
+import 'package:tmshop/core/auth/session_repository.dart' as _i238;
+import 'package:tmshop/core/auth/token_storage.dart' as _i274;
 import 'package:tmshop/core/cart/cart_cubit.dart' as _i1001;
 import 'package:tmshop/core/cart/cart_repository.dart' as _i361;
+import 'package:tmshop/core/dev/fake_backend/fake_auth_backend.dart' as _i107;
+import 'package:tmshop/core/dev/fake_backend/fake_orders_backend.dart' as _i435;
 import 'package:tmshop/core/di/register_module.dart' as _i730;
 import 'package:tmshop/core/locale/locale_cubit.dart' as _i280;
 import 'package:tmshop/core/locale/locale_repository.dart' as _i630;
@@ -25,6 +32,15 @@ import 'package:tmshop/core/network/network_info.dart' as _i566;
 import 'package:tmshop/core/region/region_cubit.dart' as _i627;
 import 'package:tmshop/core/region/region_data_source.dart' as _i19;
 import 'package:tmshop/core/region/region_repository.dart' as _i526;
+import 'package:tmshop/features/auth/data/datasources/login_remote_data_source.dart'
+    as _i14;
+import 'package:tmshop/features/auth/data/repositories/login_repository_impl.dart'
+    as _i300;
+import 'package:tmshop/features/auth/domain/repositories/login_repository.dart'
+    as _i717;
+import 'package:tmshop/features/auth/domain/usecases/login_use_cases.dart'
+    as _i923;
+import 'package:tmshop/features/auth/presentation/bloc/login_bloc.dart' as _i26;
 import 'package:tmshop/features/cart/data/datasources/cart_remote_data_source.dart'
     as _i408;
 import 'package:tmshop/features/cart/data/repositories/cart_quote_repository_impl.dart'
@@ -65,6 +81,18 @@ import 'package:tmshop/features/catalog/presentation/bloc/category_tree_bloc.dar
     as _i733;
 import 'package:tmshop/features/catalog/presentation/bloc/filters_bloc.dart'
     as _i613;
+import 'package:tmshop/features/checkout/data/datasources/checkout_data_sources.dart'
+    as _i932;
+import 'package:tmshop/features/checkout/data/repositories/checkout_repository_impl.dart'
+    as _i504;
+import 'package:tmshop/features/checkout/domain/repositories/checkout_repository.dart'
+    as _i837;
+import 'package:tmshop/features/checkout/domain/usecases/checkout_use_cases.dart'
+    as _i779;
+import 'package:tmshop/features/checkout/presentation/bloc/checkout_bloc.dart'
+    as _i888;
+import 'package:tmshop/features/checkout/presentation/bloc/payment_cubit.dart'
+    as _i850;
 import 'package:tmshop/features/home/data/datasources/fake_home_remote_data_source.dart'
     as _i251;
 import 'package:tmshop/features/home/data/datasources/home_local_data_source.dart'
@@ -84,6 +112,20 @@ import 'package:tmshop/features/home/domain/usecases/get_recommendations_use_cas
 import 'package:tmshop/features/home/presentation/bloc/for_you_bloc.dart'
     as _i594;
 import 'package:tmshop/features/home/presentation/bloc/home_bloc.dart' as _i621;
+import 'package:tmshop/features/orders/data/datasources/orders_data_sources.dart'
+    as _i867;
+import 'package:tmshop/features/orders/data/repositories/orders_repository_impl.dart'
+    as _i847;
+import 'package:tmshop/features/orders/domain/repositories/orders_repository.dart'
+    as _i1026;
+import 'package:tmshop/features/orders/domain/usecases/orders_use_cases.dart'
+    as _i642;
+import 'package:tmshop/features/orders/presentation/bloc/order_cubit.dart'
+    as _i756;
+import 'package:tmshop/features/orders/presentation/bloc/orders_cubit.dart'
+    as _i41;
+import 'package:tmshop/features/orders/presentation/bloc/parcel_cubits.dart'
+    as _i706;
 import 'package:tmshop/features/product/data/datasources/fake_product_remote_data_source.dart'
     as _i682;
 import 'package:tmshop/features/product/data/datasources/product_remote_data_source.dart'
@@ -112,19 +154,38 @@ extension GetItInjectableX on _i174.GetIt {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
     final registerModule = _$RegisterModule();
     gh.lazySingleton<_i895.Connectivity>(() => registerModule.connectivity);
+    gh.lazySingleton<_i558.FlutterSecureStorage>(
+      () => registerModule.secureStorage,
+    );
     await gh.singletonAsync<_i965.LazyBox<String>>(
       () => registerModule.catalogCacheBox,
       instanceName: 'catalog_cache',
       preResolve: true,
+    );
+    gh.lazySingleton<_i107.FakeAuthBackend>(
+      () => _i107.FakeAuthBackend(),
+      registerFor: {_dev},
+    );
+    gh.lazySingleton<_i435.FakeOrdersBackend>(
+      () => _i435.FakeOrdersBackend(),
+      registerFor: {_dev},
     );
     await gh.singletonAsync<_i965.Box<String>>(
       () => registerModule.settingsBox,
       instanceName: 'settings',
       preResolve: true,
     );
+    gh.lazySingleton<_i274.TokenStorage>(
+      () => _i274.SecureTokenStorage(gh<_i558.FlutterSecureStorage>()),
+    );
     await gh.singletonAsync<_i965.Box<String>>(
       () => registerModule.cartBox,
       instanceName: 'cart',
+      preResolve: true,
+    );
+    await gh.singletonAsync<_i965.LazyBox<String>>(
+      () => registerModule.accountBox,
+      instanceName: 'account',
       preResolve: true,
     );
     await gh.singletonAsync<_i965.LazyBox<String>>(
@@ -166,15 +227,41 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i1055.LazyBox<String>>(instanceName: 'catalog_cache'),
       ),
     );
+    gh.lazySingleton<_i932.CheckoutLocalDataSource>(
+      () => _i932.CheckoutLocalDataSource(
+        gh<_i1055.Box<String>>(instanceName: 'settings'),
+      ),
+    );
     gh.lazySingleton<_i630.LocaleRepository>(
       () => _i630.LocaleRepositoryImpl(
         gh<_i1055.Box<String>>(instanceName: 'settings'),
       ),
     );
+    gh.lazySingleton<_i867.OrdersRemoteDataSource>(
+      () => _i867.FakeOrdersRemoteDataSource(
+        gh<_i435.FakeOrdersBackend>(),
+        gh<_i566.NetworkInfo>(),
+      ),
+      registerFor: {_dev},
+    );
     gh.lazySingleton<_i795.HomeLocalDataSource>(
       () => _i795.HomeLocalDataSourceImpl(
         gh<_i1055.LazyBox<String>>(instanceName: 'home_cache'),
       ),
+    );
+    gh.lazySingleton<_i14.LoginRemoteDataSource>(
+      () => _i14.FakeLoginRemoteDataSource(
+        gh<_i107.FakeAuthBackend>(),
+        gh<_i566.NetworkInfo>(),
+      ),
+      registerFor: {_dev},
+    );
+    gh.lazySingleton<_i932.CheckoutRemoteDataSource>(
+      () => _i932.FakeCheckoutRemoteDataSource(
+        gh<_i566.NetworkInfo>(),
+        gh<_i435.FakeOrdersBackend>(),
+      ),
+      registerFor: {_dev},
     );
     gh.lazySingleton<_i526.RegionRepository>(
       () => _i526.RegionRepositoryImpl(
@@ -184,6 +271,11 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i627.RegionCubit>(
       () => _i627.RegionCubit(gh<_i526.RegionRepository>()),
+    );
+    gh.lazySingleton<_i867.OrdersLocalDataSource>(
+      () => _i867.OrdersLocalDataSource(
+        gh<_i1055.LazyBox<String>>(instanceName: 'account'),
+      ),
     );
     gh.lazySingleton<_i142.CartQuoteRepository>(
       () => _i531.CartQuoteRepositoryImpl(gh<_i408.CartRemoteDataSource>()),
@@ -201,6 +293,13 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i164.CatalogRemoteDataSource>(),
         gh<_i49.CatalogLocalDataSource>(),
       ),
+    );
+    gh.lazySingleton<_i734.SessionRemoteDataSource>(
+      () => _i734.FakeSessionRemoteDataSource(
+        gh<_i107.FakeAuthBackend>(),
+        gh<_i566.NetworkInfo>(),
+      ),
+      registerFor: {_dev},
     );
     gh.lazySingleton<_i465.HomeRepository>(
       () => _i740.HomeRepositoryImpl(
@@ -232,6 +331,12 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i895.FetchHomeUseCase>(),
       ),
     );
+    gh.lazySingleton<_i837.CheckoutRepository>(
+      () => _i504.CheckoutRepositoryImpl(
+        gh<_i932.CheckoutRemoteDataSource>(),
+        gh<_i932.CheckoutLocalDataSource>(),
+      ),
+    );
     gh.factory<_i594.ForYouBloc>(
       () => _i594.ForYouBloc(gh<_i113.GetRecommendationsUseCase>()),
     );
@@ -245,11 +350,24 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i86.GetDeliveryQuotesUseCase>(),
       ),
     );
+    gh.lazySingleton<_i1026.OrdersRepository>(
+      () => _i847.OrdersRepositoryImpl(
+        gh<_i867.OrdersRemoteDataSource>(),
+        gh<_i867.OrdersLocalDataSource>(),
+      ),
+    );
     gh.lazySingleton<_i1039.GetCartQuoteUseCase>(
       () => _i1039.GetCartQuoteUseCase(gh<_i142.CartQuoteRepository>()),
     );
     gh.lazySingleton<_i189.GetProductVariantsUseCase>(
       () => _i189.GetProductVariantsUseCase(gh<_i142.CartQuoteRepository>()),
+    );
+    gh.lazySingleton<_i238.SessionRepository>(
+      () => _i238.SessionRepositoryImpl(
+        gh<_i734.SessionRemoteDataSource>(),
+        gh<_i274.TokenStorage>(),
+        gh<_i1055.LazyBox<String>>(instanceName: 'account'),
+      ),
     );
     gh.lazySingleton<_i579.FetchCategoryTreeUseCase>(
       () => _i579.FetchCategoryTreeUseCase(gh<_i470.CatalogRepository>()),
@@ -266,6 +384,40 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i128.GetCategoryUseCase>(
       () => _i128.GetCategoryUseCase(gh<_i470.CatalogRepository>()),
     );
+    gh.lazySingleton<_i779.LoadSavedRecipientUseCase>(
+      () => _i779.LoadSavedRecipientUseCase(gh<_i837.CheckoutRepository>()),
+    );
+    gh.lazySingleton<_i779.GetCheckoutPreviewUseCase>(
+      () => _i779.GetCheckoutPreviewUseCase(gh<_i837.CheckoutRepository>()),
+    );
+    gh.lazySingleton<_i779.PlaceOrderUseCase>(
+      () => _i779.PlaceOrderUseCase(gh<_i837.CheckoutRepository>()),
+    );
+    gh.lazySingleton<_i779.RestartPaymentUseCase>(
+      () => _i779.RestartPaymentUseCase(gh<_i837.CheckoutRepository>()),
+    );
+    gh.lazySingleton<_i779.GetPaymentStatusUseCase>(
+      () => _i779.GetPaymentStatusUseCase(gh<_i837.CheckoutRepository>()),
+    );
+    gh.factory<_i888.CheckoutBloc>(
+      () => _i888.CheckoutBloc(
+        gh<_i779.LoadSavedRecipientUseCase>(),
+        gh<_i779.GetCheckoutPreviewUseCase>(),
+        gh<_i779.PlaceOrderUseCase>(),
+      ),
+    );
+    gh.lazySingleton<_i717.LoginRepository>(
+      () => _i300.LoginRepositoryImpl(
+        gh<_i14.LoginRemoteDataSource>(),
+        gh<_i238.SessionRepository>(),
+      ),
+    );
+    gh.factory<_i850.PaymentCubit>(
+      () => _i850.PaymentCubit(
+        gh<_i779.GetPaymentStatusUseCase>(),
+        gh<_i779.RestartPaymentUseCase>(),
+      ),
+    );
     gh.factory<_i733.CategoryTreeBloc>(
       () => _i733.CategoryTreeBloc(
         gh<_i292.GetCachedCategoryTreeUseCase>(),
@@ -275,16 +427,78 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i365.CartQuoteBloc>(
       () => _i365.CartQuoteBloc(gh<_i1039.GetCartQuoteUseCase>()),
     );
+    gh.lazySingleton<_i642.GetOrdersUseCase>(
+      () => _i642.GetOrdersUseCase(gh<_i1026.OrdersRepository>()),
+    );
+    gh.lazySingleton<_i642.GetOrderUseCase>(
+      () => _i642.GetOrderUseCase(gh<_i1026.OrdersRepository>()),
+    );
+    gh.lazySingleton<_i642.GetParcelsUseCase>(
+      () => _i642.GetParcelsUseCase(gh<_i1026.OrdersRepository>()),
+    );
+    gh.lazySingleton<_i642.GetParcelUseCase>(
+      () => _i642.GetParcelUseCase(gh<_i1026.OrdersRepository>()),
+    );
+    gh.lazySingleton<_i642.CancelOrderUseCase>(
+      () => _i642.CancelOrderUseCase(gh<_i1026.OrdersRepository>()),
+    );
+    gh.lazySingleton<_i642.ResolveProblemUseCase>(
+      () => _i642.ResolveProblemUseCase(gh<_i1026.OrdersRepository>()),
+    );
+    gh.lazySingleton<_i642.RepeatOrderUseCase>(
+      () => _i642.RepeatOrderUseCase(gh<_i1026.OrdersRepository>()),
+    );
+    gh.lazySingleton<_i642.SendParcelNowUseCase>(
+      () => _i642.SendParcelNowUseCase(gh<_i1026.OrdersRepository>()),
+    );
+    gh.factory<_i154.AuthCubit>(
+      () => _i154.AuthCubit(gh<_i238.SessionRepository>()),
+    );
     gh.factory<_i613.FiltersBloc>(
       () => _i613.FiltersBloc(gh<_i970.GetCategoryFacetsUseCase>()),
     );
+    gh.factory<_i706.ParcelsCubit>(
+      () => _i706.ParcelsCubit(gh<_i642.GetParcelsUseCase>()),
+    );
     gh.factory<_i81.VariantPickerCubit>(
       () => _i81.VariantPickerCubit(gh<_i189.GetProductVariantsUseCase>()),
+    );
+    gh.factory<_i41.OrdersCubit>(
+      () => _i41.OrdersCubit(
+        gh<_i642.GetOrdersUseCase>(),
+        gh<_i642.RepeatOrderUseCase>(),
+      ),
     );
     gh.factory<_i729.CategoryProductsBloc>(
       () => _i729.CategoryProductsBloc(
         gh<_i128.GetCategoryUseCase>(),
         gh<_i98.GetCategoryProductsUseCase>(),
+      ),
+    );
+    gh.factory<_i706.ParcelCubit>(
+      () => _i706.ParcelCubit(
+        gh<_i642.GetParcelUseCase>(),
+        gh<_i642.SendParcelNowUseCase>(),
+      ),
+    );
+    gh.lazySingleton<_i923.RequestCodeUseCase>(
+      () => _i923.RequestCodeUseCase(gh<_i717.LoginRepository>()),
+    );
+    gh.lazySingleton<_i923.VerifyCodeUseCase>(
+      () => _i923.VerifyCodeUseCase(gh<_i717.LoginRepository>()),
+    );
+    gh.factory<_i26.LoginBloc>(
+      () => _i26.LoginBloc(
+        gh<_i923.RequestCodeUseCase>(),
+        gh<_i923.VerifyCodeUseCase>(),
+      ),
+    );
+    gh.factory<_i756.OrderCubit>(
+      () => _i756.OrderCubit(
+        gh<_i642.GetOrderUseCase>(),
+        gh<_i642.CancelOrderUseCase>(),
+        gh<_i642.ResolveProblemUseCase>(),
+        gh<_i642.RepeatOrderUseCase>(),
       ),
     );
     return this;

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../theme/theme.dart';
+import '../selection/radio_mark.dart';
 
 /// Radio card for a delivery type (air / express / truck).
 ///
@@ -92,7 +93,7 @@ class DeliveryOptionCard extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: AppSpacing.x8),
-                  _RadioMark(isSelected: isSelected),
+                  RadioMark(isSelected: isSelected),
                 ],
               ),
             ),
@@ -120,43 +121,6 @@ class _IconCircle extends StatelessWidget {
         shape: BoxShape.circle,
       ),
       child: Icon(icon, size: AppSizes.icon, color: c.primary),
-    );
-  }
-}
-
-class _RadioMark extends StatelessWidget {
-  const _RadioMark({required this.isSelected});
-
-  final bool isSelected;
-
-  static const double _outer = 22;
-  static const double _inner = 10;
-
-  @override
-  Widget build(BuildContext context) {
-    final c = context.colors;
-    return AnimatedContainer(
-      duration: AppMotion.of(context, AppMotion.fast),
-      width: _outer,
-      height: _outer,
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        border: Border.all(
-          color: isSelected ? c.primary : c.inkTertiary,
-          width: AppSizes.selectedBorder,
-        ),
-      ),
-      child: isSelected
-          ? Container(
-              width: _inner,
-              height: _inner,
-              decoration: BoxDecoration(
-                color: c.primary,
-                shape: BoxShape.circle,
-              ),
-            )
-          : null,
     );
   }
 }

@@ -289,4 +289,166 @@ abstract final class AppIcons {
     fontFamily: _regular,
     fontPackage: _package,
   );
+
+  // ── Account, orders, parcels ──
+  static const IconData user = IconData(
+    0xe4c2,
+    fontFamily: _regular,
+    fontPackage: _package,
+  );
+  static const IconData phone = IconData(
+    0xe3b8,
+    fontFamily: _regular,
+    fontPackage: _package,
+  );
+  static const IconData copy = IconData(
+    0xe1ca,
+    fontFamily: _regular,
+    fontPackage: _package,
+  );
+  static const IconData mapPin = IconData(
+    0xe316,
+    fontFamily: _regular,
+    fontPackage: _package,
+  );
+  static const IconData signOut = IconData(
+    0xe42a,
+    fontFamily: _regular,
+    fontPackage: _package,
+  );
+  static const IconData wallet = IconData(
+    0xe68a,
+    fontFamily: _regular,
+    fontPackage: _package,
+  );
+  static const IconData receipt = IconData(
+    0xe3ec,
+    fontFamily: _regular,
+    fontPackage: _package,
+  );
+  static const IconData support = IconData(
+    0xe584,
+    fontFamily: _regular,
+    fontPackage: _package,
+  );
+  static const IconData settings = IconData(
+    0xe270,
+    fontFamily: _regular,
+    fontPackage: _package,
+  );
+  static const IconData viewed = IconData(
+    0xe220,
+    fontFamily: _regular,
+    fontPackage: _package,
+  );
+  static const IconData priceAlert = IconData(
+    0xe478,
+    fontFamily: _regular,
+    fontPackage: _package,
+  );
+  static const IconData refund = IconData(
+    0xe038,
+    fontFamily: _regular,
+    fontPackage: _package,
+  );
+  static const IconData customs = IconData(
+    0xe40c,
+    fontFamily: _regular,
+    fontPackage: _package,
+  );
+  static const IconData arrived = IconData(
+    0xe2c2,
+    fontFamily: _regular,
+    fontPackage: _package,
+  );
+  static const IconData handover = IconData(
+    0xe470,
+    fontFamily: _regular,
+    fontPackage: _package,
+  );
+  static const IconData google = IconData(
+    0xe292,
+    fontFamily: _regular,
+    fontPackage: _package,
+  );
+  static const IconData calendar = IconData(
+    0xe108,
+    fontFamily: _regular,
+    fontPackage: _package,
+  );
+  static const IconData lock = IconData(
+    0xe2fa,
+    fontFamily: _regular,
+    fontPackage: _package,
+  );
+  static const IconData coins = IconData(
+    0xe588,
+    fontFamily: _regular,
+    fontPackage: _package,
+  );
+  static const IconData qrCode = IconData(
+    0xe3e6,
+    fontFamily: _regular,
+    fontPackage: _package,
+  );
+  static const IconData scales = IconData(
+    0xe750,
+    fontFamily: _regular,
+    fontPackage: _package,
+  );
+  static const IconData problem = IconData(
+    0xe4e2,
+    fontFamily: _regular,
+    fontPackage: _package,
+  );
+  static const IconData cancelled = IconData(
+    0xe4f8,
+    fontFamily: _regular,
+    fontPackage: _package,
+  );
+  static const IconData wholesale = IconData(
+    0xe0ee,
+    fontFamily: _regular,
+    fontPackage: _package,
+  );
+  static const IconData question = IconData(
+    0xe3e8,
+    fontFamily: _regular,
+    fontPackage: _package,
+  );
+  static const IconData inTransit = IconData(
+    0xe002,
+    fontFamily: _regular,
+    fontPackage: _package,
+  );
+  static const IconData courier = IconData(
+    0xe4b4,
+    fontFamily: _regular,
+    fontPackage: _package,
+  );
+  static const IconData forming = IconData(
+    0xe1da,
+    fontFamily: _regular,
+    fontPackage: _package,
+  );
+  static const IconData timer = IconData(
+    0xe492,
+    fontFamily: _regular,
+    fontPackage: _package,
+  );
+  static const IconData order = IconData(
+    0xe416,
+    fontFamily: _regular,
+    fontPackage: _package,
+  );
+  static const IconData address = IconData(
+    0xe31a,
+    fontFamily: _regular,
+    fontPackage: _package,
+  );
+  static const IconData chat = IconData(
+    0xe16e,
+    fontFamily: _regular,
+    fontPackage: _package,
+  );
 }

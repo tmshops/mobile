@@ -372,6 +372,182 @@ class AppLocalizationsTk extends AppLocalizations {
   String get cartBreakdownTitle => 'Sargydyň jemi';
 
   @override
+  String get checkoutTitle => 'Sargyt resmileşdirmek';
+
+  @override
+  String get checkoutRecipient => 'Alyjy';
+
+  @override
+  String get checkoutFirstName => 'Ady';
+
+  @override
+  String get checkoutLastName => 'Familiýasy';
+
+  @override
+  String get checkoutEdit => 'Üýtget';
+
+  @override
+  String get checkoutRecipientError =>
+      'Adyňyzy, familiýaňyzy we telefonyňyzy görkeziň';
+
+  @override
+  String get checkoutReceiving => 'Almak';
+
+  @override
+  String get checkoutCourier => 'Kurýer';
+
+  @override
+  String get checkoutPickup => 'Özüň almak';
+
+  @override
+  String checkoutCourierPrice(String price) {
+    return 'Kurýer: $price';
+  }
+
+  @override
+  String checkoutCourierFree(String amount) {
+    return '$amount-dan mugt';
+  }
+
+  @override
+  String get checkoutStreet => 'Köçe we jaý';
+
+  @override
+  String get checkoutAddressDetails => 'Öý / nyşan';
+
+  @override
+  String get checkoutAddressError => 'Köçäni we jaýy görkeziň';
+
+  @override
+  String get checkoutPickupError => 'Bermek nokadyny saýlaň';
+
+  @override
+  String get checkoutDeliveryType => 'Eltip bermegiň görnüşi';
+
+  @override
+  String get checkoutDeliveryError => 'Elýeterli eltip bermek usuly ýok';
+
+  @override
+  String get checkoutServices => 'Goşmaça hyzmatlar';
+
+  @override
+  String get checkoutComment => 'Sargyda teswir';
+
+  @override
+  String get checkoutPayment => 'Töleg';
+
+  @override
+  String get checkoutPayCard => 'Kart bilen onlaýn';
+
+  @override
+  String get checkoutPayCardText => 'Bankyň sahypasy arkaly';
+
+  @override
+  String get checkoutPayCash => 'Ofisde nagt';
+
+  @override
+  String get checkoutPayCashText => 'Haryt satyn alynmazdan öň töläň';
+
+  @override
+  String checkoutAdvance(String now, String later) {
+    return 'Häzir $now, galany $later — ölçenenden soň, almazdan öň';
+  }
+
+  @override
+  String get checkoutTotal => 'Jemi';
+
+  @override
+  String get moneyCourier => 'Kurýer';
+
+  @override
+  String get moneyServices => 'Goşmaça hyzmatlar';
+
+  @override
+  String get checkoutConsent =>
+      'Teklip bilen razy we düşünýärin: haryt sargyt boýunça satyn alynýar, diňe satyn alynmazdan öň ýatyryp bolýar';
+
+  @override
+  String get checkoutReadOffer => 'Teklibi okamak';
+
+  @override
+  String get checkoutConsentError => 'Razylygyňyzy tassyklaň';
+
+  @override
+  String checkoutPay(String amount) {
+    return '$amount töle';
+  }
+
+  @override
+  String get checkoutPlace => 'Sargyt et';
+
+  @override
+  String checkoutConfirmNew(String amount) {
+    return '$amount tassykla';
+  }
+
+  @override
+  String get checkoutPriceChanged =>
+      'Siz sargyt edýärkäňiz jemi üýtgedi. Täze jemi barlaň';
+
+  @override
+  String get checkoutPreviewError => 'Sargydy hasaplap bolmady';
+
+  @override
+  String get checkoutSubmitError => 'Sargyt edip bolmady. Gaýtadan synanyşyň';
+
+  @override
+  String get paymentChecking => 'Tölegi barlaýarys…';
+
+  @override
+  String get paymentCheckingText =>
+      'Bu bir minuda çenli wagt alar. Ekrany ýapmaň';
+
+  @override
+  String get paymentSuccessTitle => 'Sargyt kabul edildi';
+
+  @override
+  String paymentOrderNumber(String number) {
+    return '№$number sargyt';
+  }
+
+  @override
+  String get paymentNextStep =>
+      'Harydy 1–2 günüň dowamynda satyn alarys we her ädim barada habar bereris';
+
+  @override
+  String get paymentCashNext =>
+      'Sargydy ofisde töläň — tölegden soň harydy satyn alarys';
+
+  @override
+  String paymentPaid(String amount) {
+    return '$amount tölendi';
+  }
+
+  @override
+  String paymentDue(String amount) {
+    return 'Ofisde tölemeli: $amount';
+  }
+
+  @override
+  String get paymentToOrder => 'Sargyda geç';
+
+  @override
+  String get paymentToHome => 'Baş sahypa';
+
+  @override
+  String get paymentFailedTitle => 'Töleg geçmedi';
+
+  @override
+  String get paymentFailedText => 'Sargyt saklandy we tölege garaşýar';
+
+  @override
+  String get paymentRetry => 'Tölegi gaýtala';
+
+  @override
+  String get paymentTimeout =>
+      'Bank entek jogap bermedi. Pul alnan bolsa, sargyt özi täzelener';
+
+  @override
   String get homeNotifications => 'Bildirişler';
 
   @override
@@ -605,4 +781,454 @@ class AppLocalizationsTk extends AppLocalizations {
 
   @override
   String get errorGenericMessage => 'Interneti barlaň we täzeden synanyşyň';
+
+  @override
+  String dateDayMonth(String day, String ending, String month) {
+    String _temp0 = intl.Intl.selectLogic(ending, {
+      'back': 'njy',
+      'other': 'nji',
+    });
+    String _temp1 = intl.Intl.selectLogic(month, {
+      'jan': 'ýanwar',
+      'feb': 'fewral',
+      'mar': 'mart',
+      'apr': 'aprel',
+      'may': 'maý',
+      'jun': 'iýun',
+      'jul': 'iýul',
+      'aug': 'awgust',
+      'sep': 'sentýabr',
+      'oct': 'oktýabr',
+      'nov': 'noýabr',
+      'dec': 'dekabr',
+      'other': '',
+    });
+    return '$day-$_temp0 $_temp1';
+  }
+
+  @override
+  String dateDayMonthTime(String date, String time) {
+    return '$date, $time';
+  }
+
+  @override
+  String dateRangeSameMonth(String from, String to) {
+    return '$from–$to';
+  }
+
+  @override
+  String dateRange(String from, String to) {
+    return '$from – $to';
+  }
+
+  @override
+  String get loginTitle => 'Giriş';
+
+  @override
+  String get loginSubtitle => 'Belgiňizi giriziň — giriş üçin kod ibereris';
+
+  @override
+  String get loginPhoneError => 'Belgini doly giriziň: 8 san';
+
+  @override
+  String get loginConsent =>
+      'Gizlinlik syýasaty we şahsy maglumatlaryň işlenilmegi bilen ylalaşýaryn';
+
+  @override
+  String get loginConsentError => 'Razylygyňyzy tassyklaň';
+
+  @override
+  String get loginReadPolicy => 'Syýasaty okamak';
+
+  @override
+  String get loginGetCode => 'Kod almak';
+
+  @override
+  String get loginOr => 'ýa-da';
+
+  @override
+  String get loginGoogle => 'Google arkaly girmek';
+
+  @override
+  String get loginCodeTitle => 'Kody giriziň';
+
+  @override
+  String loginCodeSent(String channel, String destination) {
+    String _temp0 = intl.Intl.selectLogic(channel, {
+      'telegram': 'Kod Telegram-a iberildi: $destination',
+      'email': 'Kod poçta iberildi: $destination',
+      'other': 'Kod SMS bilen iberildi: $destination',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String loginResendIn(String time) {
+    return '$time soň täzeden ibermek';
+  }
+
+  @override
+  String get loginResend => 'Kody täzeden ibermek';
+
+  @override
+  String get loginChangePhone => 'Belgini üýtgetmek';
+
+  @override
+  String get loginBlockedTitle => 'Hasap petiklendi';
+
+  @override
+  String get ordersTitle => 'Meniň sargytlarym';
+
+  @override
+  String get ordersTabActive => 'Işjeň';
+
+  @override
+  String get ordersTabCompleted => 'Tamamlanan';
+
+  @override
+  String get ordersTabCancelled => 'Ýatyrylan';
+
+  @override
+  String get ordersEmptyActive => 'Işjeň sargyt ýok';
+
+  @override
+  String get ordersEmptyActiveText =>
+      'Katalogdan bir zat saýlaň — satyn alyp, eltip bereris';
+
+  @override
+  String get ordersEmptyCompleted => 'Tamamlanan sargyt entek ýok';
+
+  @override
+  String get ordersEmptyCancelled => 'Ýatyrylan sargyt ýok';
+
+  @override
+  String ordersItemCount(int count) {
+    return '$count haryt';
+  }
+
+  @override
+  String ordersMoreItems(String count) {
+    return '+$count';
+  }
+
+  @override
+  String get ordersRepeat => 'Gaýtalamak';
+
+  @override
+  String ordersRepeatAdded(int count) {
+    return '$count haryt sebede goşuldy';
+  }
+
+  @override
+  String ordersRepeatPartly(int added, int missing) {
+    return 'Sebede goşuldy: $added. Indi satylmaýar: $missing';
+  }
+
+  @override
+  String get ordersRepeatNone => 'Bu harytlar indi satylmaýar';
+
+  @override
+  String get ordersOpenCart => 'Sebede geç';
+
+  @override
+  String ordersCachedAt(String time) {
+    return 'Baglanyşyk ýok. Maglumatlar $time ýagdaýyna görä';
+  }
+
+  @override
+  String get ordersCopied => 'Göçürildi';
+
+  @override
+  String get ordersCopy => 'Göçürmek';
+
+  @override
+  String orderNumber(String number) {
+    return '№$number sargyt';
+  }
+
+  @override
+  String orderCreatedAt(String date) {
+    return 'Resmileşdirildi: $date';
+  }
+
+  @override
+  String get orderPayWithin => 'Tölemek üçin galan wagt';
+
+  @override
+  String get orderDecideWithin => 'Karar bermek üçin galan wagt';
+
+  @override
+  String get orderItems => 'Harytlar';
+
+  @override
+  String get orderChinaTrack => 'Hytaý boýunça trek';
+
+  @override
+  String get orderWarehousePhotos => 'Ammardan suratlar';
+
+  @override
+  String orderItemPrice(String quantity, String price) {
+    return '$quantity × $price';
+  }
+
+  @override
+  String orderPhoto(String index) {
+    return 'Surat $index';
+  }
+
+  @override
+  String get orderParcels => 'Posylkalar';
+
+  @override
+  String get orderDelivery => 'Eltip bermek';
+
+  @override
+  String get orderDeliveryType => 'Görnüşi';
+
+  @override
+  String get orderMoney => 'Töleg';
+
+  @override
+  String get orderPaid => 'Tölendi';
+
+  @override
+  String get orderDue => 'Tölenmeli galan';
+
+  @override
+  String get orderHistory => 'Taryh';
+
+  @override
+  String get orderCancel => 'Sargydy ýatyrmak';
+
+  @override
+  String get orderCancelTitle => 'Sargydy ýatyrmak';
+
+  @override
+  String get orderCancelKeep => 'Ýatyrmazlyk';
+
+  @override
+  String get orderCancelReason => 'Näme üçin ýatyrýarsyňyz?';
+
+  @override
+  String orderCancelRefund(String amount, String destination) {
+    return '$amount $destination gaýtararys';
+  }
+
+  @override
+  String get orderCancelled => 'Sargyt ýatyryldy';
+
+  @override
+  String get orderDecisionSent => 'Karar iberildi';
+
+  @override
+  String get parcelsTitle => 'Meniň posylkalarym';
+
+  @override
+  String get parcelsEmpty => 'Entek posylka ýok';
+
+  @override
+  String get parcelsEmptyText =>
+      'Harytlar ammara gelende, olary posylka ýygnarys';
+
+  @override
+  String parcelNumber(String number) {
+    return '$number posylka';
+  }
+
+  @override
+  String parcelEta(String range) {
+    return 'Garaşylýar: $range';
+  }
+
+  @override
+  String get parcelExpected => 'Garaşylýan wagty';
+
+  @override
+  String parcelWeight(String kg) {
+    return '$kg kg';
+  }
+
+  @override
+  String get parcelStageForming => 'Taýýarlanýar';
+
+  @override
+  String get parcelStageSurcharge => 'Goşmaça töleg';
+
+  @override
+  String get parcelStageInTransit => 'Ýolda';
+
+  @override
+  String get parcelStageCustoms => 'Gümrük';
+
+  @override
+  String get parcelStageArrived => 'Geldi';
+
+  @override
+  String get parcelStageHandover => 'Bermäge taýýar';
+
+  @override
+  String get parcelStageDelivered => 'Gowşuryldy';
+
+  @override
+  String parcelProgressSpoken(String step, String total, String stage) {
+    return 'Tapgyr $step/$total: $stage';
+  }
+
+  @override
+  String get parcelSurchargeTitle => 'Eltip bermek üçin goşmaça töleg';
+
+  @override
+  String get parcelSurchargeWeight => 'Hakyky agramy';
+
+  @override
+  String get parcelSurchargeRate => 'Nyrh';
+
+  @override
+  String parcelRatePerKg(String price) {
+    return '1 kg üçin $price';
+  }
+
+  @override
+  String get parcelSurchargeCost => 'Eltip bermegiň bahasy';
+
+  @override
+  String get parcelSurchargePaid => 'Eýýäm tölenen';
+
+  @override
+  String get parcelSurchargeDue => 'Goşmaça tölemeli';
+
+  @override
+  String get parcelSurchargeRefund => 'Balansa gaýtararys';
+
+  @override
+  String get parcelPickupCode => 'Bermek kody';
+
+  @override
+  String get parcelPickupCodeHint =>
+      'Kody bermek nokadynda aýdyň. Göçürmek üçin basyň';
+
+  @override
+  String parcelPickupCodeSpoken(String code) {
+    return 'Bermek kody $code, göçürmek';
+  }
+
+  @override
+  String get parcelDueAtHandover => 'Alanyňyzda tölemeli';
+
+  @override
+  String get parcelCourier => 'Kurýer';
+
+  @override
+  String get parcelFormingText =>
+      'Hytaýdaky ammarda harytlaryňyzdan posylka ýygnaýarys';
+
+  @override
+  String parcelFreeStorage(String date) {
+    return '$date çenli mugt saklamak';
+  }
+
+  @override
+  String get parcelSendNow => 'Häzir ibermek';
+
+  @override
+  String get parcelSendNowTitle => 'Galan harytlarsyz ibermelimi?';
+
+  @override
+  String get parcelSendNowText =>
+      'Posylka häzir iberiler, galan harytlar aýratyn geler. Eltip bermek gymmat bolup biler';
+
+  @override
+  String get parcelSendNowKeep => 'Garaşmak';
+
+  @override
+  String get parcelSent => 'Posylka iberildi';
+
+  @override
+  String get parcelContents => 'Düzümi';
+
+  @override
+  String parcelItemFrom(String quantity, String order) {
+    return '$quantity sany · №$order sargyt';
+  }
+
+  @override
+  String parcelClaimUntil(String date) {
+    return 'Haryt bilen mesele bolsa, $date çenli arz beriň';
+  }
+
+  @override
+  String get profileBalance => 'Balans';
+
+  @override
+  String get profileDebt => 'Bergi';
+
+  @override
+  String get profileBonuses => 'Bonuslar';
+
+  @override
+  String get profileWholesaleBadge => 'Lomaý';
+
+  @override
+  String get profileOrders => 'Meniň sargytlarym';
+
+  @override
+  String get profileParcels => 'Meniň posylkalarym';
+
+  @override
+  String get profileSurcharges => 'Goşmaça tölegler we gaýtarmalar';
+
+  @override
+  String get profileAddresses => 'Salgylar';
+
+  @override
+  String get profileViewed => 'Görülenler';
+
+  @override
+  String get profileReviews => 'Meniň synlarym';
+
+  @override
+  String get profilePriceAlerts => 'Arzanlama ýazylmalary';
+
+  @override
+  String get profileNotifications => 'Habarnamalar';
+
+  @override
+  String get profileSupport => 'Goldaw';
+
+  @override
+  String get profileBecomeWholesale => 'Lomaý alyjy bolmak';
+
+  @override
+  String get profileWholesaleDocs => 'Lomaý: resminamalar';
+
+  @override
+  String get profileInfo => 'Maglumat';
+
+  @override
+  String get profileSettings => 'Sazlamalar';
+
+  @override
+  String get profileSignOut => 'Çykmak';
+
+  @override
+  String get profileSignOutTitle => 'Hasapdan çykmalymy?';
+
+  @override
+  String get profileSignOutText =>
+      'Bu telefondaky sebet we halanlarym saklanar';
+
+  @override
+  String get profileSignOutKeep => 'Galmak';
+
+  @override
+  String get profileGuestTitle => 'Sargytlary görmek üçin giriň';
+
+  @override
+  String get profileGuestText => 'Sargytlar, posylkalar we balans — bir ýerde';
+
+  @override
+  String get profileSignIn => 'Girmek';
+
+  @override
+  String get profileLanguage => 'Dil';
 }

@@ -1,15 +1,28 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../core/auth/auth_cubit.dart';
+import '../../core/l10n/l10n.dart';
+import '../../core/navigation/stream_listenable.dart';
 import '../../core/navigation/tab_reselect_scope.dart';
 import '../../core/product/domain/product_summary.dart';
+import '../../core/theme/theme.dart';
+import '../../core/widgets/widgets.dart';
+import '../../features/auth/presentation/pages/login_page.dart';
 import '../../features/cart/presentation/pages/cart_page.dart';
 import '../../features/catalog/presentation/pages/catalog_page.dart';
+import '../../features/checkout/domain/entities/checkout.dart';
+import '../../features/checkout/presentation/pages/checkout_page.dart';
+import '../../features/checkout/presentation/pages/payment_page.dart';
 import '../../features/catalog/presentation/pages/category_products_page.dart';
 import '../../features/favourites/presentation/pages/favourites_page.dart';
 import '../../features/home/presentation/pages/home_page.dart';
 import '../../features/kit/presentation/pages/kit_page.dart';
+import '../../features/orders/presentation/pages/order_page.dart';
+import '../../features/orders/presentation/pages/orders_page.dart';
+import '../../features/orders/presentation/pages/parcel_page.dart';
+import '../../features/orders/presentation/pages/parcels_page.dart';
 import '../../features/product/presentation/pages/product_page.dart';
 import '../../features/profile/presentation/pages/profile_page.dart';
 import '../shell/app_shell.dart';
@@ -21,7 +34,10 @@ import 'home_navigation.dart';
 ///
 /// Full-screen routes (product, checkout, video feed, …) are added as
 /// top-level routes so they open over the bottom menu.
-GoRouter createAppRouter({String initialLocation = AppRoutes.home}) {
+GoRouter createAppRouter({
+  required AuthCubit auth,
+  String initialLocation = AppRoutes.home,
+}) {
   final rootKey = GlobalKey<NavigatorState>(debugLabel: 'root');
   // One signal per tab; they live as long as the router.
   final reselect = [for (final _ in AppTab.values) TabReselectSignal()];
@@ -29,6 +45,8 @@ GoRouter createAppRouter({String initialLocation = AppRoutes.home}) {
   return GoRouter(
     navigatorKey: rootKey,
     initialLocation: initialLocation,
+    refreshListenable: StreamListenable(auth.stream),
+    redirect: (context, state) => _guard(auth.state, state.uri),
     routes: [
       StatefulShellRoute(
         builder: (context, state, shell) =>
@@ -73,11 +91,23 @@ GoRouter createAppRouter({String initialLocation = AppRoutes.home}) {
             (context) => CartPage(
               onOpenProduct: (id) => context.push(AppRoutes.product(id)),
               onOpenCatalog: () => context.go(AppRoutes.catalog),
+              onCheckout: (promo) =>
+                  context.push(AppRoutes.checkoutWith(promo)),
               onComingSoon: () => showComingSoon(context),
             ),
           ),
           _branch(AppRoutes.favourites, (_) => const FavouritesPage()),
-          _branch(AppRoutes.profile, (_) => const ProfilePage()),
+          _branch(
+            AppRoutes.profile,
+            (context) => ProfilePage(
+              onLogin: () =>
+                  context.push(AppRoutes.loginFrom(AppRoutes.profile)),
+              onOpenOrders: () => context.push(AppRoutes.orders),
+              onOpenParcels: () => context.push(AppRoutes.parcels),
+              onComingSoon: () => showComingSoon(context),
+            ),
+            routes: _profileRoutes,
+          ),
         ],
       ),
       // Top-level routes sit on the root navigator, over the menu.
@@ -100,11 +130,116 @@ GoRouter createAppRouter({String initialLocation = AppRoutes.home}) {
           );
         },
       ),
+      GoRoute(
+        path: AppRoutes.checkout,
+        builder: (context, state) => CheckoutPage(
+          promoCode: state.uri.queryParameters[AppRoutes.promoParam],
+          // Replace checkout: back from the result must not reopen it.
+          onPlaced: (order) => context.pushReplacement(
+            AppRoutes.payment(order.number),
+            extra: order,
+          ),
+          onReadOffer: () => showComingSoon(context),
+        ),
+      ),
+      GoRoute(
+        path: AppRoutes.paymentPath,
+        builder: (context, state) => switch (state.extra) {
+          final PlacedOrder order => PaymentPage(
+            order: order,
+            onHome: () => context.go(AppRoutes.home),
+            onOrder: () => context.go(AppRoutes.order(order.number)),
+          ),
+          // Opened from a link (SMS /pay/…): needs the orders API.
+          _ => const _ComingSoonPage(),
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.login,
+        builder: (context, state) => LoginPage(
+          // Back where the customer came from: the guarded route, or Profile.
+          onDone: () => context.go(
+            state.uri.queryParameters[AppRoutes.fromParam] ?? AppRoutes.profile,
+          ),
+          onReadPolicy: () => showComingSoon(context),
+          onGoogle: () => showComingSoon(context),
+        ),
+      ),
       if (kDebugMode)
         GoRoute(path: AppRoutes.kit, builder: (_, _) => const KitPage()),
     ],
   );
 }
+
+/// Website links and the login guard (TZ §4). A guest sent to login comes
+/// back to the same route afterwards.
+String? _guard(AuthState auth, Uri uri) {
+  final path = uri.path;
+  if (path.startsWith(AppRoutes.accountPrefix)) {
+    return AppRoutes.profile + path.substring(AppRoutes.accountPrefix.length);
+  }
+  final location = uri.toString();
+  if (auth is AuthGuest && AppRoutes.needsLogin(location)) {
+    return AppRoutes.loginFrom(location);
+  }
+  return null;
+}
+
+/// Orders and parcels inside the Profile tab.
+final _profileRoutes = <RouteBase>[
+  GoRoute(
+    path: AppRoutes.ordersPath,
+    builder: (context, _) => OrdersPage(
+      onOpenOrder: (number) => context.push(AppRoutes.order(number)),
+      onOpenCatalog: () => context.go(AppRoutes.catalog),
+      onOpenCart: () => context.go(AppRoutes.cart),
+    ),
+    routes: [
+      GoRoute(
+        path: AppRoutes.orderPath,
+        builder: (context, state) {
+          final number = state.pathParameters[AppRoutes.orderParam] ?? '';
+          return OrderPage(
+            key: ValueKey(number),
+            number: number,
+            onOpenParcel: (n) => context.push(AppRoutes.parcel(n)),
+            onOpenProduct: (id) => context.push(AppRoutes.product(id)),
+            onOpenCart: () => context.go(AppRoutes.cart),
+            // No payment id yet: the payment page starts a new one.
+            onPay: (order) => context.push(
+              AppRoutes.payment(order.number),
+              extra: PlacedOrder(
+                number: order.number,
+                payNow: order.money.due,
+                payment: PaymentMethod.card,
+              ),
+            ),
+          );
+        },
+      ),
+    ],
+  ),
+  GoRoute(
+    path: AppRoutes.parcelsPath,
+    builder: (context, _) => ParcelsPage(
+      onOpenParcel: (number) => context.push(AppRoutes.parcel(number)),
+    ),
+    routes: [
+      GoRoute(
+        path: AppRoutes.parcelPath,
+        builder: (context, state) {
+          final number = state.pathParameters[AppRoutes.parcelParam] ?? '';
+          return ParcelPage(
+            key: ValueKey(number),
+            number: number,
+            onOpenOrder: (n) => context.push(AppRoutes.order(n)),
+            onPaySurcharge: () => showComingSoon(context),
+          );
+        },
+      ),
+    ],
+  ),
+];
 
 void _openProduct(BuildContext context, ProductSummary product) =>
     context.push(AppRoutes.product(product.id), extra: product);
@@ -118,3 +253,16 @@ StatefulShellBranch _branch(
     GoRoute(path: path, builder: (context, _) => page(context), routes: routes),
   ],
 );
+
+/// Placeholder for links whose screen needs features not built yet.
+class _ComingSoonPage extends StatelessWidget {
+  const _ComingSoonPage();
+
+  @override
+  Widget build(BuildContext context) => Scaffold(
+    appBar: AppBar(),
+    body: Center(
+      child: EmptyState(icon: AppIcons.package, title: context.l10n.comingSoon),
+    ),
+  );
+}

@@ -722,6 +722,312 @@ abstract class AppLocalizations {
   /// **'Сумма заказа'**
   String get cartBreakdownTitle;
 
+  /// Checkout screen title
+  ///
+  /// In ru, this message translates to:
+  /// **'Оформление заказа'**
+  String get checkoutTitle;
+
+  /// Section 1 title
+  ///
+  /// In ru, this message translates to:
+  /// **'Получатель'**
+  String get checkoutRecipient;
+
+  /// Recipient first name field
+  ///
+  /// In ru, this message translates to:
+  /// **'Имя'**
+  String get checkoutFirstName;
+
+  /// Recipient last name field
+  ///
+  /// In ru, this message translates to:
+  /// **'Фамилия'**
+  String get checkoutLastName;
+
+  /// Opens the prefilled recipient for editing
+  ///
+  /// In ru, this message translates to:
+  /// **'Изменить'**
+  String get checkoutEdit;
+
+  /// Recipient is incomplete
+  ///
+  /// In ru, this message translates to:
+  /// **'Укажите имя, фамилию и телефон'**
+  String get checkoutRecipientError;
+
+  /// Section 2 title
+  ///
+  /// In ru, this message translates to:
+  /// **'Получение'**
+  String get checkoutReceiving;
+
+  /// Receiving method
+  ///
+  /// In ru, this message translates to:
+  /// **'Курьер'**
+  String get checkoutCourier;
+
+  /// Receiving method
+  ///
+  /// In ru, this message translates to:
+  /// **'Самовывоз'**
+  String get checkoutPickup;
+
+  /// Courier price in the region
+  ///
+  /// In ru, this message translates to:
+  /// **'Курьер: {price}'**
+  String checkoutCourierPrice(String price);
+
+  /// Free courier threshold, after the courier price
+  ///
+  /// In ru, this message translates to:
+  /// **'бесплатно от {amount}'**
+  String checkoutCourierFree(String amount);
+
+  /// Courier address field
+  ///
+  /// In ru, this message translates to:
+  /// **'Улица и дом'**
+  String get checkoutStreet;
+
+  /// Courier address details field
+  ///
+  /// In ru, this message translates to:
+  /// **'Квартира / ориентир'**
+  String get checkoutAddressDetails;
+
+  /// Courier address is empty
+  ///
+  /// In ru, this message translates to:
+  /// **'Укажите улицу и дом'**
+  String get checkoutAddressError;
+
+  /// No pickup point chosen
+  ///
+  /// In ru, this message translates to:
+  /// **'Выберите пункт выдачи'**
+  String get checkoutPickupError;
+
+  /// Section 3 title
+  ///
+  /// In ru, this message translates to:
+  /// **'Тип доставки'**
+  String get checkoutDeliveryType;
+
+  /// All delivery types are unavailable
+  ///
+  /// In ru, this message translates to:
+  /// **'Нет доступного способа доставки'**
+  String get checkoutDeliveryError;
+
+  /// Section 4 title
+  ///
+  /// In ru, this message translates to:
+  /// **'Дополнительные услуги'**
+  String get checkoutServices;
+
+  /// Order comment field
+  ///
+  /// In ru, this message translates to:
+  /// **'Комментарий к заказу'**
+  String get checkoutComment;
+
+  /// Section 5 title
+  ///
+  /// In ru, this message translates to:
+  /// **'Оплата'**
+  String get checkoutPayment;
+
+  /// Payment method
+  ///
+  /// In ru, this message translates to:
+  /// **'Картой онлайн'**
+  String get checkoutPayCard;
+
+  /// Under «Картой онлайн»
+  ///
+  /// In ru, this message translates to:
+  /// **'Через страницу банка'**
+  String get checkoutPayCardText;
+
+  /// Payment method
+  ///
+  /// In ru, this message translates to:
+  /// **'Наличными в офисе'**
+  String get checkoutPayCash;
+
+  /// Under «Наличными в офисе»
+  ///
+  /// In ru, this message translates to:
+  /// **'Оплатите до выкупа товара'**
+  String get checkoutPayCashText;
+
+  /// Advance payment note
+  ///
+  /// In ru, this message translates to:
+  /// **'Сейчас {now}, остаток {later} — до выдачи, после взвешивания'**
+  String checkoutAdvance(String now, String later);
+
+  /// Section 6 title
+  ///
+  /// In ru, this message translates to:
+  /// **'Итог'**
+  String get checkoutTotal;
+
+  /// Money breakdown row
+  ///
+  /// In ru, this message translates to:
+  /// **'Курьер'**
+  String get moneyCourier;
+
+  /// Money breakdown row
+  ///
+  /// In ru, this message translates to:
+  /// **'Доп. услуги'**
+  String get moneyServices;
+
+  /// Required consent checkbox (TZ §5.12.6)
+  ///
+  /// In ru, this message translates to:
+  /// **'Я согласен с офертой и понимаю: товар выкупается под заказ, отменить можно только до выкупа'**
+  String get checkoutConsent;
+
+  /// Opens the public offer
+  ///
+  /// In ru, this message translates to:
+  /// **'Читать оферту'**
+  String get checkoutReadOffer;
+
+  /// Consent not ticked
+  ///
+  /// In ru, this message translates to:
+  /// **'Подтвердите согласие'**
+  String get checkoutConsentError;
+
+  /// Sticky button for card payment
+  ///
+  /// In ru, this message translates to:
+  /// **'Оплатить {amount}'**
+  String checkoutPay(String amount);
+
+  /// Sticky button for cash payment
+  ///
+  /// In ru, this message translates to:
+  /// **'Оформить заказ'**
+  String get checkoutPlace;
+
+  /// Sticky button after the total changed
+  ///
+  /// In ru, this message translates to:
+  /// **'Подтвердить {amount}'**
+  String checkoutConfirmNew(String amount);
+
+  /// Server total differs from the shown one
+  ///
+  /// In ru, this message translates to:
+  /// **'Итог изменился, пока вы оформляли заказ. Проверьте новую сумму'**
+  String get checkoutPriceChanged;
+
+  /// Preview request failed
+  ///
+  /// In ru, this message translates to:
+  /// **'Не удалось рассчитать заказ'**
+  String get checkoutPreviewError;
+
+  /// Order creation failed
+  ///
+  /// In ru, this message translates to:
+  /// **'Не удалось оформить заказ. Попробуйте ещё раз'**
+  String get checkoutSubmitError;
+
+  /// Waiting for the payment result
+  ///
+  /// In ru, this message translates to:
+  /// **'Проверяем оплату…'**
+  String get paymentChecking;
+
+  /// Under «Проверяем оплату…»
+  ///
+  /// In ru, this message translates to:
+  /// **'Это займёт до минуты. Не закрывайте экран'**
+  String get paymentCheckingText;
+
+  /// Success screen title
+  ///
+  /// In ru, this message translates to:
+  /// **'Заказ оформлен'**
+  String get paymentSuccessTitle;
+
+  /// Order number on the result screens
+  ///
+  /// In ru, this message translates to:
+  /// **'Заказ №{number}'**
+  String paymentOrderNumber(String number);
+
+  /// Next step after a paid order
+  ///
+  /// In ru, this message translates to:
+  /// **'Мы выкупим товар в течение 1–2 дней и сообщим о каждом шаге'**
+  String get paymentNextStep;
+
+  /// Next step for cash payment
+  ///
+  /// In ru, this message translates to:
+  /// **'Оплатите заказ в офисе — после оплаты мы выкупим товар'**
+  String get paymentCashNext;
+
+  /// Under the big amount
+  ///
+  /// In ru, this message translates to:
+  /// **'Оплачено {amount}'**
+  String paymentPaid(String amount);
+
+  /// Cash order: amount to bring
+  ///
+  /// In ru, this message translates to:
+  /// **'К оплате в офисе {amount}'**
+  String paymentDue(String amount);
+
+  /// Opens the order
+  ///
+  /// In ru, this message translates to:
+  /// **'К заказу'**
+  String get paymentToOrder;
+
+  /// Back to Home
+  ///
+  /// In ru, this message translates to:
+  /// **'На главную'**
+  String get paymentToHome;
+
+  /// Failure screen title
+  ///
+  /// In ru, this message translates to:
+  /// **'Оплата не прошла'**
+  String get paymentFailedTitle;
+
+  /// Under the failure reason
+  ///
+  /// In ru, this message translates to:
+  /// **'Заказ сохранён и ждёт оплаты'**
+  String get paymentFailedText;
+
+  /// Starts a new payment for the order
+  ///
+  /// In ru, this message translates to:
+  /// **'Повторить оплату'**
+  String get paymentRetry;
+
+  /// No final status after a minute
+  ///
+  /// In ru, this message translates to:
+  /// **'Банк пока не ответил. Если деньги списались, заказ обновится сам'**
+  String get paymentTimeout;
+
   /// Accessibility label of the bell button in the Home header
   ///
   /// In ru, this message translates to:
@@ -1123,6 +1429,744 @@ abstract class AppLocalizations {
   /// In ru, this message translates to:
   /// **'Проверьте интернет и попробуйте ещё раз'**
   String get errorGenericMessage;
+
+  /// Day and month, «24 ноября». ending is the Turkmen ordinal ending (back/front), unused in Russian
+  ///
+  /// In ru, this message translates to:
+  /// **'{day} {month, select, jan{января} feb{февраля} mar{марта} apr{апреля} may{мая} jun{июня} jul{июля} aug{августа} sep{сентября} oct{октября} nov{ноября} dec{декабря} other{}}{ending, select, other{}}'**
+  String dateDayMonth(String day, String ending, String month);
+
+  /// Date with time, «24 ноября, 14:30»
+  ///
+  /// In ru, this message translates to:
+  /// **'{date}, {time}'**
+  String dateDayMonthTime(String date, String time);
+
+  /// Date range within a month, «24–28 ноября». from is the day only
+  ///
+  /// In ru, this message translates to:
+  /// **'{from}–{to}'**
+  String dateRangeSameMonth(String from, String to);
+
+  /// Date range across months, «30 ноября – 3 декабря»
+  ///
+  /// In ru, this message translates to:
+  /// **'{from} – {to}'**
+  String dateRange(String from, String to);
+
+  /// Login screen title
+  ///
+  /// In ru, this message translates to:
+  /// **'Вход'**
+  String get loginTitle;
+
+  /// Login screen text under the title
+  ///
+  /// In ru, this message translates to:
+  /// **'Введите номер — пришлём код для входа'**
+  String get loginSubtitle;
+
+  /// Phone field error on the login screen
+  ///
+  /// In ru, this message translates to:
+  /// **'Введите номер полностью: 8 цифр'**
+  String get loginPhoneError;
+
+  /// Consent checkbox on the login screen (TZ 5.2)
+  ///
+  /// In ru, this message translates to:
+  /// **'Я соглашаюсь с политикой конфиденциальности и обработкой персональных данных'**
+  String get loginConsent;
+
+  /// Error under the login consent checkbox
+  ///
+  /// In ru, this message translates to:
+  /// **'Подтвердите согласие'**
+  String get loginConsentError;
+
+  /// Link to the privacy policy on the login screen
+  ///
+  /// In ru, this message translates to:
+  /// **'Читать политику'**
+  String get loginReadPolicy;
+
+  /// Primary button of the phone step
+  ///
+  /// In ru, this message translates to:
+  /// **'Получить код'**
+  String get loginGetCode;
+
+  /// Divider between phone login and Google
+  ///
+  /// In ru, this message translates to:
+  /// **'или'**
+  String get loginOr;
+
+  /// Google sign-in button
+  ///
+  /// In ru, this message translates to:
+  /// **'Войти через Google'**
+  String get loginGoogle;
+
+  /// Code step title
+  ///
+  /// In ru, this message translates to:
+  /// **'Введите код'**
+  String get loginCodeTitle;
+
+  /// Where the code was sent. destination is masked by the server
+  ///
+  /// In ru, this message translates to:
+  /// **'{channel, select, telegram{Код отправлен в Telegram: {destination}} email{Код отправлен на почту {destination}} other{Код отправлен в SMS на {destination}}}'**
+  String loginCodeSent(String channel, String destination);
+
+  /// Resend timer on the code step
+  ///
+  /// In ru, this message translates to:
+  /// **'Отправить снова через {time}'**
+  String loginResendIn(String time);
+
+  /// Resend button on the code step
+  ///
+  /// In ru, this message translates to:
+  /// **'Отправить код снова'**
+  String get loginResend;
+
+  /// Back to the phone step
+  ///
+  /// In ru, this message translates to:
+  /// **'Изменить номер'**
+  String get loginChangePhone;
+
+  /// Title when the server says the customer is blocked
+  ///
+  /// In ru, this message translates to:
+  /// **'Аккаунт заблокирован'**
+  String get loginBlockedTitle;
+
+  /// Orders list title
+  ///
+  /// In ru, this message translates to:
+  /// **'Мои заказы'**
+  String get ordersTitle;
+
+  /// Orders tab
+  ///
+  /// In ru, this message translates to:
+  /// **'Активные'**
+  String get ordersTabActive;
+
+  /// Orders tab
+  ///
+  /// In ru, this message translates to:
+  /// **'Завершённые'**
+  String get ordersTabCompleted;
+
+  /// Orders tab
+  ///
+  /// In ru, this message translates to:
+  /// **'Отменённые'**
+  String get ordersTabCancelled;
+
+  /// Empty active orders tab
+  ///
+  /// In ru, this message translates to:
+  /// **'Активных заказов нет'**
+  String get ordersEmptyActive;
+
+  /// Empty active orders tab text
+  ///
+  /// In ru, this message translates to:
+  /// **'Найдите что-нибудь в каталоге — мы выкупим и доставим'**
+  String get ordersEmptyActiveText;
+
+  /// Empty completed orders tab
+  ///
+  /// In ru, this message translates to:
+  /// **'Завершённых заказов пока нет'**
+  String get ordersEmptyCompleted;
+
+  /// Empty cancelled orders tab
+  ///
+  /// In ru, this message translates to:
+  /// **'Отменённых заказов нет'**
+  String get ordersEmptyCancelled;
+
+  /// Number of items in an order or parcel
+  ///
+  /// In ru, this message translates to:
+  /// **'{count, plural, one{{count} товар} few{{count} товара} other{{count} товаров}}'**
+  String ordersItemCount(int count);
+
+  /// Last thumbnail when an order has more items than shown
+  ///
+  /// In ru, this message translates to:
+  /// **'+{count}'**
+  String ordersMoreItems(String count);
+
+  /// Repeat an order: put its items in the cart again
+  ///
+  /// In ru, this message translates to:
+  /// **'Повторить'**
+  String get ordersRepeat;
+
+  /// Toast after repeating an order
+  ///
+  /// In ru, this message translates to:
+  /// **'{count, plural, one{Добавили {count} товар в корзину} few{Добавили {count} товара в корзину} other{Добавили {count} товаров в корзину}}'**
+  String ordersRepeatAdded(int count);
+
+  /// Toast after repeating an order when some items are gone
+  ///
+  /// In ru, this message translates to:
+  /// **'Добавили в корзину: {added}. Больше не продаются: {missing}'**
+  String ordersRepeatPartly(int added, int missing);
+
+  /// Toast when nothing from the order can be repeated
+  ///
+  /// In ru, this message translates to:
+  /// **'Этих товаров больше нет в продаже'**
+  String get ordersRepeatNone;
+
+  /// Toast action that opens the cart
+  ///
+  /// In ru, this message translates to:
+  /// **'В корзину'**
+  String get ordersOpenCart;
+
+  /// Notice above data shown from the device copy offline
+  ///
+  /// In ru, this message translates to:
+  /// **'Нет соединения. Данные на {time}'**
+  String ordersCachedAt(String time);
+
+  /// Toast after copying a code or number
+  ///
+  /// In ru, this message translates to:
+  /// **'Скопировано'**
+  String get ordersCopied;
+
+  /// Copy button tooltip
+  ///
+  /// In ru, this message translates to:
+  /// **'Скопировать'**
+  String get ordersCopy;
+
+  /// Order title
+  ///
+  /// In ru, this message translates to:
+  /// **'Заказ №{number}'**
+  String orderNumber(String number);
+
+  /// Order date under the status
+  ///
+  /// In ru, this message translates to:
+  /// **'Оформлен {date}'**
+  String orderCreatedAt(String date);
+
+  /// Before the payment countdown
+  ///
+  /// In ru, this message translates to:
+  /// **'Оплатите в течение'**
+  String get orderPayWithin;
+
+  /// Before the problem decision countdown
+  ///
+  /// In ru, this message translates to:
+  /// **'Решите в течение'**
+  String get orderDecideWithin;
+
+  /// Order items card title
+  ///
+  /// In ru, this message translates to:
+  /// **'Товары'**
+  String get orderItems;
+
+  /// Seller's track number inside China
+  ///
+  /// In ru, this message translates to:
+  /// **'Трек по Китаю'**
+  String get orderChinaTrack;
+
+  /// Warehouse photos of an item
+  ///
+  /// In ru, this message translates to:
+  /// **'Фото со склада'**
+  String get orderWarehousePhotos;
+
+  /// Quantity and unit price of an order item
+  ///
+  /// In ru, this message translates to:
+  /// **'{quantity} × {price}'**
+  String orderItemPrice(String quantity, String price);
+
+  /// Screen-reader label of a photo
+  ///
+  /// In ru, this message translates to:
+  /// **'Фото {index}'**
+  String orderPhoto(String index);
+
+  /// Parcels of an order
+  ///
+  /// In ru, this message translates to:
+  /// **'Посылки'**
+  String get orderParcels;
+
+  /// Delivery card title
+  ///
+  /// In ru, this message translates to:
+  /// **'Доставка'**
+  String get orderDelivery;
+
+  /// Delivery type row
+  ///
+  /// In ru, this message translates to:
+  /// **'Способ'**
+  String get orderDeliveryType;
+
+  /// Money card title
+  ///
+  /// In ru, this message translates to:
+  /// **'Оплата'**
+  String get orderMoney;
+
+  /// Already paid for an order
+  ///
+  /// In ru, this message translates to:
+  /// **'Оплачено'**
+  String get orderPaid;
+
+  /// Still to pay for an order
+  ///
+  /// In ru, this message translates to:
+  /// **'Осталось оплатить'**
+  String get orderDue;
+
+  /// Status history card title
+  ///
+  /// In ru, this message translates to:
+  /// **'История'**
+  String get orderHistory;
+
+  /// Cancel order button
+  ///
+  /// In ru, this message translates to:
+  /// **'Отменить заказ'**
+  String get orderCancel;
+
+  /// Cancel order sheet title
+  ///
+  /// In ru, this message translates to:
+  /// **'Отмена заказа'**
+  String get orderCancelTitle;
+
+  /// Keep the order
+  ///
+  /// In ru, this message translates to:
+  /// **'Не отменять'**
+  String get orderCancelKeep;
+
+  /// Cancel reason list header
+  ///
+  /// In ru, this message translates to:
+  /// **'Почему отменяете?'**
+  String get orderCancelReason;
+
+  /// Refund on cancel. destination comes from the server, e.g. «на баланс»
+  ///
+  /// In ru, this message translates to:
+  /// **'Вернём {amount} {destination}'**
+  String orderCancelRefund(String amount, String destination);
+
+  /// Toast after cancelling
+  ///
+  /// In ru, this message translates to:
+  /// **'Заказ отменён'**
+  String get orderCancelled;
+
+  /// Toast after a problem decision
+  ///
+  /// In ru, this message translates to:
+  /// **'Решение отправлено'**
+  String get orderDecisionSent;
+
+  /// Parcels list title
+  ///
+  /// In ru, this message translates to:
+  /// **'Мои посылки'**
+  String get parcelsTitle;
+
+  /// Empty parcels list
+  ///
+  /// In ru, this message translates to:
+  /// **'Посылок пока нет'**
+  String get parcelsEmpty;
+
+  /// Empty parcels list text
+  ///
+  /// In ru, this message translates to:
+  /// **'Когда товары приедут на склад, мы соберём их в посылку'**
+  String get parcelsEmptyText;
+
+  /// Parcel title
+  ///
+  /// In ru, this message translates to:
+  /// **'Посылка {number}'**
+  String parcelNumber(String number);
+
+  /// Expected arrival in a parcel card
+  ///
+  /// In ru, this message translates to:
+  /// **'Ожидается {range}'**
+  String parcelEta(String range);
+
+  /// Above the big ETA on the tracking card
+  ///
+  /// In ru, this message translates to:
+  /// **'Ожидается'**
+  String get parcelExpected;
+
+  /// Weight in kilograms
+  ///
+  /// In ru, this message translates to:
+  /// **'{kg} кг'**
+  String parcelWeight(String kg);
+
+  /// Parcel stage
+  ///
+  /// In ru, this message translates to:
+  /// **'Формируется'**
+  String get parcelStageForming;
+
+  /// Parcel stage
+  ///
+  /// In ru, this message translates to:
+  /// **'Доплата'**
+  String get parcelStageSurcharge;
+
+  /// Parcel stage
+  ///
+  /// In ru, this message translates to:
+  /// **'В пути'**
+  String get parcelStageInTransit;
+
+  /// Parcel stage
+  ///
+  /// In ru, this message translates to:
+  /// **'Таможня'**
+  String get parcelStageCustoms;
+
+  /// Parcel stage
+  ///
+  /// In ru, this message translates to:
+  /// **'Прибыла'**
+  String get parcelStageArrived;
+
+  /// Parcel stage: at the pickup point or with the courier
+  ///
+  /// In ru, this message translates to:
+  /// **'Готова к выдаче'**
+  String get parcelStageHandover;
+
+  /// Parcel stage
+  ///
+  /// In ru, this message translates to:
+  /// **'Выдана'**
+  String get parcelStageDelivered;
+
+  /// Screen-reader text of the parcel progress
+  ///
+  /// In ru, this message translates to:
+  /// **'Этап {step} из {total}: {stage}'**
+  String parcelProgressSpoken(String step, String total, String stage);
+
+  /// Surcharge card title
+  ///
+  /// In ru, this message translates to:
+  /// **'Доплата за доставку'**
+  String get parcelSurchargeTitle;
+
+  /// Surcharge calculation row
+  ///
+  /// In ru, this message translates to:
+  /// **'Фактический вес'**
+  String get parcelSurchargeWeight;
+
+  /// Surcharge calculation row
+  ///
+  /// In ru, this message translates to:
+  /// **'Тариф'**
+  String get parcelSurchargeRate;
+
+  /// Delivery rate
+  ///
+  /// In ru, this message translates to:
+  /// **'{price} за кг'**
+  String parcelRatePerKg(String price);
+
+  /// Surcharge calculation row
+  ///
+  /// In ru, this message translates to:
+  /// **'Стоимость доставки'**
+  String get parcelSurchargeCost;
+
+  /// Surcharge calculation row
+  ///
+  /// In ru, this message translates to:
+  /// **'Уже оплачено'**
+  String get parcelSurchargePaid;
+
+  /// Surcharge result
+  ///
+  /// In ru, this message translates to:
+  /// **'К доплате'**
+  String get parcelSurchargeDue;
+
+  /// Surcharge result when the estimate was higher
+  ///
+  /// In ru, this message translates to:
+  /// **'Вернём на баланс'**
+  String get parcelSurchargeRefund;
+
+  /// Pickup code card title
+  ///
+  /// In ru, this message translates to:
+  /// **'Код выдачи'**
+  String get parcelPickupCode;
+
+  /// Under the pickup code
+  ///
+  /// In ru, this message translates to:
+  /// **'Назовите код в пункте выдачи. Нажмите, чтобы скопировать'**
+  String get parcelPickupCodeHint;
+
+  /// Screen-reader label of the pickup code
+  ///
+  /// In ru, this message translates to:
+  /// **'Код выдачи {code}, скопировать'**
+  String parcelPickupCodeSpoken(String code);
+
+  /// Amount to pay at handover
+  ///
+  /// In ru, this message translates to:
+  /// **'К оплате при получении'**
+  String get parcelDueAtHandover;
+
+  /// Courier card title
+  ///
+  /// In ru, this message translates to:
+  /// **'Курьер'**
+  String get parcelCourier;
+
+  /// Forming parcel explanation
+  ///
+  /// In ru, this message translates to:
+  /// **'Собираем посылку из ваших товаров на складе в Китае'**
+  String get parcelFormingText;
+
+  /// Free storage end date
+  ///
+  /// In ru, this message translates to:
+  /// **'Бесплатное хранение до {date}'**
+  String parcelFreeStorage(String date);
+
+  /// Send a forming parcel without waiting
+  ///
+  /// In ru, this message translates to:
+  /// **'Отправить сейчас'**
+  String get parcelSendNow;
+
+  /// Send now confirmation title
+  ///
+  /// In ru, this message translates to:
+  /// **'Отправить без остальных товаров?'**
+  String get parcelSendNowTitle;
+
+  /// Send now confirmation text
+  ///
+  /// In ru, this message translates to:
+  /// **'Посылка уйдёт сейчас, остальные товары приедут отдельно. Доставка может выйти дороже'**
+  String get parcelSendNowText;
+
+  /// Send now confirmation: wait
+  ///
+  /// In ru, this message translates to:
+  /// **'Подождать'**
+  String get parcelSendNowKeep;
+
+  /// Toast after send now
+  ///
+  /// In ru, this message translates to:
+  /// **'Посылка отправлена'**
+  String get parcelSent;
+
+  /// Parcel items card title
+  ///
+  /// In ru, this message translates to:
+  /// **'Состав'**
+  String get parcelContents;
+
+  /// Parcel item caption
+  ///
+  /// In ru, this message translates to:
+  /// **'{quantity} шт. · заказ №{order}'**
+  String parcelItemFrom(String quantity, String order);
+
+  /// Claim deadline after handover
+  ///
+  /// In ru, this message translates to:
+  /// **'Если с товаром что-то не так, оформите претензию до {date}'**
+  String parcelClaimUntil(String date);
+
+  /// Profile stat pill and menu row
+  ///
+  /// In ru, this message translates to:
+  /// **'Баланс'**
+  String get profileBalance;
+
+  /// Profile stat pill
+  ///
+  /// In ru, this message translates to:
+  /// **'Долг'**
+  String get profileDebt;
+
+  /// Profile stat pill
+  ///
+  /// In ru, this message translates to:
+  /// **'Бонусы'**
+  String get profileBonuses;
+
+  /// Wholesale customer badge
+  ///
+  /// In ru, this message translates to:
+  /// **'Опт'**
+  String get profileWholesaleBadge;
+
+  /// Profile menu row
+  ///
+  /// In ru, this message translates to:
+  /// **'Мои заказы'**
+  String get profileOrders;
+
+  /// Profile menu row
+  ///
+  /// In ru, this message translates to:
+  /// **'Мои посылки'**
+  String get profileParcels;
+
+  /// Profile menu row
+  ///
+  /// In ru, this message translates to:
+  /// **'Доплаты и возвраты'**
+  String get profileSurcharges;
+
+  /// Profile menu row
+  ///
+  /// In ru, this message translates to:
+  /// **'Адреса'**
+  String get profileAddresses;
+
+  /// Profile menu row
+  ///
+  /// In ru, this message translates to:
+  /// **'Просмотренные'**
+  String get profileViewed;
+
+  /// Profile menu row
+  ///
+  /// In ru, this message translates to:
+  /// **'Мои отзывы'**
+  String get profileReviews;
+
+  /// Profile menu row
+  ///
+  /// In ru, this message translates to:
+  /// **'Подписки на снижение цены'**
+  String get profilePriceAlerts;
+
+  /// Profile menu row
+  ///
+  /// In ru, this message translates to:
+  /// **'Уведомления'**
+  String get profileNotifications;
+
+  /// Profile menu row
+  ///
+  /// In ru, this message translates to:
+  /// **'Поддержка'**
+  String get profileSupport;
+
+  /// Profile menu row for retail customers
+  ///
+  /// In ru, this message translates to:
+  /// **'Стать оптовиком'**
+  String get profileBecomeWholesale;
+
+  /// Profile menu row for wholesale customers
+  ///
+  /// In ru, this message translates to:
+  /// **'Опт: документы'**
+  String get profileWholesaleDocs;
+
+  /// Profile menu row
+  ///
+  /// In ru, this message translates to:
+  /// **'Информация'**
+  String get profileInfo;
+
+  /// Profile menu row
+  ///
+  /// In ru, this message translates to:
+  /// **'Настройки'**
+  String get profileSettings;
+
+  /// Sign out row and confirm button
+  ///
+  /// In ru, this message translates to:
+  /// **'Выйти'**
+  String get profileSignOut;
+
+  /// Sign out confirmation title
+  ///
+  /// In ru, this message translates to:
+  /// **'Выйти из аккаунта?'**
+  String get profileSignOutTitle;
+
+  /// Sign out confirmation text
+  ///
+  /// In ru, this message translates to:
+  /// **'Корзина и избранное на этом телефоне останутся'**
+  String get profileSignOutText;
+
+  /// Sign out confirmation: stay
+  ///
+  /// In ru, this message translates to:
+  /// **'Остаться'**
+  String get profileSignOutKeep;
+
+  /// Guest sign-in card title
+  ///
+  /// In ru, this message translates to:
+  /// **'Войдите, чтобы видеть заказы'**
+  String get profileGuestTitle;
+
+  /// Guest sign-in card text
+  ///
+  /// In ru, this message translates to:
+  /// **'Заказы, посылки и баланс — в одном месте'**
+  String get profileGuestText;
+
+  /// Guest sign-in button
+  ///
+  /// In ru, this message translates to:
+  /// **'Войти'**
+  String get profileSignIn;
+
+  /// Language row
+  ///
+  /// In ru, this message translates to:
+  /// **'Язык'**
+  String get profileLanguage;
 }
 
 class _AppLocalizationsDelegate

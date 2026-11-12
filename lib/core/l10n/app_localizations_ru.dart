@@ -391,6 +391,181 @@ class AppLocalizationsRu extends AppLocalizations {
   String get cartBreakdownTitle => 'Сумма заказа';
 
   @override
+  String get checkoutTitle => 'Оформление заказа';
+
+  @override
+  String get checkoutRecipient => 'Получатель';
+
+  @override
+  String get checkoutFirstName => 'Имя';
+
+  @override
+  String get checkoutLastName => 'Фамилия';
+
+  @override
+  String get checkoutEdit => 'Изменить';
+
+  @override
+  String get checkoutRecipientError => 'Укажите имя, фамилию и телефон';
+
+  @override
+  String get checkoutReceiving => 'Получение';
+
+  @override
+  String get checkoutCourier => 'Курьер';
+
+  @override
+  String get checkoutPickup => 'Самовывоз';
+
+  @override
+  String checkoutCourierPrice(String price) {
+    return 'Курьер: $price';
+  }
+
+  @override
+  String checkoutCourierFree(String amount) {
+    return 'бесплатно от $amount';
+  }
+
+  @override
+  String get checkoutStreet => 'Улица и дом';
+
+  @override
+  String get checkoutAddressDetails => 'Квартира / ориентир';
+
+  @override
+  String get checkoutAddressError => 'Укажите улицу и дом';
+
+  @override
+  String get checkoutPickupError => 'Выберите пункт выдачи';
+
+  @override
+  String get checkoutDeliveryType => 'Тип доставки';
+
+  @override
+  String get checkoutDeliveryError => 'Нет доступного способа доставки';
+
+  @override
+  String get checkoutServices => 'Дополнительные услуги';
+
+  @override
+  String get checkoutComment => 'Комментарий к заказу';
+
+  @override
+  String get checkoutPayment => 'Оплата';
+
+  @override
+  String get checkoutPayCard => 'Картой онлайн';
+
+  @override
+  String get checkoutPayCardText => 'Через страницу банка';
+
+  @override
+  String get checkoutPayCash => 'Наличными в офисе';
+
+  @override
+  String get checkoutPayCashText => 'Оплатите до выкупа товара';
+
+  @override
+  String checkoutAdvance(String now, String later) {
+    return 'Сейчас $now, остаток $later — до выдачи, после взвешивания';
+  }
+
+  @override
+  String get checkoutTotal => 'Итог';
+
+  @override
+  String get moneyCourier => 'Курьер';
+
+  @override
+  String get moneyServices => 'Доп. услуги';
+
+  @override
+  String get checkoutConsent =>
+      'Я согласен с офертой и понимаю: товар выкупается под заказ, отменить можно только до выкупа';
+
+  @override
+  String get checkoutReadOffer => 'Читать оферту';
+
+  @override
+  String get checkoutConsentError => 'Подтвердите согласие';
+
+  @override
+  String checkoutPay(String amount) {
+    return 'Оплатить $amount';
+  }
+
+  @override
+  String get checkoutPlace => 'Оформить заказ';
+
+  @override
+  String checkoutConfirmNew(String amount) {
+    return 'Подтвердить $amount';
+  }
+
+  @override
+  String get checkoutPriceChanged =>
+      'Итог изменился, пока вы оформляли заказ. Проверьте новую сумму';
+
+  @override
+  String get checkoutPreviewError => 'Не удалось рассчитать заказ';
+
+  @override
+  String get checkoutSubmitError =>
+      'Не удалось оформить заказ. Попробуйте ещё раз';
+
+  @override
+  String get paymentChecking => 'Проверяем оплату…';
+
+  @override
+  String get paymentCheckingText => 'Это займёт до минуты. Не закрывайте экран';
+
+  @override
+  String get paymentSuccessTitle => 'Заказ оформлен';
+
+  @override
+  String paymentOrderNumber(String number) {
+    return 'Заказ №$number';
+  }
+
+  @override
+  String get paymentNextStep =>
+      'Мы выкупим товар в течение 1–2 дней и сообщим о каждом шаге';
+
+  @override
+  String get paymentCashNext =>
+      'Оплатите заказ в офисе — после оплаты мы выкупим товар';
+
+  @override
+  String paymentPaid(String amount) {
+    return 'Оплачено $amount';
+  }
+
+  @override
+  String paymentDue(String amount) {
+    return 'К оплате в офисе $amount';
+  }
+
+  @override
+  String get paymentToOrder => 'К заказу';
+
+  @override
+  String get paymentToHome => 'На главную';
+
+  @override
+  String get paymentFailedTitle => 'Оплата не прошла';
+
+  @override
+  String get paymentFailedText => 'Заказ сохранён и ждёт оплаты';
+
+  @override
+  String get paymentRetry => 'Повторить оплату';
+
+  @override
+  String get paymentTimeout =>
+      'Банк пока не ответил. Если деньги списались, заказ обновится сам';
+
+  @override
   String get homeNotifications => 'Уведомления';
 
   @override
@@ -637,4 +812,465 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get errorGenericMessage => 'Проверьте интернет и попробуйте ещё раз';
+
+  @override
+  String dateDayMonth(String day, String ending, String month) {
+    String _temp0 = intl.Intl.selectLogic(month, {
+      'jan': 'января',
+      'feb': 'февраля',
+      'mar': 'марта',
+      'apr': 'апреля',
+      'may': 'мая',
+      'jun': 'июня',
+      'jul': 'июля',
+      'aug': 'августа',
+      'sep': 'сентября',
+      'oct': 'октября',
+      'nov': 'ноября',
+      'dec': 'декабря',
+      'other': '',
+    });
+    String _temp1 = intl.Intl.selectLogic(ending, {'other': ''});
+    return '$day $_temp0$_temp1';
+  }
+
+  @override
+  String dateDayMonthTime(String date, String time) {
+    return '$date, $time';
+  }
+
+  @override
+  String dateRangeSameMonth(String from, String to) {
+    return '$from–$to';
+  }
+
+  @override
+  String dateRange(String from, String to) {
+    return '$from – $to';
+  }
+
+  @override
+  String get loginTitle => 'Вход';
+
+  @override
+  String get loginSubtitle => 'Введите номер — пришлём код для входа';
+
+  @override
+  String get loginPhoneError => 'Введите номер полностью: 8 цифр';
+
+  @override
+  String get loginConsent =>
+      'Я соглашаюсь с политикой конфиденциальности и обработкой персональных данных';
+
+  @override
+  String get loginConsentError => 'Подтвердите согласие';
+
+  @override
+  String get loginReadPolicy => 'Читать политику';
+
+  @override
+  String get loginGetCode => 'Получить код';
+
+  @override
+  String get loginOr => 'или';
+
+  @override
+  String get loginGoogle => 'Войти через Google';
+
+  @override
+  String get loginCodeTitle => 'Введите код';
+
+  @override
+  String loginCodeSent(String channel, String destination) {
+    String _temp0 = intl.Intl.selectLogic(channel, {
+      'telegram': 'Код отправлен в Telegram: $destination',
+      'email': 'Код отправлен на почту $destination',
+      'other': 'Код отправлен в SMS на $destination',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String loginResendIn(String time) {
+    return 'Отправить снова через $time';
+  }
+
+  @override
+  String get loginResend => 'Отправить код снова';
+
+  @override
+  String get loginChangePhone => 'Изменить номер';
+
+  @override
+  String get loginBlockedTitle => 'Аккаунт заблокирован';
+
+  @override
+  String get ordersTitle => 'Мои заказы';
+
+  @override
+  String get ordersTabActive => 'Активные';
+
+  @override
+  String get ordersTabCompleted => 'Завершённые';
+
+  @override
+  String get ordersTabCancelled => 'Отменённые';
+
+  @override
+  String get ordersEmptyActive => 'Активных заказов нет';
+
+  @override
+  String get ordersEmptyActiveText =>
+      'Найдите что-нибудь в каталоге — мы выкупим и доставим';
+
+  @override
+  String get ordersEmptyCompleted => 'Завершённых заказов пока нет';
+
+  @override
+  String get ordersEmptyCancelled => 'Отменённых заказов нет';
+
+  @override
+  String ordersItemCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count товаров',
+      few: '$count товара',
+      one: '$count товар',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String ordersMoreItems(String count) {
+    return '+$count';
+  }
+
+  @override
+  String get ordersRepeat => 'Повторить';
+
+  @override
+  String ordersRepeatAdded(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Добавили $count товаров в корзину',
+      few: 'Добавили $count товара в корзину',
+      one: 'Добавили $count товар в корзину',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String ordersRepeatPartly(int added, int missing) {
+    return 'Добавили в корзину: $added. Больше не продаются: $missing';
+  }
+
+  @override
+  String get ordersRepeatNone => 'Этих товаров больше нет в продаже';
+
+  @override
+  String get ordersOpenCart => 'В корзину';
+
+  @override
+  String ordersCachedAt(String time) {
+    return 'Нет соединения. Данные на $time';
+  }
+
+  @override
+  String get ordersCopied => 'Скопировано';
+
+  @override
+  String get ordersCopy => 'Скопировать';
+
+  @override
+  String orderNumber(String number) {
+    return 'Заказ №$number';
+  }
+
+  @override
+  String orderCreatedAt(String date) {
+    return 'Оформлен $date';
+  }
+
+  @override
+  String get orderPayWithin => 'Оплатите в течение';
+
+  @override
+  String get orderDecideWithin => 'Решите в течение';
+
+  @override
+  String get orderItems => 'Товары';
+
+  @override
+  String get orderChinaTrack => 'Трек по Китаю';
+
+  @override
+  String get orderWarehousePhotos => 'Фото со склада';
+
+  @override
+  String orderItemPrice(String quantity, String price) {
+    return '$quantity × $price';
+  }
+
+  @override
+  String orderPhoto(String index) {
+    return 'Фото $index';
+  }
+
+  @override
+  String get orderParcels => 'Посылки';
+
+  @override
+  String get orderDelivery => 'Доставка';
+
+  @override
+  String get orderDeliveryType => 'Способ';
+
+  @override
+  String get orderMoney => 'Оплата';
+
+  @override
+  String get orderPaid => 'Оплачено';
+
+  @override
+  String get orderDue => 'Осталось оплатить';
+
+  @override
+  String get orderHistory => 'История';
+
+  @override
+  String get orderCancel => 'Отменить заказ';
+
+  @override
+  String get orderCancelTitle => 'Отмена заказа';
+
+  @override
+  String get orderCancelKeep => 'Не отменять';
+
+  @override
+  String get orderCancelReason => 'Почему отменяете?';
+
+  @override
+  String orderCancelRefund(String amount, String destination) {
+    return 'Вернём $amount $destination';
+  }
+
+  @override
+  String get orderCancelled => 'Заказ отменён';
+
+  @override
+  String get orderDecisionSent => 'Решение отправлено';
+
+  @override
+  String get parcelsTitle => 'Мои посылки';
+
+  @override
+  String get parcelsEmpty => 'Посылок пока нет';
+
+  @override
+  String get parcelsEmptyText =>
+      'Когда товары приедут на склад, мы соберём их в посылку';
+
+  @override
+  String parcelNumber(String number) {
+    return 'Посылка $number';
+  }
+
+  @override
+  String parcelEta(String range) {
+    return 'Ожидается $range';
+  }
+
+  @override
+  String get parcelExpected => 'Ожидается';
+
+  @override
+  String parcelWeight(String kg) {
+    return '$kg кг';
+  }
+
+  @override
+  String get parcelStageForming => 'Формируется';
+
+  @override
+  String get parcelStageSurcharge => 'Доплата';
+
+  @override
+  String get parcelStageInTransit => 'В пути';
+
+  @override
+  String get parcelStageCustoms => 'Таможня';
+
+  @override
+  String get parcelStageArrived => 'Прибыла';
+
+  @override
+  String get parcelStageHandover => 'Готова к выдаче';
+
+  @override
+  String get parcelStageDelivered => 'Выдана';
+
+  @override
+  String parcelProgressSpoken(String step, String total, String stage) {
+    return 'Этап $step из $total: $stage';
+  }
+
+  @override
+  String get parcelSurchargeTitle => 'Доплата за доставку';
+
+  @override
+  String get parcelSurchargeWeight => 'Фактический вес';
+
+  @override
+  String get parcelSurchargeRate => 'Тариф';
+
+  @override
+  String parcelRatePerKg(String price) {
+    return '$price за кг';
+  }
+
+  @override
+  String get parcelSurchargeCost => 'Стоимость доставки';
+
+  @override
+  String get parcelSurchargePaid => 'Уже оплачено';
+
+  @override
+  String get parcelSurchargeDue => 'К доплате';
+
+  @override
+  String get parcelSurchargeRefund => 'Вернём на баланс';
+
+  @override
+  String get parcelPickupCode => 'Код выдачи';
+
+  @override
+  String get parcelPickupCodeHint =>
+      'Назовите код в пункте выдачи. Нажмите, чтобы скопировать';
+
+  @override
+  String parcelPickupCodeSpoken(String code) {
+    return 'Код выдачи $code, скопировать';
+  }
+
+  @override
+  String get parcelDueAtHandover => 'К оплате при получении';
+
+  @override
+  String get parcelCourier => 'Курьер';
+
+  @override
+  String get parcelFormingText =>
+      'Собираем посылку из ваших товаров на складе в Китае';
+
+  @override
+  String parcelFreeStorage(String date) {
+    return 'Бесплатное хранение до $date';
+  }
+
+  @override
+  String get parcelSendNow => 'Отправить сейчас';
+
+  @override
+  String get parcelSendNowTitle => 'Отправить без остальных товаров?';
+
+  @override
+  String get parcelSendNowText =>
+      'Посылка уйдёт сейчас, остальные товары приедут отдельно. Доставка может выйти дороже';
+
+  @override
+  String get parcelSendNowKeep => 'Подождать';
+
+  @override
+  String get parcelSent => 'Посылка отправлена';
+
+  @override
+  String get parcelContents => 'Состав';
+
+  @override
+  String parcelItemFrom(String quantity, String order) {
+    return '$quantity шт. · заказ №$order';
+  }
+
+  @override
+  String parcelClaimUntil(String date) {
+    return 'Если с товаром что-то не так, оформите претензию до $date';
+  }
+
+  @override
+  String get profileBalance => 'Баланс';
+
+  @override
+  String get profileDebt => 'Долг';
+
+  @override
+  String get profileBonuses => 'Бонусы';
+
+  @override
+  String get profileWholesaleBadge => 'Опт';
+
+  @override
+  String get profileOrders => 'Мои заказы';
+
+  @override
+  String get profileParcels => 'Мои посылки';
+
+  @override
+  String get profileSurcharges => 'Доплаты и возвраты';
+
+  @override
+  String get profileAddresses => 'Адреса';
+
+  @override
+  String get profileViewed => 'Просмотренные';
+
+  @override
+  String get profileReviews => 'Мои отзывы';
+
+  @override
+  String get profilePriceAlerts => 'Подписки на снижение цены';
+
+  @override
+  String get profileNotifications => 'Уведомления';
+
+  @override
+  String get profileSupport => 'Поддержка';
+
+  @override
+  String get profileBecomeWholesale => 'Стать оптовиком';
+
+  @override
+  String get profileWholesaleDocs => 'Опт: документы';
+
+  @override
+  String get profileInfo => 'Информация';
+
+  @override
+  String get profileSettings => 'Настройки';
+
+  @override
+  String get profileSignOut => 'Выйти';
+
+  @override
+  String get profileSignOutTitle => 'Выйти из аккаунта?';
+
+  @override
+  String get profileSignOutText =>
+      'Корзина и избранное на этом телефоне останутся';
+
+  @override
+  String get profileSignOutKeep => 'Остаться';
+
+  @override
+  String get profileGuestTitle => 'Войдите, чтобы видеть заказы';
+
+  @override
+  String get profileGuestText => 'Заказы, посылки и баланс — в одном месте';
+
+  @override
+  String get profileSignIn => 'Войти';
+
+  @override
+  String get profileLanguage => 'Язык';
 }

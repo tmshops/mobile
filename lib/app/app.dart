@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
+import '../core/auth/auth_cubit.dart';
 import '../core/cart/cart_cubit.dart';
 import '../core/di/injection.dart';
 import '../core/l10n/l10n.dart';
@@ -19,12 +20,16 @@ class TmshopApp extends StatefulWidget {
 }
 
 class _TmshopAppState extends State<TmshopApp> {
-  // Created once so hot reload and rebuilds keep the navigation state.
-  late final GoRouter _router = createAppRouter();
+  // Created once so hot reload and rebuilds keep the navigation state. The
+  // router needs the session for its login guard, so both live here.
+  late final AuthCubit _auth = getIt<AuthCubit>()
+    ..restore(getIt<LocaleCubit>().state.languageCode);
+  late final GoRouter _router = createAppRouter(auth: _auth);
 
   @override
   void dispose() {
     _router.dispose();
+    _auth.close();
     super.dispose();
   }
 
@@ -35,6 +40,7 @@ class _TmshopAppState extends State<TmshopApp> {
       providers: [
         BlocProvider(create: (_) => getIt<LocaleCubit>()),
         BlocProvider(create: (_) => getIt<ConnectivityCubit>()),
+        BlocProvider.value(value: _auth),
         BlocProvider(create: (_) => getIt<CartCubit>()..load()),
         BlocProvider(
           create: (context) =>

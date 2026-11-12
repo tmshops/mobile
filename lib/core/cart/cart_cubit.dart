@@ -109,6 +109,12 @@ class CartCubit extends Cubit<CartState> {
     return index;
   }
 
+  /// Drops ordered lines after checkout; unticked ones stay for later.
+  Future<void> removeMany(Set<String> keys) => _save([
+    for (final line in state.items)
+      if (!keys.contains(line.key)) line,
+  ]);
+
   /// Puts back a removed line («Отменить»).
   Future<void> restore(CartItem item, int index) {
     if (state.items.any(item.isSameLine)) return Future.value();

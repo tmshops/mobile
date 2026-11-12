@@ -77,9 +77,9 @@ void main() {
     tester.view.physicalSize =
         const Size(360, 800) * tester.view.devicePixelRatio;
     addTearDown(tester.view.resetPhysicalSize);
-    router = createAppRouter();
-    addTearDown(router.dispose);
     final cubits = GlobalCubits();
+    router = createAppRouter(auth: cubits.auth);
+    addTearDown(router.dispose);
     await tester.pumpWidget(
       MultiBlocProvider(
         providers: [...cubits.providers],

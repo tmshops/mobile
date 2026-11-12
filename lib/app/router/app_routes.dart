@@ -69,6 +69,9 @@ abstract final class AppRoutes {
   static const deleteAccountPath = 'delete-account';
   static const deleteAccount = '$settings/$deleteAccountPath';
 
+  static const myReviewsPath = 'reviews';
+  static const myReviews = '$profile/$myReviewsPath';
+
   static const viewedPath = 'viewed';
   static const viewed = '$profile/$viewedPath';
 
@@ -85,6 +88,21 @@ abstract final class AppRoutes {
   static const productPath = '/product/:$idParam';
 
   static String product(String id) => '/product/${Uri.encodeComponent(id)}';
+
+  /// Relative to [productPath].
+  static const productReviewsPath = 'reviews';
+
+  static String productReviews(String id) => '${product(id)}/reviews';
+
+  static const itemParam = 'item';
+
+  /// «Написать отзыв» for a received order item.
+  static const writeReview = '/review';
+
+  static String writeReviewFor(String orderNumber, String itemId) => Uri(
+    path: writeReview,
+    queryParameters: {orderParam: orderNumber, itemParam: itemId},
+  ).toString();
 
   static const promoParam = 'promo';
 
@@ -137,6 +155,8 @@ abstract final class AppRoutes {
       location.startsWith(surcharges) ||
       location.startsWith(walletPay) ||
       location == notifications ||
+      location.startsWith(myReviews) ||
+      location.startsWith('$writeReview?') ||
       location.startsWith('/pay/');
 
   /// Dev-only component catalogue; registered in debug builds only.

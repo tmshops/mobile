@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'fake_catalog_backend.dart';
 import 'fake_home_samples.dart';
+import 'fake_reviews_backend.dart';
 
 /// Builds product page JSON for the dev fake data source, starting from the
 /// same generated product a list tile showed, so title, photo and price
@@ -27,6 +28,7 @@ class FakeProductBackend {
     final r = Random(id.codeUnits.fold<int>(11, (h, c) => h * 37 + c));
     final clock = now ?? DateTime.now();
     final summary = base.summary;
+    final reviews = FakeReviewsBackend.preview(lang, id);
     final price = summary['price'] as int;
     final oldPrice = summary['old_price'] as int?;
 
@@ -52,8 +54,10 @@ class FakeProductBackend {
           {'min_quantity': 50, 'price': (price * 0.85).ceil()},
         ],
       ],
-      'rating': base.rating,
-      'review_count': 12 + r.nextInt(400),
+      // Same numbers as the full review list.
+      'rating': reviews['average'],
+      // The draw stays so everything generated after it is unchanged.
+      'review_count': _keep(r.nextInt(400), reviews['count']),
       'sold_count': summary['sold_count'],
       'properties': properties,
       'skus': skus,
@@ -88,7 +92,7 @@ class FakeProductBackend {
         'rating': 4 + r.nextInt(10) / 10,
         'sales_count': 1000 + r.nextInt(90000),
       },
-      'reviews': _reviews(id, t, r),
+      'reviews': reviews,
       'is_available': id.codeUnits.fold<int>(0, (a, c) => a + c) % 17 != 0,
       'similar': base.similar,
       'bought_together': base.boughtTogether,
@@ -327,42 +331,5 @@ class FakeProductBackend {
       '<iframe src="https://example.com"></iframe>'
       '<p>${t('Размеры указаны производителем; смотрите размерную сетку.', 'Ölçegler öndüriji tarapyndan görkezildi; ölçeg tablisasyna serediň.')}</p>';
 
-  static Map<String, dynamic> _reviews(
-    String id,
-    String Function(String, String) t,
-    Random r,
-  ) {
-    final count = 12 + r.nextInt(300);
-    return {
-      'average': 4 + r.nextInt(10) / 10,
-      'count': count,
-      'photo_urls': [
-        for (var k = 0; k < 5; k++)
-          'https://picsum.photos/seed/$id-r$k/300/300',
-      ],
-      'items': [
-        {
-          'author': t('Айна', 'Aýna'),
-          'date': DateTime.utc(2026, 10, 28).toIso8601String(),
-          'rating': 5,
-          'text': t(
-            'Пришло быстро, качество отличное. Размер подошёл, цвет как на фото. Буду заказывать ещё.',
-            'Çalt geldi, hili ajaýyp. Ölçegi gabat geldi, reňki suratdaky ýaly. Ýene sargyt ederin.',
-          ),
-          'sku_label': t('Чёрный, M', 'Gara, M'),
-          'photo_urls': ['https://picsum.photos/seed/$id-r0/300/300'],
-        },
-        {
-          'author': 'Wang L.',
-          'date': DateTime.utc(2026, 10, 14).toIso8601String(),
-          'rating': 4,
-          'text': t(
-            'Хорошая вещь за свои деньги, упаковка немного помялась.',
-            'Bahasyna görä gowy zat, gaplamasy birneme ezilipdir.',
-          ),
-          'is_translated': true,
-        },
-      ],
-    };
-  }
+  static T _keep<T>(Object? _, T value) => value;
 }

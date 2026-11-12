@@ -1733,4 +1733,113 @@ class AppLocalizationsTk extends AppLocalizations {
   @override
   String get promoEmptyText =>
       'Soňrak giriň — täze arzanladyşlar her hepde peýda bolýar';
+
+  @override
+  String reviewsBarSpoken(int stars, int count) {
+    return '$stars ýyldyz: $count';
+  }
+
+  @override
+  String get reviewsFilterAll => 'Hemmesi';
+
+  @override
+  String get reviewsFilterPhotos => 'Suratly';
+
+  @override
+  String get reviewsFilterTranslated => 'Terjime edilen';
+
+  @override
+  String reviewsFilterStars(int stars) {
+    return '$stars★';
+  }
+
+  @override
+  String reviewsVariant(String variant) {
+    return 'Görnüşi: $variant';
+  }
+
+  @override
+  String reviewsPhoto(int index, int count) {
+    return '$count suratdan $index-njysy';
+  }
+
+  @override
+  String get reviewsTranslated => 'Hytaý dilinden terjime edildi';
+
+  @override
+  String get reviewsStoreReply => 'Dükanyň jogaby';
+
+  @override
+  String get reviewsNoneForFilter => 'Şeýle süzgüç bilen teswir ýok';
+
+  @override
+  String get reviewsRating1 => 'Erbet';
+
+  @override
+  String get reviewsRating2 => 'Gowy däl';
+
+  @override
+  String get reviewsRating3 => 'Kadaly';
+
+  @override
+  String get reviewsRating4 => 'Gowy';
+
+  @override
+  String get reviewsRating5 => 'Ajaýyp';
+
+  @override
+  String get reviewsRatingPick => 'Baha beriň';
+
+  @override
+  String get reviewsRatingSpoken => 'Baha';
+
+  @override
+  String get reviewsWriteTitle => 'Haryt barada teswir';
+
+  @override
+  String get reviewsLeave => 'Teswir ýazmak';
+
+  @override
+  String get reviewsNotReviewableTitle => 'Teswir ýazyp bolmaýar';
+
+  @override
+  String get reviewsNotReviewableText =>
+      'Teswiri bir gezek, haryt alnandan soň ýazyp bolýar';
+
+  @override
+  String get reviewsTextLabel => 'Siziň teswiriňiz';
+
+  @override
+  String get reviewsTextHint =>
+      'Näme halandyňyz, näme halamadyňyz, ölçegi gabat geldimi';
+
+  @override
+  String get reviewsSend => 'Ugratmak';
+
+  @override
+  String get reviewsSentTitle => 'Sag boluň!';
+
+  @override
+  String get reviewsSentText => 'Teswir barlanandan soň peýda bolar';
+
+  @override
+  String get reviewsMineEmptyTitle => 'Siz entek teswir ýazmadyňyz';
+
+  @override
+  String get reviewsMineEmptyText =>
+      'Harydy alanyňyzdan soň sargytda baha berip bilersiňiz';
+
+  @override
+  String get reviewsStatusModeration => 'Barlagda';
+
+  @override
+  String get reviewsStatusPublished => 'Çap edildi';
+
+  @override
+  String get reviewsStatusRejected => 'Ret edildi';
+
+  @override
+  String reviewsRejectReason(String reason) {
+    return 'Sebäbi: $reason';
+  }
 }

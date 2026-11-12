@@ -15,6 +15,7 @@ class OrderPage extends StatelessWidget {
     required this.onOpenProduct,
     required this.onPay,
     required this.onOpenCart,
+    required this.onWriteReview,
     super.key,
   });
 
@@ -25,6 +26,7 @@ class OrderPage extends StatelessWidget {
   /// «Оплатить» for an order awaiting payment.
   final ValueChanged<OrderDetails> onPay;
   final VoidCallback onOpenCart;
+  final Future<void> Function(String itemId) onWriteReview;
 
   @override
   Widget build(BuildContext context) => BlocProvider(
@@ -39,6 +41,7 @@ class OrderPage extends StatelessWidget {
       onOpenProduct: onOpenProduct,
       onPay: onPay,
       onOpenCart: onOpenCart,
+      onWriteReview: onWriteReview,
     ),
   );
 }

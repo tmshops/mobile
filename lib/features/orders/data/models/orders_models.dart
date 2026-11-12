@@ -78,6 +78,9 @@ abstract class OrderItemModel with _$OrderItemModel {
     String? options,
     @Default(<String>[]) List<String> warehousePhotos,
     String? chinaTrack,
+
+    /// Received and not reviewed yet (TZ §5.18).
+    @Default(false) bool canReview,
     ItemProblemModel? problem,
   }) = _OrderItemModel;
 

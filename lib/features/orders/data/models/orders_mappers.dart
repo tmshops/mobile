@@ -113,6 +113,7 @@ extension OrderItemModelX on OrderItemModel {
     options: options,
     warehousePhotos: warehousePhotos,
     chinaTrack: chinaTrack,
+    canReview: canReview,
     problem: switch (problem) {
       final p? => ItemProblem(
         title: p.title,

@@ -208,6 +208,7 @@ _OrderItemModel _$OrderItemModelFromJson(Map<String, dynamic> json) =>
                 const <String>[],
           ),
           chinaTrack: $checkedConvert('china_track', (v) => v as String?),
+          canReview: $checkedConvert('can_review', (v) => v as bool? ?? false),
           problem: $checkedConvert(
             'problem',
             (v) => v == null
@@ -222,6 +223,7 @@ _OrderItemModel _$OrderItemModelFromJson(Map<String, dynamic> json) =>
         'imageUrl': 'image_url',
         'warehousePhotos': 'warehouse_photos',
         'chinaTrack': 'china_track',
+        'canReview': 'can_review',
       },
     );
 
@@ -237,6 +239,7 @@ Map<String, dynamic> _$OrderItemModelToJson(_OrderItemModel instance) =>
       'options': instance.options,
       'warehouse_photos': instance.warehousePhotos,
       'china_track': instance.chinaTrack,
+      'can_review': instance.canReview,
       'problem': instance.problem?.toJson(),
     };
 

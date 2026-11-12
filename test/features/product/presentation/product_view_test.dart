@@ -80,6 +80,7 @@ void main() {
             onOpenProduct: (_) {},
             onOpenCart: () {},
             onLogin: () => logins++,
+            onAllReviews: () {},
             onComingSoon: () => comingSoon++,
           ),
         ),

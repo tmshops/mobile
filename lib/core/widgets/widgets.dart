@@ -17,6 +17,7 @@ export 'layout/root_tab_page.dart';
 export 'layout/sticky_action_bar.dart';
 export 'media/app_logo.dart';
 export 'media/app_network_image.dart';
+export 'media/photo_viewer.dart';
 export 'money/delivery_option_card.dart';
 export 'money/money_breakdown.dart';
 export 'money/progress_to_minimum.dart';

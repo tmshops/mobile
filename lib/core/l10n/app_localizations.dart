@@ -3019,6 +3019,198 @@ abstract class AppLocalizations {
   /// In ru, this message translates to:
   /// **'Загляните позже — новые скидки появляются каждую неделю'**
   String get promoEmptyText;
+
+  /// Screen-reader text of one distribution bar
+  ///
+  /// In ru, this message translates to:
+  /// **'{stars} звёзд: {count}'**
+  String reviewsBarSpoken(int stars, int count);
+
+  /// Review filter chip
+  ///
+  /// In ru, this message translates to:
+  /// **'Все'**
+  String get reviewsFilterAll;
+
+  /// Review filter chip
+  ///
+  /// In ru, this message translates to:
+  /// **'С фото'**
+  String get reviewsFilterPhotos;
+
+  /// Review filter chip
+  ///
+  /// In ru, this message translates to:
+  /// **'Переведённые'**
+  String get reviewsFilterTranslated;
+
+  /// Review filter chip by stars
+  ///
+  /// In ru, this message translates to:
+  /// **'{stars}★'**
+  String reviewsFilterStars(int stars);
+
+  /// Variant the reviewer bought
+  ///
+  /// In ru, this message translates to:
+  /// **'Вариант: {variant}'**
+  String reviewsVariant(String variant);
+
+  /// Screen-reader label of a review photo
+  ///
+  /// In ru, this message translates to:
+  /// **'Фото {index} из {count}'**
+  String reviewsPhoto(int index, int count);
+
+  /// Under a machine-translated marketplace review
+  ///
+  /// In ru, this message translates to:
+  /// **'Переведено с китайского'**
+  String get reviewsTranslated;
+
+  /// Heading of the store's reply
+  ///
+  /// In ru, this message translates to:
+  /// **'Ответ магазина'**
+  String get reviewsStoreReply;
+
+  /// Empty list for a filter
+  ///
+  /// In ru, this message translates to:
+  /// **'Отзывов с таким фильтром нет'**
+  String get reviewsNoneForFilter;
+
+  /// Under one star
+  ///
+  /// In ru, this message translates to:
+  /// **'Ужасно'**
+  String get reviewsRating1;
+
+  /// Under two stars
+  ///
+  /// In ru, this message translates to:
+  /// **'Плохо'**
+  String get reviewsRating2;
+
+  /// Under three stars
+  ///
+  /// In ru, this message translates to:
+  /// **'Нормально'**
+  String get reviewsRating3;
+
+  /// Under four stars
+  ///
+  /// In ru, this message translates to:
+  /// **'Хорошо'**
+  String get reviewsRating4;
+
+  /// Under five stars
+  ///
+  /// In ru, this message translates to:
+  /// **'Отлично'**
+  String get reviewsRating5;
+
+  /// Under the stars before a pick
+  ///
+  /// In ru, this message translates to:
+  /// **'Поставьте оценку'**
+  String get reviewsRatingPick;
+
+  /// Screen-reader label of the star picker
+  ///
+  /// In ru, this message translates to:
+  /// **'Оценка'**
+  String get reviewsRatingSpoken;
+
+  /// Write review screen title
+  ///
+  /// In ru, this message translates to:
+  /// **'Отзыв о товаре'**
+  String get reviewsWriteTitle;
+
+  /// Button on a received order item
+  ///
+  /// In ru, this message translates to:
+  /// **'Оставить отзыв'**
+  String get reviewsLeave;
+
+  /// Item not received or already reviewed
+  ///
+  /// In ru, this message translates to:
+  /// **'Отзыв оставить нельзя'**
+  String get reviewsNotReviewableTitle;
+
+  /// Explains when a review is possible
+  ///
+  /// In ru, this message translates to:
+  /// **'Отзыв можно оставить один раз, после получения товара'**
+  String get reviewsNotReviewableText;
+
+  /// Review text field
+  ///
+  /// In ru, this message translates to:
+  /// **'Ваш отзыв'**
+  String get reviewsTextLabel;
+
+  /// Review text hint
+  ///
+  /// In ru, this message translates to:
+  /// **'Что понравилось, что нет, подошёл ли размер'**
+  String get reviewsTextHint;
+
+  /// Sends the review
+  ///
+  /// In ru, this message translates to:
+  /// **'Отправить'**
+  String get reviewsSend;
+
+  /// Review sent
+  ///
+  /// In ru, this message translates to:
+  /// **'Спасибо!'**
+  String get reviewsSentTitle;
+
+  /// Review sent hint
+  ///
+  /// In ru, this message translates to:
+  /// **'Отзыв появится после модерации'**
+  String get reviewsSentText;
+
+  /// No own reviews
+  ///
+  /// In ru, this message translates to:
+  /// **'Вы ещё не оставляли отзывов'**
+  String get reviewsMineEmptyTitle;
+
+  /// No own reviews hint
+  ///
+  /// In ru, this message translates to:
+  /// **'Оценить товар можно в заказе после его получения'**
+  String get reviewsMineEmptyText;
+
+  /// Own review status
+  ///
+  /// In ru, this message translates to:
+  /// **'На модерации'**
+  String get reviewsStatusModeration;
+
+  /// Own review status
+  ///
+  /// In ru, this message translates to:
+  /// **'Опубликован'**
+  String get reviewsStatusPublished;
+
+  /// Own review status
+  ///
+  /// In ru, this message translates to:
+  /// **'Отклонён'**
+  String get reviewsStatusRejected;
+
+  /// Why a review was rejected
+  ///
+  /// In ru, this message translates to:
+  /// **'Причина: {reason}'**
+  String reviewsRejectReason(String reason);
 }
 
 class _AppLocalizationsDelegate

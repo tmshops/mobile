@@ -1788,4 +1788,112 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get promoEmptyText =>
       'Загляните позже — новые скидки появляются каждую неделю';
+
+  @override
+  String reviewsBarSpoken(int stars, int count) {
+    return '$stars звёзд: $count';
+  }
+
+  @override
+  String get reviewsFilterAll => 'Все';
+
+  @override
+  String get reviewsFilterPhotos => 'С фото';
+
+  @override
+  String get reviewsFilterTranslated => 'Переведённые';
+
+  @override
+  String reviewsFilterStars(int stars) {
+    return '$stars★';
+  }
+
+  @override
+  String reviewsVariant(String variant) {
+    return 'Вариант: $variant';
+  }
+
+  @override
+  String reviewsPhoto(int index, int count) {
+    return 'Фото $index из $count';
+  }
+
+  @override
+  String get reviewsTranslated => 'Переведено с китайского';
+
+  @override
+  String get reviewsStoreReply => 'Ответ магазина';
+
+  @override
+  String get reviewsNoneForFilter => 'Отзывов с таким фильтром нет';
+
+  @override
+  String get reviewsRating1 => 'Ужасно';
+
+  @override
+  String get reviewsRating2 => 'Плохо';
+
+  @override
+  String get reviewsRating3 => 'Нормально';
+
+  @override
+  String get reviewsRating4 => 'Хорошо';
+
+  @override
+  String get reviewsRating5 => 'Отлично';
+
+  @override
+  String get reviewsRatingPick => 'Поставьте оценку';
+
+  @override
+  String get reviewsRatingSpoken => 'Оценка';
+
+  @override
+  String get reviewsWriteTitle => 'Отзыв о товаре';
+
+  @override
+  String get reviewsLeave => 'Оставить отзыв';
+
+  @override
+  String get reviewsNotReviewableTitle => 'Отзыв оставить нельзя';
+
+  @override
+  String get reviewsNotReviewableText =>
+      'Отзыв можно оставить один раз, после получения товара';
+
+  @override
+  String get reviewsTextLabel => 'Ваш отзыв';
+
+  @override
+  String get reviewsTextHint => 'Что понравилось, что нет, подошёл ли размер';
+
+  @override
+  String get reviewsSend => 'Отправить';
+
+  @override
+  String get reviewsSentTitle => 'Спасибо!';
+
+  @override
+  String get reviewsSentText => 'Отзыв появится после модерации';
+
+  @override
+  String get reviewsMineEmptyTitle => 'Вы ещё не оставляли отзывов';
+
+  @override
+  String get reviewsMineEmptyText =>
+      'Оценить товар можно в заказе после его получения';
+
+  @override
+  String get reviewsStatusModeration => 'На модерации';
+
+  @override
+  String get reviewsStatusPublished => 'Опубликован';
+
+  @override
+  String get reviewsStatusRejected => 'Отклонён';
+
+  @override
+  String reviewsRejectReason(String reason) {
+    return 'Причина: $reason';
+  }
 }

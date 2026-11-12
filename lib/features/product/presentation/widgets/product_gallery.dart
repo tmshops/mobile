@@ -4,7 +4,6 @@ import '../../../../core/l10n/l10n.dart';
 import '../../../../core/theme/theme.dart';
 import '../../../../core/widgets/widgets.dart';
 import '../../domain/entities/product_details.dart';
-import 'gallery_viewer.dart';
 
 /// Edge-to-edge 1:1 gallery: swipe, «3/12» counter, video slides with a
 /// play button, tap → full-screen zoom (TZ §5.6.1).
@@ -48,12 +47,9 @@ class _ProductGalleryState extends State<ProductGallery> {
     super.dispose();
   }
 
-  void _open(int index) => Navigator.of(context).push(
-    MaterialPageRoute<void>(
-      fullscreenDialog: true,
-      builder: (_) => GalleryViewer(media: widget.media, initialIndex: index),
-    ),
-  );
+  void _open(int index) => showPhotoViewer(context, [
+    for (final m in widget.media) m.imageUrl,
+  ], initialIndex: index);
 
   @override
   Widget build(BuildContext context) {

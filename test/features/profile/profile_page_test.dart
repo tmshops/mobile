@@ -63,6 +63,7 @@ void main() {
             onOpenSettings: () => taps.add('settings'),
             onEditProfile: () => taps.add('edit'),
             onOpenNotifications: () => taps.add('notifications'),
+            onOpenMyReviews: () => taps.add('reviews'),
             onComingSoon: () => taps.add('soon'),
           ),
         ),

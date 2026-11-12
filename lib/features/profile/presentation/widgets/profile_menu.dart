@@ -19,6 +19,7 @@ class CustomerMenu extends StatelessWidget {
     required this.onOpenSurcharges,
     required this.onOpenSettings,
     required this.onOpenNotifications,
+    required this.onOpenMyReviews,
     required this.onComingSoon,
     super.key,
   });
@@ -32,6 +33,7 @@ class CustomerMenu extends StatelessWidget {
   final VoidCallback onOpenSurcharges;
   final VoidCallback onOpenSettings;
   final VoidCallback onOpenNotifications;
+  final VoidCallback onOpenMyReviews;
   final VoidCallback onComingSoon;
 
   @override
@@ -78,7 +80,7 @@ class CustomerMenu extends StatelessWidget {
             MenuRow(
               icon: AppIcons.starOutline,
               title: l10n.profileReviews,
-              onTap: onComingSoon,
+              onTap: onOpenMyReviews,
             ),
             MenuRow(
               icon: AppIcons.priceAlert,

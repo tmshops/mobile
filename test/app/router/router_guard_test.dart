@@ -115,6 +115,12 @@ void main() {
     expect(AppRoutes.needsLogin(AppRoutes.settings), isTrue);
     expect(AppRoutes.needsLogin(AppRoutes.profileEdit), isTrue);
     expect(AppRoutes.needsLogin(AppRoutes.notifications), isTrue);
+    expect(AppRoutes.needsLogin(AppRoutes.myReviews), isTrue);
+    expect(
+      AppRoutes.needsLogin(AppRoutes.writeReviewFor('10219', '10219-1')),
+      isTrue,
+    );
+    expect(AppRoutes.needsLogin(AppRoutes.productReviews('p1')), isFalse);
     expect(AppRoutes.needsLogin(AppRoutes.deleteAccount), isTrue);
     expect(AppRoutes.needsLogin(AppRoutes.walletPay), isTrue);
     final link = AppRoutes.surchargesWith(payParcel: 'P-5518');

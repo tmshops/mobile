@@ -154,10 +154,12 @@ void main() {
   group('OrderView', () {
     late _MockOrderCubit cubit;
     late List<OrderDetails> paid;
+    late List<String> reviewed;
 
     setUp(() {
       cubit = _MockOrderCubit();
       paid = [];
+      reviewed = [];
       when(() => cubit.refresh()).thenAnswer((_) async {});
       when(() => cubit.cancel(any())).thenAnswer((_) async {});
       when(
@@ -189,6 +191,7 @@ void main() {
           onOpenProduct: (_) {},
           onPay: paid.add,
           onOpenCart: () {},
+          onWriteReview: (id) async => reviewed.add(id),
         ),
         providers: [BlocProvider<OrderCubit>.value(value: cubit)],
         locale: locale,
@@ -205,6 +208,20 @@ void main() {
       final label = ru.checkoutPay(MoneyFormat.tmt(ru, order.money.due));
       await tester.tap(find.text(label));
       expect(paid.single.number, '10228');
+    });
+
+    testWidgets('received items offer a review; the order reloads after', (
+      tester,
+    ) async {
+      final order = sampleOrder('ru', '10219');
+      final item = order.items.firstWhere((i) => i.canReview);
+      await pump(tester, order);
+      final button = find.text(ru.reviewsLeave).first;
+      await tester.ensureVisible(button);
+      await tester.tap(button);
+      await tester.pump();
+      expect(reviewed, [item.id]);
+      verify(() => cubit.refresh()).called(1);
     });
 
     testWidgets('cancel asks for a reason, then cancels', (tester) async {

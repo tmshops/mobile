@@ -23,6 +23,7 @@ class ProductContent extends StatelessWidget {
     required this.onOpenProduct,
     required this.onComingSoon,
     required this.onPriceAlert,
+    required this.onAllReviews,
     super.key,
   });
 
@@ -30,6 +31,7 @@ class ProductContent extends StatelessWidget {
   final ValueChanged<ProductSummary> onOpenProduct;
   final VoidCallback onComingSoon;
   final VoidCallback onPriceAlert;
+  final VoidCallback onAllReviews;
 
   @override
   Widget build(BuildContext context) {
@@ -141,7 +143,7 @@ class ProductContent extends StatelessWidget {
               ],
               if (reviews != null) ...[
                 const SizedBox(height: AppSpacing.x24),
-                ReviewsPreview(reviews: reviews, onAllReviews: onComingSoon),
+                ReviewsPreview(reviews: reviews, onAllReviews: onAllReviews),
               ],
             ],
           ),

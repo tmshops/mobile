@@ -31,6 +31,7 @@ import '../../features/profile/presentation/pages/profile_edit_page.dart';
 import '../../features/promotions/presentation/pages/promotions_page.dart';
 import '../../features/promotions/presentation/widgets/promo_header.dart';
 import '../../features/profile/presentation/pages/profile_page.dart';
+import '../../features/reviews/presentation/pages/reviews_pages.dart';
 import '../../features/settings/presentation/pages/settings_page.dart';
 import '../../features/wallet/presentation/bloc/wallet_payment_cubit.dart';
 import '../../features/wallet/presentation/pages/balance_page.dart';
@@ -132,6 +133,7 @@ GoRouter createAppRouter({
               onOpenSettings: () => context.push(AppRoutes.settings),
               onEditProfile: () => context.push(AppRoutes.profileEdit),
               onOpenNotifications: () => context.push(AppRoutes.notifications),
+              onOpenMyReviews: () => context.push(AppRoutes.myReviews),
               onComingSoon: () => showComingSoon(context),
             ),
             routes: _profileRoutes,
@@ -156,9 +158,26 @@ GoRouter createAppRouter({
             onOpenCart: () => context.go(AppRoutes.cart),
             // Plain login: back to this page afterwards.
             onLogin: () => context.push(AppRoutes.login),
+            onAllReviews: () => context.push(AppRoutes.productReviews(id)),
             onComingSoon: () => showComingSoon(context),
           );
         },
+        routes: [
+          GoRoute(
+            path: AppRoutes.productReviewsPath,
+            builder: (context, state) => ProductReviewsPage(
+              productId: state.pathParameters[AppRoutes.idParam] ?? '',
+            ),
+          ),
+        ],
+      ),
+      GoRoute(
+        path: AppRoutes.writeReview,
+        builder: (context, state) => WriteReviewPage(
+          orderNumber: state.uri.queryParameters[AppRoutes.orderParam] ?? '',
+          itemId: state.uri.queryParameters[AppRoutes.itemParam] ?? '',
+          onDone: () => context.pop(),
+        ),
       ),
       GoRoute(
         path: AppRoutes.checkout,
@@ -258,6 +277,12 @@ String? _guard(AuthState auth, Uri uri) {
 /// Orders, parcels, money, viewed and price alerts inside the Profile tab.
 final _profileRoutes = <RouteBase>[
   GoRoute(
+    path: AppRoutes.myReviewsPath,
+    builder: (context, _) => MyReviewsPage(
+      onOpenProduct: (id) => context.push(AppRoutes.product(id)),
+    ),
+  ),
+  GoRoute(
     path: AppRoutes.profileEditPath,
     builder: (context, _) => ProfileEditPage(onSaved: () => context.pop()),
   ),
@@ -336,6 +361,8 @@ final _profileRoutes = <RouteBase>[
             onOpenParcel: (n) => context.push(AppRoutes.parcel(n)),
             onOpenProduct: (id) => context.push(AppRoutes.product(id)),
             onOpenCart: () => context.go(AppRoutes.cart),
+            onWriteReview: (itemId) =>
+                context.push<void>(AppRoutes.writeReviewFor(number, itemId)),
             // No payment id yet: the payment page starts a new one.
             onPay: (order) => context.push(
               AppRoutes.payment(order.number),

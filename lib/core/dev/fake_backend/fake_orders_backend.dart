@@ -198,6 +198,34 @@ class FakeOrdersBackend {
       ..history.add(('paid', _now()));
   }
 
+  /// For [FakeReviewsBackend]: a received, not yet reviewed item as a card,
+  /// or `null`.
+  Map<String, dynamic>? reviewableItem(
+    String lang,
+    String orderNumber,
+    String itemId,
+  ) {
+    final item = _orders[orderNumber]?.items
+        .where((i) => i.id == itemId && i.canReview)
+        .firstOrNull;
+    if (item == null) return null;
+    final p = _product(lang, item.productId);
+    return {
+      'product_id': item.productId,
+      'title': p.title,
+      'image_url': p.imageUrl,
+      'sku_label': ?p.options,
+    };
+  }
+
+  void markReviewed(String itemId) {
+    for (final o in _orders.values) {
+      for (final i in o.items) {
+        if (i.id == itemId) i.isReviewed = true;
+      }
+    }
+  }
+
   /// Called by [FakeWalletBackend] when a weight surcharge is paid: the
   /// parcel flies on, and so do its items.
   void markSurchargePaid(String parcelNumber) {
@@ -318,6 +346,7 @@ class FakeOrdersBackend {
           'https://picsum.photos/seed/wh-${item.id}-$i/600/600',
       ],
       'china_track': ?item.chinaTrack,
+      'can_review': item.canReview,
       if (problem != null)
         'problem': {
           'title': _t(
@@ -930,6 +959,11 @@ class _Item {
   final int warehousePhotos;
   _Problem? problem;
   final String? parcel;
+
+  /// A review was written for it (TZ §5.18: one per received item).
+  bool isReviewed = false;
+
+  bool get canReview => status == 'delivered' && !isReviewed;
 }
 
 class _Order {

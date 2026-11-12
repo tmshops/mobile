@@ -188,11 +188,15 @@ class OrderItemsCard extends StatelessWidget {
   const OrderItemsCard({
     required this.items,
     required this.onOpenProduct,
+    required this.onWriteReview,
     super.key,
   });
 
   final List<OrderItem> items;
   final ValueChanged<String> onOpenProduct;
+
+  /// «Оставить отзыв» on a received item (TZ §5.18); gets the item id.
+  final ValueChanged<String> onWriteReview;
 
   @override
   Widget build(BuildContext context) {
@@ -226,6 +230,15 @@ class OrderItemsCard extends StatelessWidget {
               const SizedBox(height: AppSpacing.x4),
               _PhotoStrip(urls: item.warehousePhotos),
             ],
+            if (item.canReview)
+              Align(
+                alignment: AlignmentDirectional.centerStart,
+                child: TertiaryButton(
+                  label: l10n.reviewsLeave,
+                  icon: AppIcons.starOutline,
+                  onPressed: () => onWriteReview(item.id),
+                ),
+              ),
           ],
         ],
       ),

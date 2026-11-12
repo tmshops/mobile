@@ -31,6 +31,7 @@ class ProductView extends StatefulWidget {
     required this.onOpenProduct,
     required this.onOpenCart,
     required this.onLogin,
+    required this.onAllReviews,
     required this.onComingSoon,
     super.key,
   });
@@ -40,6 +41,9 @@ class ProductView extends StatefulWidget {
 
   /// A guest tapped something that needs an account (the price bell).
   final VoidCallback onLogin;
+
+  /// «Все отзывы».
+  final VoidCallback onAllReviews;
 
   /// For actions whose screens do not exist yet (checkout, reviews, …).
   final VoidCallback onComingSoon;
@@ -185,6 +189,7 @@ class _ProductViewState extends State<ProductView> {
                 onOpenProduct: widget.onOpenProduct,
                 onComingSoon: widget.onComingSoon,
                 onPriceAlert: _togglePriceAlert,
+                onAllReviews: widget.onAllReviews,
               ),
               _TopButtons(
                 cartKey: _cartKey,
@@ -218,6 +223,7 @@ class _Body extends StatelessWidget {
     required this.onOpenProduct,
     required this.onComingSoon,
     required this.onPriceAlert,
+    required this.onAllReviews,
   });
 
   final ProductState state;
@@ -225,6 +231,7 @@ class _Body extends StatelessWidget {
   final ValueChanged<ProductSummary> onOpenProduct;
   final VoidCallback onComingSoon;
   final VoidCallback onPriceAlert;
+  final VoidCallback onAllReviews;
 
   @override
   Widget build(BuildContext context) {
@@ -296,6 +303,7 @@ class _Body extends StatelessWidget {
                       onOpenProduct: onOpenProduct,
                       onComingSoon: onComingSoon,
                       onPriceAlert: onPriceAlert,
+                      onAllReviews: onAllReviews,
                     ),
             ),
           ),

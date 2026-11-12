@@ -22,6 +22,7 @@ class OrderView extends StatelessWidget {
     required this.onOpenProduct,
     required this.onPay,
     required this.onOpenCart,
+    required this.onWriteReview,
     super.key,
   });
 
@@ -30,6 +31,9 @@ class OrderView extends StatelessWidget {
   final ValueChanged<String> onOpenProduct;
   final ValueChanged<OrderDetails> onPay;
   final VoidCallback onOpenCart;
+
+  /// Opens «Написать отзыв» for an item; the order reloads afterwards.
+  final Future<void> Function(String itemId) onWriteReview;
 
   @override
   Widget build(BuildContext context) {
@@ -84,6 +88,10 @@ class OrderView extends StatelessWidget {
                 order: order,
                 onOpenParcel: onOpenParcel,
                 onOpenProduct: onOpenProduct,
+                onWriteReview: (itemId) async {
+                  await onWriteReview(itemId);
+                  await cubit.refresh();
+                },
               ),
             ),
           ),
@@ -115,12 +123,14 @@ class _OrderContent extends StatelessWidget {
     required this.order,
     required this.onOpenParcel,
     required this.onOpenProduct,
+    required this.onWriteReview,
   });
 
   final OrderState state;
   final OrderDetails order;
   final ValueChanged<String> onOpenParcel;
   final ValueChanged<String> onOpenProduct;
+  final ValueChanged<String> onWriteReview;
 
   @override
   Widget build(BuildContext context) {
@@ -144,7 +154,11 @@ class _OrderContent extends StatelessWidget {
             onAction: (actionId) =>
                 cubit.resolve(itemId: item.id, actionId: actionId),
           ),
-        OrderItemsCard(items: order.items, onOpenProduct: onOpenProduct),
+        OrderItemsCard(
+          items: order.items,
+          onOpenProduct: onOpenProduct,
+          onWriteReview: onWriteReview,
+        ),
         if (order.parcels.isNotEmpty)
           OrderParcelsCard(parcels: order.parcels, onOpenParcel: onOpenParcel),
         OrderDeliveryCard(order: order),

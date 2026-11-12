@@ -82,6 +82,9 @@ abstract class OrderItem with _$OrderItem {
 
     /// Seller's track number inside China (copyable).
     String? chinaTrack,
+
+    /// Received and not reviewed yet (TZ §5.18).
+    @Default(false) bool canReview,
     ItemProblem? problem,
   }) = _OrderItem;
 }

@@ -695,7 +695,8 @@ mixin _$OrderItem {
 
  String get id; String get productId; String get title; String get imageUrl; int get quantity; int get price; Status get status;/// «Чёрный, M».
  String? get options; List<String> get warehousePhotos;/// Seller's track number inside China (copyable).
- String? get chinaTrack; ItemProblem? get problem;
+ String? get chinaTrack;/// Received and not reviewed yet (TZ §5.18).
+ bool get canReview; ItemProblem? get problem;
 /// Create a copy of OrderItem
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -706,16 +707,16 @@ $OrderItemCopyWith<OrderItem> get copyWith => _$OrderItemCopyWithImpl<OrderItem>
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is OrderItem&&(identical(other.id, id) || other.id == id)&&(identical(other.productId, productId) || other.productId == productId)&&(identical(other.title, title) || other.title == title)&&(identical(other.imageUrl, imageUrl) || other.imageUrl == imageUrl)&&(identical(other.quantity, quantity) || other.quantity == quantity)&&(identical(other.price, price) || other.price == price)&&(identical(other.status, status) || other.status == status)&&(identical(other.options, options) || other.options == options)&&const DeepCollectionEquality().equals(other.warehousePhotos, warehousePhotos)&&(identical(other.chinaTrack, chinaTrack) || other.chinaTrack == chinaTrack)&&(identical(other.problem, problem) || other.problem == problem));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is OrderItem&&(identical(other.id, id) || other.id == id)&&(identical(other.productId, productId) || other.productId == productId)&&(identical(other.title, title) || other.title == title)&&(identical(other.imageUrl, imageUrl) || other.imageUrl == imageUrl)&&(identical(other.quantity, quantity) || other.quantity == quantity)&&(identical(other.price, price) || other.price == price)&&(identical(other.status, status) || other.status == status)&&(identical(other.options, options) || other.options == options)&&const DeepCollectionEquality().equals(other.warehousePhotos, warehousePhotos)&&(identical(other.chinaTrack, chinaTrack) || other.chinaTrack == chinaTrack)&&(identical(other.canReview, canReview) || other.canReview == canReview)&&(identical(other.problem, problem) || other.problem == problem));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,id,productId,title,imageUrl,quantity,price,status,options,const DeepCollectionEquality().hash(warehousePhotos),chinaTrack,problem);
+int get hashCode => Object.hash(runtimeType,id,productId,title,imageUrl,quantity,price,status,options,const DeepCollectionEquality().hash(warehousePhotos),chinaTrack,canReview,problem);
 
 @override
 String toString() {
-  return 'OrderItem(id: $id, productId: $productId, title: $title, imageUrl: $imageUrl, quantity: $quantity, price: $price, status: $status, options: $options, warehousePhotos: $warehousePhotos, chinaTrack: $chinaTrack, problem: $problem)';
+  return 'OrderItem(id: $id, productId: $productId, title: $title, imageUrl: $imageUrl, quantity: $quantity, price: $price, status: $status, options: $options, warehousePhotos: $warehousePhotos, chinaTrack: $chinaTrack, canReview: $canReview, problem: $problem)';
 }
 
 
@@ -726,7 +727,7 @@ abstract mixin class $OrderItemCopyWith<$Res>  {
   factory $OrderItemCopyWith(OrderItem value, $Res Function(OrderItem) _then) = _$OrderItemCopyWithImpl;
 @useResult
 $Res call({
- String id, String productId, String title, String imageUrl, int quantity, int price, Status status, String? options, List<String> warehousePhotos, String? chinaTrack, ItemProblem? problem
+ String id, String productId, String title, String imageUrl, int quantity, int price, Status status, String? options, List<String> warehousePhotos, String? chinaTrack, bool canReview, ItemProblem? problem
 });
 
 
@@ -743,7 +744,7 @@ class _$OrderItemCopyWithImpl<$Res>
 
 /// Create a copy of OrderItem
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? productId = null,Object? title = null,Object? imageUrl = null,Object? quantity = null,Object? price = null,Object? status = null,Object? options = freezed,Object? warehousePhotos = null,Object? chinaTrack = freezed,Object? problem = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? productId = null,Object? title = null,Object? imageUrl = null,Object? quantity = null,Object? price = null,Object? status = null,Object? options = freezed,Object? warehousePhotos = null,Object? chinaTrack = freezed,Object? canReview = null,Object? problem = freezed,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,productId: null == productId ? _self.productId : productId // ignore: cast_nullable_to_non_nullable
@@ -755,7 +756,8 @@ as int,status: null == status ? _self.status : status // ignore: cast_nullable_t
 as Status,options: freezed == options ? _self.options : options // ignore: cast_nullable_to_non_nullable
 as String?,warehousePhotos: null == warehousePhotos ? _self.warehousePhotos : warehousePhotos // ignore: cast_nullable_to_non_nullable
 as List<String>,chinaTrack: freezed == chinaTrack ? _self.chinaTrack : chinaTrack // ignore: cast_nullable_to_non_nullable
-as String?,problem: freezed == problem ? _self.problem : problem // ignore: cast_nullable_to_non_nullable
+as String?,canReview: null == canReview ? _self.canReview : canReview // ignore: cast_nullable_to_non_nullable
+as bool,problem: freezed == problem ? _self.problem : problem // ignore: cast_nullable_to_non_nullable
 as ItemProblem?,
   ));
 }
@@ -862,10 +864,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String productId,  String title,  String imageUrl,  int quantity,  int price,  Status status,  String? options,  List<String> warehousePhotos,  String? chinaTrack,  ItemProblem? problem)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String productId,  String title,  String imageUrl,  int quantity,  int price,  Status status,  String? options,  List<String> warehousePhotos,  String? chinaTrack,  bool canReview,  ItemProblem? problem)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _OrderItem() when $default != null:
-return $default(_that.id,_that.productId,_that.title,_that.imageUrl,_that.quantity,_that.price,_that.status,_that.options,_that.warehousePhotos,_that.chinaTrack,_that.problem);case _:
+return $default(_that.id,_that.productId,_that.title,_that.imageUrl,_that.quantity,_that.price,_that.status,_that.options,_that.warehousePhotos,_that.chinaTrack,_that.canReview,_that.problem);case _:
   return orElse();
 
 }
@@ -883,10 +885,10 @@ return $default(_that.id,_that.productId,_that.title,_that.imageUrl,_that.quanti
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String productId,  String title,  String imageUrl,  int quantity,  int price,  Status status,  String? options,  List<String> warehousePhotos,  String? chinaTrack,  ItemProblem? problem)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String productId,  String title,  String imageUrl,  int quantity,  int price,  Status status,  String? options,  List<String> warehousePhotos,  String? chinaTrack,  bool canReview,  ItemProblem? problem)  $default,) {final _that = this;
 switch (_that) {
 case _OrderItem():
-return $default(_that.id,_that.productId,_that.title,_that.imageUrl,_that.quantity,_that.price,_that.status,_that.options,_that.warehousePhotos,_that.chinaTrack,_that.problem);case _:
+return $default(_that.id,_that.productId,_that.title,_that.imageUrl,_that.quantity,_that.price,_that.status,_that.options,_that.warehousePhotos,_that.chinaTrack,_that.canReview,_that.problem);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -903,10 +905,10 @@ return $default(_that.id,_that.productId,_that.title,_that.imageUrl,_that.quanti
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String productId,  String title,  String imageUrl,  int quantity,  int price,  Status status,  String? options,  List<String> warehousePhotos,  String? chinaTrack,  ItemProblem? problem)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String productId,  String title,  String imageUrl,  int quantity,  int price,  Status status,  String? options,  List<String> warehousePhotos,  String? chinaTrack,  bool canReview,  ItemProblem? problem)?  $default,) {final _that = this;
 switch (_that) {
 case _OrderItem() when $default != null:
-return $default(_that.id,_that.productId,_that.title,_that.imageUrl,_that.quantity,_that.price,_that.status,_that.options,_that.warehousePhotos,_that.chinaTrack,_that.problem);case _:
+return $default(_that.id,_that.productId,_that.title,_that.imageUrl,_that.quantity,_that.price,_that.status,_that.options,_that.warehousePhotos,_that.chinaTrack,_that.canReview,_that.problem);case _:
   return null;
 
 }
@@ -918,7 +920,7 @@ return $default(_that.id,_that.productId,_that.title,_that.imageUrl,_that.quanti
 
 
 class _OrderItem implements OrderItem {
-  const _OrderItem({required this.id, required this.productId, required this.title, required this.imageUrl, required this.quantity, required this.price, required this.status, this.options, final  List<String> warehousePhotos = const <String>[], this.chinaTrack, this.problem}): _warehousePhotos = warehousePhotos;
+  const _OrderItem({required this.id, required this.productId, required this.title, required this.imageUrl, required this.quantity, required this.price, required this.status, this.options, final  List<String> warehousePhotos = const <String>[], this.chinaTrack, this.canReview = false, this.problem}): _warehousePhotos = warehousePhotos;
   
 
 @override final  String id;
@@ -939,6 +941,8 @@ class _OrderItem implements OrderItem {
 
 /// Seller's track number inside China (copyable).
 @override final  String? chinaTrack;
+/// Received and not reviewed yet (TZ §5.18).
+@override@JsonKey() final  bool canReview;
 @override final  ItemProblem? problem;
 
 /// Create a copy of OrderItem
@@ -951,16 +955,16 @@ _$OrderItemCopyWith<_OrderItem> get copyWith => __$OrderItemCopyWithImpl<_OrderI
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _OrderItem&&(identical(other.id, id) || other.id == id)&&(identical(other.productId, productId) || other.productId == productId)&&(identical(other.title, title) || other.title == title)&&(identical(other.imageUrl, imageUrl) || other.imageUrl == imageUrl)&&(identical(other.quantity, quantity) || other.quantity == quantity)&&(identical(other.price, price) || other.price == price)&&(identical(other.status, status) || other.status == status)&&(identical(other.options, options) || other.options == options)&&const DeepCollectionEquality().equals(other._warehousePhotos, _warehousePhotos)&&(identical(other.chinaTrack, chinaTrack) || other.chinaTrack == chinaTrack)&&(identical(other.problem, problem) || other.problem == problem));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _OrderItem&&(identical(other.id, id) || other.id == id)&&(identical(other.productId, productId) || other.productId == productId)&&(identical(other.title, title) || other.title == title)&&(identical(other.imageUrl, imageUrl) || other.imageUrl == imageUrl)&&(identical(other.quantity, quantity) || other.quantity == quantity)&&(identical(other.price, price) || other.price == price)&&(identical(other.status, status) || other.status == status)&&(identical(other.options, options) || other.options == options)&&const DeepCollectionEquality().equals(other._warehousePhotos, _warehousePhotos)&&(identical(other.chinaTrack, chinaTrack) || other.chinaTrack == chinaTrack)&&(identical(other.canReview, canReview) || other.canReview == canReview)&&(identical(other.problem, problem) || other.problem == problem));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,id,productId,title,imageUrl,quantity,price,status,options,const DeepCollectionEquality().hash(_warehousePhotos),chinaTrack,problem);
+int get hashCode => Object.hash(runtimeType,id,productId,title,imageUrl,quantity,price,status,options,const DeepCollectionEquality().hash(_warehousePhotos),chinaTrack,canReview,problem);
 
 @override
 String toString() {
-  return 'OrderItem(id: $id, productId: $productId, title: $title, imageUrl: $imageUrl, quantity: $quantity, price: $price, status: $status, options: $options, warehousePhotos: $warehousePhotos, chinaTrack: $chinaTrack, problem: $problem)';
+  return 'OrderItem(id: $id, productId: $productId, title: $title, imageUrl: $imageUrl, quantity: $quantity, price: $price, status: $status, options: $options, warehousePhotos: $warehousePhotos, chinaTrack: $chinaTrack, canReview: $canReview, problem: $problem)';
 }
 
 
@@ -971,7 +975,7 @@ abstract mixin class _$OrderItemCopyWith<$Res> implements $OrderItemCopyWith<$Re
   factory _$OrderItemCopyWith(_OrderItem value, $Res Function(_OrderItem) _then) = __$OrderItemCopyWithImpl;
 @override @useResult
 $Res call({
- String id, String productId, String title, String imageUrl, int quantity, int price, Status status, String? options, List<String> warehousePhotos, String? chinaTrack, ItemProblem? problem
+ String id, String productId, String title, String imageUrl, int quantity, int price, Status status, String? options, List<String> warehousePhotos, String? chinaTrack, bool canReview, ItemProblem? problem
 });
 
 
@@ -988,7 +992,7 @@ class __$OrderItemCopyWithImpl<$Res>
 
 /// Create a copy of OrderItem
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? productId = null,Object? title = null,Object? imageUrl = null,Object? quantity = null,Object? price = null,Object? status = null,Object? options = freezed,Object? warehousePhotos = null,Object? chinaTrack = freezed,Object? problem = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? productId = null,Object? title = null,Object? imageUrl = null,Object? quantity = null,Object? price = null,Object? status = null,Object? options = freezed,Object? warehousePhotos = null,Object? chinaTrack = freezed,Object? canReview = null,Object? problem = freezed,}) {
   return _then(_OrderItem(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,productId: null == productId ? _self.productId : productId // ignore: cast_nullable_to_non_nullable
@@ -1000,7 +1004,8 @@ as int,status: null == status ? _self.status : status // ignore: cast_nullable_t
 as Status,options: freezed == options ? _self.options : options // ignore: cast_nullable_to_non_nullable
 as String?,warehousePhotos: null == warehousePhotos ? _self._warehousePhotos : warehousePhotos // ignore: cast_nullable_to_non_nullable
 as List<String>,chinaTrack: freezed == chinaTrack ? _self.chinaTrack : chinaTrack // ignore: cast_nullable_to_non_nullable
-as String?,problem: freezed == problem ? _self.problem : problem // ignore: cast_nullable_to_non_nullable
+as String?,canReview: null == canReview ? _self.canReview : canReview // ignore: cast_nullable_to_non_nullable
+as bool,problem: freezed == problem ? _self.problem : problem // ignore: cast_nullable_to_non_nullable
 as ItemProblem?,
   ));
 }

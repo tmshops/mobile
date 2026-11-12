@@ -30,6 +30,7 @@ import 'package:tmshop/core/dev/fake_backend/fake_notifications_backend.dart'
 import 'package:tmshop/core/dev/fake_backend/fake_orders_backend.dart' as _i435;
 import 'package:tmshop/core/dev/fake_backend/fake_promotions_backend.dart'
     as _i636;
+import 'package:tmshop/core/dev/fake_backend/fake_reviews_backend.dart' as _i58;
 import 'package:tmshop/core/dev/fake_backend/fake_settings_backend.dart'
     as _i333;
 import 'package:tmshop/core/dev/fake_backend/fake_wallet_backend.dart'
@@ -198,6 +199,14 @@ import 'package:tmshop/features/promotions/domain/repositories/promotions_reposi
     as _i1054;
 import 'package:tmshop/features/promotions/presentation/bloc/promotions_cubits.dart'
     as _i296;
+import 'package:tmshop/features/reviews/data/datasources/reviews_remote_data_source.dart'
+    as _i940;
+import 'package:tmshop/features/reviews/data/repositories/reviews_repository_impl.dart'
+    as _i480;
+import 'package:tmshop/features/reviews/domain/repositories/reviews_repository.dart'
+    as _i357;
+import 'package:tmshop/features/reviews/presentation/bloc/reviews_cubits.dart'
+    as _i553;
 import 'package:tmshop/features/settings/data/datasources/settings_remote_data_source.dart'
     as _i48;
 import 'package:tmshop/features/settings/data/repositories/settings_repository_impl.dart'
@@ -305,6 +314,10 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i767.FakeCatalogRemoteDataSource(gh<_i566.NetworkInfo>()),
       registerFor: {_dev},
     );
+    gh.lazySingleton<_i58.FakeReviewsBackend>(
+      () => _i58.FakeReviewsBackend(gh<_i435.FakeOrdersBackend>()),
+      registerFor: {_dev},
+    );
     gh.lazySingleton<_i1035.FakeWalletBackend>(
       () => _i1035.FakeWalletBackend(gh<_i435.FakeOrdersBackend>()),
       registerFor: {_dev},
@@ -329,6 +342,13 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i1066.HomeRemoteDataSource>(
       () => _i251.FakeHomeRemoteDataSource(gh<_i566.NetworkInfo>()),
+      registerFor: {_dev},
+    );
+    gh.lazySingleton<_i940.ReviewsRemoteDataSource>(
+      () => _i940.FakeReviewsRemoteDataSource(
+        gh<_i566.NetworkInfo>(),
+        gh<_i58.FakeReviewsBackend>(),
+      ),
       registerFor: {_dev},
     );
     gh.lazySingleton<_i19.RegionRemoteDataSource>(
@@ -368,6 +388,9 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i994.FakeFavouritesBackend>(),
       ),
       registerFor: {_dev},
+    );
+    gh.lazySingleton<_i357.ReviewsRepository>(
+      () => _i480.ReviewsRepositoryImpl(gh<_i940.ReviewsRemoteDataSource>()),
     );
     gh.lazySingleton<_i333.FakeSettingsBackend>(
       () => _i333.FakeSettingsBackend(
@@ -538,6 +561,15 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i568.WalletPaymentCubit>(
       () => _i568.WalletPaymentCubit(gh<_i942.WalletRepository>()),
+    );
+    gh.factory<_i553.ProductReviewsCubit>(
+      () => _i553.ProductReviewsCubit(gh<_i357.ReviewsRepository>()),
+    );
+    gh.factory<_i553.WriteReviewCubit>(
+      () => _i553.WriteReviewCubit(gh<_i357.ReviewsRepository>()),
+    );
+    gh.factory<_i553.MyReviewsCubit>(
+      () => _i553.MyReviewsCubit(gh<_i357.ReviewsRepository>()),
     );
     gh.lazySingleton<_i703.FavouritesRepository>(
       () => _i703.FavouritesRepositoryImpl(

@@ -98,8 +98,22 @@ abstract final class FakeHomeSamples {
                 'id': 'b$i',
                 'image_url': 'https://picsum.photos/seed/banner$i/1200/600',
                 'title': t('Акция недели', 'Hepdäniň aksiýasy'),
-                'link': {'type': 'promo', 'value': 'promo$i'},
+                'link': {
+                  'type': 'promo',
+                  'value': const [
+                    'black-friday',
+                    'day-deal',
+                    'gadgets-2-plus-1',
+                  ][i],
+                },
               },
+            // An empty promotion id opens the list of all of them.
+            {
+              'id': 'b-all',
+              'image_url': 'https://picsum.photos/seed/banner-all/1200/600',
+              'title': t('Все акции', 'Ähli aksiýalar'),
+              'link': {'type': 'promo', 'value': ''},
+            },
           ],
         },
         {
@@ -111,7 +125,8 @@ abstract final class FakeHomeSamples {
           'title': t('Скидки дня', 'Günüň arzanladyşlary'),
           'ends_at': midnight.toUtc().toIso8601String(),
           'products': _products(lang, 0),
-          'see_all': {'type': 'collection', 'value': 'daily'},
+          // The day's deal is a promotion with its own page.
+          'see_all': {'type': 'promo', 'value': 'day-deal'},
         },
         {
           'type': 'categories',

@@ -28,6 +28,8 @@ import 'package:tmshop/core/dev/fake_backend/fake_favourites_backend.dart'
 import 'package:tmshop/core/dev/fake_backend/fake_notifications_backend.dart'
     as _i605;
 import 'package:tmshop/core/dev/fake_backend/fake_orders_backend.dart' as _i435;
+import 'package:tmshop/core/dev/fake_backend/fake_promotions_backend.dart'
+    as _i636;
 import 'package:tmshop/core/dev/fake_backend/fake_settings_backend.dart'
     as _i333;
 import 'package:tmshop/core/dev/fake_backend/fake_wallet_backend.dart'
@@ -188,6 +190,14 @@ import 'package:tmshop/features/profile/presentation/bloc/phone_change_cubit.dar
     as _i379;
 import 'package:tmshop/features/profile/presentation/bloc/profile_edit_cubit.dart'
     as _i651;
+import 'package:tmshop/features/promotions/data/datasources/promotions_remote_data_source.dart'
+    as _i507;
+import 'package:tmshop/features/promotions/data/repositories/promotions_repository_impl.dart'
+    as _i322;
+import 'package:tmshop/features/promotions/domain/repositories/promotions_repository.dart'
+    as _i1054;
+import 'package:tmshop/features/promotions/presentation/bloc/promotions_cubits.dart'
+    as _i296;
 import 'package:tmshop/features/settings/data/datasources/settings_remote_data_source.dart'
     as _i48;
 import 'package:tmshop/features/settings/data/repositories/settings_repository_impl.dart'
@@ -242,6 +252,10 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i435.FakeOrdersBackend>(
       () => _i435.FakeOrdersBackend(),
+      registerFor: {_dev},
+    );
+    gh.lazySingleton<_i636.FakePromotionsBackend>(
+      () => _i636.FakePromotionsBackend(),
       registerFor: {_dev},
     );
     await gh.singletonAsync<_i965.Box<String>>(
@@ -464,6 +478,13 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i363.NotificationsCountRemoteDataSource>(),
       ),
     );
+    gh.lazySingleton<_i507.PromotionsRemoteDataSource>(
+      () => _i507.FakePromotionsRemoteDataSource(
+        gh<_i566.NetworkInfo>(),
+        gh<_i636.FakePromotionsBackend>(),
+      ),
+      registerFor: {_dev},
+    );
     gh.lazySingleton<_i734.SessionRemoteDataSource>(
       () => _i734.FakeSessionRemoteDataSource(
         gh<_i107.FakeAuthBackend>(),
@@ -567,11 +588,22 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i935.FavouritesCubit>(
       () => _i935.FavouritesCubit(gh<_i703.FavouritesRepository>()),
     );
+    gh.lazySingleton<_i1054.PromotionsRepository>(
+      () => _i322.PromotionsRepositoryImpl(
+        gh<_i507.PromotionsRemoteDataSource>(),
+      ),
+    );
     gh.lazySingleton<_i1039.GetCartQuoteUseCase>(
       () => _i1039.GetCartQuoteUseCase(gh<_i142.CartQuoteRepository>()),
     );
     gh.lazySingleton<_i461.SettingsRepository>(
       () => _i182.SettingsRepositoryImpl(gh<_i48.SettingsRemoteDataSource>()),
+    );
+    gh.factory<_i296.PromotionsCubit>(
+      () => _i296.PromotionsCubit(gh<_i1054.PromotionsRepository>()),
+    );
+    gh.factory<_i296.PromotionCubit>(
+      () => _i296.PromotionCubit(gh<_i1054.PromotionsRepository>()),
     );
     gh.factory<_i508.VariantPickerCubit>(
       () => _i508.VariantPickerCubit(gh<_i623.VariantsRepository>()),

@@ -1738,4 +1738,54 @@ class AppLocalizationsRu extends AppLocalizations {
   String notificationsUnread(int count) {
     return 'Непрочитанных: $count';
   }
+
+  @override
+  String get promoListTitle => 'Акции';
+
+  @override
+  String get promoTypeDiscount => 'Скидка';
+
+  @override
+  String get promoTypeDayDeal => 'Скидка дня';
+
+  @override
+  String get promoTypeBundle => '2+1';
+
+  @override
+  String get promoTypeFreeDelivery => 'Бесплатная доставка';
+
+  @override
+  String get promoTypeOther => 'Акция';
+
+  @override
+  String get promoEndsSoon => 'Скоро закончится';
+
+  @override
+  String promoUntil(String date) {
+    return 'До $date';
+  }
+
+  @override
+  String get promoNotFoundTitle => 'Акция не найдена';
+
+  @override
+  String get promoNotFoundText => 'Возможно, она уже закончилась';
+
+  @override
+  String get promoEnded => 'Акция закончилась. Цены на товары могли измениться';
+
+  @override
+  String promoCopyCode(String code) {
+    return 'Скопировать промокод $code';
+  }
+
+  @override
+  String get promoCodeCopied => 'Промокод скопирован';
+
+  @override
+  String get promoEmptyTitle => 'Сейчас акций нет';
+
+  @override
+  String get promoEmptyText =>
+      'Загляните позже — новые скидки появляются каждую неделю';
 }

@@ -17,6 +17,7 @@ sealed class FiltersEvent with _$FiltersEvent {
     required String languageCode,
     required String categorySlug,
     required AppliedFilters applied,
+    String? promoSlug,
   }) = FiltersStarted;
 
   /// The user changed the draft; counts are refreshed after a short pause.
@@ -60,6 +61,7 @@ class FiltersBloc extends Bloc<FiltersEvent, FiltersState> {
 
   String _languageCode = '';
   String _slug = '';
+  String? _promoSlug;
 
   Future<void> _onStarted(
     FiltersStarted event,
@@ -67,6 +69,7 @@ class FiltersBloc extends Bloc<FiltersEvent, FiltersState> {
   ) async {
     _languageCode = event.languageCode;
     _slug = event.categorySlug;
+    _promoSlug = event.promoSlug;
     emit(FiltersState(draft: event.applied));
     await _count(emit);
   }
@@ -84,11 +87,12 @@ class FiltersBloc extends Bloc<FiltersEvent, FiltersState> {
   }
 
   Future<void> _count(Emitter<FiltersState> emit) async {
-    if (_slug.isEmpty) return;
+    if (_slug.isEmpty && _promoSlug == null) return;
     final result = await _getFacets(
       languageCode: _languageCode,
       categorySlug: _slug,
       filters: state.draft,
+      promoSlug: _promoSlug,
     );
     emit(
       result.match(

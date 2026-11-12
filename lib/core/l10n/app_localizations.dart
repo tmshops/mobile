@@ -2929,6 +2929,96 @@ abstract class AppLocalizations {
   /// In ru, this message translates to:
   /// **'Непрочитанных: {count}'**
   String notificationsUnread(int count);
+
+  /// Promotions list title
+  ///
+  /// In ru, this message translates to:
+  /// **'Акции'**
+  String get promoListTitle;
+
+  /// Promotion type badge
+  ///
+  /// In ru, this message translates to:
+  /// **'Скидка'**
+  String get promoTypeDiscount;
+
+  /// Promotion type badge
+  ///
+  /// In ru, this message translates to:
+  /// **'Скидка дня'**
+  String get promoTypeDayDeal;
+
+  /// Promotion type badge: buy two, get one
+  ///
+  /// In ru, this message translates to:
+  /// **'2+1'**
+  String get promoTypeBundle;
+
+  /// Promotion type badge
+  ///
+  /// In ru, this message translates to:
+  /// **'Бесплатная доставка'**
+  String get promoTypeFreeDelivery;
+
+  /// Badge of a promotion type this version does not know
+  ///
+  /// In ru, this message translates to:
+  /// **'Акция'**
+  String get promoTypeOther;
+
+  /// Screen-reader label of a promotion countdown
+  ///
+  /// In ru, this message translates to:
+  /// **'Скоро закончится'**
+  String get promoEndsSoon;
+
+  /// Promotion end date chip
+  ///
+  /// In ru, this message translates to:
+  /// **'До {date}'**
+  String promoUntil(String date);
+
+  /// Unknown promotion
+  ///
+  /// In ru, this message translates to:
+  /// **'Акция не найдена'**
+  String get promoNotFoundTitle;
+
+  /// Unknown promotion hint
+  ///
+  /// In ru, this message translates to:
+  /// **'Возможно, она уже закончилась'**
+  String get promoNotFoundText;
+
+  /// An ended promotion opened from an old link
+  ///
+  /// In ru, this message translates to:
+  /// **'Акция закончилась. Цены на товары могли измениться'**
+  String get promoEnded;
+
+  /// Chip that copies the promotion's code
+  ///
+  /// In ru, this message translates to:
+  /// **'Скопировать промокод {code}'**
+  String promoCopyCode(String code);
+
+  /// Toast after copying a promo code
+  ///
+  /// In ru, this message translates to:
+  /// **'Промокод скопирован'**
+  String get promoCodeCopied;
+
+  /// No running promotions
+  ///
+  /// In ru, this message translates to:
+  /// **'Сейчас акций нет'**
+  String get promoEmptyTitle;
+
+  /// No running promotions hint
+  ///
+  /// In ru, this message translates to:
+  /// **'Загляните позже — новые скидки появляются каждую неделю'**
+  String get promoEmptyText;
 }
 
 class _AppLocalizationsDelegate

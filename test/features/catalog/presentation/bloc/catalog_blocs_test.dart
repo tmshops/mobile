@@ -124,6 +124,37 @@ void main() {
       await bloc.close();
     });
 
+    test('a promotion loads its products without a category', () async {
+      final bloc = build()
+        ..add(
+          const CategoryProductsEvent.started(
+            languageCode: 'ru',
+            slug: '',
+            promoSlug: 'black-friday',
+          ),
+        );
+      await bloc.stream.firstWhere((s) => s.status == ProductsStatus.idle);
+      expect(bloc.state.query.promoSlug, 'black-friday');
+      expect(bloc.state.items, isNotEmpty);
+      // Black Friday takes discounted products only.
+      expect(bloc.state.items.every((p) => p.oldPrice != null), isTrue);
+      verifyNever(
+        () => getCategory(
+          languageCode: any(named: 'languageCode'),
+          slug: any(named: 'slug'),
+        ),
+      );
+
+      bloc.add(const CategoryProductsEvent.sortChanged(ProductSort.priceAsc));
+      await bloc.stream.firstWhere(
+        (s) =>
+            s.status == ProductsStatus.idle &&
+            s.query.sort == ProductSort.priceAsc,
+      );
+      expect(bloc.state.query.promoSlug, 'black-friday');
+      await bloc.close();
+    });
+
     test('an unknown slug ends in notFound without loading products', () async {
       when(
         () => getCategory(languageCode: 'ru', slug: 'gone'),

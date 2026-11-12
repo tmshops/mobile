@@ -24,12 +24,17 @@ class CategoryProductsView extends StatefulWidget {
     required this.onOpenCategory,
     required this.onOpenProduct,
     required this.onOpenCatalog,
+    this.header,
     super.key,
   });
 
   final ValueChanged<String> onOpenCategory;
   final ValueChanged<ProductSummary> onOpenProduct;
   final VoidCallback onOpenCatalog;
+
+  /// Sliver above the toolbar that replaces the app bar, e.g. a
+  /// promotion's collapsing banner (UI_DESIGN §7.16).
+  final Widget? header;
 
   @override
   State<CategoryProductsView> createState() => _CategoryProductsViewState();
@@ -55,6 +60,7 @@ class _CategoryProductsViewState extends State<CategoryProductsView> {
       languageCode: context.read<LocaleCubit>().state.languageCode,
       categorySlug: query.categorySlug,
       applied: query.filters,
+      promoSlug: query.promoSlug,
     );
     if (applied != null) {
       _bloc.add(CategoryProductsEvent.filtersApplied(applied));
@@ -91,6 +97,7 @@ class _CategoryProductsViewState extends State<CategoryProductsView> {
             CategoryProductsEvent.started(
               languageCode: locale.languageCode,
               slug: _bloc.state.query.categorySlug,
+              promoSlug: _bloc.state.query.promoSlug,
             ),
           ),
         ),
@@ -104,18 +111,30 @@ class _CategoryProductsViewState extends State<CategoryProductsView> {
         ),
       ],
       child: Scaffold(
-        appBar: AppBar(
-          title:
-              BlocSelector<CategoryProductsBloc, CategoryProductsState, String>(
-                selector: (s) => s.category?.name ?? '',
-                builder: (_, name) => Text(name),
+        appBar: widget.header != null
+            ? null
+            : AppBar(
+                title:
+                    BlocSelector<
+                      CategoryProductsBloc,
+                      CategoryProductsState,
+                      String
+                    >(
+                      selector: (s) => s.category?.name ?? '',
+                      builder: (_, name) => Text(name),
+                    ),
               ),
-        ),
         body: Column(
           children: [
             BlocBuilder<ConnectivityCubit, bool>(
-              builder: (_, isOnline) =>
-                  isOnline ? const SizedBox.shrink() : const OfflineBanner(),
+              // Without an app bar the banner must clear the status bar.
+              builder: (_, isOnline) => isOnline
+                  ? const SizedBox.shrink()
+                  : SafeArea(
+                      top: widget.header != null,
+                      bottom: false,
+                      child: const OfflineBanner(),
+                    ),
             ),
             Expanded(
               child: NotificationListener<ScrollNotification>(
@@ -162,6 +181,7 @@ class _CategoryProductsViewState extends State<CategoryProductsView> {
     final filters = state.query.filters;
     final hasResults = state.items.isNotEmpty;
     return [
+      ?widget.header,
       if (children.isNotEmpty)
         SliverToBoxAdapter(
           child: _SubcategoryChips(

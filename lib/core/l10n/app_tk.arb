@@ -506,5 +506,21 @@
   "dateJustNow": "ýaňy",
   "dateMinutesAgo": "{count} min öň",
   "dateHoursAgo": "{count} sag öň",
-  "notificationsUnread": "Okalmadyk: {count}"
+  "notificationsUnread": "Okalmadyk: {count}",
+
+  "promoListTitle": "Aksiýalar",
+  "promoTypeDiscount": "Arzanladyş",
+  "promoTypeDayDeal": "Günüň arzanladyşy",
+  "promoTypeBundle": "2+1",
+  "promoTypeFreeDelivery": "Mugt eltip bermek",
+  "promoTypeOther": "Aksiýa",
+  "promoEndsSoon": "Ýakynda gutarýar",
+  "promoUntil": "{date} çenli",
+  "promoNotFoundTitle": "Aksiýa tapylmady",
+  "promoNotFoundText": "Belki, ol eýýäm gutarandyr",
+  "promoEnded": "Aksiýa gutardy. Harytlaryň bahalary üýtgän bolmagy mümkin",
+  "promoCopyCode": "{code} promokody göçürmek",
+  "promoCodeCopied": "Promokod göçürildi",
+  "promoEmptyTitle": "Häzir aksiýa ýok",
+  "promoEmptyText": "Soňrak giriň — täze arzanladyşlar her hepde peýda bolýar"
 }

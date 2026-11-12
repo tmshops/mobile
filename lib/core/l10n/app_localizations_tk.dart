@@ -1682,4 +1682,55 @@ class AppLocalizationsTk extends AppLocalizations {
   String notificationsUnread(int count) {
     return 'Okalmadyk: $count';
   }
+
+  @override
+  String get promoListTitle => 'Aksiýalar';
+
+  @override
+  String get promoTypeDiscount => 'Arzanladyş';
+
+  @override
+  String get promoTypeDayDeal => 'Günüň arzanladyşy';
+
+  @override
+  String get promoTypeBundle => '2+1';
+
+  @override
+  String get promoTypeFreeDelivery => 'Mugt eltip bermek';
+
+  @override
+  String get promoTypeOther => 'Aksiýa';
+
+  @override
+  String get promoEndsSoon => 'Ýakynda gutarýar';
+
+  @override
+  String promoUntil(String date) {
+    return '$date çenli';
+  }
+
+  @override
+  String get promoNotFoundTitle => 'Aksiýa tapylmady';
+
+  @override
+  String get promoNotFoundText => 'Belki, ol eýýäm gutarandyr';
+
+  @override
+  String get promoEnded =>
+      'Aksiýa gutardy. Harytlaryň bahalary üýtgän bolmagy mümkin';
+
+  @override
+  String promoCopyCode(String code) {
+    return '$code promokody göçürmek';
+  }
+
+  @override
+  String get promoCodeCopied => 'Promokod göçürildi';
+
+  @override
+  String get promoEmptyTitle => 'Häzir aksiýa ýok';
+
+  @override
+  String get promoEmptyText =>
+      'Soňrak giriň — täze arzanladyşlar her hepde peýda bolýar';
 }

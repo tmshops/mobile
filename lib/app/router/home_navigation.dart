@@ -28,6 +28,8 @@ void openHomeDestination(BuildContext context, HomeDestination destination) {
       context.push(AppRoutes.product(id));
     case NotificationsDestination():
       context.push(AppRoutes.notifications);
+    case LinkDestination(link: PromoLink(:final id)):
+      context.push(id.isEmpty ? AppRoutes.promotions : AppRoutes.promo(id));
     case SearchDestination() ||
         PhotoSearchDestination() ||
         PasteLinkDestination() ||
@@ -43,7 +45,7 @@ void openHomeDestination(BuildContext context, HomeDestination destination) {
 /// screens not built yet show a toast.
 void openAppLink(BuildContext context, String link) {
   final path = Uri.tryParse(link)?.path ?? '';
-  const overMenu = ['/product/', '/pay/'];
+  const overMenu = ['/product/', '/pay/', AppRoutes.promotions];
   const inTabs = [
     AppRoutes.accountPrefix,
     AppRoutes.profile,

@@ -166,7 +166,7 @@ void main() {
     await tester.pump(const Duration(milliseconds: 500));
     expect(location(), AppRoutes.order('10228'));
 
-    openAppLink(tester.element(find.byType(Scaffold).first), '/promo/x');
+    openAppLink(tester.element(find.byType(Scaffold).first), '/support');
     await tester.pump();
     expect(
       find.text(lookupAppLocalizations(AppLocales.ru).comingSoon),

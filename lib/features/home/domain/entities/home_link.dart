@@ -7,6 +7,8 @@ part 'home_link.freezed.dart';
 sealed class HomeLink with _$HomeLink {
   const factory HomeLink.product(String id) = ProductLink;
   const factory HomeLink.category(String slug) = CategoryLink;
+
+  /// An empty [id] means the list of all promotions.
   const factory HomeLink.promo(String id) = PromoLink;
   const factory HomeLink.collection(String id) = CollectionLink;
   const factory HomeLink.external(Uri uri) = ExternalLink;

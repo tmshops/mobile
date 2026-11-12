@@ -119,10 +119,10 @@ return changed(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( String languageCode,  String categorySlug,  AppliedFilters applied)?  started,TResult Function( AppliedFilters draft)?  changed,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( String languageCode,  String categorySlug,  AppliedFilters applied,  String? promoSlug)?  started,TResult Function( AppliedFilters draft)?  changed,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case FiltersStarted() when started != null:
-return started(_that.languageCode,_that.categorySlug,_that.applied);case FiltersChanged() when changed != null:
+return started(_that.languageCode,_that.categorySlug,_that.applied,_that.promoSlug);case FiltersChanged() when changed != null:
 return changed(_that.draft);case _:
   return orElse();
 
@@ -141,10 +141,10 @@ return changed(_that.draft);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( String languageCode,  String categorySlug,  AppliedFilters applied)  started,required TResult Function( AppliedFilters draft)  changed,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( String languageCode,  String categorySlug,  AppliedFilters applied,  String? promoSlug)  started,required TResult Function( AppliedFilters draft)  changed,}) {final _that = this;
 switch (_that) {
 case FiltersStarted():
-return started(_that.languageCode,_that.categorySlug,_that.applied);case FiltersChanged():
+return started(_that.languageCode,_that.categorySlug,_that.applied,_that.promoSlug);case FiltersChanged():
 return changed(_that.draft);}
 }
 /// A variant of `when` that fallback to returning `null`
@@ -159,10 +159,10 @@ return changed(_that.draft);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( String languageCode,  String categorySlug,  AppliedFilters applied)?  started,TResult? Function( AppliedFilters draft)?  changed,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( String languageCode,  String categorySlug,  AppliedFilters applied,  String? promoSlug)?  started,TResult? Function( AppliedFilters draft)?  changed,}) {final _that = this;
 switch (_that) {
 case FiltersStarted() when started != null:
-return started(_that.languageCode,_that.categorySlug,_that.applied);case FiltersChanged() when changed != null:
+return started(_that.languageCode,_that.categorySlug,_that.applied,_that.promoSlug);case FiltersChanged() when changed != null:
 return changed(_that.draft);case _:
   return null;
 
@@ -175,12 +175,13 @@ return changed(_that.draft);case _:
 
 
 class FiltersStarted implements FiltersEvent {
-  const FiltersStarted({required this.languageCode, required this.categorySlug, required this.applied});
+  const FiltersStarted({required this.languageCode, required this.categorySlug, required this.applied, this.promoSlug});
   
 
  final  String languageCode;
  final  String categorySlug;
  final  AppliedFilters applied;
+ final  String? promoSlug;
 
 /// Create a copy of FiltersEvent
 /// with the given fields replaced by the non-null parameter values.
@@ -192,16 +193,16 @@ $FiltersStartedCopyWith<FiltersStarted> get copyWith => _$FiltersStartedCopyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is FiltersStarted&&(identical(other.languageCode, languageCode) || other.languageCode == languageCode)&&(identical(other.categorySlug, categorySlug) || other.categorySlug == categorySlug)&&(identical(other.applied, applied) || other.applied == applied));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FiltersStarted&&(identical(other.languageCode, languageCode) || other.languageCode == languageCode)&&(identical(other.categorySlug, categorySlug) || other.categorySlug == categorySlug)&&(identical(other.applied, applied) || other.applied == applied)&&(identical(other.promoSlug, promoSlug) || other.promoSlug == promoSlug));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,languageCode,categorySlug,applied);
+int get hashCode => Object.hash(runtimeType,languageCode,categorySlug,applied,promoSlug);
 
 @override
 String toString() {
-  return 'FiltersEvent.started(languageCode: $languageCode, categorySlug: $categorySlug, applied: $applied)';
+  return 'FiltersEvent.started(languageCode: $languageCode, categorySlug: $categorySlug, applied: $applied, promoSlug: $promoSlug)';
 }
 
 
@@ -212,7 +213,7 @@ abstract mixin class $FiltersStartedCopyWith<$Res> implements $FiltersEventCopyW
   factory $FiltersStartedCopyWith(FiltersStarted value, $Res Function(FiltersStarted) _then) = _$FiltersStartedCopyWithImpl;
 @useResult
 $Res call({
- String languageCode, String categorySlug, AppliedFilters applied
+ String languageCode, String categorySlug, AppliedFilters applied, String? promoSlug
 });
 
 
@@ -229,12 +230,13 @@ class _$FiltersStartedCopyWithImpl<$Res>
 
 /// Create a copy of FiltersEvent
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') $Res call({Object? languageCode = null,Object? categorySlug = null,Object? applied = null,}) {
+@pragma('vm:prefer-inline') $Res call({Object? languageCode = null,Object? categorySlug = null,Object? applied = null,Object? promoSlug = freezed,}) {
   return _then(FiltersStarted(
 languageCode: null == languageCode ? _self.languageCode : languageCode // ignore: cast_nullable_to_non_nullable
 as String,categorySlug: null == categorySlug ? _self.categorySlug : categorySlug // ignore: cast_nullable_to_non_nullable
 as String,applied: null == applied ? _self.applied : applied // ignore: cast_nullable_to_non_nullable
-as AppliedFilters,
+as AppliedFilters,promoSlug: freezed == promoSlug ? _self.promoSlug : promoSlug // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 

@@ -20,6 +20,7 @@ Future<AppliedFilters?> showFiltersSheet(
   required String languageCode,
   required String categorySlug,
   required AppliedFilters applied,
+  String? promoSlug,
 }) => showAppBottomSheet<AppliedFilters>(
   context: context,
   builder: (_) => BlocProvider(
@@ -29,6 +30,7 @@ Future<AppliedFilters?> showFiltersSheet(
           languageCode: languageCode,
           categorySlug: categorySlug,
           applied: applied,
+          promoSlug: promoSlug,
         ),
       ),
     child: const FiltersSheet(),

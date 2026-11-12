@@ -104,6 +104,12 @@ abstract final class AppRoutes {
   static String payment(String orderNumber) =>
       '/pay/${Uri.encodeComponent(orderNumber)}';
 
+  /// Promotions list and one promotion (TZ §4: /promo/{id}).
+  static const promotions = '/promo';
+  static const promoPath = '/promo/:$slugParam';
+
+  static String promo(String slug) => '/promo/${Uri.encodeComponent(slug)}';
+
   /// Notification centre (UI_DESIGN §7.21).
   static const notifications = '/notifications';
 

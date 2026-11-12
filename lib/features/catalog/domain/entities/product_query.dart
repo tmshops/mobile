@@ -78,7 +78,12 @@ abstract class AppliedFilters with _$AppliedFilters {
 @freezed
 abstract class ProductQuery with _$ProductQuery {
   const factory ProductQuery({
+    /// Empty for a promotion's products.
     required String categorySlug,
+
+    /// The products of this promotion instead of a category (UI_DESIGN
+    /// §7.16).
+    String? promoSlug,
     @Default(ProductSort.popular) ProductSort sort,
     @Default(AppliedFilters()) AppliedFilters filters,
   }) = _ProductQuery;

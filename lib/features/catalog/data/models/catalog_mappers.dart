@@ -99,6 +99,7 @@ extension on FacetOptionModel {
 /// Query string for the products and facets endpoints.
 abstract final class CatalogQueryParams {
   static const category = 'category';
+  static const promo = 'promo';
   static const sort = 'sort';
   static const cursor = 'cursor';
   static const priceMin = 'price_min';
@@ -118,8 +119,13 @@ abstract final class CatalogQueryParams {
     ProductSort.sales => 'sales',
   };
 
-  static Map<String, String> filters(String categorySlug, AppliedFilters f) => {
-    category: categorySlug,
+  static Map<String, String> filters(
+    String categorySlug,
+    AppliedFilters f, {
+    String? promoSlug,
+  }) => {
+    if (categorySlug.isNotEmpty) category: categorySlug,
+    promo: ?promoSlug,
     if (f.price.min case final min?) priceMin: '$min',
     if (f.price.max case final max?) priceMax: '$max',
     for (final MapEntry(:key, :value) in f.choices.entries)
@@ -128,7 +134,7 @@ abstract final class CatalogQueryParams {
   };
 
   static Map<String, String> products(ProductQuery query, {String? cursor}) => {
-    ...filters(query.categorySlug, query.filters),
+    ...filters(query.categorySlug, query.filters, promoSlug: query.promoSlug),
     sort: sortValue(query.sort),
     CatalogQueryParams.cursor: ?cursor,
   };

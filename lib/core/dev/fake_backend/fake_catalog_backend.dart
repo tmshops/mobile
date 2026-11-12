@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'fake_api_params.dart';
 import 'fake_catalog_tree.dart';
+import 'fake_promotions_backend.dart';
 
 /// In-memory stand-in for the catalog backend (dev only).
 ///
@@ -77,7 +78,7 @@ class FakeCatalogBackend {
 
   Map<String, dynamic> products(String lang, Map<String, String> params) {
     final slug = params[FakeApiParams.category] ?? '';
-    final all = _productsUnder(slug);
+    final all = _productsFor(params);
     final matching = _sorted(
       all.where((p) => _matches(p, params, except: null)).toList(),
       params[FakeApiParams.sort],
@@ -102,8 +103,10 @@ class FakeCatalogBackend {
   // ── Facets ────────────────────────────────────────────────────────────
 
   Map<String, dynamic> facets(String lang, Map<String, String> params) {
-    final slug = params[FakeApiParams.category] ?? '';
-    final all = _productsUnder(slug);
+    final promo = FakePromotionsBackend.scopes[params[FakeApiParams.promo]];
+    // A promotion's sizes are those of its first catalog root.
+    final slug = promo?.$1.first ?? params[FakeApiParams.category] ?? '';
+    final all = _productsFor(params);
     final tk = lang == 'tk';
     String t(String ru, String tm) => tk ? tm : ru;
 
@@ -331,6 +334,22 @@ class FakeCatalogBackend {
   }
 
   // ── Generation ────────────────────────────────────────────────────────
+
+  /// A category, or a promotion's products when `promo` is set.
+  List<_FakeProduct> _productsFor(Map<String, String> params) {
+    final promo = params[FakeApiParams.promo];
+    if (promo == null) {
+      return _productsUnder(params[FakeApiParams.category] ?? '');
+    }
+    final scope = FakePromotionsBackend.scopes[promo];
+    if (scope == null) return const [];
+    final (roots, isDiscountedOnly) = scope;
+    return [
+      for (final root in roots)
+        for (final p in _productsUnder(root))
+          if (!isDiscountedOnly || p.oldPrice != null) p,
+    ];
+  }
 
   List<_FakeProduct> _productsUnder(String slug) =>
       _bySlug.putIfAbsent(slug, () {

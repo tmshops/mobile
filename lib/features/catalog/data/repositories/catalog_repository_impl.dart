@@ -89,10 +89,11 @@ class CatalogRepositoryImpl implements CatalogRepository {
     required String languageCode,
     required String categorySlug,
     required AppliedFilters filters,
+    String? promoSlug,
   }) => _guard(
     () async => (await _remote.getFacets(
       languageCode,
-      CatalogQueryParams.filters(categorySlug, filters),
+      CatalogQueryParams.filters(categorySlug, filters, promoSlug: promoSlug),
     )).toEntity(),
   );
 

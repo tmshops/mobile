@@ -18,6 +18,9 @@ sealed class CategoryProductsEvent with _$CategoryProductsEvent {
   const factory CategoryProductsEvent.started({
     required String languageCode,
     required String slug,
+
+    /// A promotion's products instead of category [slug] (pass '').
+    String? promoSlug,
   }) = CategoryProductsStarted;
 
   const factory CategoryProductsEvent.sortChanged(ProductSort sort) =
@@ -96,10 +99,16 @@ class CategoryProductsBloc
   ) async {
     final ProductQuery query;
     switch (event) {
-      case CategoryProductsStarted(:final languageCode, :final slug):
+      case CategoryProductsStarted(
+        :final languageCode,
+        :final slug,
+        :final promoSlug,
+      ):
         _languageCode = languageCode;
-        query = ProductQuery(categorySlug: slug);
+        query = ProductQuery(categorySlug: slug, promoSlug: promoSlug);
         emit(CategoryProductsState(query: query));
+        // A promotion's page says who it is itself; no category to find.
+        if (promoSlug != null) break;
         final found = await _getCategory(
           languageCode: languageCode,
           slug: slug,

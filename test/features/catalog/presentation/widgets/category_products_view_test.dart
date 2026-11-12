@@ -67,6 +67,34 @@ void main() {
     );
   }
 
+  testWidgets('with a header: no app bar, header first, filters by promo', (
+    tester,
+  ) async {
+    const query = ProductQuery(categorySlug: '', promoSlug: 'black-friday');
+    final page = samplePageFor('ru', query);
+    when(() => bloc.state).thenReturn(
+      CategoryProductsState(
+        query: query,
+        items: page.items,
+        total: page.total,
+        status: ProductsStatus.idle,
+      ),
+    );
+    await pumpView(
+      tester,
+      CategoryProductsView(
+        header: const SliverToBoxAdapter(child: Text('PROMO HEADER')),
+        onOpenCategory: openedCategories.add,
+        onOpenProduct: (_) {},
+        onOpenCatalog: () {},
+      ),
+      providers: [BlocProvider<CategoryProductsBloc>.value(value: bloc)],
+    );
+    expect(find.byType(AppBar), findsNothing);
+    expect(find.text('PROMO HEADER'), findsOneWidget);
+    expect(find.byType(ProductSummaryTile), findsWidgets);
+  });
+
   testWidgets('shows title, subcategory chips, count and the grid', (
     tester,
   ) async {

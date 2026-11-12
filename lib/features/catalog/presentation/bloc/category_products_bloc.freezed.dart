@@ -128,10 +128,10 @@ return nextPageRequested(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( String languageCode,  String slug)?  started,TResult Function( ProductSort sort)?  sortChanged,TResult Function( AppliedFilters filters)?  filtersApplied,TResult Function()?  refreshed,TResult Function()?  nextPageRequested,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( String languageCode,  String slug,  String? promoSlug)?  started,TResult Function( ProductSort sort)?  sortChanged,TResult Function( AppliedFilters filters)?  filtersApplied,TResult Function()?  refreshed,TResult Function()?  nextPageRequested,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case CategoryProductsStarted() when started != null:
-return started(_that.languageCode,_that.slug);case CategoryProductsSortChanged() when sortChanged != null:
+return started(_that.languageCode,_that.slug,_that.promoSlug);case CategoryProductsSortChanged() when sortChanged != null:
 return sortChanged(_that.sort);case CategoryProductsFiltersApplied() when filtersApplied != null:
 return filtersApplied(_that.filters);case CategoryProductsRefreshed() when refreshed != null:
 return refreshed();case CategoryProductsNextPageRequested() when nextPageRequested != null:
@@ -153,10 +153,10 @@ return nextPageRequested();case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( String languageCode,  String slug)  started,required TResult Function( ProductSort sort)  sortChanged,required TResult Function( AppliedFilters filters)  filtersApplied,required TResult Function()  refreshed,required TResult Function()  nextPageRequested,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( String languageCode,  String slug,  String? promoSlug)  started,required TResult Function( ProductSort sort)  sortChanged,required TResult Function( AppliedFilters filters)  filtersApplied,required TResult Function()  refreshed,required TResult Function()  nextPageRequested,}) {final _that = this;
 switch (_that) {
 case CategoryProductsStarted():
-return started(_that.languageCode,_that.slug);case CategoryProductsSortChanged():
+return started(_that.languageCode,_that.slug,_that.promoSlug);case CategoryProductsSortChanged():
 return sortChanged(_that.sort);case CategoryProductsFiltersApplied():
 return filtersApplied(_that.filters);case CategoryProductsRefreshed():
 return refreshed();case CategoryProductsNextPageRequested():
@@ -174,10 +174,10 @@ return nextPageRequested();}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( String languageCode,  String slug)?  started,TResult? Function( ProductSort sort)?  sortChanged,TResult? Function( AppliedFilters filters)?  filtersApplied,TResult? Function()?  refreshed,TResult? Function()?  nextPageRequested,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( String languageCode,  String slug,  String? promoSlug)?  started,TResult? Function( ProductSort sort)?  sortChanged,TResult? Function( AppliedFilters filters)?  filtersApplied,TResult? Function()?  refreshed,TResult? Function()?  nextPageRequested,}) {final _that = this;
 switch (_that) {
 case CategoryProductsStarted() when started != null:
-return started(_that.languageCode,_that.slug);case CategoryProductsSortChanged() when sortChanged != null:
+return started(_that.languageCode,_that.slug,_that.promoSlug);case CategoryProductsSortChanged() when sortChanged != null:
 return sortChanged(_that.sort);case CategoryProductsFiltersApplied() when filtersApplied != null:
 return filtersApplied(_that.filters);case CategoryProductsRefreshed() when refreshed != null:
 return refreshed();case CategoryProductsNextPageRequested() when nextPageRequested != null:
@@ -193,11 +193,13 @@ return nextPageRequested();case _:
 
 
 class CategoryProductsStarted implements CategoryProductsEvent {
-  const CategoryProductsStarted({required this.languageCode, required this.slug});
+  const CategoryProductsStarted({required this.languageCode, required this.slug, this.promoSlug});
   
 
  final  String languageCode;
  final  String slug;
+/// A promotion's products instead of category [slug] (pass '').
+ final  String? promoSlug;
 
 /// Create a copy of CategoryProductsEvent
 /// with the given fields replaced by the non-null parameter values.
@@ -209,16 +211,16 @@ $CategoryProductsStartedCopyWith<CategoryProductsStarted> get copyWith => _$Cate
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CategoryProductsStarted&&(identical(other.languageCode, languageCode) || other.languageCode == languageCode)&&(identical(other.slug, slug) || other.slug == slug));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CategoryProductsStarted&&(identical(other.languageCode, languageCode) || other.languageCode == languageCode)&&(identical(other.slug, slug) || other.slug == slug)&&(identical(other.promoSlug, promoSlug) || other.promoSlug == promoSlug));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,languageCode,slug);
+int get hashCode => Object.hash(runtimeType,languageCode,slug,promoSlug);
 
 @override
 String toString() {
-  return 'CategoryProductsEvent.started(languageCode: $languageCode, slug: $slug)';
+  return 'CategoryProductsEvent.started(languageCode: $languageCode, slug: $slug, promoSlug: $promoSlug)';
 }
 
 
@@ -229,7 +231,7 @@ abstract mixin class $CategoryProductsStartedCopyWith<$Res> implements $Category
   factory $CategoryProductsStartedCopyWith(CategoryProductsStarted value, $Res Function(CategoryProductsStarted) _then) = _$CategoryProductsStartedCopyWithImpl;
 @useResult
 $Res call({
- String languageCode, String slug
+ String languageCode, String slug, String? promoSlug
 });
 
 
@@ -246,11 +248,12 @@ class _$CategoryProductsStartedCopyWithImpl<$Res>
 
 /// Create a copy of CategoryProductsEvent
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') $Res call({Object? languageCode = null,Object? slug = null,}) {
+@pragma('vm:prefer-inline') $Res call({Object? languageCode = null,Object? slug = null,Object? promoSlug = freezed,}) {
   return _then(CategoryProductsStarted(
 languageCode: null == languageCode ? _self.languageCode : languageCode // ignore: cast_nullable_to_non_nullable
 as String,slug: null == slug ? _self.slug : slug // ignore: cast_nullable_to_non_nullable
-as String,
+as String,promoSlug: freezed == promoSlug ? _self.promoSlug : promoSlug // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 

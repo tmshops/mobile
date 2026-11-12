@@ -31,5 +31,6 @@ abstract interface class CatalogRepository {
     required String languageCode,
     required String categorySlug,
     required AppliedFilters filters,
+    String? promoSlug,
   });
 }

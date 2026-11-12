@@ -28,6 +28,8 @@ import '../../features/orders/presentation/pages/parcel_page.dart';
 import '../../features/orders/presentation/pages/parcels_page.dart';
 import '../../features/product/presentation/pages/product_page.dart';
 import '../../features/profile/presentation/pages/profile_edit_page.dart';
+import '../../features/promotions/presentation/pages/promotions_page.dart';
+import '../../features/promotions/presentation/widgets/promo_header.dart';
 import '../../features/profile/presentation/pages/profile_page.dart';
 import '../../features/settings/presentation/pages/settings_page.dart';
 import '../../features/wallet/presentation/bloc/wallet_payment_cubit.dart';
@@ -180,6 +182,26 @@ GoRouter createAppRouter({
           ),
           // Opened from a link (SMS /pay/…): needs the orders API.
           _ => const _ComingSoonPage(),
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.promotions,
+        builder: (context, _) => PromotionsPage(
+          onOpen: (slug) => context.push(AppRoutes.promo(slug)),
+        ),
+      ),
+      GoRoute(
+        path: AppRoutes.promoPath,
+        builder: (context, state) {
+          final slug = state.pathParameters[AppRoutes.slugParam] ?? '';
+          // The promotions feature draws the top, the catalog the products.
+          return PromoProductsPage(
+            key: ValueKey(slug),
+            promoSlug: slug,
+            header: PromoHeader(slug: slug),
+            onOpenProduct: (product) => _openProduct(context, product),
+            onOpenCatalog: () => context.go(AppRoutes.catalog),
+          );
         },
       ),
       GoRoute(

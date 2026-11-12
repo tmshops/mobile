@@ -1306,5 +1306,42 @@
   "@notificationsUnread": {
     "description": "Unread count above the list",
     "placeholders": { "count": { "type": "int" } }
-  }
+  },
+
+  "promoListTitle": "Акции",
+  "@promoListTitle": { "description": "Promotions list title" },
+  "promoTypeDiscount": "Скидка",
+  "@promoTypeDiscount": { "description": "Promotion type badge" },
+  "promoTypeDayDeal": "Скидка дня",
+  "@promoTypeDayDeal": { "description": "Promotion type badge" },
+  "promoTypeBundle": "2+1",
+  "@promoTypeBundle": { "description": "Promotion type badge: buy two, get one" },
+  "promoTypeFreeDelivery": "Бесплатная доставка",
+  "@promoTypeFreeDelivery": { "description": "Promotion type badge" },
+  "promoTypeOther": "Акция",
+  "@promoTypeOther": { "description": "Badge of a promotion type this version does not know" },
+  "promoEndsSoon": "Скоро закончится",
+  "@promoEndsSoon": { "description": "Screen-reader label of a promotion countdown" },
+  "promoUntil": "До {date}",
+  "@promoUntil": {
+    "description": "Promotion end date chip",
+    "placeholders": { "date": { "type": "String" } }
+  },
+  "promoNotFoundTitle": "Акция не найдена",
+  "@promoNotFoundTitle": { "description": "Unknown promotion" },
+  "promoNotFoundText": "Возможно, она уже закончилась",
+  "@promoNotFoundText": { "description": "Unknown promotion hint" },
+  "promoEnded": "Акция закончилась. Цены на товары могли измениться",
+  "@promoEnded": { "description": "An ended promotion opened from an old link" },
+  "promoCopyCode": "Скопировать промокод {code}",
+  "@promoCopyCode": {
+    "description": "Chip that copies the promotion's code",
+    "placeholders": { "code": { "type": "String" } }
+  },
+  "promoCodeCopied": "Промокод скопирован",
+  "@promoCodeCopied": { "description": "Toast after copying a promo code" },
+  "promoEmptyTitle": "Сейчас акций нет",
+  "@promoEmptyTitle": { "description": "No running promotions" },
+  "promoEmptyText": "Загляните позже — новые скидки появляются каждую неделю",
+  "@promoEmptyText": { "description": "No running promotions hint" }
 }

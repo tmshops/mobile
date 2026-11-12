@@ -1242,5 +1242,41 @@
     "placeholders": { "phone": { "type": "String" } }
   },
   "settingsDeleteFinal": "Удалить аккаунт навсегда",
-  "@settingsDeleteFinal": { "description": "Final destructive button" }
+  "@settingsDeleteFinal": { "description": "Final destructive button" },
+
+  "profileEditTitle": "Личные данные",
+  "@profileEditTitle": { "description": "Profile edit screen title and the header edit button" },
+  "profileEditFirstName": "Имя",
+  "@profileEditFirstName": { "description": "First name field" },
+  "profileEditLastName": "Фамилия",
+  "@profileEditLastName": { "description": "Last name field" },
+  "profileEditOptional": "Необязательно",
+  "@profileEditOptional": { "description": "Helper under the optional email field" },
+  "profileEditBadEmail": "Неверный email",
+  "@profileEditBadEmail": { "description": "Email does not look like one" },
+  "profileEditChange": "Изменить",
+  "@profileEditChange": { "description": "Starts the phone change" },
+  "profileEditSave": "Сохранить",
+  "@profileEditSave": { "description": "Saves the profile" },
+  "profileEditSaved": "Данные сохранены",
+  "@profileEditSaved": { "description": "Toast after saving the profile" },
+  "profileEditDiscardTitle": "Не сохранять изменения?",
+  "@profileEditDiscardTitle": { "description": "Leaving the edit screen with unsaved changes" },
+  "profileEditKeepEditing": "Продолжить",
+  "@profileEditKeepEditing": { "description": "Stays on the edit screen" },
+  "profileEditDiscard": "Не сохранять",
+  "@profileEditDiscard": { "description": "Leaves without saving" },
+  "profileEditPhoneTitle": "Новый номер телефона",
+  "@profileEditPhoneTitle": { "description": "Phone change sheet title" },
+  "profileEditPhoneText": "Пришлём код на новый номер. Старый номер больше не будет входить в аккаунт.",
+  "@profileEditPhoneText": { "description": "Explains the phone change" },
+  "profileEditCodeSent": "Код отправлен на {destination}",
+  "@profileEditCodeSent": {
+    "description": "Where the phone change code went",
+    "placeholders": { "destination": { "type": "String" } }
+  },
+  "profileEditOtherNumber": "Другой номер",
+  "@profileEditOtherNumber": { "description": "Back to entering the new number" },
+  "profileEditPhoneChanged": "Номер изменён",
+  "@profileEditPhoneChanged": { "description": "Toast after the phone changed" }
 }

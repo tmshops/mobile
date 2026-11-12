@@ -1597,4 +1597,55 @@ class AppLocalizationsTk extends AppLocalizations {
 
   @override
   String get settingsDeleteFinal => 'Hasaby hemişelik pozmak';
+
+  @override
+  String get profileEditTitle => 'Şahsy maglumatlar';
+
+  @override
+  String get profileEditFirstName => 'At';
+
+  @override
+  String get profileEditLastName => 'Familiýa';
+
+  @override
+  String get profileEditOptional => 'Hökman däl';
+
+  @override
+  String get profileEditBadEmail => 'E-poçta nädogry';
+
+  @override
+  String get profileEditChange => 'Üýtgetmek';
+
+  @override
+  String get profileEditSave => 'Ýatda saklamak';
+
+  @override
+  String get profileEditSaved => 'Maglumatlar ýatda saklandy';
+
+  @override
+  String get profileEditDiscardTitle => 'Üýtgeşmeler ýatda saklanmasynmy?';
+
+  @override
+  String get profileEditKeepEditing => 'Dowam etmek';
+
+  @override
+  String get profileEditDiscard => 'Saklamazlyk';
+
+  @override
+  String get profileEditPhoneTitle => 'Täze telefon belgisi';
+
+  @override
+  String get profileEditPhoneText =>
+      'Täze belgä kod ibereris. Köne belgi bilen hasaba girip bolmaz.';
+
+  @override
+  String profileEditCodeSent(String destination) {
+    return 'Kod $destination belgä iberildi';
+  }
+
+  @override
+  String get profileEditOtherNumber => 'Başga belgi';
+
+  @override
+  String get profileEditPhoneChanged => 'Belgi üýtgedildi';
 }

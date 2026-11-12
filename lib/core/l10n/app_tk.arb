@@ -479,5 +479,22 @@
   "settingsDeleteKeep": "Hasaby galdyrmak",
   "settingsDeleteCodeTitle": "Pozmagy tassyklaň",
   "settingsDeleteCodeSent": "Kod SMS bilen {phone} belgä iberildi",
-  "settingsDeleteFinal": "Hasaby hemişelik pozmak"
+  "settingsDeleteFinal": "Hasaby hemişelik pozmak",
+
+  "profileEditTitle": "Şahsy maglumatlar",
+  "profileEditFirstName": "At",
+  "profileEditLastName": "Familiýa",
+  "profileEditOptional": "Hökman däl",
+  "profileEditBadEmail": "E-poçta nädogry",
+  "profileEditChange": "Üýtgetmek",
+  "profileEditSave": "Ýatda saklamak",
+  "profileEditSaved": "Maglumatlar ýatda saklandy",
+  "profileEditDiscardTitle": "Üýtgeşmeler ýatda saklanmasynmy?",
+  "profileEditKeepEditing": "Dowam etmek",
+  "profileEditDiscard": "Saklamazlyk",
+  "profileEditPhoneTitle": "Täze telefon belgisi",
+  "profileEditPhoneText": "Täze belgä kod ibereris. Köne belgi bilen hasaba girip bolmaz.",
+  "profileEditCodeSent": "Kod {destination} belgä iberildi",
+  "profileEditOtherNumber": "Başga belgi",
+  "profileEditPhoneChanged": "Belgi üýtgedildi"
 }

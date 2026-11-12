@@ -26,6 +26,7 @@ import '../../features/orders/presentation/pages/orders_page.dart';
 import '../../features/orders/presentation/pages/parcel_page.dart';
 import '../../features/orders/presentation/pages/parcels_page.dart';
 import '../../features/product/presentation/pages/product_page.dart';
+import '../../features/profile/presentation/pages/profile_edit_page.dart';
 import '../../features/profile/presentation/pages/profile_page.dart';
 import '../../features/settings/presentation/pages/settings_page.dart';
 import '../../features/wallet/presentation/bloc/wallet_payment_cubit.dart';
@@ -126,6 +127,7 @@ GoRouter createAppRouter({
               onOpenBalance: () => context.push(AppRoutes.balance),
               onOpenSurcharges: () => context.push(AppRoutes.surcharges),
               onOpenSettings: () => context.push(AppRoutes.settings),
+              onEditProfile: () => context.push(AppRoutes.profileEdit),
               onComingSoon: () => showComingSoon(context),
             ),
             routes: _profileRoutes,
@@ -226,6 +228,10 @@ String? _guard(AuthState auth, Uri uri) {
 
 /// Orders, parcels, money, viewed and price alerts inside the Profile tab.
 final _profileRoutes = <RouteBase>[
+  GoRoute(
+    path: AppRoutes.profileEditPath,
+    builder: (context, _) => ProfileEditPage(onSaved: () => context.pop()),
+  ),
   GoRoute(
     path: AppRoutes.settingsPath,
     builder: (context, _) => SettingsPage(

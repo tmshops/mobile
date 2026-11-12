@@ -167,6 +167,16 @@ import 'package:tmshop/features/product/domain/usecases/record_view_use_case.dar
     as _i568;
 import 'package:tmshop/features/product/presentation/bloc/product_bloc.dart'
     as _i448;
+import 'package:tmshop/features/profile/data/datasources/profile_edit_remote_data_source.dart'
+    as _i423;
+import 'package:tmshop/features/profile/data/repositories/profile_edit_repository_impl.dart'
+    as _i462;
+import 'package:tmshop/features/profile/domain/repositories/profile_edit_repository.dart'
+    as _i523;
+import 'package:tmshop/features/profile/presentation/bloc/phone_change_cubit.dart'
+    as _i379;
+import 'package:tmshop/features/profile/presentation/bloc/profile_edit_cubit.dart'
+    as _i651;
 import 'package:tmshop/features/settings/data/datasources/settings_remote_data_source.dart'
     as _i48;
 import 'package:tmshop/features/settings/data/repositories/settings_repository_impl.dart'
@@ -481,6 +491,14 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i932.CheckoutLocalDataSource>(),
       ),
     );
+    gh.lazySingleton<_i423.ProfileEditRemoteDataSource>(
+      () => _i423.FakeProfileEditRemoteDataSource(
+        gh<_i107.FakeAuthBackend>(),
+        gh<_i274.TokenStorage>(),
+        gh<_i566.NetworkInfo>(),
+      ),
+      registerFor: {_dev},
+    );
     gh.factory<_i594.ForYouBloc>(
       () => _i594.ForYouBloc(gh<_i113.GetRecommendationsUseCase>()),
     );
@@ -601,6 +619,12 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i568.RecordViewUseCase>(),
       ),
     );
+    gh.lazySingleton<_i523.ProfileEditRepository>(
+      () => _i462.ProfileEditRepositoryImpl(
+        gh<_i423.ProfileEditRemoteDataSource>(),
+        gh<_i238.SessionRepository>(),
+      ),
+    );
     gh.factory<_i365.CartQuoteBloc>(
       () => _i365.CartQuoteBloc(gh<_i1039.GetCartQuoteUseCase>()),
     );
@@ -660,6 +684,12 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i923.VerifyCodeUseCase>(
       () => _i923.VerifyCodeUseCase(gh<_i717.LoginRepository>()),
+    );
+    gh.factory<_i379.PhoneChangeCubit>(
+      () => _i379.PhoneChangeCubit(gh<_i523.ProfileEditRepository>()),
+    );
+    gh.factory<_i651.ProfileEditCubit>(
+      () => _i651.ProfileEditCubit(gh<_i523.ProfileEditRepository>()),
     );
     gh.factory<_i26.LoginBloc>(
       () => _i26.LoginBloc(

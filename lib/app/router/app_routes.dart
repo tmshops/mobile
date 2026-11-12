@@ -59,6 +59,9 @@ abstract final class AppRoutes {
         },
       ).toString();
 
+  static const profileEditPath = 'edit';
+  static const profileEdit = '$profile/$profileEditPath';
+
   static const settingsPath = 'settings';
   static const settings = '$profile/$settingsPath';
 
@@ -121,6 +124,7 @@ abstract final class AppRoutes {
       location.startsWith(priceAlerts) ||
       location.startsWith(balance) ||
       location.startsWith(settings) ||
+      location.startsWith(profileEdit) ||
       location.startsWith(surcharges) ||
       location.startsWith(walletPay) ||
       location.startsWith('/pay/');

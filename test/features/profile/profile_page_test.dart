@@ -61,6 +61,7 @@ void main() {
             onOpenBalance: () => taps.add('balance'),
             onOpenSurcharges: () => taps.add('surcharges'),
             onOpenSettings: () => taps.add('settings'),
+            onEditProfile: () => taps.add('edit'),
             onComingSoon: () => taps.add('soon'),
           ),
         ),
@@ -91,6 +92,9 @@ void main() {
     expect(find.text(ru.profileWholesaleBadge), findsOneWidget);
     expect(find.text(MoneyFormat.tmt(ru, 86)), findsOneWidget);
 
+    await tester.tap(find.byTooltip(ru.profileEditTitle));
+    expect(taps, ['edit']);
+    taps.clear();
     // The debt figure pays the debt.
     await tester.tap(find.text(MoneyFormat.tmt(ru, 86)));
     await tester.tap(find.text(ru.profileOrders));

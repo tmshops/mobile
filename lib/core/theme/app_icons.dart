@@ -476,4 +476,9 @@ abstract final class AppIcons {
     fontFamily: _regular,
     fontPackage: _package,
   );
+  static const IconData edit = IconData(
+    0xe3ae,
+    fontFamily: _regular,
+    fontPackage: _package,
+  );
 }

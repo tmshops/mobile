@@ -121,19 +121,123 @@ class FakeAuthBackend {
     return _profile(accessToken.substring(_tokenPrefix.length));
   }
 
-  Map<String, dynamic> _profile(String phone) {
-    final isKnown = phone == _knownPhone;
-    final wallet = _wallet.open(phone);
+  // ── Profile edit (TZ §5.14) ───────────────────────────────────────────
+
+  /// Edits by account. The account is the phone the session started with
+  /// (it is in the token), so a changed number keeps the same account.
+  final _edits = <String, _Edits>{};
+  final _phoneChanges = <String, ({String account, String phone})>{};
+
+  /// [body]: `{first_name, last_name, email?, region_id?}`.
+  Map<String, dynamic> updateProfile(
+    String lang,
+    String accessToken,
+    Map<String, dynamic> body,
+  ) {
+    String t(String ru, String tm) => lang == 'tk' ? tm : ru;
+    final account = _account(accessToken);
+    final first = (body['first_name'] as String? ?? '').trim();
+    final last = (body['last_name'] as String? ?? '').trim();
+    final email = (body['email'] as String?)?.trim();
+    if (first.length > maxNameLength || last.length > maxNameLength) {
+      throw ServerException(
+        code: 'invalid_name',
+        message: t('Слишком длинное имя', 'At gaty uzyn'),
+      );
+    }
+    if (email != null &&
+        email.isNotEmpty &&
+        !RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$').hasMatch(email)) {
+      throw ServerException(
+        code: 'invalid_email',
+        message: t('Неверный email', 'E-poçta nädogry'),
+      );
+    }
+    _edits[account] = _editsOf(account)
+      ..firstName = first
+      ..lastName = last
+      ..email = email == null || email.isEmpty ? null : email
+      ..regionId = body['region_id'] as String? ?? _editsOf(account).regionId;
+    return _profile(account);
+  }
+
+  static const maxNameLength = 50;
+
+  /// Sends a code to [phone], the new number.
+  Map<String, dynamic> startPhoneChange(
+    String lang,
+    String accessToken,
+    String phone,
+  ) {
+    String t(String ru, String tm) => lang == 'tk' ? tm : ru;
+    final account = _account(accessToken);
+    if (phone == _editsOf(account).phone) {
+      throw ServerException(
+        code: 'same_phone',
+        message: t('Это ваш текущий номер', 'Bu siziň häzirki belgiňiz'),
+      );
+    }
+    final isTaken =
+        phone == _knownPhone || _edits.values.any((e) => e.phone == phone);
+    if (isTaken) {
+      throw ServerException(
+        code: 'phone_taken',
+        message: t(
+          'Этот номер уже привязан к другому аккаунту',
+          'Bu belgi başga hasaba baglanan',
+        ),
+      );
+    }
+    final id = 'chg-${_nextRequest++}';
+    _phoneChanges[id] = (account: account, phone: phone);
     return {
-      'id': 'u-$phone',
-      'phone': phone,
-      'first_name': isKnown ? 'Айна' : '',
-      'last_name': isKnown ? 'Атаева' : '',
-      'region_id': 'ashgabat',
+      'request_id': id,
+      'code_length': codeLength,
+      'destination': '+993 ${phone.substring(0, 2)} ** **${phone.substring(6)}',
+    };
+  }
+
+  Map<String, dynamic> confirmPhoneChange(
+    String lang,
+    String requestId,
+    String code,
+  ) {
+    final change = _phoneChanges[requestId];
+    if (change == null || code != devCode) {
+      throw ServerException(
+        code: 'invalid_code',
+        message: lang == 'tk' ? 'Kod nädogry' : 'Неверный код',
+      );
+    }
+    _phoneChanges.remove(requestId);
+    _edits[change.account] = _editsOf(change.account)..phone = change.phone;
+    return _profile(change.account);
+  }
+
+  String _account(String accessToken) {
+    if (!accessToken.startsWith(_tokenPrefix)) {
+      throw const ServerException(code: 'unauthorized');
+    }
+    return accessToken.substring(_tokenPrefix.length);
+  }
+
+  _Edits _editsOf(String account) => _edits[account] ?? _Edits.seed(account);
+
+  Map<String, dynamic> _profile(String account) {
+    final isKnown = account == _knownPhone;
+    final edits = _editsOf(account);
+    final wallet = _wallet.open(account);
+    return {
+      'id': 'u-$account',
+      'phone': edits.phone,
+      'first_name': edits.firstName,
+      'last_name': edits.lastName,
+      'email': ?edits.email,
+      'region_id': edits.regionId,
       'balance': wallet.balance,
       'debt': wallet.debt,
       'bonuses': isKnown ? 35 : 0,
-      'is_wholesale': phone.startsWith(wholesalePrefix),
+      'is_wholesale': account.startsWith(wholesalePrefix),
     };
   }
 
@@ -149,4 +253,17 @@ class _CodeRequest {
   final String phone;
   final DateTime expiresAt;
   int attemptsLeft = FakeAuthBackend.attempts;
+}
+
+class _Edits {
+  _Edits.seed(String account)
+    : phone = account,
+      firstName = account == FakeAuthBackend._knownPhone ? 'Айна' : '',
+      lastName = account == FakeAuthBackend._knownPhone ? 'Атаева' : '';
+
+  String phone;
+  String firstName;
+  String lastName;
+  String? email;
+  String regionId = 'ashgabat';
 }

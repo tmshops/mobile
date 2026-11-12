@@ -2779,6 +2779,102 @@ abstract class AppLocalizations {
   /// In ru, this message translates to:
   /// **'Удалить аккаунт навсегда'**
   String get settingsDeleteFinal;
+
+  /// Profile edit screen title and the header edit button
+  ///
+  /// In ru, this message translates to:
+  /// **'Личные данные'**
+  String get profileEditTitle;
+
+  /// First name field
+  ///
+  /// In ru, this message translates to:
+  /// **'Имя'**
+  String get profileEditFirstName;
+
+  /// Last name field
+  ///
+  /// In ru, this message translates to:
+  /// **'Фамилия'**
+  String get profileEditLastName;
+
+  /// Helper under the optional email field
+  ///
+  /// In ru, this message translates to:
+  /// **'Необязательно'**
+  String get profileEditOptional;
+
+  /// Email does not look like one
+  ///
+  /// In ru, this message translates to:
+  /// **'Неверный email'**
+  String get profileEditBadEmail;
+
+  /// Starts the phone change
+  ///
+  /// In ru, this message translates to:
+  /// **'Изменить'**
+  String get profileEditChange;
+
+  /// Saves the profile
+  ///
+  /// In ru, this message translates to:
+  /// **'Сохранить'**
+  String get profileEditSave;
+
+  /// Toast after saving the profile
+  ///
+  /// In ru, this message translates to:
+  /// **'Данные сохранены'**
+  String get profileEditSaved;
+
+  /// Leaving the edit screen with unsaved changes
+  ///
+  /// In ru, this message translates to:
+  /// **'Не сохранять изменения?'**
+  String get profileEditDiscardTitle;
+
+  /// Stays on the edit screen
+  ///
+  /// In ru, this message translates to:
+  /// **'Продолжить'**
+  String get profileEditKeepEditing;
+
+  /// Leaves without saving
+  ///
+  /// In ru, this message translates to:
+  /// **'Не сохранять'**
+  String get profileEditDiscard;
+
+  /// Phone change sheet title
+  ///
+  /// In ru, this message translates to:
+  /// **'Новый номер телефона'**
+  String get profileEditPhoneTitle;
+
+  /// Explains the phone change
+  ///
+  /// In ru, this message translates to:
+  /// **'Пришлём код на новый номер. Старый номер больше не будет входить в аккаунт.'**
+  String get profileEditPhoneText;
+
+  /// Where the phone change code went
+  ///
+  /// In ru, this message translates to:
+  /// **'Код отправлен на {destination}'**
+  String profileEditCodeSent(String destination);
+
+  /// Back to entering the new number
+  ///
+  /// In ru, this message translates to:
+  /// **'Другой номер'**
+  String get profileEditOtherNumber;
+
+  /// Toast after the phone changed
+  ///
+  /// In ru, this message translates to:
+  /// **'Номер изменён'**
+  String get profileEditPhoneChanged;
 }
 
 class _AppLocalizationsDelegate

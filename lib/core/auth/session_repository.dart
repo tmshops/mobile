@@ -31,6 +31,10 @@ abstract interface class SessionRepository {
 
   Future<void> start(SessionTokens tokens, UserProfile profile);
 
+  /// The server changed the profile (name, email, phone): every screen
+  /// shows the new one.
+  Future<void> update(UserProfile profile);
+
   /// Revokes the session and wipes personal data; language and region
   /// stay (TZ §7.2).
   Future<void> signOut();
@@ -104,6 +108,16 @@ class SessionRepositoryImpl implements SessionRepository {
       await _cache(profile);
     } on CacheException {
       // Signed in for this launch even if the device could not keep it.
+    }
+    _changes.add(profile);
+  }
+
+  @override
+  Future<void> update(UserProfile profile) async {
+    try {
+      await _cache(profile);
+    } on CacheException {
+      // Shown for this launch; the next refresh brings it back anyway.
     }
     _changes.add(profile);
   }

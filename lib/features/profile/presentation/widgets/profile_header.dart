@@ -13,12 +13,16 @@ class ProfileHeader extends StatelessWidget {
     required this.profile,
     required this.onPayDebt,
     required this.onOpenBalance,
+    required this.onEdit,
     super.key,
   });
 
   final UserProfile profile;
   final VoidCallback onPayDebt;
   final VoidCallback onOpenBalance;
+
+  /// «Личные данные».
+  final VoidCallback onEdit;
 
   static const double _avatar = 64;
 
@@ -80,6 +84,11 @@ class ProfileHeader extends StatelessWidget {
                     ],
                   ],
                 ),
+              ),
+              IconButton(
+                onPressed: onEdit,
+                tooltip: l10n.profileEditTitle,
+                icon: Icon(AppIcons.edit, color: c.inkSecondary),
               ),
             ],
           ),

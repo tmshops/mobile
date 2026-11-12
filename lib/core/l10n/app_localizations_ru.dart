@@ -1654,4 +1654,55 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get settingsDeleteFinal => 'Удалить аккаунт навсегда';
+
+  @override
+  String get profileEditTitle => 'Личные данные';
+
+  @override
+  String get profileEditFirstName => 'Имя';
+
+  @override
+  String get profileEditLastName => 'Фамилия';
+
+  @override
+  String get profileEditOptional => 'Необязательно';
+
+  @override
+  String get profileEditBadEmail => 'Неверный email';
+
+  @override
+  String get profileEditChange => 'Изменить';
+
+  @override
+  String get profileEditSave => 'Сохранить';
+
+  @override
+  String get profileEditSaved => 'Данные сохранены';
+
+  @override
+  String get profileEditDiscardTitle => 'Не сохранять изменения?';
+
+  @override
+  String get profileEditKeepEditing => 'Продолжить';
+
+  @override
+  String get profileEditDiscard => 'Не сохранять';
+
+  @override
+  String get profileEditPhoneTitle => 'Новый номер телефона';
+
+  @override
+  String get profileEditPhoneText =>
+      'Пришлём код на новый номер. Старый номер больше не будет входить в аккаунт.';
+
+  @override
+  String profileEditCodeSent(String destination) {
+    return 'Код отправлен на $destination';
+  }
+
+  @override
+  String get profileEditOtherNumber => 'Другой номер';
+
+  @override
+  String get profileEditPhoneChanged => 'Номер изменён';
 }

@@ -22,6 +22,7 @@ class ProfilePage extends StatefulWidget {
     required this.onOpenBalance,
     required this.onOpenSurcharges,
     required this.onOpenSettings,
+    required this.onEditProfile,
     required this.onComingSoon,
     super.key,
   });
@@ -34,6 +35,7 @@ class ProfilePage extends StatefulWidget {
   final VoidCallback onOpenBalance;
   final VoidCallback onOpenSurcharges;
   final VoidCallback onOpenSettings;
+  final VoidCallback onEditProfile;
 
   /// Sections not built yet (balance, addresses, settings, …).
   final VoidCallback onComingSoon;
@@ -78,6 +80,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   profile: profile,
                   onPayDebt: widget.onOpenSurcharges,
                   onOpenBalance: widget.onOpenBalance,
+                  onEdit: widget.onEditProfile,
                 ),
                 CustomerMenu(
                   isWholesale: profile.isWholesale,

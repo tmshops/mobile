@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../favourites/favourites_cubit.dart';
 import '../../widgets/widgets.dart';
 import '../domain/product_summary.dart';
 
 /// Kit product widgets for a [ProductSummary]: [ProductSummaryTile] for
 /// grids and carousels, [ProductSummaryRow] for list view.
 ///
-/// No heart yet: favourites arrive with their own feature, and a heart that
-/// forgets its state would mislead.
+/// The heart follows [FavouritesCubit], so it is the same on every screen.
 class ProductSummaryTile extends StatelessWidget {
   const ProductSummaryTile({
     required this.product,
@@ -22,6 +23,9 @@ class ProductSummaryTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isFavourite = context.select<FavouritesCubit, bool>(
+      (cubit) => cubit.state.contains(product.id),
+    );
     return ProductTile(
       imageUrl: product.imageUrl,
       title: product.title,
@@ -31,7 +35,9 @@ class ProductSummaryTile extends StatelessWidget {
       isIllustration: product.isIllustration,
       isCompact: isCompact,
       onTap: onTap,
-      badges: _badges(product),
+      badges: productBadges(product),
+      isFavourite: isFavourite,
+      onFavouriteToggle: () => context.read<FavouritesCubit>().toggle(product),
     );
   }
 }
@@ -56,12 +62,13 @@ class ProductSummaryRow extends StatelessWidget {
       soldCount: product.soldCount,
       isIllustration: product.isIllustration,
       onTap: onTap,
-      badges: _badges(product),
+      badges: productBadges(product),
     );
   }
 }
 
-List<ProductBadge> _badges(ProductSummary product) {
+/// Top-left badges of a tile: Хит / −X% / Новинка.
+List<ProductBadge> productBadges(ProductSummary product) {
   final discount = PriceTag(
     price: product.price,
     oldPrice: product.oldPrice,

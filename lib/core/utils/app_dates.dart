@@ -24,6 +24,19 @@ abstract final class AppDates {
   static String dayMonth(AppLocalizations l10n, DateTime date) => l10n
       .dateDayMonth('${date.day}', _ending(date.day), _months[date.month - 1]);
 
+  /// «Сегодня», «Вчера» or «24 ноября», judged by [now]'s calendar day.
+  static String dayLabel(AppLocalizations l10n, DateTime date, DateTime now) {
+    final day = DateTime(date.year, date.month, date.day);
+    final today = DateTime(now.year, now.month, now.day);
+    // Rounded: a daylight-saving day is 23 or 25 hours long.
+    final days = (today.difference(day).inHours / Duration.hoursPerDay).round();
+    return switch (days) {
+      0 => l10n.dateToday,
+      1 => l10n.dateYesterday,
+      _ => dayMonth(l10n, date),
+    };
+  }
+
   /// «24 ноября, 14:30».
   static String dayMonthTime(AppLocalizations l10n, DateTime date) =>
       l10n.dateDayMonthTime(dayMonth(l10n, date), time(date));

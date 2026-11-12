@@ -42,6 +42,22 @@ abstract class ProductDetails with _$ProductDetails {
     @Default(<ProductSummary>[]) List<ProductSummary> boughtTogether,
     String? shareUrl,
   }) = _ProductDetails;
+
+  const ProductDetails._();
+
+  /// The product as a tile: for favourites, price alerts and history.
+  ProductSummary get summary {
+    final cover = media.firstOrNull;
+    return ProductSummary(
+      id: id,
+      title: title,
+      imageUrl: cover?.imageUrl ?? '',
+      price: price,
+      oldPrice: oldPrice,
+      soldCount: soldCount,
+      isIllustration: cover?.isIllustration ?? false,
+    );
+  }
 }
 
 enum MediaKind { image, video }

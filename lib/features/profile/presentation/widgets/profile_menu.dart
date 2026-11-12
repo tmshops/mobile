@@ -111,6 +111,8 @@ class CustomerMenu extends StatelessWidget {
     required this.isWholesale,
     required this.onOpenOrders,
     required this.onOpenParcels,
+    required this.onOpenViewed,
+    required this.onOpenPriceAlerts,
     required this.onComingSoon,
     super.key,
   });
@@ -118,6 +120,8 @@ class CustomerMenu extends StatelessWidget {
   final bool isWholesale;
   final VoidCallback onOpenOrders;
   final VoidCallback onOpenParcels;
+  final VoidCallback onOpenViewed;
+  final VoidCallback onOpenPriceAlerts;
   final VoidCallback onComingSoon;
 
   @override
@@ -159,7 +163,7 @@ class CustomerMenu extends StatelessWidget {
             MenuRow(
               icon: AppIcons.viewed,
               title: l10n.profileViewed,
-              onTap: onComingSoon,
+              onTap: onOpenViewed,
             ),
             MenuRow(
               icon: AppIcons.starOutline,
@@ -169,7 +173,7 @@ class CustomerMenu extends StatelessWidget {
             MenuRow(
               icon: AppIcons.priceAlert,
               title: l10n.profilePriceAlerts,
-              onTap: onComingSoon,
+              onTap: onOpenPriceAlerts,
             ),
             MenuRow(
               icon: AppIcons.bell,

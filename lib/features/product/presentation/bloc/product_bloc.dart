@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -10,6 +12,7 @@ import '../../../../core/product/domain/sku_selection.dart';
 import '../../domain/usecases/fetch_product_use_case.dart';
 import '../../domain/usecases/get_delivery_quotes_use_case.dart';
 import '../../domain/usecases/get_recent_product_use_case.dart';
+import '../../domain/usecases/record_view_use_case.dart';
 
 part 'product_bloc.freezed.dart';
 
@@ -80,7 +83,7 @@ abstract class ProductState with _$ProductState {
 /// quantity, operator comment and delivery for the selected region.
 @injectable
 class ProductBloc extends Bloc<ProductEvent, ProductState> {
-  ProductBloc(this._getRecent, this._fetch, this._getDelivery)
+  ProductBloc(this._getRecent, this._fetch, this._getDelivery, this._recordView)
     : super(const ProductState()) {
     on<ProductStarted>(_onStarted, transformer: restartable());
     on<ProductRetried>(_onRetried, transformer: droppable());
@@ -99,6 +102,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
   final GetRecentProductUseCase _getRecent;
   final FetchProductUseCase _fetch;
   final GetDeliveryQuotesUseCase _getDelivery;
+  final RecordViewUseCase _recordView;
 
   String _languageCode = '';
   String _id = '';
@@ -191,6 +195,9 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
             : _loaded(details, keepChoice: true),
       ),
     );
+    final details = result.toNullable();
+    // History is a nicety: a failed write must not disturb the page.
+    if (details != null) unawaited(_recordView(details));
   }
 
   Future<void> _loadDelivery(Emitter<ProductState> emit) async {

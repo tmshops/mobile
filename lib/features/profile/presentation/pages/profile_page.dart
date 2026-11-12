@@ -17,6 +17,8 @@ class ProfilePage extends StatefulWidget {
     required this.onLogin,
     required this.onOpenOrders,
     required this.onOpenParcels,
+    required this.onOpenViewed,
+    required this.onOpenPriceAlerts,
     required this.onComingSoon,
     super.key,
   });
@@ -24,6 +26,8 @@ class ProfilePage extends StatefulWidget {
   final VoidCallback onLogin;
   final VoidCallback onOpenOrders;
   final VoidCallback onOpenParcels;
+  final VoidCallback onOpenViewed;
+  final VoidCallback onOpenPriceAlerts;
 
   /// Sections not built yet (balance, addresses, settings, …).
   final VoidCallback onComingSoon;
@@ -73,6 +77,8 @@ class _ProfilePageState extends State<ProfilePage> {
                   isWholesale: profile.isWholesale,
                   onOpenOrders: widget.onOpenOrders,
                   onOpenParcels: widget.onOpenParcels,
+                  onOpenViewed: widget.onOpenViewed,
+                  onOpenPriceAlerts: widget.onOpenPriceAlerts,
                   onComingSoon: widget.onComingSoon,
                 ),
               ],

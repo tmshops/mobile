@@ -1273,4 +1273,140 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get profileLanguage => 'Язык';
+
+  @override
+  String get productPriceAlertOff => 'Не сообщать о снижении цены';
+
+  @override
+  String get priceAlertOn => 'Сообщим, когда цена снизится';
+
+  @override
+  String get priceAlertOff => 'Больше не следим за ценой';
+
+  @override
+  String get favouritesSortRecent => 'Добавлены недавно';
+
+  @override
+  String get favouritesSortPrice => 'Сначала дешевле';
+
+  @override
+  String get favouritesSortDiscount => 'По скидке';
+
+  @override
+  String get favouritesSelect => 'Выбрать';
+
+  @override
+  String get favouritesDone => 'Готово';
+
+  @override
+  String get favouritesSelectAll => 'Выбрать все';
+
+  @override
+  String get favouritesUnselectAll => 'Снять выбор';
+
+  @override
+  String favouritesSelected(int count) {
+    return 'Выбрано: $count';
+  }
+
+  @override
+  String favouritesSelectItem(String title) {
+    return 'Выбрать: $title';
+  }
+
+  @override
+  String favouritesPriceDrop(int percent) {
+    return 'Цена снизилась −$percent%';
+  }
+
+  @override
+  String get favouritesSimilar => 'Похожие';
+
+  @override
+  String get favouritesEmptyTitle => 'Сохраняйте товары, чтобы не потерять';
+
+  @override
+  String get favouritesEmptyText =>
+      'Нажмите ♡ на карточке товара — он появится здесь';
+
+  @override
+  String get favouritesGuestBanner =>
+      'Войдите, чтобы избранное было на всех устройствах';
+
+  @override
+  String favouritesRemoved(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Удалено $count товаров',
+      few: 'Удалено $count товара',
+      one: 'Удалён $count товар',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String favouritesAddedToCart(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'В корзину добавлено $count товаров',
+      few: 'В корзину добавлено $count товара',
+      one: 'В корзину добавлен $count товар',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get favouritesRefreshFailed => 'Не удалось обновить цены';
+
+  @override
+  String get dateToday => 'Сегодня';
+
+  @override
+  String get dateYesterday => 'Вчера';
+
+  @override
+  String get viewedMenu => 'Ещё';
+
+  @override
+  String get viewedClear => 'Очистить историю';
+
+  @override
+  String get viewedClearTitle => 'Очистить историю просмотров?';
+
+  @override
+  String get viewedClearText =>
+      'Список просмотренных товаров удалится с этого устройства.';
+
+  @override
+  String get viewedClearConfirm => 'Очистить';
+
+  @override
+  String get viewedEmptyTitle => 'Вы ещё ничего не смотрели';
+
+  @override
+  String get viewedEmptyText => 'Здесь появятся товары, которые вы открывали';
+
+  @override
+  String get priceAlertsEmptyTitle => 'Подписок пока нет';
+
+  @override
+  String get priceAlertsEmptyText =>
+      'Нажмите на колокольчик в карточке товара — сообщим, когда цена снизится';
+
+  @override
+  String priceAlertsDrop(int percent) {
+    return '−$percent%';
+  }
+
+  @override
+  String priceAlertsSubscribedAt(String price) {
+    return 'При подписке: $price';
+  }
+
+  @override
+  String priceAlertsSwitch(String title) {
+    return 'Сообщать о снижении цены: $title';
+  }
 }

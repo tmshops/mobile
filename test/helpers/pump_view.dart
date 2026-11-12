@@ -16,13 +16,16 @@ Future<void> pumpView(
   bool isOnline = true,
   double textScale = 1,
   double width = 360,
+
+  /// Pre-configured global cubits; by default all empty, guest.
+  GlobalCubits? cubits,
 }) async {
-  final cubits = GlobalCubits(locale: locale, isOnline: isOnline);
+  final global = cubits ?? GlobalCubits(locale: locale, isOnline: isOnline);
   tester.view.physicalSize = Size(width, 800) * tester.view.devicePixelRatio;
   addTearDown(tester.view.resetPhysicalSize);
   await tester.pumpWidget(
     MultiBlocProvider(
-      providers: [...cubits.providers, ...providers],
+      providers: [...global.providers, ...providers],
       child: MaterialApp(
         theme: AppTheme.light(),
         locale: locale,

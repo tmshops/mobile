@@ -7,6 +7,7 @@ import 'package:tmshop/core/product/domain/product_summary.dart';
 import 'package:tmshop/features/product/domain/usecases/fetch_product_use_case.dart';
 import 'package:tmshop/features/product/domain/usecases/get_delivery_quotes_use_case.dart';
 import 'package:tmshop/features/product/domain/usecases/get_recent_product_use_case.dart';
+import 'package:tmshop/features/product/domain/usecases/record_view_use_case.dart';
 import 'package:tmshop/features/product/presentation/bloc/product_bloc.dart';
 
 import '../../../helpers/product_fixtures.dart';
@@ -17,10 +18,13 @@ class _MockFetch extends Mock implements FetchProductUseCase {}
 
 class _MockDelivery extends Mock implements GetDeliveryQuotesUseCase {}
 
+class _MockRecordView extends Mock implements RecordViewUseCase {}
+
 void main() {
   late _MockRecent recent;
   late _MockFetch fetch;
   late _MockDelivery delivery;
+  late _MockRecordView recordView;
   final details = sampleProduct('ru', clothingId);
   final quotes = sampleDelivery('ru', clothingId, 'ashgabat');
   const preview = ProductSummary(
@@ -30,10 +34,14 @@ void main() {
     price: 216,
   );
 
+  setUpAll(() => registerFallbackValue(details));
+
   setUp(() {
     recent = _MockRecent();
     fetch = _MockFetch();
     delivery = _MockDelivery();
+    recordView = _MockRecordView();
+    when(() => recordView(any())).thenAnswer((_) async {});
     when(() => recent(any(), any())).thenReturn(null);
     when(
       () => fetch(languageCode: 'ru', id: clothingId),
@@ -47,7 +55,7 @@ void main() {
     ).thenAnswer((_) async => right(quotes));
   });
 
-  ProductBloc build() => ProductBloc(recent, fetch, delivery);
+  ProductBloc build() => ProductBloc(recent, fetch, delivery, recordView);
 
   Future<ProductBloc> started({ProductSummary? withPreview}) async {
     final bloc = build()
@@ -88,6 +96,8 @@ void main() {
     );
     expect(loaded.details, details);
     expect(loaded.delivery, quotes);
+    // Opened products go into «Просмотренные».
+    verify(() => recordView(details)).called(1);
     await bloc.close();
   });
 
@@ -126,7 +136,10 @@ void main() {
         regionId: 'ashgabat',
       ),
     ),
-    verify: (bloc) => expect(bloc.state.status, ProductStatus.notFound),
+    verify: (bloc) {
+      expect(bloc.state.status, ProductStatus.notFound);
+      verifyNever(() => recordView(any()));
+    },
   );
 
   test('picking values: unavailable ignored, conflicts unpicked', () async {

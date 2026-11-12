@@ -6,6 +6,7 @@ import '../../../../core/cart/cart_item.dart';
 import '../../../../core/l10n/l10n.dart';
 import '../../../../core/locale/locale_cubit.dart';
 import '../../../../core/network/connectivity_cubit.dart';
+import '../../../../core/product/presentation/variant_sheet.dart';
 import '../../../../core/region/region_cubit.dart';
 import '../../../../core/theme/theme.dart';
 import '../../../../core/widgets/widgets.dart';
@@ -13,7 +14,6 @@ import '../bloc/cart_quote_bloc.dart';
 import 'cart_line_row.dart';
 import 'cart_summary.dart';
 import 'seller_group_card.dart';
-import 'variant_sheet.dart';
 
 /// Cart tab (UI_DESIGN §7.7, TZ §5.10). Lines come from [CartCubit] and
 /// change at once; totals come from [CartQuoteBloc].
@@ -179,7 +179,7 @@ class _CartScaffold extends StatelessWidget {
                 quote: quote?.lines[line.key],
                 onSelected: (v) => cubit.setSelected(line.key, isSelected: v),
                 onQuantity: (q) => cubit.setQuantity(line.key, q),
-                onChangeVariant: () => showVariantSheet(context, line),
+                onChangeVariant: () => _changeVariant(context, line),
                 onOpen: () => onOpenProduct(line.productId),
                 onRemove: () => _remove(context, line),
               ),
@@ -343,4 +343,26 @@ class _StatusNotes extends StatelessWidget {
       ],
     );
   }
+}
+
+/// Change-variant sheet of a cart line. The line moves to the new variant
+/// (merged if that variant is already in the cart).
+Future<void> _changeVariant(BuildContext context, CartItem line) async {
+  final cart = context.read<CartCubit>();
+  final l10n = context.l10n;
+  final chosen = await showVariantSheet(
+    context,
+    productId: line.productId,
+    currentSkuId: line.skuId,
+    title: l10n.cartChangeVariant,
+    actionLabel: l10n.cartSaveVariant,
+  );
+  if (chosen == null) return;
+  await cart.changeVariant(
+    line.key,
+    skuId: chosen.sku.id,
+    skuLabel: chosen.label,
+    price: chosen.sku.price,
+    imageUrl: chosen.imageUrl ?? line.imageUrl,
+  );
 }

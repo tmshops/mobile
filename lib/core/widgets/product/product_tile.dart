@@ -24,6 +24,9 @@ class ProductTile extends StatelessWidget {
     this.onFavouriteToggle,
     this.isIllustration = false,
     this.isCompact = false,
+    this.isDimmed = false,
+    this.imageFooter,
+    this.footer,
     super.key,
   });
 
@@ -45,6 +48,15 @@ class ProductTile extends StatelessWidget {
 
   /// Carousel variant: smaller text, no sold counter.
   final bool isCompact;
+
+  /// Greys the photo and price: the product cannot be bought now.
+  final bool isDimmed;
+
+  /// Strip along the bottom of the photo, e.g. «Цена снизилась −15%».
+  final Widget? imageFooter;
+
+  /// Under the price, e.g. a «Похожие» link.
+  final Widget? footer;
   final VoidCallback onTap;
 
   @override
@@ -69,6 +81,8 @@ class ProductTile extends StatelessWidget {
               isFavourite: isFavourite,
               onFavouriteToggle: onFavouriteToggle,
               isIllustration: isIllustration,
+              isDimmed: isDimmed,
+              strip: imageFooter,
             ),
             const SizedBox(height: AppSpacing.x8),
             Text(
@@ -78,12 +92,15 @@ class ProductTile extends StatelessWidget {
               style: isCompact ? t.caption : t.body,
             ),
             const SizedBox(height: AppSpacing.x4),
-            PriceTag(
-              price: price,
-              oldPrice: oldPrice,
-              size: isCompact ? PriceTagSize.s : PriceTagSize.m,
-              // The badge already sits on the image.
-              showDiscountBadge: false,
+            Opacity(
+              opacity: isDimmed ? AppOpacity.disabled : 1,
+              child: PriceTag(
+                price: price,
+                oldPrice: oldPrice,
+                size: isCompact ? PriceTagSize.s : PriceTagSize.m,
+                // The badge already sits on the image.
+                showDiscountBadge: false,
+              ),
             ),
             if (sold != null && !isCompact) ...[
               const SizedBox(height: AppSpacing.x4),
@@ -96,6 +113,7 @@ class ProductTile extends StatelessWidget {
                 style: t.caption.copyWith(color: c.inkSecondary),
               ),
             ],
+            ?footer,
             const SizedBox(height: AppSpacing.x4),
           ],
         ),
@@ -112,6 +130,8 @@ class _TileImage extends StatelessWidget {
     required this.isFavourite,
     required this.onFavouriteToggle,
     required this.isIllustration,
+    required this.isDimmed,
+    required this.strip,
   });
 
   final String imageUrl;
@@ -120,10 +140,13 @@ class _TileImage extends StatelessWidget {
   final bool isFavourite;
   final VoidCallback? onFavouriteToggle;
   final bool isIllustration;
+  final bool isDimmed;
+  final Widget? strip;
 
   @override
   Widget build(BuildContext context) {
     final onFavourite = onFavouriteToggle;
+    final bottom = strip;
     return AspectRatio(
       aspectRatio: 1,
       child: Stack(
@@ -131,7 +154,10 @@ class _TileImage extends StatelessWidget {
         children: [
           ClipRRect(
             borderRadius: AppRadii.imageBorder,
-            child: AppNetworkImage(url: imageUrl, semanticLabel: title),
+            child: Opacity(
+              opacity: isDimmed ? AppOpacity.disabled : 1,
+              child: AppNetworkImage(url: imageUrl, semanticLabel: title),
+            ),
           ),
           if (badges.isNotEmpty)
             Positioned(
@@ -153,11 +179,18 @@ class _TileImage extends StatelessWidget {
                 onPressed: onFavourite,
               ),
             ),
-          if (isIllustration)
+          if (isIllustration && bottom == null)
             const Positioned(
               left: AppSpacing.x8,
               bottom: AppSpacing.x8,
               child: IllustrationMarker(),
+            ),
+          if (bottom != null)
+            Positioned(
+              left: AppSpacing.x8,
+              right: AppSpacing.x8,
+              bottom: AppSpacing.x8,
+              child: bottom,
             ),
         ],
       ),

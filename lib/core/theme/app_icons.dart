@@ -451,4 +451,29 @@ abstract final class AppIcons {
     fontFamily: _regular,
     fontPackage: _package,
   );
+  static const IconData bellFilled = IconData(
+    0xe0ce,
+    fontFamily: _fill,
+    fontPackage: _package,
+  );
+  static const IconData priceDrop = IconData(
+    0xe4ac,
+    fontFamily: _bold,
+    fontPackage: _package,
+  );
+  static const IconData clearHistory = IconData(
+    0xec54,
+    fontFamily: _regular,
+    fontPackage: _package,
+  );
+  static const IconData select = IconData(
+    0xeadc,
+    fontFamily: _regular,
+    fontPackage: _package,
+  );
+  static const IconData more = IconData(
+    0xe208,
+    fontFamily: _regular,
+    fontPackage: _package,
+  );
 }

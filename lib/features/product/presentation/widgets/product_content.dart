@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/l10n/l10n.dart';
+import '../../../../core/price_alerts/price_alerts_cubit.dart';
 import '../../../../core/product/domain/product_summary.dart';
 import '../../../../core/product/presentation/product_summary_tile.dart';
 import '../../../../core/region/region_cubit.dart';
@@ -21,12 +22,14 @@ class ProductContent extends StatelessWidget {
     required this.state,
     required this.onOpenProduct,
     required this.onComingSoon,
+    required this.onPriceAlert,
     super.key,
   });
 
   final ProductState state;
   final ValueChanged<ProductSummary> onOpenProduct;
   final VoidCallback onComingSoon;
+  final VoidCallback onPriceAlert;
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +75,10 @@ class ProductContent extends StatelessWidget {
                 rating: details.rating,
                 reviewCount: details.reviewCount,
                 soldCount: details.soldCount,
-                onPriceAlert: onComingSoon,
+                onPriceAlert: onPriceAlert,
+                isPriceAlertOn: context.select<PriceAlertsCubit, bool>(
+                  (alerts) => alerts.state.isOn(details.id),
+                ),
               ),
               if (details.isAvailable) ...[
                 const SizedBox(height: AppSpacing.x16),

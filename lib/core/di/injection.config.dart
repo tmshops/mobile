@@ -23,15 +23,28 @@ import 'package:tmshop/core/auth/token_storage.dart' as _i274;
 import 'package:tmshop/core/cart/cart_cubit.dart' as _i1001;
 import 'package:tmshop/core/cart/cart_repository.dart' as _i361;
 import 'package:tmshop/core/dev/fake_backend/fake_auth_backend.dart' as _i107;
+import 'package:tmshop/core/dev/fake_backend/fake_favourites_backend.dart'
+    as _i994;
 import 'package:tmshop/core/dev/fake_backend/fake_orders_backend.dart' as _i435;
 import 'package:tmshop/core/di/register_module.dart' as _i730;
+import 'package:tmshop/core/favourites/favourites_cubit.dart' as _i935;
+import 'package:tmshop/core/favourites/favourites_repository.dart' as _i703;
 import 'package:tmshop/core/locale/locale_cubit.dart' as _i280;
 import 'package:tmshop/core/locale/locale_repository.dart' as _i630;
 import 'package:tmshop/core/network/connectivity_cubit.dart' as _i726;
 import 'package:tmshop/core/network/network_info.dart' as _i566;
+import 'package:tmshop/core/price_alerts/price_alerts_cubit.dart' as _i1065;
+import 'package:tmshop/core/price_alerts/price_alerts_repository.dart' as _i944;
+import 'package:tmshop/core/product/data/variants_repository_impl.dart'
+    as _i331;
+import 'package:tmshop/core/product/domain/product_variants.dart' as _i623;
+import 'package:tmshop/core/product/presentation/variant_picker_cubit.dart'
+    as _i508;
 import 'package:tmshop/core/region/region_cubit.dart' as _i627;
 import 'package:tmshop/core/region/region_data_source.dart' as _i19;
 import 'package:tmshop/core/region/region_repository.dart' as _i526;
+import 'package:tmshop/core/viewed/viewed_product.dart' as _i263;
+import 'package:tmshop/core/viewed/viewed_repository_impl.dart' as _i663;
 import 'package:tmshop/features/auth/data/datasources/login_remote_data_source.dart'
     as _i14;
 import 'package:tmshop/features/auth/data/repositories/login_repository_impl.dart'
@@ -49,12 +62,8 @@ import 'package:tmshop/features/cart/domain/repositories/cart_quote_repository.d
     as _i142;
 import 'package:tmshop/features/cart/domain/usecases/get_cart_quote_use_case.dart'
     as _i1039;
-import 'package:tmshop/features/cart/domain/usecases/get_product_variants_use_case.dart'
-    as _i189;
 import 'package:tmshop/features/cart/presentation/bloc/cart_quote_bloc.dart'
     as _i365;
-import 'package:tmshop/features/cart/presentation/bloc/variant_picker_cubit.dart'
-    as _i81;
 import 'package:tmshop/features/catalog/data/datasources/catalog_local_data_source.dart'
     as _i49;
 import 'package:tmshop/features/catalog/data/datasources/catalog_remote_data_source.dart'
@@ -93,6 +102,16 @@ import 'package:tmshop/features/checkout/presentation/bloc/checkout_bloc.dart'
     as _i888;
 import 'package:tmshop/features/checkout/presentation/bloc/payment_cubit.dart'
     as _i850;
+import 'package:tmshop/features/favourites/data/datasources/favourite_offers_remote_data_source.dart'
+    as _i46;
+import 'package:tmshop/features/favourites/data/repositories/favourite_offers_repository_impl.dart'
+    as _i610;
+import 'package:tmshop/features/favourites/domain/repositories/favourite_offers_repository.dart'
+    as _i1065;
+import 'package:tmshop/features/favourites/presentation/bloc/favourites_view_cubit.dart'
+    as _i96;
+import 'package:tmshop/features/favourites/presentation/bloc/viewed_cubit.dart'
+    as _i927;
 import 'package:tmshop/features/home/data/datasources/fake_home_remote_data_source.dart'
     as _i251;
 import 'package:tmshop/features/home/data/datasources/home_local_data_source.dart'
@@ -140,6 +159,8 @@ import 'package:tmshop/features/product/domain/usecases/get_delivery_quotes_use_
     as _i86;
 import 'package:tmshop/features/product/domain/usecases/get_recent_product_use_case.dart'
     as _i597;
+import 'package:tmshop/features/product/domain/usecases/record_view_use_case.dart'
+    as _i568;
 import 'package:tmshop/features/product/presentation/bloc/product_bloc.dart'
     as _i448;
 
@@ -166,9 +187,18 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i107.FakeAuthBackend(),
       registerFor: {_dev},
     );
+    gh.lazySingleton<_i994.FakeFavouritesBackend>(
+      () => _i994.FakeFavouritesBackend(),
+      registerFor: {_dev},
+    );
     gh.lazySingleton<_i435.FakeOrdersBackend>(
       () => _i435.FakeOrdersBackend(),
       registerFor: {_dev},
+    );
+    await gh.singletonAsync<_i965.Box<String>>(
+      () => registerModule.favouritesBox,
+      instanceName: 'favourites',
+      preResolve: true,
     );
     await gh.singletonAsync<_i965.Box<String>>(
       () => registerModule.settingsBox,
@@ -181,6 +211,11 @@ extension GetItInjectableX on _i174.GetIt {
     await gh.singletonAsync<_i965.Box<String>>(
       () => registerModule.cartBox,
       instanceName: 'cart',
+      preResolve: true,
+    );
+    await gh.singletonAsync<_i965.Box<String>>(
+      () => registerModule.viewedBox,
+      instanceName: 'viewed',
       preResolve: true,
     );
     await gh.singletonAsync<_i965.LazyBox<String>>(
@@ -209,6 +244,10 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i210.ProductRepository>(
       () => _i270.ProductRepositoryImpl(gh<_i777.ProductRemoteDataSource>()),
+    );
+    gh.lazySingleton<_i331.VariantsRemoteDataSource>(
+      () => _i331.FakeVariantsRemoteDataSource(gh<_i566.NetworkInfo>()),
+      registerFor: {_dev},
     );
     gh.lazySingleton<_i408.CartRemoteDataSource>(
       () => _i408.FakeCartRemoteDataSource(gh<_i566.NetworkInfo>()),
@@ -249,6 +288,13 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i1055.LazyBox<String>>(instanceName: 'home_cache'),
       ),
     );
+    gh.lazySingleton<_i46.FavouriteOffersRemoteDataSource>(
+      () => _i46.FakeFavouriteOffersRemoteDataSource(
+        gh<_i566.NetworkInfo>(),
+        gh<_i994.FakeFavouritesBackend>(),
+      ),
+      registerFor: {_dev},
+    );
     gh.lazySingleton<_i14.LoginRemoteDataSource>(
       () => _i14.FakeLoginRemoteDataSource(
         gh<_i107.FakeAuthBackend>(),
@@ -263,6 +309,16 @@ extension GetItInjectableX on _i174.GetIt {
       ),
       registerFor: {_dev},
     );
+    gh.lazySingleton<_i263.ViewedRepository>(
+      () => _i663.ViewedRepositoryImpl(
+        gh<_i1055.Box<String>>(instanceName: 'viewed'),
+      ),
+    );
+    gh.lazySingleton<_i1065.FavouriteOffersRepository>(
+      () => _i610.FavouriteOffersRepositoryImpl(
+        gh<_i46.FavouriteOffersRemoteDataSource>(),
+      ),
+    );
     gh.lazySingleton<_i526.RegionRepository>(
       () => _i526.RegionRepositoryImpl(
         gh<_i19.RegionRemoteDataSource>(),
@@ -272,9 +328,34 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i627.RegionCubit>(
       () => _i627.RegionCubit(gh<_i526.RegionRepository>()),
     );
+    gh.factory<_i927.ViewedCubit>(
+      () => _i927.ViewedCubit(gh<_i263.ViewedRepository>()),
+    );
+    gh.lazySingleton<_i568.RecordViewUseCase>(
+      () => _i568.RecordViewUseCase(gh<_i263.ViewedRepository>()),
+    );
     gh.lazySingleton<_i867.OrdersLocalDataSource>(
       () => _i867.OrdersLocalDataSource(
         gh<_i1055.LazyBox<String>>(instanceName: 'account'),
+      ),
+    );
+    gh.lazySingleton<_i944.PriceAlertsRemoteDataSource>(
+      () => _i944.FakePriceAlertsRemoteDataSource(
+        gh<_i566.NetworkInfo>(),
+        gh<_i994.FakeFavouritesBackend>(),
+      ),
+      registerFor: {_dev},
+    );
+    gh.lazySingleton<_i703.FavouritesRemoteDataSource>(
+      () => _i703.FakeFavouritesRemoteDataSource(
+        gh<_i566.NetworkInfo>(),
+        gh<_i994.FakeFavouritesBackend>(),
+      ),
+      registerFor: {_dev},
+    );
+    gh.lazySingleton<_i944.PriceAlertsRepository>(
+      () => _i944.PriceAlertsRepositoryImpl(
+        gh<_i944.PriceAlertsRemoteDataSource>(),
       ),
     );
     gh.lazySingleton<_i142.CartQuoteRepository>(
@@ -287,6 +368,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i1001.CartCubit>(
       () => _i1001.CartCubit(gh<_i361.CartRepository>()),
+    );
+    gh.factory<_i96.FavouritesViewCubit>(
+      () => _i96.FavouritesViewCubit(gh<_i1065.FavouriteOffersRepository>()),
     );
     gh.lazySingleton<_i470.CatalogRepository>(
       () => _i698.CatalogRepositoryImpl(
@@ -331,6 +415,15 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i895.FetchHomeUseCase>(),
       ),
     );
+    gh.lazySingleton<_i623.VariantsRepository>(
+      () => _i331.VariantsRepositoryImpl(gh<_i331.VariantsRemoteDataSource>()),
+    );
+    gh.lazySingleton<_i703.FavouritesRepository>(
+      () => _i703.FavouritesRepositoryImpl(
+        gh<_i703.FavouritesRemoteDataSource>(),
+        gh<_i1055.Box<String>>(instanceName: 'favourites'),
+      ),
+    );
     gh.lazySingleton<_i837.CheckoutRepository>(
       () => _i504.CheckoutRepositoryImpl(
         gh<_i932.CheckoutRemoteDataSource>(),
@@ -343,24 +436,20 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i280.LocaleCubit>(
       () => _i280.LocaleCubit(gh<_i630.LocaleRepository>()),
     );
-    gh.factory<_i448.ProductBloc>(
-      () => _i448.ProductBloc(
-        gh<_i597.GetRecentProductUseCase>(),
-        gh<_i1046.FetchProductUseCase>(),
-        gh<_i86.GetDeliveryQuotesUseCase>(),
-      ),
-    );
     gh.lazySingleton<_i1026.OrdersRepository>(
       () => _i847.OrdersRepositoryImpl(
         gh<_i867.OrdersRemoteDataSource>(),
         gh<_i867.OrdersLocalDataSource>(),
       ),
     );
+    gh.lazySingleton<_i935.FavouritesCubit>(
+      () => _i935.FavouritesCubit(gh<_i703.FavouritesRepository>()),
+    );
     gh.lazySingleton<_i1039.GetCartQuoteUseCase>(
       () => _i1039.GetCartQuoteUseCase(gh<_i142.CartQuoteRepository>()),
     );
-    gh.lazySingleton<_i189.GetProductVariantsUseCase>(
-      () => _i189.GetProductVariantsUseCase(gh<_i142.CartQuoteRepository>()),
+    gh.factory<_i508.VariantPickerCubit>(
+      () => _i508.VariantPickerCubit(gh<_i623.VariantsRepository>()),
     );
     gh.lazySingleton<_i238.SessionRepository>(
       () => _i238.SessionRepositoryImpl(
@@ -368,6 +457,9 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i274.TokenStorage>(),
         gh<_i1055.LazyBox<String>>(instanceName: 'account'),
       ),
+    );
+    gh.lazySingleton<_i1065.PriceAlertsCubit>(
+      () => _i1065.PriceAlertsCubit(gh<_i944.PriceAlertsRepository>()),
     );
     gh.lazySingleton<_i579.FetchCategoryTreeUseCase>(
       () => _i579.FetchCategoryTreeUseCase(gh<_i470.CatalogRepository>()),
@@ -424,6 +516,14 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i579.FetchCategoryTreeUseCase>(),
       ),
     );
+    gh.factory<_i448.ProductBloc>(
+      () => _i448.ProductBloc(
+        gh<_i597.GetRecentProductUseCase>(),
+        gh<_i1046.FetchProductUseCase>(),
+        gh<_i86.GetDeliveryQuotesUseCase>(),
+        gh<_i568.RecordViewUseCase>(),
+      ),
+    );
     gh.factory<_i365.CartQuoteBloc>(
       () => _i365.CartQuoteBloc(gh<_i1039.GetCartQuoteUseCase>()),
     );
@@ -459,9 +559,6 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i706.ParcelsCubit>(
       () => _i706.ParcelsCubit(gh<_i642.GetParcelsUseCase>()),
-    );
-    gh.factory<_i81.VariantPickerCubit>(
-      () => _i81.VariantPickerCubit(gh<_i189.GetProductVariantsUseCase>()),
     );
     gh.factory<_i41.OrdersCubit>(
       () => _i41.OrdersCubit(

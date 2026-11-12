@@ -38,6 +38,12 @@ abstract final class AppRoutes {
   static String parcel(String number) =>
       '$parcels/${Uri.encodeComponent(number)}';
 
+  static const viewedPath = 'viewed';
+  static const viewed = '$profile/$viewedPath';
+
+  static const priceAlertsPath = 'price-alerts';
+  static const priceAlerts = '$profile/$priceAlertsPath';
+
   /// Website links (TZ §4) mapped onto the routes above.
   static const accountPrefix = '/account';
 
@@ -81,6 +87,7 @@ abstract final class AppRoutes {
       location.startsWith('$checkout?') ||
       location.startsWith(orders) ||
       location.startsWith(parcels) ||
+      location.startsWith(priceAlerts) ||
       location.startsWith('/pay/');
 
   /// Dev-only component catalogue; registered in debug builds only.

@@ -8,9 +8,6 @@ import '../models/cart_models.dart';
 /// Cart API. Throws `NetworkException` / `ServerException`.
 abstract interface class CartRemoteDataSource {
   Future<CartQuoteModel> quote(String languageCode, Map<String, dynamic> body);
-
-  /// `null` when the server answers 404.
-  Future<VariantsModel?> getVariants(String languageCode, String productId);
 }
 
 /// Dev stand-in for the cart API until the backend exists.
@@ -37,17 +34,6 @@ class FakeCartRemoteDataSource implements CartRemoteDataSource {
     return _parse(
       () => CartQuoteModel.fromJson(_backend.quote(languageCode, body)),
     );
-  }
-
-  @override
-  Future<VariantsModel?> getVariants(
-    String languageCode,
-    String productId,
-  ) async {
-    await _request();
-    final json = _backend.variants(languageCode, productId);
-    if (json == null) return null;
-    return _parse(() => VariantsModel.fromJson(json));
   }
 
   static T _parse<T>(T Function() parse) {

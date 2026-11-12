@@ -33,3 +33,12 @@ class FailureView extends StatelessWidget {
     };
   }
 }
+
+/// Toast text for a failed action: the server's text if any, else a
+/// general message.
+String actionFailureText(AppLocalizations l10n, Failure failure) =>
+    switch (failure) {
+      ServerFailure(:final message?) => message,
+      NetworkFailure() => l10n.offlineBanner,
+      _ => l10n.errorGenericMessage,
+    };

@@ -11,9 +11,7 @@ import 'package:tmshop/features/cart/data/models/cart_mappers.dart';
 import 'package:tmshop/features/cart/data/models/cart_models.dart';
 import 'package:tmshop/features/cart/domain/repositories/cart_quote_repository.dart';
 import 'package:tmshop/features/cart/domain/usecases/get_cart_quote_use_case.dart';
-import 'package:tmshop/features/cart/domain/usecases/get_product_variants_use_case.dart';
 import 'package:tmshop/features/cart/presentation/bloc/cart_quote_bloc.dart';
-import 'package:tmshop/features/cart/presentation/bloc/variant_picker_cubit.dart';
 
 import '../../helpers/cart_fixtures.dart';
 
@@ -22,8 +20,6 @@ class _MockCartRepository extends Mock implements CartRepository {}
 class _MockQuoteRepository extends Mock implements CartQuoteRepository {}
 
 class _MockGetQuote extends Mock implements GetCartQuoteUseCase {}
-
-class _MockGetVariants extends Mock implements GetProductVariantsUseCase {}
 
 void main() {
   final lines = sampleCart('ru');
@@ -238,47 +234,6 @@ void main() {
     );
   });
 
-  group('VariantPickerCubit', () {
-    late _MockGetVariants getVariants;
-    final line = lines.first;
-    final variants = VariantsModel.fromJson(
-      FakeCartBackend().variants('ru', line.productId)!,
-    ).toEntity();
-
-    setUp(() {
-      getVariants = _MockGetVariants();
-      when(
-        () => getVariants(languageCode: 'ru', productId: line.productId),
-      ).thenAnswer((_) async => right(variants));
-      when(
-        () => getVariants(languageCode: 'ru', productId: 'gone'),
-      ).thenAnswer((_) async => right(null));
-    });
-
-    test('starts from the line\'s current variant', () async {
-      final cubit = VariantPickerCubit(getVariants);
-      await cubit.load(
-        languageCode: 'ru',
-        productId: line.productId,
-        currentSkuId: line.skuId,
-      );
-      final state = cubit.state as VariantPickerReady;
-      expect(state.selection.sku?.id, line.skuId);
-      await cubit.close();
-    });
-
-    test('a product taken off sale ends in failure without an error', () async {
-      final cubit = VariantPickerCubit(getVariants);
-      await cubit.load(
-        languageCode: 'ru',
-        productId: 'gone',
-        currentSkuId: null,
-      );
-      expect(cubit.state, const VariantPickerState.failure());
-      await cubit.close();
-    });
-  });
-
   test('use cases pass everything through', () async {
     final repository = _MockQuoteRepository();
     final quote = sampleQuote('ru', lines);
@@ -290,9 +245,6 @@ void main() {
         promoCode: 'X',
       ),
     ).thenAnswer((_) async => right(quote));
-    when(
-      () => repository.getVariants(languageCode: 'tk', productId: 'p1'),
-    ).thenAnswer((_) async => right(null));
 
     expect(
       await GetCartQuoteUseCase(repository)(
@@ -302,13 +254,6 @@ void main() {
         promoCode: 'X',
       ),
       right(quote),
-    );
-    expect(
-      await GetProductVariantsUseCase(repository)(
-        languageCode: 'tk',
-        productId: 'p1',
-      ),
-      right(null),
     );
   });
 }

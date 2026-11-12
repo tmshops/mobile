@@ -32,15 +32,6 @@ class CartQuoteRepositoryImpl implements CartQuoteRepository {
     )).toEntity(),
   );
 
-  @override
-  Future<Either<Failure, ProductVariants?>> getVariants({
-    required String languageCode,
-    required String productId,
-  }) => _guard(
-    () async =>
-        (await _remote.getVariants(languageCode, productId))?.toEntity(),
-  );
-
   static Future<Either<Failure, T>> _guard<T>(Future<T> Function() run) async {
     try {
       return right(await run());

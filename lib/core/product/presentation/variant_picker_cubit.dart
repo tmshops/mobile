@@ -2,10 +2,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../../../core/error/failures.dart';
-import '../../../../core/product/domain/sku_selection.dart';
-import '../../domain/entities/cart_quote.dart';
-import '../../domain/usecases/get_product_variants_use_case.dart';
+import '../../error/failures.dart';
+import '../domain/product_variants.dart';
+import '../domain/sku_selection.dart';
 
 part 'variant_picker_cubit.freezed.dart';
 
@@ -31,22 +30,22 @@ extension VariantPickerReadyX on VariantPickerReady {
   );
 }
 
-/// Change-variant sheet of a cart line (TZ §5.10: «смена SKU в bottom
-/// sheet»). Starts from the line's current variant.
+/// Variant sheet outside the product page (TZ §5.10 «смена SKU в bottom
+/// sheet», favourites «В корзину»). Starts from [load]'s current variant.
 @injectable
 class VariantPickerCubit extends Cubit<VariantPickerState> {
-  VariantPickerCubit(this._getVariants)
+  VariantPickerCubit(this._repository)
     : super(const VariantPickerState.loading());
 
-  final GetProductVariantsUseCase _getVariants;
+  final VariantsRepository _repository;
 
   Future<void> load({
     required String languageCode,
     required String productId,
-    required String? currentSkuId,
+    String? currentSkuId,
   }) async {
     emit(const VariantPickerState.loading());
-    final result = await _getVariants(
+    final result = await _repository.get(
       languageCode: languageCode,
       productId: productId,
     );

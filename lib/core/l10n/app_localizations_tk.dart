@@ -1231,4 +1231,131 @@ class AppLocalizationsTk extends AppLocalizations {
 
   @override
   String get profileLanguage => 'Dil';
+
+  @override
+  String get productPriceAlertOff => 'Arzanlama barada habar bermesin';
+
+  @override
+  String get priceAlertOn => 'Bahasy arzanlanda habar bereris';
+
+  @override
+  String get priceAlertOff => 'Indi bahasyny yzarlamarys';
+
+  @override
+  String get favouritesSortRecent => 'Soňky goşulanlar';
+
+  @override
+  String get favouritesSortPrice => 'Ilki arzanlary';
+
+  @override
+  String get favouritesSortDiscount => 'Arzanladyş boýunça';
+
+  @override
+  String get favouritesSelect => 'Saýla';
+
+  @override
+  String get favouritesDone => 'Taýýar';
+
+  @override
+  String get favouritesSelectAll => 'Hemmesini saýla';
+
+  @override
+  String get favouritesUnselectAll => 'Saýlawy aýyr';
+
+  @override
+  String favouritesSelected(int count) {
+    return 'Saýlandy: $count';
+  }
+
+  @override
+  String favouritesSelectItem(String title) {
+    return 'Saýla: $title';
+  }
+
+  @override
+  String favouritesPriceDrop(int percent) {
+    return 'Bahasy −$percent% arzanlady';
+  }
+
+  @override
+  String get favouritesSimilar => 'Meňzeşler';
+
+  @override
+  String get favouritesEmptyTitle => 'Ýitirmez ýaly harytlary saklaň';
+
+  @override
+  String get favouritesEmptyText =>
+      'Harydyň kartoçkasynda ♡ basyň — ol şu ýerde peýda bolar';
+
+  @override
+  String get favouritesGuestBanner =>
+      'Halanlaryňyz ähli enjamlarda bolar ýaly giriň';
+
+  @override
+  String favouritesRemoved(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count haryt aýryldy',
+      one: 'Halanlardan aýryldy',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String favouritesAddedToCart(int count) {
+    return '$count haryt sebede goşuldy';
+  }
+
+  @override
+  String get favouritesRefreshFailed => 'Bahalary täzeläp bolmady';
+
+  @override
+  String get dateToday => 'Şu gün';
+
+  @override
+  String get dateYesterday => 'Düýn';
+
+  @override
+  String get viewedMenu => 'Goşmaça';
+
+  @override
+  String get viewedClear => 'Taryhy arassala';
+
+  @override
+  String get viewedClearTitle => 'Görlenleriň taryhy arassalansynmy?';
+
+  @override
+  String get viewedClearText => 'Görlen harytlaryň sanawy bu enjamdan pozular.';
+
+  @override
+  String get viewedClearConfirm => 'Arassala';
+
+  @override
+  String get viewedEmptyTitle => 'Siz entek hiç zat görmediňiz';
+
+  @override
+  String get viewedEmptyText => 'Açan harytlaryňyz şu ýerde peýda bolar';
+
+  @override
+  String get priceAlertsEmptyTitle => 'Entek ýazylma ýok';
+
+  @override
+  String get priceAlertsEmptyText =>
+      'Harydyň kartoçkasyndaky jaňjygy basyň — bahasy arzanlanda habar bereris';
+
+  @override
+  String priceAlertsDrop(int percent) {
+    return '−$percent%';
+  }
+
+  @override
+  String priceAlertsSubscribedAt(String price) {
+    return 'Ýazylanda: $price';
+  }
+
+  @override
+  String priceAlertsSwitch(String title) {
+    return 'Arzanlama barada habar ber: $title';
+  }
 }

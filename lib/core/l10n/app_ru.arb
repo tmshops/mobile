@@ -965,5 +965,102 @@
   "profileSignIn": "Войти",
   "@profileSignIn": { "description": "Guest sign-in button" },
   "profileLanguage": "Язык",
-  "@profileLanguage": { "description": "Language row" }
+  "@profileLanguage": { "description": "Language row" },
+
+  "productPriceAlertOff": "Не сообщать о снижении цены",
+  "@productPriceAlertOff": { "description": "Tooltip of the filled price bell on the product page" },
+  "priceAlertOn": "Сообщим, когда цена снизится",
+  "@priceAlertOn": { "description": "Toast after subscribing to a price drop" },
+  "priceAlertOff": "Больше не следим за ценой",
+  "@priceAlertOff": { "description": "Toast after unsubscribing from a price drop" },
+
+  "favouritesSortRecent": "Добавлены недавно",
+  "@favouritesSortRecent": { "description": "Favourites sort: newest first" },
+  "favouritesSortPrice": "Сначала дешевле",
+  "@favouritesSortPrice": { "description": "Favourites sort: by price, cheapest first" },
+  "favouritesSortDiscount": "По скидке",
+  "@favouritesSortDiscount": { "description": "Favourites sort: biggest discount or price drop first" },
+  "favouritesSelect": "Выбрать",
+  "@favouritesSelect": { "description": "Starts bulk selection on Favourites" },
+  "favouritesDone": "Готово",
+  "@favouritesDone": { "description": "Ends bulk selection on Favourites" },
+  "favouritesSelectAll": "Выбрать все",
+  "@favouritesSelectAll": { "description": "Ticks every favourite" },
+  "favouritesUnselectAll": "Снять выбор",
+  "@favouritesUnselectAll": { "description": "Unticks every favourite" },
+  "favouritesSelected": "Выбрано: {count}",
+  "@favouritesSelected": {
+    "description": "Number of ticked favourites above the action bar",
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "favouritesSelectItem": "Выбрать: {title}",
+  "@favouritesSelectItem": {
+    "description": "Screen-reader label of a tile's tick",
+    "placeholders": { "title": { "type": "String" } }
+  },
+  "favouritesPriceDrop": "Цена снизилась −{percent}%",
+  "@favouritesPriceDrop": {
+    "description": "Green strip on a favourite whose price dropped since it was saved",
+    "placeholders": { "percent": { "type": "int" } }
+  },
+  "favouritesSimilar": "Похожие",
+  "@favouritesSimilar": { "description": "Link under a sold-out favourite" },
+  "favouritesEmptyTitle": "Сохраняйте товары, чтобы не потерять",
+  "@favouritesEmptyTitle": { "description": "Empty Favourites title" },
+  "favouritesEmptyText": "Нажмите ♡ на карточке товара — он появится здесь",
+  "@favouritesEmptyText": { "description": "Empty Favourites hint" },
+  "favouritesGuestBanner": "Войдите, чтобы избранное было на всех устройствах",
+  "@favouritesGuestBanner": { "description": "Soft banner for guests on Favourites" },
+  "favouritesRemoved": "{count, plural, one{Удалён {count} товар} few{Удалено {count} товара} other{Удалено {count} товаров}}",
+  "@favouritesRemoved": {
+    "description": "Toast after removing favourites, with Undo",
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "favouritesAddedToCart": "{count, plural, one{В корзину добавлен {count} товар} few{В корзину добавлено {count} товара} other{В корзину добавлено {count} товаров}}",
+  "@favouritesAddedToCart": {
+    "description": "Toast after adding ticked favourites to the cart",
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "favouritesRefreshFailed": "Не удалось обновить цены",
+  "@favouritesRefreshFailed": { "description": "Today's prices of favourites could not be loaded; saved ones are shown" },
+
+  "dateToday": "Сегодня",
+  "@dateToday": { "description": "Day heading for today" },
+  "dateYesterday": "Вчера",
+  "@dateYesterday": { "description": "Day heading for yesterday" },
+
+  "viewedMenu": "Ещё",
+  "@viewedMenu": { "description": "Tooltip of the Viewed screen menu" },
+  "viewedClear": "Очистить историю",
+  "@viewedClear": { "description": "Menu item that clears viewed products" },
+  "viewedClearTitle": "Очистить историю просмотров?",
+  "@viewedClearTitle": { "description": "Confirm dialog title" },
+  "viewedClearText": "Список просмотренных товаров удалится с этого устройства.",
+  "@viewedClearText": { "description": "Confirm dialog text" },
+  "viewedClearConfirm": "Очистить",
+  "@viewedClearConfirm": { "description": "Confirm button" },
+  "viewedEmptyTitle": "Вы ещё ничего не смотрели",
+  "@viewedEmptyTitle": { "description": "Empty Viewed title" },
+  "viewedEmptyText": "Здесь появятся товары, которые вы открывали",
+  "@viewedEmptyText": { "description": "Empty Viewed hint" },
+
+  "priceAlertsEmptyTitle": "Подписок пока нет",
+  "@priceAlertsEmptyTitle": { "description": "Empty price alerts title" },
+  "priceAlertsEmptyText": "Нажмите на колокольчик в карточке товара — сообщим, когда цена снизится",
+  "@priceAlertsEmptyText": { "description": "Empty price alerts hint" },
+  "priceAlertsDrop": "−{percent}%",
+  "@priceAlertsDrop": {
+    "description": "Green pill: how much the price fell since subscribing",
+    "placeholders": { "percent": { "type": "int" } }
+  },
+  "priceAlertsSubscribedAt": "При подписке: {price}",
+  "@priceAlertsSubscribedAt": {
+    "description": "Price when the customer subscribed",
+    "placeholders": { "price": { "type": "String" } }
+  },
+  "priceAlertsSwitch": "Сообщать о снижении цены: {title}",
+  "@priceAlertsSwitch": {
+    "description": "Screen-reader label of a price alert switch",
+    "placeholders": { "title": { "type": "String" } }
+  }
 }

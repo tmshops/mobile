@@ -2167,6 +2167,210 @@ abstract class AppLocalizations {
   /// In ru, this message translates to:
   /// **'Язык'**
   String get profileLanguage;
+
+  /// Tooltip of the filled price bell on the product page
+  ///
+  /// In ru, this message translates to:
+  /// **'Не сообщать о снижении цены'**
+  String get productPriceAlertOff;
+
+  /// Toast after subscribing to a price drop
+  ///
+  /// In ru, this message translates to:
+  /// **'Сообщим, когда цена снизится'**
+  String get priceAlertOn;
+
+  /// Toast after unsubscribing from a price drop
+  ///
+  /// In ru, this message translates to:
+  /// **'Больше не следим за ценой'**
+  String get priceAlertOff;
+
+  /// Favourites sort: newest first
+  ///
+  /// In ru, this message translates to:
+  /// **'Добавлены недавно'**
+  String get favouritesSortRecent;
+
+  /// Favourites sort: by price, cheapest first
+  ///
+  /// In ru, this message translates to:
+  /// **'Сначала дешевле'**
+  String get favouritesSortPrice;
+
+  /// Favourites sort: biggest discount or price drop first
+  ///
+  /// In ru, this message translates to:
+  /// **'По скидке'**
+  String get favouritesSortDiscount;
+
+  /// Starts bulk selection on Favourites
+  ///
+  /// In ru, this message translates to:
+  /// **'Выбрать'**
+  String get favouritesSelect;
+
+  /// Ends bulk selection on Favourites
+  ///
+  /// In ru, this message translates to:
+  /// **'Готово'**
+  String get favouritesDone;
+
+  /// Ticks every favourite
+  ///
+  /// In ru, this message translates to:
+  /// **'Выбрать все'**
+  String get favouritesSelectAll;
+
+  /// Unticks every favourite
+  ///
+  /// In ru, this message translates to:
+  /// **'Снять выбор'**
+  String get favouritesUnselectAll;
+
+  /// Number of ticked favourites above the action bar
+  ///
+  /// In ru, this message translates to:
+  /// **'Выбрано: {count}'**
+  String favouritesSelected(int count);
+
+  /// Screen-reader label of a tile's tick
+  ///
+  /// In ru, this message translates to:
+  /// **'Выбрать: {title}'**
+  String favouritesSelectItem(String title);
+
+  /// Green strip on a favourite whose price dropped since it was saved
+  ///
+  /// In ru, this message translates to:
+  /// **'Цена снизилась −{percent}%'**
+  String favouritesPriceDrop(int percent);
+
+  /// Link under a sold-out favourite
+  ///
+  /// In ru, this message translates to:
+  /// **'Похожие'**
+  String get favouritesSimilar;
+
+  /// Empty Favourites title
+  ///
+  /// In ru, this message translates to:
+  /// **'Сохраняйте товары, чтобы не потерять'**
+  String get favouritesEmptyTitle;
+
+  /// Empty Favourites hint
+  ///
+  /// In ru, this message translates to:
+  /// **'Нажмите ♡ на карточке товара — он появится здесь'**
+  String get favouritesEmptyText;
+
+  /// Soft banner for guests on Favourites
+  ///
+  /// In ru, this message translates to:
+  /// **'Войдите, чтобы избранное было на всех устройствах'**
+  String get favouritesGuestBanner;
+
+  /// Toast after removing favourites, with Undo
+  ///
+  /// In ru, this message translates to:
+  /// **'{count, plural, one{Удалён {count} товар} few{Удалено {count} товара} other{Удалено {count} товаров}}'**
+  String favouritesRemoved(int count);
+
+  /// Toast after adding ticked favourites to the cart
+  ///
+  /// In ru, this message translates to:
+  /// **'{count, plural, one{В корзину добавлен {count} товар} few{В корзину добавлено {count} товара} other{В корзину добавлено {count} товаров}}'**
+  String favouritesAddedToCart(int count);
+
+  /// Today's prices of favourites could not be loaded; saved ones are shown
+  ///
+  /// In ru, this message translates to:
+  /// **'Не удалось обновить цены'**
+  String get favouritesRefreshFailed;
+
+  /// Day heading for today
+  ///
+  /// In ru, this message translates to:
+  /// **'Сегодня'**
+  String get dateToday;
+
+  /// Day heading for yesterday
+  ///
+  /// In ru, this message translates to:
+  /// **'Вчера'**
+  String get dateYesterday;
+
+  /// Tooltip of the Viewed screen menu
+  ///
+  /// In ru, this message translates to:
+  /// **'Ещё'**
+  String get viewedMenu;
+
+  /// Menu item that clears viewed products
+  ///
+  /// In ru, this message translates to:
+  /// **'Очистить историю'**
+  String get viewedClear;
+
+  /// Confirm dialog title
+  ///
+  /// In ru, this message translates to:
+  /// **'Очистить историю просмотров?'**
+  String get viewedClearTitle;
+
+  /// Confirm dialog text
+  ///
+  /// In ru, this message translates to:
+  /// **'Список просмотренных товаров удалится с этого устройства.'**
+  String get viewedClearText;
+
+  /// Confirm button
+  ///
+  /// In ru, this message translates to:
+  /// **'Очистить'**
+  String get viewedClearConfirm;
+
+  /// Empty Viewed title
+  ///
+  /// In ru, this message translates to:
+  /// **'Вы ещё ничего не смотрели'**
+  String get viewedEmptyTitle;
+
+  /// Empty Viewed hint
+  ///
+  /// In ru, this message translates to:
+  /// **'Здесь появятся товары, которые вы открывали'**
+  String get viewedEmptyText;
+
+  /// Empty price alerts title
+  ///
+  /// In ru, this message translates to:
+  /// **'Подписок пока нет'**
+  String get priceAlertsEmptyTitle;
+
+  /// Empty price alerts hint
+  ///
+  /// In ru, this message translates to:
+  /// **'Нажмите на колокольчик в карточке товара — сообщим, когда цена снизится'**
+  String get priceAlertsEmptyText;
+
+  /// Green pill: how much the price fell since subscribing
+  ///
+  /// In ru, this message translates to:
+  /// **'−{percent}%'**
+  String priceAlertsDrop(int percent);
+
+  /// Price when the customer subscribed
+  ///
+  /// In ru, this message translates to:
+  /// **'При подписке: {price}'**
+  String priceAlertsSubscribedAt(String price);
+
+  /// Screen-reader label of a price alert switch
+  ///
+  /// In ru, this message translates to:
+  /// **'Сообщать о снижении цены: {title}'**
+  String priceAlertsSwitch(String title);
 }
 
 class _AppLocalizationsDelegate

@@ -370,5 +370,44 @@
   "profileGuestTitle": "Sargytlary görmek üçin giriň",
   "profileGuestText": "Sargytlar, posylkalar we balans — bir ýerde",
   "profileSignIn": "Girmek",
-  "profileLanguage": "Dil"
+  "profileLanguage": "Dil",
+
+  "productPriceAlertOff": "Arzanlama barada habar bermesin",
+  "priceAlertOn": "Bahasy arzanlanda habar bereris",
+  "priceAlertOff": "Indi bahasyny yzarlamarys",
+
+  "favouritesSortRecent": "Soňky goşulanlar",
+  "favouritesSortPrice": "Ilki arzanlary",
+  "favouritesSortDiscount": "Arzanladyş boýunça",
+  "favouritesSelect": "Saýla",
+  "favouritesDone": "Taýýar",
+  "favouritesSelectAll": "Hemmesini saýla",
+  "favouritesUnselectAll": "Saýlawy aýyr",
+  "favouritesSelected": "Saýlandy: {count}",
+  "favouritesSelectItem": "Saýla: {title}",
+  "favouritesPriceDrop": "Bahasy −{percent}% arzanlady",
+  "favouritesSimilar": "Meňzeşler",
+  "favouritesEmptyTitle": "Ýitirmez ýaly harytlary saklaň",
+  "favouritesEmptyText": "Harydyň kartoçkasynda ♡ basyň — ol şu ýerde peýda bolar",
+  "favouritesGuestBanner": "Halanlaryňyz ähli enjamlarda bolar ýaly giriň",
+  "favouritesRemoved": "{count, plural, =1{Halanlardan aýryldy} other{{count} haryt aýryldy}}",
+  "favouritesAddedToCart": "{count} haryt sebede goşuldy",
+  "favouritesRefreshFailed": "Bahalary täzeläp bolmady",
+
+  "dateToday": "Şu gün",
+  "dateYesterday": "Düýn",
+
+  "viewedMenu": "Goşmaça",
+  "viewedClear": "Taryhy arassala",
+  "viewedClearTitle": "Görlenleriň taryhy arassalansynmy?",
+  "viewedClearText": "Görlen harytlaryň sanawy bu enjamdan pozular.",
+  "viewedClearConfirm": "Arassala",
+  "viewedEmptyTitle": "Siz entek hiç zat görmediňiz",
+  "viewedEmptyText": "Açan harytlaryňyz şu ýerde peýda bolar",
+
+  "priceAlertsEmptyTitle": "Entek ýazylma ýok",
+  "priceAlertsEmptyText": "Harydyň kartoçkasyndaky jaňjygy basyň — bahasy arzanlanda habar bereris",
+  "priceAlertsDrop": "−{percent}%",
+  "priceAlertsSubscribedAt": "Ýazylanda: {price}",
+  "priceAlertsSwitch": "Arzanlama barada habar ber: {title}"
 }

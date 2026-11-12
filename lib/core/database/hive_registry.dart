@@ -18,6 +18,15 @@ abstract final class HiveBoxes {
   /// Personal data of the signed-in customer: profile, orders and parcels
   /// as JSON. Cleared on sign-out (TZ §7.2). `LazyBox<String>`.
   static const account = 'account';
+
+  /// Favourite products as one JSON list, newest first. The guest's are
+  /// the source of truth until sign-in, then merged to the server
+  /// (TZ §5.16). Cleared on sign-out. `Box<String>`.
+  static const favourites = 'favourites';
+
+  /// Recently viewed products as one JSON list, newest first. Device
+  /// only. `Box<String>`.
+  static const viewed = 'viewed';
 }
 
 /// Keys inside [HiveBoxes.settings].

@@ -14,6 +14,7 @@ class ProductPage extends StatelessWidget {
     required this.id,
     required this.onOpenProduct,
     required this.onOpenCart,
+    required this.onLogin,
     required this.onComingSoon,
     this.preview,
     super.key,
@@ -25,6 +26,7 @@ class ProductPage extends StatelessWidget {
   final ProductSummary? preview;
   final ValueChanged<ProductSummary> onOpenProduct;
   final VoidCallback onOpenCart;
+  final VoidCallback onLogin;
   final VoidCallback onComingSoon;
 
   @override
@@ -42,6 +44,7 @@ class ProductPage extends StatelessWidget {
       child: ProductView(
         onOpenProduct: onOpenProduct,
         onOpenCart: onOpenCart,
+        onLogin: onLogin,
         onComingSoon: onComingSoon,
       ),
     );

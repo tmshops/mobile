@@ -56,6 +56,8 @@ void main() {
             onLogin: () => taps.add('login'),
             onOpenOrders: () => taps.add('orders'),
             onOpenParcels: () => taps.add('parcels'),
+            onOpenViewed: () => taps.add('viewed'),
+            onOpenPriceAlerts: () => taps.add('alerts'),
             onComingSoon: () => taps.add('soon'),
           ),
         ),
@@ -88,7 +90,10 @@ void main() {
 
     await tester.tap(find.text(ru.profileOrders));
     await tester.tap(find.text(ru.profileParcels));
-    expect(taps, ['orders', 'parcels']);
+    await tester.ensureVisible(find.text(ru.profilePriceAlerts));
+    await tester.tap(find.text(ru.profileViewed));
+    await tester.tap(find.text(ru.profilePriceAlerts));
+    expect(taps, ['orders', 'parcels', 'viewed', 'alerts']);
     verify(() => cubits.auth.refresh('ru')).called(1);
   });
 

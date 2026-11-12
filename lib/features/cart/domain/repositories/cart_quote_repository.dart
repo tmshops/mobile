@@ -12,10 +12,4 @@ abstract interface class CartQuoteRepository {
     required String regionId,
     String? promoCode,
   });
-
-  /// Right(null) when the product no longer exists.
-  Future<Either<Failure, ProductVariants?>> getVariants({
-    required String languageCode,
-    required String productId,
-  });
 }

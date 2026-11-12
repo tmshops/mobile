@@ -1,5 +1,4 @@
 import '../../../../core/cart/cart_item.dart';
-import '../../../../core/product/domain/sku.dart';
 import '../../domain/entities/cart_quote.dart';
 import 'cart_models.dart';
 
@@ -38,42 +37,6 @@ extension CartQuoteModelX on CartQuoteModel {
       null => null,
     },
   );
-}
-
-extension VariantsModelX on VariantsModel {
-  ProductVariants toEntity() {
-    final known = {
-      for (final p in properties) p.id: {for (final v in p.values) v.id},
-    };
-    return ProductVariants(
-      properties: [
-        for (final p in properties)
-          if (p.values.isNotEmpty)
-            SkuProperty(
-              id: p.id,
-              title: p.title,
-              isSize: p.isSize,
-              values: [
-                for (final v in p.values)
-                  SkuValue(id: v.id, label: v.label, imageUrl: v.imageUrl),
-              ],
-            ),
-      ],
-      skus: [
-        for (final s in skus)
-          if (s.values.entries.every(
-            (e) => known[e.key]?.contains(e.value) ?? false,
-          ))
-            Sku(
-              id: s.id,
-              values: s.values,
-              price: s.price,
-              oldPrice: s.oldPrice,
-              stock: s.stock,
-            ),
-      ],
-    );
-  }
 }
 
 /// Request body for `POST /cart/quote`.

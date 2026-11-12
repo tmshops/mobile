@@ -22,7 +22,9 @@ class FavouriteButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final c = context.colors;
     final l10n = context.l10n;
+    // Its own node: inside a tile it must not merge into the tile label.
     return Semantics(
+      container: true,
       button: true,
       toggled: isFavourite,
       label: isFavourite ? l10n.favouriteRemove : l10n.favouriteAdd,

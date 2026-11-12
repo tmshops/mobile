@@ -6,7 +6,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../../../../core/cart/cart_cubit.dart';
+import '../../../../core/auth/auth_cubit.dart';
 import '../../../../core/cart/cart_item.dart';
+import '../../../../core/favourites/favourites_cubit.dart';
+import '../../../../core/price_alerts/price_alerts_cubit.dart';
 import '../../../../core/l10n/l10n.dart';
 import '../../../../core/locale/locale_cubit.dart';
 import '../../../../core/product/domain/product_summary.dart';
@@ -21,17 +24,22 @@ import 'product_sheets.dart';
 import 'product_skeleton.dart';
 
 /// Product page layout and actions (UI_DESIGN §7.5). Expects
-/// [ProductBloc], [CartCubit], [RegionCubit] and [LocaleCubit] above it.
+/// [ProductBloc] and the global cubits (cart, favourites, price alerts,
+/// session, region, locale) above it.
 class ProductView extends StatefulWidget {
   const ProductView({
     required this.onOpenProduct,
     required this.onOpenCart,
+    required this.onLogin,
     required this.onComingSoon,
     super.key,
   });
 
   final ValueChanged<ProductSummary> onOpenProduct;
   final VoidCallback onOpenCart;
+
+  /// A guest tapped something that needs an account (the price bell).
+  final VoidCallback onLogin;
 
   /// For actions whose screens do not exist yet (checkout, reviews, …).
   final VoidCallback onComingSoon;
@@ -108,6 +116,46 @@ class _ProductViewState extends State<ProductView> {
   Future<void> _share(String url, String title) =>
       SharePlus.instance.share(ShareParams(uri: Uri.parse(url), title: title));
 
+  /// Subscriptions live on the account: a guest is asked to sign in.
+  Future<void> _togglePriceAlert() async {
+    final details = _bloc.state.details;
+    if (details == null) return;
+    if (context.read<AuthCubit>().state is! AuthSignedIn) {
+      widget.onLogin();
+      return;
+    }
+    final result = await context.read<PriceAlertsCubit>().toggle(
+      context.read<LocaleCubit>().state.languageCode,
+      details.summary,
+    );
+    if (!mounted) return;
+    final l10n = context.l10n;
+    result.match(
+      (failure) => showAppToast(
+        context,
+        message: actionFailureText(l10n, failure),
+        icon: AppIcons.warning,
+      ),
+      (isOn) => showAppToast(
+        context,
+        message: switch (isOn) {
+          true => l10n.priceAlertOn,
+          false => l10n.priceAlertOff,
+          null => l10n.productNotFoundTitle,
+        },
+        icon: isOn == true ? AppIcons.bellFilled : null,
+      ),
+    );
+  }
+
+  void _toggleFavourite() {
+    final state = _bloc.state;
+    final product = state.details?.summary ?? state.preview;
+    if (product == null) return;
+    unawaited(HapticFeedback.lightImpact());
+    unawaited(context.read<FavouritesCubit>().toggle(product));
+  }
+
   @override
   Widget build(BuildContext context) {
     return MultiBlocListener(
@@ -136,10 +184,13 @@ class _ProductViewState extends State<ProductView> {
                 imageKey: _imageKey,
                 onOpenProduct: widget.onOpenProduct,
                 onComingSoon: widget.onComingSoon,
+                onPriceAlert: _togglePriceAlert,
               ),
               _TopButtons(
                 cartKey: _cartKey,
                 onOpenCart: widget.onOpenCart,
+                productId: state.details?.id ?? state.preview?.id,
+                onFavourite: _toggleFavourite,
                 onShare: switch (state.details) {
                   ProductDetails(:final shareUrl?, :final title) =>
                     () => _share(shareUrl, title),
@@ -166,12 +217,14 @@ class _Body extends StatelessWidget {
     required this.imageKey,
     required this.onOpenProduct,
     required this.onComingSoon,
+    required this.onPriceAlert,
   });
 
   final ProductState state;
   final GlobalKey imageKey;
   final ValueChanged<ProductSummary> onOpenProduct;
   final VoidCallback onComingSoon;
+  final VoidCallback onPriceAlert;
 
   @override
   Widget build(BuildContext context) {
@@ -242,6 +295,7 @@ class _Body extends StatelessWidget {
                       state: state,
                       onOpenProduct: onOpenProduct,
                       onComingSoon: onComingSoon,
+                      onPriceAlert: onPriceAlert,
                     ),
             ),
           ),
@@ -251,12 +305,15 @@ class _Body extends StatelessWidget {
   }
 }
 
-/// Floating white circles over the photo: back, share, cart with badge.
+/// Floating white circles over the photo: back, share, favourite, cart
+/// with badge.
 class _TopButtons extends StatelessWidget {
   const _TopButtons({
     required this.cartKey,
     required this.onOpenCart,
     required this.onShare,
+    required this.productId,
+    required this.onFavourite,
   });
 
   final GlobalKey cartKey;
@@ -265,10 +322,15 @@ class _TopButtons extends StatelessWidget {
   /// `null` hides share (no link yet).
   final VoidCallback? onShare;
 
+  /// `null` hides the heart (nothing to save yet).
+  final String? productId;
+  final VoidCallback onFavourite;
+
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final share = onShare;
+    final id = productId;
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.all(AppSpacing.x8),
@@ -287,6 +349,23 @@ class _TopButtons extends StatelessWidget {
                 style: IconCircleStyle.light,
                 semanticLabel: l10n.actionShare,
                 onPressed: share,
+              ),
+              const SizedBox(width: AppSpacing.x8),
+            ],
+            if (id != null) ...[
+              BlocSelector<FavouritesCubit, FavouritesState, bool>(
+                selector: (favourites) => favourites.contains(id),
+                builder: (context, isFavourite) => IconCircleButton(
+                  icon: AppIcons.heart,
+                  activeIcon: AppIcons.heartFilled,
+                  isActive: isFavourite,
+                  activeColor: context.colors.danger,
+                  style: IconCircleStyle.light,
+                  semanticLabel: isFavourite
+                      ? l10n.favouriteRemove
+                      : l10n.favouriteAdd,
+                  onPressed: onFavourite,
+                ),
               ),
               const SizedBox(width: AppSpacing.x8),
             ],

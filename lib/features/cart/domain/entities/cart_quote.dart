@@ -1,7 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../../../core/product/domain/sku.dart';
-
 part 'cart_quote.freezed.dart';
 
 /// The server's view of the cart (TZ §5.10): today's prices and stock per
@@ -71,13 +69,4 @@ abstract class PromoResult with _$PromoResult {
     /// Server text in the request language, for a rejected code.
     String? message,
   }) = _PromoResult;
-}
-
-/// A product's variant groups and SKUs, for the change-variant sheet.
-@freezed
-abstract class ProductVariants with _$ProductVariants {
-  const factory ProductVariants({
-    required List<SkuProperty> properties,
-    required List<Sku> skus,
-  }) = _ProductVariants;
 }

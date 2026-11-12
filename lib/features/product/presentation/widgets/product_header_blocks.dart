@@ -80,6 +80,7 @@ class ProductTitleBlock extends StatelessWidget {
   const ProductTitleBlock({
     required this.title,
     required this.onPriceAlert,
+    this.isPriceAlertOn = false,
     this.rating,
     this.reviewCount = 0,
     this.soldCount,
@@ -91,6 +92,9 @@ class ProductTitleBlock extends StatelessWidget {
   final int reviewCount;
   final int? soldCount;
   final VoidCallback onPriceAlert;
+
+  /// Filled orange bell while subscribed.
+  final bool isPriceAlertOn;
 
   @override
   Widget build(BuildContext context) {
@@ -131,8 +135,12 @@ class ProductTitleBlock extends StatelessWidget {
             ),
             IconButton(
               onPressed: onPriceAlert,
-              tooltip: l10n.productPriceAlert,
+              tooltip: isPriceAlertOn
+                  ? l10n.productPriceAlertOff
+                  : l10n.productPriceAlert,
+              isSelected: isPriceAlertOn,
               icon: Icon(AppIcons.bell, color: c.inkSecondary),
+              selectedIcon: Icon(AppIcons.bellFilled, color: c.primary),
             ),
           ],
         ),

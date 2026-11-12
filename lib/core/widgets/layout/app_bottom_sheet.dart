@@ -117,7 +117,14 @@ class _SheetTitle extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Expanded(child: Text(title, style: context.text.h2)),
+          Expanded(
+            child: Text(
+              title,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: context.text.h2,
+            ),
+          ),
           IconButton(
             onPressed: () => Navigator.of(context).maybePop(),
             tooltip: context.l10n.actionClose,

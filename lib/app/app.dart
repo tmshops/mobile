@@ -5,9 +5,11 @@ import 'package:go_router/go_router.dart';
 import '../core/auth/auth_cubit.dart';
 import '../core/cart/cart_cubit.dart';
 import '../core/di/injection.dart';
+import '../core/favourites/favourites_cubit.dart';
 import '../core/l10n/l10n.dart';
 import '../core/locale/locale_cubit.dart';
 import '../core/network/connectivity_cubit.dart';
+import '../core/price_alerts/price_alerts_cubit.dart';
 import '../core/region/region_cubit.dart';
 import '../core/theme/theme.dart';
 import 'router/app_router.dart';
@@ -42,26 +44,51 @@ class _TmshopAppState extends State<TmshopApp> {
         BlocProvider(create: (_) => getIt<ConnectivityCubit>()),
         BlocProvider.value(value: _auth),
         BlocProvider(create: (_) => getIt<CartCubit>()..load()),
+        BlocProvider(create: (_) => getIt<FavouritesCubit>()..load()),
+        BlocProvider(create: (_) => getIt<PriceAlertsCubit>()),
         BlocProvider(
           create: (context) =>
               getIt<RegionCubit>()
                 ..load(context.read<LocaleCubit>().state.languageCode),
         ),
       ],
-      child: BlocConsumer<LocaleCubit, Locale>(
-        // Region names come in the interface language.
-        listener: (context, locale) =>
-            context.read<RegionCubit>().load(locale.languageCode),
-        builder: (context, locale) => MaterialApp.router(
-          onGenerateTitle: (context) => context.l10n.appName,
-          debugShowCheckedModeBanner: false,
-          theme: AppTheme.light(),
-          locale: locale,
-          localizationsDelegates: AppLocales.delegates,
-          supportedLocales: AppLocales.supported,
-          routerConfig: _router,
+      child: BlocListener<AuthCubit, AuthState>(
+        // Only real changes of who is signed in; a profile refresh is not.
+        listenWhen: (a, b) => a.runtimeType != b.runtimeType,
+        listener: _onSessionChanged,
+        child: BlocConsumer<LocaleCubit, Locale>(
+          // Region names come in the interface language.
+          listener: (context, locale) =>
+              context.read<RegionCubit>().load(locale.languageCode),
+          builder: (context, locale) => MaterialApp.router(
+            onGenerateTitle: (context) => context.l10n.appName,
+            debugShowCheckedModeBanner: false,
+            theme: AppTheme.light(),
+            locale: locale,
+            localizationsDelegates: AppLocales.delegates,
+            supportedLocales: AppLocales.supported,
+            routerConfig: _router,
+          ),
         ),
       ),
     );
+  }
+
+  /// After login the guest's favourites move to the account (TZ §5.2);
+  /// after sign-out the account's leave the device (TZ §7.2).
+  static void _onSessionChanged(BuildContext context, AuthState auth) {
+    final favourites = context.read<FavouritesCubit>();
+    final alerts = context.read<PriceAlertsCubit>();
+    final languageCode = context.read<LocaleCubit>().state.languageCode;
+    switch (auth) {
+      case AuthSignedIn():
+        favourites.signedIn(languageCode);
+        alerts.load(languageCode);
+      case AuthGuest():
+        favourites.signedOut();
+        alerts.clear();
+      case AuthUnknown():
+        break;
+    }
   }
 }

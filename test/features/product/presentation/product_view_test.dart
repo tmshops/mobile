@@ -3,11 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:fpdart/fpdart.dart' show right;
+import 'package:tmshop/core/auth/auth_cubit.dart';
+import 'package:tmshop/core/auth/user_profile.dart';
 import 'package:tmshop/core/cart/cart_item.dart';
 import 'package:tmshop/core/error/failures.dart';
 import 'package:tmshop/core/l10n/l10n.dart';
 import 'package:tmshop/core/product/domain/product_summary.dart';
 import 'package:tmshop/core/theme/theme.dart';
+import 'package:tmshop/core/widgets/widgets.dart';
 import 'package:tmshop/features/product/presentation/bloc/product_bloc.dart';
 import 'package:tmshop/features/product/presentation/widgets/product_view.dart';
 
@@ -21,10 +25,13 @@ void main() {
   late _MockProductBloc bloc;
   late GlobalCubits cubits;
   late int comingSoon;
+  late int logins;
+  final ru = lookupAppLocalizations(AppLocales.ru);
 
   setUp(() {
     bloc = _MockProductBloc();
     comingSoon = 0;
+    logins = 0;
   });
 
   /// Loaded state with the first in-stock SKU fully picked.
@@ -46,9 +53,10 @@ void main() {
     Locale locale = AppLocales.ru,
     double textScale = 1,
     double width = 360,
+    AuthState auth = const AuthState.guest(),
   }) async {
     when(() => bloc.state).thenReturn(state);
-    cubits = GlobalCubits(locale: locale);
+    cubits = GlobalCubits(locale: locale, auth: auth);
     tester.view.physicalSize = Size(width, 800) * tester.view.devicePixelRatio;
     addTearDown(tester.view.resetPhysicalSize);
     await tester.pumpWidget(
@@ -71,6 +79,7 @@ void main() {
           home: ProductView(
             onOpenProduct: (_) {},
             onOpenCart: () {},
+            onLogin: () => logins++,
             onComingSoon: () => comingSoon++,
           ),
         ),
@@ -135,6 +144,47 @@ void main() {
 
     expect(find.textContaining('Выберите:'), findsOneWidget);
     verifyNever(() => cubits.cart.add(any()));
+    await tester.pumpWidget(const SizedBox());
+  });
+
+  testWidgets('the heart saves the product as a tile', (tester) async {
+    final state = ready('ru', clothingId);
+    await pump(tester, state);
+    await tester.tap(
+      find.byWidgetPredicate(
+        (w) => w is IconCircleButton && w.icon == AppIcons.heart,
+      ),
+    );
+    verify(() => cubits.favourites.toggle(state.details!.summary)).called(1);
+    await tester.pumpWidget(const SizedBox());
+  });
+
+  testWidgets('a guest tapping the price bell is sent to login', (
+    tester,
+  ) async {
+    await pump(tester, ready('ru', clothingId));
+    await tester.tap(find.byTooltip(ru.productPriceAlert));
+    expect(logins, 1);
+    verifyNever(() => cubits.priceAlerts.toggle(any(), any()));
+    await tester.pumpWidget(const SizedBox());
+  });
+
+  testWidgets('a customer subscribes to a price drop with a toast', (
+    tester,
+  ) async {
+    final state = ready('ru', clothingId);
+    await pump(
+      tester,
+      state,
+      auth: const AuthState.signedIn(UserProfile(id: 'u', phone: '65123456')),
+    );
+    when(
+      () => cubits.priceAlerts.toggle('ru', state.details!.summary),
+    ).thenAnswer((_) async => right(true));
+    await tester.tap(find.byTooltip(ru.productPriceAlert));
+    await tester.pump();
+    expect(find.text(ru.priceAlertOn), findsOneWidget);
+    expect(logins, 0);
     await tester.pumpWidget(const SizedBox());
   });
 

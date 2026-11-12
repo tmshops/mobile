@@ -44,3 +44,23 @@ extension ProductSummaryModelX on ProductSummaryModel {
     },
   );
 }
+
+extension ProductSummaryToModelX on ProductSummary {
+  /// For saving on the device (favourites, viewed) in the API's own shape.
+  ProductSummaryModel toModel() => ProductSummaryModel(
+    id: id,
+    title: title,
+    imageUrl: imageUrl,
+    price: price,
+    oldPrice: oldPrice,
+    soldCount: soldCount,
+    isIllustration: isIllustration,
+    marks: [
+      for (final mark in marks)
+        switch (mark) {
+          ProductMark.hit => 'hit',
+          ProductMark.newArrival => 'new',
+        },
+    ],
+  );
+}

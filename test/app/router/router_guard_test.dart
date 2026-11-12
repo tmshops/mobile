@@ -18,6 +18,8 @@ import 'package:tmshop/features/orders/presentation/bloc/orders_cubit.dart';
 import 'package:tmshop/features/orders/presentation/widgets/order_view.dart';
 import 'package:tmshop/features/orders/presentation/widgets/orders_view.dart';
 
+import 'package:tmshop/features/favourites/presentation/bloc/viewed_cubit.dart';
+
 import '../../helpers/mock_blocs.dart';
 
 class _MockLoginBloc extends MockBloc<LoginEvent, LoginState>
@@ -26,6 +28,8 @@ class _MockLoginBloc extends MockBloc<LoginEvent, LoginState>
 class _MockOrdersCubit extends MockCubit<OrdersState> implements OrdersCubit {}
 
 class _MockOrderCubit extends MockCubit<OrderState> implements OrderCubit {}
+
+class _MockViewedCubit extends MockCubit<ViewedState> implements ViewedCubit {}
 
 void main() {
   late GlobalCubits cubits;
@@ -45,7 +49,11 @@ void main() {
         number: any(named: 'number'),
       ),
     ).thenAnswer((_) async {});
+    final viewed = _MockViewedCubit();
+    when(() => viewed.state).thenReturn(const ViewedState(isLoading: false));
+    when(viewed.load).thenAnswer((_) async {});
     getIt
+      ..registerFactory<ViewedCubit>(() => viewed)
       ..registerFactory<LoginBloc>(() => login)
       ..registerFactory<OrdersCubit>(() => orders)
       ..registerFactory<OrderCubit>(() => order);
@@ -90,6 +98,15 @@ void main() {
 
     expect(find.byType(LoginView), findsOneWidget);
     expect(location(), AppRoutes.loginFrom(AppRoutes.orders));
+  });
+
+  testWidgets('price alerts need an account; viewed does not', (tester) async {
+    await pump(tester, const AuthState.guest());
+    await go(tester, AppRoutes.priceAlerts);
+    expect(location(), AppRoutes.loginFrom(AppRoutes.priceAlerts));
+
+    await go(tester, AppRoutes.viewed);
+    expect(location(), AppRoutes.viewed);
   });
 
   testWidgets('checkout keeps its promo code through login', (tester) async {

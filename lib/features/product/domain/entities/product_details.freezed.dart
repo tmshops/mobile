@@ -265,8 +265,8 @@ return $default(_that.id,_that.title,_that.media,_that.price,_that.oldPrice,_tha
 /// @nodoc
 
 
-class _ProductDetails implements ProductDetails {
-  const _ProductDetails({required this.id, required this.title, required final  List<GalleryMedia> media, required this.price, this.oldPrice, this.promoEndsAt, final  List<PriceTier> priceTiers = const <PriceTier>[], this.rating, this.reviewCount = 0, this.soldCount, final  List<SkuProperty> properties = const <SkuProperty>[], final  List<Sku> skus = const <Sku>[], this.sizeChart, this.descriptionHtml = '', final  List<SpecRow> specs = const <SpecRow>[], this.seller, this.reviews, this.isAvailable = true, final  List<ProductSummary> similar = const <ProductSummary>[], final  List<ProductSummary> boughtTogether = const <ProductSummary>[], this.shareUrl}): _media = media,_priceTiers = priceTiers,_properties = properties,_skus = skus,_specs = specs,_similar = similar,_boughtTogether = boughtTogether;
+class _ProductDetails extends ProductDetails {
+  const _ProductDetails({required this.id, required this.title, required final  List<GalleryMedia> media, required this.price, this.oldPrice, this.promoEndsAt, final  List<PriceTier> priceTiers = const <PriceTier>[], this.rating, this.reviewCount = 0, this.soldCount, final  List<SkuProperty> properties = const <SkuProperty>[], final  List<Sku> skus = const <Sku>[], this.sizeChart, this.descriptionHtml = '', final  List<SpecRow> specs = const <SpecRow>[], this.seller, this.reviews, this.isAvailable = true, final  List<ProductSummary> similar = const <ProductSummary>[], final  List<ProductSummary> boughtTogether = const <ProductSummary>[], this.shareUrl}): _media = media,_priceTiers = priceTiers,_properties = properties,_skus = skus,_specs = specs,_similar = similar,_boughtTogether = boughtTogether,super._();
   
 
 @override final  String id;

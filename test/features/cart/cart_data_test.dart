@@ -68,13 +68,6 @@ void main() {
         greaterThan(sampleQuote('ru', lines).summary.internationalEstimate),
       );
     });
-
-    test('variants come with today\'s prices', () {
-      final json = FakeCartBackend().variants('ru', 'clothes-women-dresses-1');
-      final variants = VariantsModel.fromJson(json!).toEntity();
-      expect(variants.properties.map((p) => p.id), ['color', 'size']);
-      expect(variants.skus, isNotEmpty);
-    });
   });
 
   group('CartQuoteRepositoryImpl', () {
@@ -112,7 +105,7 @@ void main() {
       expect(sent['price_at_add'], line.price);
     });
 
-    test('offline is NetworkFailure; unknown product is Right(null)', () async {
+    test('offline is NetworkFailure', () async {
       when(
         () => remote.quote(any(), any()),
       ).thenThrow(const NetworkException());
@@ -122,15 +115,6 @@ void main() {
         regionId: 'ashgabat',
       );
       expect(offline.getLeft().toNullable(), isA<NetworkFailure>());
-
-      when(
-        () => remote.getVariants('ru', 'gone'),
-      ).thenAnswer((_) async => null);
-      final gone = await repository.getVariants(
-        languageCode: 'ru',
-        productId: 'gone',
-      );
-      expect(gone.getOrElse((_) => throw StateError('left')), isNull);
     });
   });
 }

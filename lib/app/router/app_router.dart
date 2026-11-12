@@ -17,6 +17,8 @@ import '../../features/checkout/presentation/pages/checkout_page.dart';
 import '../../features/checkout/presentation/pages/payment_page.dart';
 import '../../features/catalog/presentation/pages/category_products_page.dart';
 import '../../features/favourites/presentation/pages/favourites_page.dart';
+import '../../features/favourites/presentation/pages/price_alerts_page.dart';
+import '../../features/favourites/presentation/pages/viewed_page.dart';
 import '../../features/home/presentation/pages/home_page.dart';
 import '../../features/kit/presentation/pages/kit_page.dart';
 import '../../features/orders/presentation/pages/order_page.dart';
@@ -96,7 +98,16 @@ GoRouter createAppRouter({
               onComingSoon: () => showComingSoon(context),
             ),
           ),
-          _branch(AppRoutes.favourites, (_) => const FavouritesPage()),
+          _branch(
+            AppRoutes.favourites,
+            (context) => FavouritesPage(
+              onOpenProduct: (product) => _openProduct(context, product),
+              onOpenCatalog: () => context.go(AppRoutes.catalog),
+              onOpenCart: () => context.go(AppRoutes.cart),
+              onLogin: () =>
+                  context.push(AppRoutes.loginFrom(AppRoutes.favourites)),
+            ),
+          ),
           _branch(
             AppRoutes.profile,
             (context) => ProfilePage(
@@ -104,6 +115,8 @@ GoRouter createAppRouter({
                   context.push(AppRoutes.loginFrom(AppRoutes.profile)),
               onOpenOrders: () => context.push(AppRoutes.orders),
               onOpenParcels: () => context.push(AppRoutes.parcels),
+              onOpenViewed: () => context.push(AppRoutes.viewed),
+              onOpenPriceAlerts: () => context.push(AppRoutes.priceAlerts),
               onComingSoon: () => showComingSoon(context),
             ),
             routes: _profileRoutes,
@@ -126,6 +139,8 @@ GoRouter createAppRouter({
             onOpenProduct: (product) => _openProduct(context, product),
             // `go` leaves the product page and switches to the Cart tab.
             onOpenCart: () => context.go(AppRoutes.cart),
+            // Plain login: back to this page afterwards.
+            onLogin: () => context.push(AppRoutes.login),
             onComingSoon: () => showComingSoon(context),
           );
         },
@@ -157,10 +172,14 @@ GoRouter createAppRouter({
       GoRoute(
         path: AppRoutes.login,
         builder: (context, state) => LoginPage(
-          // Back where the customer came from: the guarded route, or Profile.
-          onDone: () => context.go(
-            state.uri.queryParameters[AppRoutes.fromParam] ?? AppRoutes.profile,
-          ),
+          // Back where the customer came from: the guarded route; without
+          // one, the screen under login, or Profile.
+          onDone: () {
+            final from = state.uri.queryParameters[AppRoutes.fromParam];
+            if (from != null) return context.go(from);
+            if (context.canPop()) return context.pop();
+            context.go(AppRoutes.profile);
+          },
           onReadPolicy: () => showComingSoon(context),
           onGoogle: () => showComingSoon(context),
         ),
@@ -185,8 +204,22 @@ String? _guard(AuthState auth, Uri uri) {
   return null;
 }
 
-/// Orders and parcels inside the Profile tab.
+/// Orders, parcels, viewed and price alerts inside the Profile tab.
 final _profileRoutes = <RouteBase>[
+  GoRoute(
+    path: AppRoutes.viewedPath,
+    builder: (context, _) => ViewedPage(
+      onOpenProduct: (product) => _openProduct(context, product),
+      onOpenCatalog: () => context.go(AppRoutes.catalog),
+    ),
+  ),
+  GoRoute(
+    path: AppRoutes.priceAlertsPath,
+    builder: (context, _) => PriceAlertsPage(
+      onOpenProduct: (product) => _openProduct(context, product),
+      onOpenCatalog: () => context.go(AppRoutes.catalog),
+    ),
+  ),
   GoRoute(
     path: AppRoutes.ordersPath,
     builder: (context, _) => OrdersPage(

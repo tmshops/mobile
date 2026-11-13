@@ -5,10 +5,92 @@
 library;
 
 /// Which placeholder host [fakeImageUrl] builds URLs for.
-enum FakeImageProvider { picsum, placehold }
+enum FakeImageProvider {
+  /// Real product photos from the dummyjson.com CDN (good for demos).
+  dummyjson,
 
-/// Switch back to [FakeImageProvider.picsum] for real photos once it is up.
-const FakeImageProvider fakeImageProvider = FakeImageProvider.placehold;
+  /// Random stock photos; unreliable since Nov 2026.
+  picsum,
+
+  /// Coloured boxes with the seed as text; handy for debugging layouts.
+  placehold,
+}
+
+/// Switch to [FakeImageProvider.placehold] to see which seed lands where.
+const FakeImageProvider fakeImageProvider = FakeImageProvider.dummyjson;
+
+const String _dummyJsonBase = 'https://cdn.dummyjson.com/product-images';
+
+/// `<category>/<product>` paths on the dummyjson CDN, up to 3 per category,
+/// all checked to return 200. Every path has a `1.webp` image.
+const List<String> _dummyJsonProducts = [
+  'beauty/essence-mascara-lash-princess',
+  'beauty/eyeshadow-palette-with-mirror',
+  'beauty/powder-canister',
+  'fragrances/calvin-klein-ck-one',
+  'fragrances/chanel-coco-noir-eau-de',
+  "fragrances/dior-j'adore",
+  'furniture/annibale-colombo-bed',
+  'furniture/annibale-colombo-sofa',
+  'furniture/bedside-table-african-cherry',
+  'groceries/apple',
+  'groceries/beef-steak',
+  'groceries/cat-food',
+  'home-decoration/decoration-swing',
+  'home-decoration/family-tree-photo-frame',
+  'home-decoration/house-showpiece-plant',
+  'kitchen-accessories/bamboo-spatula',
+  'kitchen-accessories/black-aluminium-cup',
+  'kitchen-accessories/black-whisk',
+  'laptops/apple-macbook-pro-14-inch-space-grey',
+  'laptops/asus-zenbook-pro-dual-screen-laptop',
+  'laptops/huawei-matebook-x-pro',
+  'mens-shirts/blue-&-black-check-shirt',
+  'mens-shirts/gigabyte-aorus-men-tshirt',
+  'mens-shirts/man-plaid-shirt',
+  'mens-shoes/nike-air-jordan-1-red-and-black',
+  'mens-shoes/nike-baseball-cleats',
+  'mens-shoes/puma-future-rider-trainers',
+  'mens-watches/brown-leather-belt-watch',
+  'mens-watches/longines-master-collection',
+  'mens-watches/rolex-cellini-date-black-dial',
+  'mobile-accessories/amazon-echo-plus',
+  'mobile-accessories/apple-airpods',
+  'mobile-accessories/apple-airpods-max-silver',
+  'skin-care/attitude-super-leaves-hand-soap',
+  'skin-care/olay-ultra-moisture-shea-butter-body-wash',
+  'skin-care/vaseline-men-body-and-face-lotion',
+  'smartphones/iphone-5s',
+  'smartphones/iphone-6',
+  'smartphones/iphone-13-pro',
+  'sports-accessories/american-football',
+  'sports-accessories/baseball-ball',
+  'sports-accessories/baseball-glove',
+  'sunglasses/black-sun-glasses',
+  'sunglasses/classic-sun-glasses',
+  'sunglasses/green-and-black-glasses',
+  'tablets/ipad-mini-2021-starlight',
+  'tablets/samsung-galaxy-tab-s8-plus-grey',
+  'tablets/samsung-galaxy-tab-white',
+  'tops/blue-frock',
+  'tops/girl-summer-dress',
+  'tops/gray-dress',
+  "womens-bags/blue-women's-handbag",
+  "womens-bags/heshe-women's-leather-bag",
+  'womens-bags/prada-women-bag',
+  "womens-dresses/black-women's-gown",
+  'womens-dresses/corset-leather-with-skirt',
+  'womens-dresses/corset-with-black-skirt',
+  'womens-jewellery/green-crystal-earring',
+  'womens-jewellery/green-oval-earring',
+  'womens-jewellery/tropical-earring',
+  'womens-shoes/black-&-brown-slipper',
+  'womens-shoes/calvin-klein-heel-shoes',
+  'womens-shoes/golden-shoes-woman',
+  'womens-watches/iwc-ingenieur-automatic-steel',
+  'womens-watches/rolex-cellini-moonphase',
+  'womens-watches/rolex-datejust-women',
+];
 
 const List<String> _palette = [
   '2b6cb0',
@@ -24,9 +106,16 @@ const String _placeholdInk = 'ffffff';
 
 /// A stable placeholder image URL for [seed] at [width]×[height]
 /// (square when [height] is omitted).
+///
+/// The dummyjson provider ignores the size: its photos are roughly square and
+/// are cropped by the widget's `BoxFit`.
 String fakeImageUrl(String seed, int width, [int? height]) {
   final h = height ?? width;
   switch (fakeImageProvider) {
+    case FakeImageProvider.dummyjson:
+      final path =
+          _dummyJsonProducts[seed.hashCode.abs() % _dummyJsonProducts.length];
+      return '$_dummyJsonBase/$path/1.webp';
     case FakeImageProvider.picsum:
       return 'https://picsum.photos/seed/$seed/$width/$h';
     case FakeImageProvider.placehold:

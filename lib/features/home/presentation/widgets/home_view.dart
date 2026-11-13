@@ -145,7 +145,6 @@ class _HomeScrollView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final locale = context.watch<LocaleCubit>();
     return CustomScrollView(
       controller: controller,
       // Lets pull-to-refresh work on the short error and empty states.
@@ -153,8 +152,6 @@ class _HomeScrollView extends StatelessWidget {
       slivers: [
         SliverToBoxAdapter(
           child: HomeHeader(
-            locale: locale.state,
-            onLanguageToggle: locale.toggle,
             onNotifications: () =>
                 onNavigate(const HomeDestination.notifications()),
             onOpenKit: onOpenKit,

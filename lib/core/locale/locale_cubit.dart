@@ -30,8 +30,4 @@ class LocaleCubit extends Cubit<Locale> {
     emit(locale);
     await _repository.saveLanguageCode(locale.languageCode);
   }
-
-  /// RU ↔ TK, for the Home header toggle.
-  Future<void> toggle() =>
-      select(state == AppLocales.ru ? AppLocales.tk : AppLocales.ru);
 }

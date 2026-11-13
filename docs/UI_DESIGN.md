@@ -140,7 +140,7 @@ For **every** screen deliver 4 states (loading skeleton, empty, error, offline) 
 - Onboarding: large language cards (RU / TK) → region list with radio rows → 3 swipeable slides (illustration + one-line title + short text: Order → We buy in China → Delivery to your city) with dots and «Пропустить» → push-permission explainer (illustration + «Включить уведомления» primary + «Позже» text button).
 
 ### 7.2 Home
-Top: compact header (logo left; language toggle and bell right), then a sticky **search bar** with a camera icon.
+Top: compact header (logo left; bell right; the language is switched only in Settings), then a sticky **search bar** with a camera icon.
 Sections, in a vertical scroll with 24-dp gaps:
 1. **Video stories strip:** horizontal round or rounded-rect thumbnails (like stories) that open the full-screen feed. This is the entry into the main video feature, so make it eye-catching.
 2. **Promo banner carousel:** full-width, 16:9 or 2:1.

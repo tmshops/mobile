@@ -85,7 +85,6 @@ class GlobalCubits {
     );
     when(() => this.locale.state).thenReturn(locale);
     registerFallbackValue(AppLocales.ru);
-    when(this.locale.toggle).thenAnswer((_) async {});
     when(() => this.locale.select(any())).thenAnswer((_) async {});
     when(() => connectivity.state).thenReturn(isOnline);
     when(() => this.cart.state).thenReturn(cart);

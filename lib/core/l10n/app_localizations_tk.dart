@@ -551,9 +551,6 @@ class AppLocalizationsTk extends AppLocalizations {
   String get homeNotifications => 'Bildirişler';
 
   @override
-  String get homeLanguageSwitch => 'Dili çalyş';
-
-  @override
   String homeStoryNew(String title) {
     return 'Täze wideo: $title';
   }

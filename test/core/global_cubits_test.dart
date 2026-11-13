@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:bloc_test/bloc_test.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:tmshop/core/l10n/l10n.dart';
@@ -32,15 +31,6 @@ void main() {
       when(() => repository.savedLanguageCode).thenReturn('de');
       expect(LocaleCubit(repository).state, AppLocales.tk);
     });
-
-    blocTest<LocaleCubit, Locale>(
-      'toggle switches and saves',
-      setUp: () => when(() => repository.savedLanguageCode).thenReturn('ru'),
-      build: () => LocaleCubit(repository),
-      act: (cubit) => cubit.toggle(),
-      expect: () => [AppLocales.tk],
-      verify: (_) => verify(() => repository.saveLanguageCode('tk')).called(1),
-    );
   });
 
   group('ConnectivityCubit', () {

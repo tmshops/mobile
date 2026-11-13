@@ -569,9 +569,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String get homeNotifications => 'Уведомления';
 
   @override
-  String get homeLanguageSwitch => 'Сменить язык';
-
-  @override
   String homeStoryNew(String title) {
     return 'Новое видео: $title';
   }

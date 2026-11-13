@@ -436,8 +436,6 @@
 
   "homeNotifications": "Уведомления",
   "@homeNotifications": { "description": "Accessibility label of the bell button in the Home header" },
-  "homeLanguageSwitch": "Сменить язык",
-  "@homeLanguageSwitch": { "description": "Accessibility hint of the RU/TK toggle in the Home header" },
   "homeStoryNew": "Новое видео: {title}",
   "@homeStoryNew": {
     "description": "Accessibility label of an unwatched video story",

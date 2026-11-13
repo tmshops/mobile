@@ -1034,12 +1034,6 @@ abstract class AppLocalizations {
   /// **'Уведомления'**
   String get homeNotifications;
 
-  /// Accessibility hint of the RU/TK toggle in the Home header
-  ///
-  /// In ru, this message translates to:
-  /// **'Сменить язык'**
-  String get homeLanguageSwitch;
-
   /// Accessibility label of an unwatched video story
   ///
   /// In ru, this message translates to:

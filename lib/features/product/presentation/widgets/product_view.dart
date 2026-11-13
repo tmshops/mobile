@@ -280,39 +280,47 @@ class _Body extends StatelessWidget {
           ];
     return CustomScrollView(
       slivers: [
+        // Gallery and content sheet share one sliver on purpose: a viewport
+        // paints earlier slivers on top of later ones, which would hide the
+        // part of the sheet that overlaps the gallery (and the gap above the
+        // price with it). In a Column the later child paints on top.
         SliverToBoxAdapter(
-          child: media.isEmpty
-              ? const AspectRatio(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              if (media.isEmpty)
+                const AspectRatio(
                   aspectRatio: 1,
                   child: Shimmer(
                     child: SkeletonBox(borderRadius: BorderRadius.zero),
                   ),
                 )
-              : ProductGallery(
+              else
+                ProductGallery(
                   media: media,
                   title: details?.title ?? state.preview?.title ?? '',
                   imageKey: imageKey,
                 ),
-        ),
-        SliverToBoxAdapter(
-          // The content sheet overlaps the gallery by its corner radius.
-          child: Transform.translate(
-            offset: const Offset(0, -AppRadii.sheet),
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                color: context.colors.background,
-                borderRadius: AppRadii.sheetBorder,
+              // The content sheet overlaps the gallery by its corner radius.
+              Transform.translate(
+                offset: const Offset(0, -AppRadii.sheet),
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    color: context.colors.background,
+                    borderRadius: AppRadii.sheetBorder,
+                  ),
+                  child: details == null
+                      ? ProductSkeleton(preview: state.preview)
+                      : ProductContent(
+                          state: state,
+                          onOpenProduct: onOpenProduct,
+                          onComingSoon: onComingSoon,
+                          onPriceAlert: onPriceAlert,
+                          onAllReviews: onAllReviews,
+                        ),
+                ),
               ),
-              child: details == null
-                  ? ProductSkeleton(preview: state.preview)
-                  : ProductContent(
-                      state: state,
-                      onOpenProduct: onOpenProduct,
-                      onComingSoon: onComingSoon,
-                      onPriceAlert: onPriceAlert,
-                      onAllReviews: onAllReviews,
-                    ),
-            ),
+            ],
           ),
         ),
       ],

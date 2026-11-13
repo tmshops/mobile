@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:injectable/injectable.dart';
 
+import '../fake_image_url.dart';
 import '../../error/exceptions.dart';
 import 'fake_orders_backend.dart';
 import 'fake_product_backend.dart';
@@ -149,7 +150,7 @@ class FakeReviewsBackend {
             'photo_urls': [
               if (i % 4 == 0)
                 for (var k = 0; k < 1 + i % 3; k++)
-                  'https://picsum.photos/seed/$id-r$i-$k/600/600',
+                  fakeImageUrl('$id-r$i-$k', 600, 600),
             ],
             'is_translated': isTranslated,
             if (i % 7 == 2)

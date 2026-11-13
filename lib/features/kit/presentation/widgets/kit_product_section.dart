@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../core/dev/fake_image_url.dart';
 import '../../../../core/theme/theme.dart';
 import '../../../../core/widgets/widgets.dart';
 import 'kit_samples.dart';
@@ -126,7 +127,7 @@ class _KitProductSectionState extends State<KitProductSection> {
               items: [
                 for (var i = 0; i < 4; i++)
                   PromoBannerItem(
-                    imageUrl: 'https://picsum.photos/seed/banner$i/1200/600',
+                    imageUrl: fakeImageUrl('banner$i', 1200, 600),
                     semanticLabel: s.banner,
                     onTap: () {},
                   ),

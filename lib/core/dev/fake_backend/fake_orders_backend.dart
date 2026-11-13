@@ -1,5 +1,6 @@
 import 'package:injectable/injectable.dart';
 
+import '../fake_image_url.dart';
 import '../../error/exceptions.dart';
 import 'fake_product_backend.dart';
 
@@ -343,7 +344,7 @@ class FakeOrdersBackend {
       'options': ?p.options,
       'warehouse_photos': [
         for (var i = 1; i <= item.warehousePhotos; i++)
-          'https://picsum.photos/seed/wh-${item.id}-$i/600/600',
+          fakeImageUrl('wh-${item.id}-$i', 600, 600),
       ],
       'china_track': ?item.chinaTrack,
       'can_review': item.canReview,
@@ -363,7 +364,7 @@ class FakeOrdersBackend {
                 'Tapawudy balansdan töläň ýa-da harytdan ýüz öwrüň — '
                 'pul balansa gaýtarylar',
           ),
-          'photos': ['https://picsum.photos/seed/problem-${item.id}/600/600'],
+          'photos': [fakeImageUrl('problem-${item.id}', 600, 600)],
           'deadline': ?problem.deadline?.toIso8601String(),
           'actions': [
             {

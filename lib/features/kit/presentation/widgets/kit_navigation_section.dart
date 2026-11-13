@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../core/dev/fake_image_url.dart';
 import '../../../../core/l10n/l10n.dart';
 import '../../../../core/theme/theme.dart';
 import '../../../../core/widgets/widgets.dart';
@@ -68,9 +69,9 @@ class _KitNavigationSectionState extends State<KitNavigationSection> {
                 borderRadius: AppRadii.imageBorder,
                 child: Stack(
                   children: [
-                    const Positioned.fill(
+                    Positioned.fill(
                       child: AppNetworkImage(
-                        url: 'https://picsum.photos/seed/video/800/300',
+                        url: fakeImageUrl('video', 800, 300),
                       ),
                     ),
                     Padding(

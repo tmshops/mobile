@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import '../fake_image_url.dart';
 import 'fake_api_params.dart';
 import 'fake_catalog_tree.dart';
 import 'fake_promotions_backend.dart';
@@ -69,7 +70,7 @@ class FakeCatalogBackend {
     return {
       'slug': slug,
       'name': lang == 'tk' ? tk : ru,
-      'icon_url': 'https://picsum.photos/seed/cat-$slug/160/160',
+      'icon_url': fakeImageUrl('cat-$slug', 160, 160),
       'children': [for (final c in children) _node(c, lang)],
     };
   }
@@ -94,7 +95,7 @@ class FakeCatalogBackend {
       // Banner for the top two levels, on the first page only.
       if (offset == 0 && node != null && node.children.isNotEmpty)
         'banner': {
-          'image_url': 'https://picsum.photos/seed/cb-$slug/1200/400',
+          'image_url': fakeImageUrl('cb-$slug', 1200, 400),
           'title': lang == 'tk' ? node.tk : node.ru,
         },
     };
@@ -487,7 +488,7 @@ class _FakeProduct {
     'title': lang == 'tk'
         ? '${tk.substring(0, 1)}${tk.substring(1)} $brand, model $code'
         : '$ru $brand, модель $code',
-    'image_url': 'https://picsum.photos/seed/$id/600/600',
+    'image_url': fakeImageUrl(id, 600, 600),
     'price': price,
     'old_price': ?oldPrice,
     'sold_count': sold,

@@ -1,3 +1,5 @@
+import '../fake_image_url.dart';
+
 /// Sample Home JSON for the dev fake Home data source, in RU and TK.
 ///
 /// Dev only. Mirrors what the admin panel will send, so the screen can be
@@ -48,7 +50,7 @@ abstract final class FakeHomeSamples {
     return {
       'id': 'p$i',
       'title': titles[i % titles.length],
-      'image_url': 'https://picsum.photos/seed/tmshop$i/600/600',
+      'image_url': fakeImageUrl('tmshop$i', 600, 600),
       'price': _prices[i % _prices.length],
       'old_price': ?oldPrice,
       'sold_count': _sold[i % _sold.length],
@@ -85,7 +87,7 @@ abstract final class FakeHomeSamples {
                   t('Мода', 'Moda'),
                   t('Гаджеты', 'Gadžetler'),
                 ][i],
-                'poster_url': 'https://picsum.photos/seed/story$i/300/300',
+                'poster_url': fakeImageUrl('story$i', 300, 300),
                 'is_viewed': i > 4,
               },
           ],
@@ -96,7 +98,7 @@ abstract final class FakeHomeSamples {
             for (var i = 0; i < 3; i++)
               {
                 'id': 'b$i',
-                'image_url': 'https://picsum.photos/seed/banner$i/1200/600',
+                'image_url': fakeImageUrl('banner$i', 1200, 600),
                 'title': t('Акция недели', 'Hepdäniň aksiýasy'),
                 'link': {
                   'type': 'promo',
@@ -110,7 +112,7 @@ abstract final class FakeHomeSamples {
             // An empty promotion id opens the list of all of them.
             {
               'id': 'b-all',
-              'image_url': 'https://picsum.photos/seed/banner-all/1200/600',
+              'image_url': fakeImageUrl('banner-all', 1200, 600),
               'title': t('Все акции', 'Ähli aksiýalar'),
               'link': {'type': 'promo', 'value': ''},
             },
@@ -146,7 +148,7 @@ abstract final class FakeHomeSamples {
               {
                 'slug': 'cat$i',
                 'name': t(ru, tm),
-                'icon_url': 'https://picsum.photos/seed/cat$i/160/160',
+                'icon_url': fakeImageUrl('cat$i', 160, 160),
               },
           ],
         },
@@ -164,7 +166,7 @@ abstract final class FakeHomeSamples {
           'banners': [
             {
               'id': 'b-inline',
-              'image_url': 'https://picsum.photos/seed/inline/1200/600',
+              'image_url': fakeImageUrl('inline', 1200, 600),
               'title': t('Бесплатная доставка', 'Mugt eltip bermek'),
               'link': {'type': 'promo', 'value': 'free-delivery'},
             },

@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import '../fake_image_url.dart';
 import 'fake_catalog_backend.dart';
 import 'fake_home_samples.dart';
 import 'fake_reviews_backend.dart';
@@ -210,14 +211,11 @@ class FakeProductBackend {
         if (hasVideo && k == 2)
           {
             'kind': 'video',
-            'image_url': 'https://picsum.photos/seed/$id-v/800/800',
+            'image_url': fakeImageUrl('$id-v', 800, 800),
             'video_url': 'https://example.com/video/$id.m3u8',
           }
         else
-          {
-            'kind': 'image',
-            'image_url': 'https://picsum.photos/seed/$id-g$k/800/800',
-          },
+          {'kind': 'image', 'image_url': fakeImageUrl('$id-g$k', 800, 800)},
       // Not known to this app version: must be skipped.
       {'kind': 'hologram', 'image_url': 'x'},
     ];
@@ -237,7 +235,7 @@ class FakeProductBackend {
             {
               'id': value,
               'label': label,
-              'image_url': 'https://picsum.photos/seed/$id-$value/400/400',
+              'image_url': fakeImageUrl('$id-$value', 400, 400),
             },
         ],
       },
@@ -324,7 +322,7 @@ class FakeProductBackend {
       '<li>${t('Подходит для ежедневного использования', 'Gündelik ulanmak üçin amatly')}</li>'
       '<li>${t('Гарантия качества от продавца', 'Satyjydan hil kepilligi')}</li>'
       '</ul>'
-      '<img src="https://picsum.photos/seed/${base.brand}-desc/800/500">'
+      '<img src="${fakeImageUrl('${base.brand}-desc', 800, 500)}">'
       '<p>${t('Цвет на фото может немного отличаться из-за настроек экрана.', 'Suratdaky reňk ekranyň sazlamalary sebäpli birneme tapawutlanyp biler.')}</p>'
       // Must not run or render: the app whitelists tags.
       '<script>alert("x")</script>'

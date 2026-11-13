@@ -1,5 +1,7 @@
 import 'package:injectable/injectable.dart';
 
+import '../fake_image_url.dart';
+
 /// Dev stand-in for the notification centre (TZ §5.17).
 ///
 /// Seeded with one notification of each type, linked to the dev orders,
@@ -76,7 +78,7 @@ class FakeNotificationsBackend {
         type: 'promo',
         at: now.subtract(m(240)),
         route: '/promo/black-friday',
-        imageUrl: 'https://picsum.photos/seed/promo-bf/320/320',
+        imageUrl: fakeImageUrl('promo-bf', 320, 320),
         title: ('Чёрная пятница', 'Gara anna'),
         body: (
           'Скидки до 50% на одежду и обувь — только до воскресенья',

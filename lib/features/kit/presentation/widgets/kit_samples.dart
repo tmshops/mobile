@@ -1,5 +1,7 @@
 import 'package:flutter/widgets.dart';
 
+import '../../../../core/dev/fake_image_url.dart';
+
 /// Demo content for the dev-only Kit screen, in both app languages so
 /// Turkmen string lengths can be checked. Not used by real screens, so it
 /// stays out of the ARB files.
@@ -138,7 +140,7 @@ class KitSamples {
 
   /// Stable placeholder photos for the demo tiles.
   static String image(int i, {int size = 600}) =>
-      'https://picsum.photos/seed/tmshop$i/$size/$size';
+      fakeImageUrl('tmshop$i', size);
 
   final List<String> titles;
   final String hits;

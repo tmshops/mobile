@@ -1,5 +1,7 @@
 import 'package:injectable/injectable.dart';
 
+import '../fake_image_url.dart';
+
 /// Dev stand-in for promotions (TZ §5.19): the list and one promotion's
 /// page. Products of a promotion come from the catalog endpoint with
 /// `promo=<slug>`; [FakeCatalogBackend] reads [scopes] for that.
@@ -146,7 +148,7 @@ class _Promotion {
       'type': type,
       'title': pick(title),
       'subtitle': pick(subtitle),
-      'image_url': 'https://picsum.photos/seed/promo-$slug/1200/600',
+      'image_url': fakeImageUrl('promo-$slug', 1200, 600),
       'ends_at': endsAt.toUtc().toIso8601String(),
     };
   }

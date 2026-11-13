@@ -1,0 +1,18 @@
+# Native splash (TZ §5.1, UI_DESIGN §7.1): white with the logo centred.
+# Regenerate after changing this file or the images:
+#   dart run flutter_native_splash:create
+#
+# The logo PNGs are renders of the placeholder AppLogo mark; replace them
+# with the real logo (same sizes, transparent background) when it is ready.
+flutter_native_splash:
+  color: "#FFFFFF"
+  # Treated as xxxhdpi: 384 px -> 96 dp.
+  image: assets/splash/splash_logo.png
+
+  # Android 12+ draws the splash icon inside a circle of 2/3 of the image,
+  # so this one is 1152 px with the mark kept inside the centre.
+  android_12:
+    color: "#FFFFFF"
+    image: assets/splash/splash_logo_android12.png
+
+  web: false

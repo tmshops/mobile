@@ -171,7 +171,7 @@ Sections, in a vertical scroll with 24-dp gaps:
   4. **Delivery block** (card): region chip («Ашхабад ▾») + 3 rows (icon, type, term, price). Without weight: «Доставка после взвешивания» with info icon.
   5. «Как это работает» mini explainer (bought to order, cancel only before purchase), collapsible.
   6. Description (rich HTML, collapsed to ~300 px with a fade + «Показать полностью»), specs table (zebra rows), seller card, reviews preview (photos strip, 2 reviews, «Все отзывы»), «Похожие» and «С этим покупают» carousels.
-- Sticky bottom bar: «В корзину» (secondary) + «Купить сейчас» (primary). A small «Быстрый заказ» text link above it.
+- Sticky bottom bar: «В корзину» (secondary) + «Купить сейчас» (primary). «Купить сейчас» is the quick order (§7.15) for the chosen variant; there is no separate «Быстрый заказ» link on this page.
 - The add-to-cart animation and the cart badge bump confirm success; then a toast «Добавлено в корзину · Перейти».
 
 ### 7.6 Search and photo search
@@ -224,7 +224,7 @@ Full-screen OSM map, a fixed centre pin that lifts while dragging, a "my locatio
 - **Size chart sheet:** title + segmented control (Одежда / Обувь if both exist), a horizontally scrollable table with sticky first column (Chinese size → RU/EU size → chest/length cm), zebra rows, «Как снять мерки» illustration row at the bottom.
 
 ### 7.15 Quick order
-- Bottom sheet from the product page or cart, titled «Быстрый заказ». One-line explanation «Оставьте номер — оператор позвонит и оформит заказ», mini summary (thumbnail + title + price or «3 товара · 1 216 TMT»).
+- Bottom sheet from «Купить сейчас» on the product page or «Быстрый заказ» in the cart, titled «Быстрый заказ». One-line explanation «Оставьте номер — оператор позвонит и оформит заказ», mini summary (thumbnail + title + price or «3 товара · 1 216 TMT»).
 - Guest: `PhoneField` → «Получить код» → inline `OtpField` in the same sheet (smooth height animation, no new page). Signed-in: just the phone shown + «Подтвердить».
 - Success state inside the sheet: check animation, «Заказ №10234 принят», «Оператор свяжется с вами в рабочее время», buttons «К заказу» / «Продолжить покупки».
 

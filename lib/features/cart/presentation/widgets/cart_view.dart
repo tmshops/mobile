@@ -22,7 +22,7 @@ class CartView extends StatelessWidget {
     required this.onOpenProduct,
     required this.onOpenCatalog,
     required this.onCheckout,
-    required this.onComingSoon,
+    required this.onQuickOrder,
     super.key,
   });
 
@@ -32,8 +32,9 @@ class CartView extends StatelessWidget {
   /// Opens checkout with the promo code accepted here, if any.
   final ValueChanged<String?> onCheckout;
 
-  /// Quick order is not built yet.
-  final VoidCallback onComingSoon;
+  /// «Быстрый заказ» for the ticked lines; completes with `true` once the
+  /// order is placed, so they leave the cart.
+  final Future<bool> Function(List<CartItem> lines) onQuickOrder;
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +72,7 @@ class CartView extends StatelessWidget {
             onOpenProduct: onOpenProduct,
             onOpenCatalog: onOpenCatalog,
             onCheckout: onCheckout,
-            onComingSoon: onComingSoon,
+            onQuickOrder: onQuickOrder,
           ),
         ),
       ),
@@ -86,7 +87,7 @@ class _CartScaffold extends StatelessWidget {
     required this.onOpenProduct,
     required this.onOpenCatalog,
     required this.onCheckout,
-    required this.onComingSoon,
+    required this.onQuickOrder,
   });
 
   final CartState cart;
@@ -97,8 +98,9 @@ class _CartScaffold extends StatelessWidget {
   /// Opens checkout with the promo code accepted here, if any.
   final ValueChanged<String?> onCheckout;
 
-  /// Quick order is not built yet.
-  final VoidCallback onComingSoon;
+  /// «Быстрый заказ» for the ticked lines; completes with `true` once the
+  /// order is placed, so they leave the cart.
+  final Future<bool> Function(List<CartItem> lines) onQuickOrder;
 
   @override
   Widget build(BuildContext context) {
@@ -151,7 +153,12 @@ class _CartScaffold extends StatelessWidget {
         onCheckout: () => onCheckout(
           quote?.promo?.isApplied ?? false ? quote?.promo?.code : null,
         ),
-        onQuickOrder: onComingSoon,
+        onQuickOrder: () async {
+          final isPlaced = await onQuickOrder(selected);
+          if (isPlaced) {
+            await cubit.removeMany({for (final line in selected) line.key});
+          }
+        },
       ),
       slivers: [
         SliverToBoxAdapter(

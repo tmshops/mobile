@@ -33,6 +33,7 @@ class ProductView extends StatefulWidget {
     required this.onLogin,
     required this.onAllReviews,
     required this.onComingSoon,
+    required this.onQuickOrder,
     this.onHome,
     super.key,
   });
@@ -48,6 +49,9 @@ class ProductView extends StatefulWidget {
 
   /// For actions whose screens do not exist yet (checkout, reviews, …).
   final VoidCallback onComingSoon;
+
+  /// «Купить сейчас»: the chosen variant goes to a quick order (TZ §5.11).
+  final ValueChanged<CartItem> onQuickOrder;
 
   /// «На главную» on «Товар не найден».
   final VoidCallback? onHome;
@@ -77,39 +81,46 @@ class _ProductViewState extends State<ProductView> {
       );
       if (!confirmed || !mounted) return;
     }
-    // Checkout is not built yet; «Купить сейчас» says so.
+    final line = _line(details);
+    if (line == null) return;
     if (purpose == SkuSheetPurpose.buyNow) {
-      widget.onComingSoon();
+      widget.onQuickOrder(line);
       return;
     }
-    await _addToCart(details);
+    await _addToCart(line);
   }
 
-  Future<void> _addToCart(ProductDetails details) async {
+  /// The chosen variant, quantity and note as one line; `null` until a
+  /// variant is chosen.
+  CartItem? _line(ProductDetails details) {
     final state = _bloc.state;
     final selection = state.selection;
     final sku = selection?.sku;
-    if (selection == null || sku == null) return;
-    final image =
-        selection.chosenImage ?? details.media.firstOrNull?.imageUrl ?? '';
+    if (selection == null || sku == null) return null;
     final comment = state.comment.trim();
-    unawaited(HapticFeedback.lightImpact());
-    unawaited(
-      context.read<CartCubit>().add(
-        CartItem(
-          productId: details.id,
-          skuId: sku.id,
-          skuLabel: selection.label,
-          title: details.title,
-          imageUrl: image,
-          price: sku.price,
-          quantity: state.quantity,
-          comment: comment.isEmpty ? null : comment,
-          sellerName: details.seller?.name,
-        ),
-      ),
+    return CartItem(
+      productId: details.id,
+      skuId: sku.id,
+      skuLabel: selection.label,
+      title: details.title,
+      imageUrl:
+          selection.chosenImage ?? details.media.firstOrNull?.imageUrl ?? '',
+      price: sku.price,
+      quantity: state.quantity,
+      comment: comment.isEmpty ? null : comment,
+      sellerName: details.seller?.name,
     );
-    await flyToTarget(context, from: _imageKey, to: _cartKey, imageUrl: image);
+  }
+
+  Future<void> _addToCart(CartItem line) async {
+    unawaited(HapticFeedback.lightImpact());
+    unawaited(context.read<CartCubit>().add(line));
+    await flyToTarget(
+      context,
+      from: _imageKey,
+      to: _cartKey,
+      imageUrl: line.imageUrl,
+    );
     if (!mounted) return;
     final l10n = context.l10n;
     showAppToast(
@@ -213,7 +224,6 @@ class _ProductViewState extends State<ProductView> {
             state: state,
             onAddToCart: () => _onAction(SkuSheetPurpose.addToCart),
             onBuyNow: () => _onAction(SkuSheetPurpose.buyNow),
-            onQuickOrder: widget.onComingSoon,
           ),
         ),
       ),
@@ -430,13 +440,13 @@ class _ActionBar extends StatelessWidget {
     required this.state,
     required this.onAddToCart,
     required this.onBuyNow,
-    required this.onQuickOrder,
   });
 
   final ProductState state;
   final VoidCallback onAddToCart;
+
+  /// «Купить сейчас» is the quick order (TZ §5.11).
   final VoidCallback onBuyNow;
-  final VoidCallback onQuickOrder;
 
   @override
   Widget build(BuildContext context) {
@@ -453,10 +463,6 @@ class _ActionBar extends StatelessWidget {
     }
     final isReady = details != null;
     return StickyActionBar(
-      above: TertiaryButton(
-        label: l10n.productQuickOrder,
-        onPressed: isReady ? onQuickOrder : null,
-      ),
       secondary: SecondaryButton(
         label: l10n.actionAddToCart,
         onPressed: isReady ? onAddToCart : null,

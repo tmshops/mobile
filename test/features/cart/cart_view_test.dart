@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:tmshop/core/cart/cart_cubit.dart';
+import 'package:tmshop/core/cart/cart_item.dart';
 import 'package:tmshop/core/error/failures.dart';
 import 'package:tmshop/core/l10n/l10n.dart';
 import 'package:tmshop/core/theme/theme.dart';
@@ -22,13 +23,15 @@ void main() {
   late _MockQuoteBloc quoteBloc;
   late GlobalCubits cubits;
   late int openedCatalog;
-  late int comingSoon;
+  late List<List<CartItem>> quickOrders;
+  late bool isQuickOrderPlaced;
   late List<String?> checkouts;
 
   setUp(() {
     quoteBloc = _MockQuoteBloc();
     openedCatalog = 0;
-    comingSoon = 0;
+    quickOrders = [];
+    isQuickOrderPlaced = true;
     checkouts = [];
   });
 
@@ -44,6 +47,7 @@ void main() {
     cubits = GlobalCubits(locale: locale, cart: cart);
     when(() => cubits.cart.remove(any())).thenAnswer((_) async => 1);
     when(() => cubits.cart.restore(any(), any())).thenAnswer((_) async {});
+    when(() => cubits.cart.removeMany(any())).thenAnswer((_) async {});
     when(
       () =>
           cubits.cart.setSelected(any(), isSelected: any(named: 'isSelected')),
@@ -77,7 +81,10 @@ void main() {
             onOpenProduct: (_) {},
             onOpenCatalog: () => openedCatalog++,
             onCheckout: checkouts.add,
-            onComingSoon: () => comingSoon++,
+            onQuickOrder: (lines) async {
+              quickOrders.add(lines);
+              return isQuickOrderPlaced;
+            },
           ),
         ),
       ),
@@ -142,6 +149,40 @@ void main() {
     await pump(tester, cart: cart, quote: quoted('ru', cart));
     await tester.tap(find.text('Оформить'));
     expect(checkouts, [null]);
+    await tester.pumpWidget(const SizedBox());
+  });
+
+  testWidgets(
+    '«Быстрый заказ» sends the ticked lines and drops them once placed',
+    (tester) async {
+      final lines = [for (final l in sampleCart('ru')) l.copyWith(quantity: 5)];
+      final cart = CartState(
+        items: [
+          ...lines,
+          lines.first.copyWith(skuId: 'other', isSelected: false),
+        ],
+      );
+      await pump(tester, cart: cart, quote: quoted('ru', cart));
+      await tester.tap(find.text('Быстрый заказ'));
+      await tester.pump();
+      expect(quickOrders, [lines]);
+      verify(
+        () => cubits.cart.removeMany({for (final l in lines) l.key}),
+      ).called(1);
+      await tester.pumpWidget(const SizedBox());
+    },
+  );
+
+  testWidgets('a closed quick order keeps the cart', (tester) async {
+    isQuickOrderPlaced = false;
+    final cart = CartState(
+      items: [for (final l in sampleCart('ru')) l.copyWith(quantity: 5)],
+    );
+    await pump(tester, cart: cart, quote: quoted('ru', cart));
+    await tester.tap(find.text('Быстрый заказ'));
+    await tester.pump();
+    expect(quickOrders, hasLength(1));
+    verifyNever(() => cubits.cart.removeMany(any()));
     await tester.pumpWidget(const SizedBox());
   });
 

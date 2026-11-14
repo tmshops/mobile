@@ -1968,4 +1968,47 @@ class AppLocalizationsTk extends AppLocalizations {
 
   @override
   String get infoFaqNothingText => 'Bizden soraň — iş wagtynda jogap bereris';
+
+  @override
+  String get quickOrderTitle => 'Çalt sargyt';
+
+  @override
+  String get quickOrderText =>
+      'Belgiňizi galdyryň — operator jaň edip, sargydy resmileşdirer';
+
+  @override
+  String quickOrderLines(int count, String total) {
+    return '$count haryt · $total';
+  }
+
+  @override
+  String get quickOrderPhoneLabel => 'Habarlaşmak üçin belgi';
+
+  @override
+  String get quickOrderGetCode => 'Kod almak';
+
+  @override
+  String quickOrderCodeSent(String destination) {
+    return 'Kod SMS bilen $destination belgä iberildi';
+  }
+
+  @override
+  String get quickOrderOtherNumber => 'Başga belgi';
+
+  @override
+  String get quickOrderConfirm => 'Tassyklamak';
+
+  @override
+  String quickOrderDoneTitle(String number) {
+    return '№$number sargyt kabul edildi';
+  }
+
+  @override
+  String get quickOrderDoneText => 'Operator iş wagtynda siz bilen habarlaşar';
+
+  @override
+  String get quickOrderToOrder => 'Sargyda geç';
+
+  @override
+  String get quickOrderContinue => 'Söwda etmegi dowam et';
 }

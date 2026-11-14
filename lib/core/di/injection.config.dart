@@ -217,6 +217,14 @@ import 'package:tmshop/features/promotions/domain/repositories/promotions_reposi
     as _i1054;
 import 'package:tmshop/features/promotions/presentation/bloc/promotions_cubits.dart'
     as _i296;
+import 'package:tmshop/features/quick_order/data/datasources/quick_order_remote_data_source.dart'
+    as _i616;
+import 'package:tmshop/features/quick_order/data/repositories/quick_order_repository_impl.dart'
+    as _i1016;
+import 'package:tmshop/features/quick_order/domain/repositories/quick_order_repository.dart'
+    as _i31;
+import 'package:tmshop/features/quick_order/presentation/bloc/quick_order_cubit.dart'
+    as _i526;
 import 'package:tmshop/features/reviews/data/datasources/reviews_remote_data_source.dart'
     as _i940;
 import 'package:tmshop/features/reviews/data/repositories/reviews_repository_impl.dart'
@@ -763,6 +771,15 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i363.NotificationsCountRepository>(),
       ),
     );
+    gh.lazySingleton<_i616.QuickOrderRemoteDataSource>(
+      () => _i616.FakeQuickOrderRemoteDataSource(
+        gh<_i107.FakeAuthBackend>(),
+        gh<_i435.FakeOrdersBackend>(),
+        gh<_i274.TokenStorage>(),
+        gh<_i566.NetworkInfo>(),
+      ),
+      registerFor: {_dev},
+    );
     gh.lazySingleton<_i779.LoadSavedRecipientUseCase>(
       () => _i779.LoadSavedRecipientUseCase(gh<_i837.CheckoutRepository>()),
     );
@@ -818,6 +835,12 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i1046.FetchProductUseCase>(),
         gh<_i86.GetDeliveryQuotesUseCase>(),
         gh<_i568.RecordViewUseCase>(),
+      ),
+    );
+    gh.lazySingleton<_i31.QuickOrderRepository>(
+      () => _i1016.QuickOrderRepositoryImpl(
+        gh<_i616.QuickOrderRemoteDataSource>(),
+        gh<_i238.SessionRepository>(),
       ),
     );
     gh.lazySingleton<_i523.ProfileEditRepository>(
@@ -891,6 +914,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i651.ProfileEditCubit>(
       () => _i651.ProfileEditCubit(gh<_i523.ProfileEditRepository>()),
+    );
+    gh.factory<_i526.QuickOrderCubit>(
+      () => _i526.QuickOrderCubit(gh<_i31.QuickOrderRepository>()),
     );
     gh.factory<_i26.LoginBloc>(
       () => _i26.LoginBloc(

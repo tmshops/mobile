@@ -595,5 +595,17 @@
   "infoOffice": "Ofis",
   "infoFaqSearchHint": "Soraglardan gözlemek",
   "infoFaqNothingTitle": "Hiç zat tapylmady",
-  "infoFaqNothingText": "Bizden soraň — iş wagtynda jogap bereris"
+  "infoFaqNothingText": "Bizden soraň — iş wagtynda jogap bereris",
+  "quickOrderTitle": "Çalt sargyt",
+  "quickOrderText": "Belgiňizi galdyryň — operator jaň edip, sargydy resmileşdirer",
+  "quickOrderLines": "{count} haryt · {total}",
+  "quickOrderPhoneLabel": "Habarlaşmak üçin belgi",
+  "quickOrderGetCode": "Kod almak",
+  "quickOrderCodeSent": "Kod SMS bilen {destination} belgä iberildi",
+  "quickOrderOtherNumber": "Başga belgi",
+  "quickOrderConfirm": "Tassyklamak",
+  "quickOrderDoneTitle": "№{number} sargyt kabul edildi",
+  "quickOrderDoneText": "Operator iş wagtynda siz bilen habarlaşar",
+  "quickOrderToOrder": "Sargyda geç",
+  "quickOrderContinue": "Söwda etmegi dowam et"
 }

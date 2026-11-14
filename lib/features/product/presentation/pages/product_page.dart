@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/cart/cart_item.dart';
 import '../../../../core/di/injection.dart';
 import '../../../../core/locale/locale_cubit.dart';
 import '../../../../core/product/domain/product_summary.dart';
@@ -17,6 +18,7 @@ class ProductPage extends StatelessWidget {
     required this.onLogin,
     required this.onAllReviews,
     required this.onComingSoon,
+    required this.onQuickOrder,
     this.onHome,
     this.preview,
     super.key,
@@ -31,6 +33,9 @@ class ProductPage extends StatelessWidget {
   final VoidCallback onLogin;
   final VoidCallback onAllReviews;
   final VoidCallback onComingSoon;
+
+  /// «Купить сейчас» with the chosen variant.
+  final ValueChanged<CartItem> onQuickOrder;
 
   /// «На главную» when the product is gone.
   final VoidCallback? onHome;
@@ -53,6 +58,7 @@ class ProductPage extends StatelessWidget {
         onLogin: onLogin,
         onAllReviews: onAllReviews,
         onComingSoon: onComingSoon,
+        onQuickOrder: onQuickOrder,
         onHome: onHome,
       ),
     );

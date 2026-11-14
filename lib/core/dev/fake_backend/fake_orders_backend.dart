@@ -183,6 +183,36 @@ class FakeOrdersBackend {
     if (!isCard) _orders[number]!.payDeadline = null;
   }
 
+  int _nextQuickOrder = 20001;
+
+  /// Records a quick order (TZ §5.11) and returns its number. [lines] are
+  /// `{product_id, sku_id?, quantity, comment?}`. The operator fills in
+  /// delivery later, so nothing is due yet.
+  String recordQuickOrder(List<Map<String, dynamic>> lines) {
+    final now = _now();
+    final number = '${_nextQuickOrder++}';
+    _orders[number] = _Order(
+      number: number,
+      createdAt: now,
+      payment: 'card',
+      deliveryType: 'air',
+      items: [
+        for (final (i, l) in lines.indexed)
+          _Item(
+            id: '$number-${i + 1}',
+            productId: l['product_id'] as String,
+            quantity: l['quantity'] as int,
+            price: _product('ru', l['product_id'] as String).price,
+            status: 'quick_order',
+          ),
+      ],
+      chinaDelivery: 0,
+      international: 0,
+      history: [('quick_order', now)],
+    );
+    return number;
+  }
+
   bool isAwaitingPayment(String number) =>
       _orders[number]?.status == 'awaiting_payment';
 
@@ -287,7 +317,9 @@ class FakeOrdersBackend {
         'paid': o.paid,
         'due': o.status == 'cancelled' ? 0 : o.total - o.paid,
       },
-      'receiving': o.street != null
+      'receiving': o.status == 'quick_order'
+          ? _t(lang, 'Уточнит оператор', 'Operator anyklar')
+          : o.street != null
           ? _t(lang, 'Курьер: ${o.street}', 'Kurýer: ${o.street}')
           : _t(
               lang,
@@ -490,6 +522,11 @@ class FakeOrdersBackend {
   };
 
   static String _statusText(String lang, _Order o) => switch (o.status) {
+    'quick_order' => _t(
+      lang,
+      'Оператор позвонит, уточнит доставку и оформит заказ',
+      'Operator jaň eder, eltip bermegi anyklar we sargydy resmileşdirer',
+    ),
     'awaiting_payment' when o.payment == 'cash' => _t(
       lang,
       'Оплатите заказ в офисе — после оплаты мы выкупим товары',
@@ -1053,7 +1090,8 @@ class _Order {
   };
 
   /// Until anything is bought (TZ §6.3: the boundary is «Выкуплен»).
-  bool get canCancel => const {'awaiting_payment', 'paid'}.contains(status);
+  bool get canCancel =>
+      const {'quick_order', 'awaiting_payment', 'paid'}.contains(status);
 }
 
 class _ParcelRef {

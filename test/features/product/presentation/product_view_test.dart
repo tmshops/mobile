@@ -25,12 +25,14 @@ void main() {
   late _MockProductBloc bloc;
   late GlobalCubits cubits;
   late int comingSoon;
+  late List<CartItem> quickOrders;
   late int logins;
   final ru = lookupAppLocalizations(AppLocales.ru);
 
   setUp(() {
     bloc = _MockProductBloc();
     comingSoon = 0;
+    quickOrders = [];
     logins = 0;
   });
 
@@ -82,6 +84,7 @@ void main() {
             onLogin: () => logins++,
             onAllReviews: () {},
             onComingSoon: () => comingSoon++,
+            onQuickOrder: quickOrders.add,
           ),
         ),
       ),
@@ -189,11 +192,18 @@ void main() {
     await tester.pumpWidget(const SizedBox());
   });
 
-  testWidgets('«Купить сейчас» says checkout is coming', (tester) async {
-    await pump(tester, ready('ru', clothingId));
+  testWidgets('«Купить сейчас» is the quick order of the chosen variant', (
+    tester,
+  ) async {
+    final state = ready('ru', clothingId);
+    await pump(tester, state);
     await tester.tap(find.text('Купить сейчас'));
     await tester.pump();
-    expect(comingSoon, 1);
+    expect(quickOrders, hasLength(1));
+    expect(quickOrders.single.productId, state.details!.id);
+    expect(quickOrders.single.skuId, state.selection!.sku!.id);
+    expect(comingSoon, 0);
+    expect(find.text('Быстрый заказ'), findsNothing);
     verifyNever(() => cubits.cart.add(any()));
     await tester.pumpWidget(const SizedBox());
   });

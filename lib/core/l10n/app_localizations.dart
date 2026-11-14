@@ -3445,6 +3445,78 @@ abstract class AppLocalizations {
   /// In ru, this message translates to:
   /// **'Спросите нас — ответим в рабочее время'**
   String get infoFaqNothingText;
+
+  /// Quick order sheet title
+  ///
+  /// In ru, this message translates to:
+  /// **'Быстрый заказ'**
+  String get quickOrderTitle;
+
+  /// Quick order sheet: one-line explanation
+  ///
+  /// In ru, this message translates to:
+  /// **'Оставьте номер — оператор позвонит и оформит заказ'**
+  String get quickOrderText;
+
+  /// Quick order summary for several cart lines; total is a formatted amount with currency
+  ///
+  /// In ru, this message translates to:
+  /// **'{count, plural, one{{count} товар} few{{count} товара} other{{count} товаров}} · {total}'**
+  String quickOrderLines(int count, String total);
+
+  /// Quick order, signed in: caption above the customer's phone
+  ///
+  /// In ru, this message translates to:
+  /// **'Номер для связи'**
+  String get quickOrderPhoneLabel;
+
+  /// Quick order, guest: sends the SMS code
+  ///
+  /// In ru, this message translates to:
+  /// **'Получить код'**
+  String get quickOrderGetCode;
+
+  /// Quick order, guest: where the code went
+  ///
+  /// In ru, this message translates to:
+  /// **'Код отправлен в SMS на {destination}'**
+  String quickOrderCodeSent(String destination);
+
+  /// Quick order, code step: back to the phone
+  ///
+  /// In ru, this message translates to:
+  /// **'Другой номер'**
+  String get quickOrderOtherNumber;
+
+  /// Quick order, signed in: places the order
+  ///
+  /// In ru, this message translates to:
+  /// **'Подтвердить'**
+  String get quickOrderConfirm;
+
+  /// Quick order placed
+  ///
+  /// In ru, this message translates to:
+  /// **'Заказ №{number} принят'**
+  String quickOrderDoneTitle(String number);
+
+  /// Quick order placed: what happens next
+  ///
+  /// In ru, this message translates to:
+  /// **'Оператор свяжется с вами в рабочее время'**
+  String get quickOrderDoneText;
+
+  /// Quick order placed: opens the order
+  ///
+  /// In ru, this message translates to:
+  /// **'К заказу'**
+  String get quickOrderToOrder;
+
+  /// Quick order placed: closes the sheet
+  ///
+  /// In ru, this message translates to:
+  /// **'Продолжить покупки'**
+  String get quickOrderContinue;
 }
 
 class _AppLocalizationsDelegate

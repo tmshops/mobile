@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/cart/cart_cubit.dart';
+import '../../../../core/cart/cart_item.dart';
 import '../../../../core/di/injection.dart';
 import '../../../../core/locale/locale_cubit.dart';
 import '../../../../core/region/region_cubit.dart';
@@ -14,7 +15,7 @@ class CartPage extends StatelessWidget {
     required this.onOpenProduct,
     required this.onOpenCatalog,
     required this.onCheckout,
-    required this.onComingSoon,
+    required this.onQuickOrder,
     super.key,
   });
 
@@ -24,8 +25,9 @@ class CartPage extends StatelessWidget {
   /// Opens checkout with the promo code accepted here, if any.
   final ValueChanged<String?> onCheckout;
 
-  /// Quick order is not built yet.
-  final VoidCallback onComingSoon;
+  /// «Быстрый заказ» for the ticked lines; completes with `true` once the
+  /// order is placed, so they leave the cart.
+  final Future<bool> Function(List<CartItem> lines) onQuickOrder;
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +44,7 @@ class CartPage extends StatelessWidget {
         onOpenProduct: onOpenProduct,
         onOpenCatalog: onOpenCatalog,
         onCheckout: onCheckout,
-        onComingSoon: onComingSoon,
+        onQuickOrder: onQuickOrder,
       ),
     );
   }

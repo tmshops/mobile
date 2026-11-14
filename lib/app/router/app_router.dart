@@ -1,8 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/auth/auth_cubit.dart';
+import '../../core/cart/cart_item.dart';
 import '../../core/l10n/l10n.dart';
 import '../../core/navigation/stream_listenable.dart';
 import '../../core/navigation/tab_reselect_scope.dart';
@@ -32,6 +35,7 @@ import '../../features/orders/presentation/pages/parcels_page.dart';
 import '../../features/product/presentation/pages/product_page.dart';
 import '../../features/profile/presentation/pages/profile_edit_page.dart';
 import '../../features/promotions/presentation/pages/promotions_page.dart';
+import '../../features/quick_order/presentation/widgets/quick_order_sheet.dart';
 import '../../features/promotions/presentation/widgets/promo_header.dart';
 import '../../features/profile/presentation/pages/profile_page.dart';
 import '../../features/reviews/presentation/pages/reviews_pages.dart';
@@ -113,7 +117,7 @@ GoRouter createAppRouter({
               onOpenCatalog: () => context.go(AppRoutes.catalog),
               onCheckout: (promo) =>
                   context.push(AppRoutes.checkoutWith(promo)),
-              onComingSoon: () => showComingSoon(context),
+              onQuickOrder: (lines) => _quickOrder(context, lines),
             ),
           ),
           _branch(
@@ -169,6 +173,7 @@ GoRouter createAppRouter({
             onAllReviews: () => context.push(AppRoutes.productReviews(id)),
             onHome: () => context.go(AppRoutes.home),
             onComingSoon: () => showComingSoon(context),
+            onQuickOrder: (line) => _quickOrder(context, [line]),
           );
         },
         routes: [
@@ -447,6 +452,17 @@ void _openInfoLink(BuildContext context, String link) {
   } else {
     openAppLink(context, link);
   }
+}
+
+/// «Быстрый заказ» sheet; «К заказу» opens the placed order. Completes with
+/// `true` once the order is placed.
+Future<bool> _quickOrder(BuildContext context, List<CartItem> lines) async {
+  final result = await showQuickOrderSheet(context, lines: lines);
+  if (result == null) return false;
+  if (result.wantsOrder && context.mounted) {
+    unawaited(context.push(AppRoutes.order(result.orderNumber)));
+  }
+  return true;
 }
 
 void _openProduct(BuildContext context, ProductSummary product) =>

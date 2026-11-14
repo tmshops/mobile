@@ -2023,4 +2023,54 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get infoFaqNothingText => 'Спросите нас — ответим в рабочее время';
+
+  @override
+  String get quickOrderTitle => 'Быстрый заказ';
+
+  @override
+  String get quickOrderText =>
+      'Оставьте номер — оператор позвонит и оформит заказ';
+
+  @override
+  String quickOrderLines(int count, String total) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count товаров',
+      few: '$count товара',
+      one: '$count товар',
+    );
+    return '$_temp0 · $total';
+  }
+
+  @override
+  String get quickOrderPhoneLabel => 'Номер для связи';
+
+  @override
+  String get quickOrderGetCode => 'Получить код';
+
+  @override
+  String quickOrderCodeSent(String destination) {
+    return 'Код отправлен в SMS на $destination';
+  }
+
+  @override
+  String get quickOrderOtherNumber => 'Другой номер';
+
+  @override
+  String get quickOrderConfirm => 'Подтвердить';
+
+  @override
+  String quickOrderDoneTitle(String number) {
+    return 'Заказ №$number принят';
+  }
+
+  @override
+  String get quickOrderDoneText => 'Оператор свяжется с вами в рабочее время';
+
+  @override
+  String get quickOrderToOrder => 'К заказу';
+
+  @override
+  String get quickOrderContinue => 'Продолжить покупки';
 }

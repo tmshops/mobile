@@ -27,12 +27,14 @@ void main() {
   late int comingSoon;
   late List<CartItem> quickOrders;
   late int logins;
+  late List<(String, String)> similar;
   final ru = lookupAppLocalizations(AppLocales.ru);
 
   setUp(() {
     bloc = _MockProductBloc();
     comingSoon = 0;
     quickOrders = [];
+    similar = [];
     logins = 0;
   });
 
@@ -85,6 +87,7 @@ void main() {
             onAllReviews: () {},
             onComingSoon: () => comingSoon++,
             onQuickOrder: quickOrders.add,
+            onFindSimilar: (id, image) => similar.add((id, image)),
           ),
         ),
       ),
@@ -205,6 +208,23 @@ void main() {
     expect(comingSoon, 0);
     expect(find.text('Быстрый заказ'), findsNothing);
     verifyNever(() => cubits.cart.add(any()));
+    await tester.pumpWidget(const SizedBox());
+  });
+
+  testWidgets('«Найти похожие» is a photo search by this product', (
+    tester,
+  ) async {
+    final state = ready('ru', clothingId);
+    await pump(tester, state);
+    final button = find.text(ru.productFindSimilar);
+    await tester.drag(find.byType(CustomScrollView), const Offset(0, -700));
+    await tester.pump();
+    await tester.tap(button);
+    await tester.pump();
+    expect(similar, hasLength(1));
+    expect(similar.single.$1, state.details!.id);
+    expect(similar.single.$2, isNotEmpty);
+    expect(comingSoon, 0);
     await tester.pumpWidget(const SizedBox());
   });
 

@@ -139,6 +139,37 @@ abstract final class AppRoutes {
 
   static String infoPage(String slug) => '$info/${Uri.encodeComponent(slug)}';
 
+  /// Photo search (TZ §5.8): camera, then the crop screen, then results.
+  static const photoSearch = '/photo-search';
+
+  /// Relative to [photoSearch].
+  static const photoCropPath = 'crop';
+  static const photoResultsPath = 'results';
+
+  static const imageParam = 'image';
+  static const productParam = 'product';
+  static const cropParam = 'crop';
+
+  static String photoCrop(String imageUrl) => Uri(
+    path: '$photoSearch/$photoCropPath',
+    queryParameters: {imageParam: imageUrl},
+  ).toString();
+
+  /// Results for [imageUrl]; [productId] for «Найти похожие», [crop] as
+  /// `left,top,width,height` in 0…1.
+  static String photoResults(
+    String imageUrl, {
+    String? productId,
+    String? crop,
+  }) => Uri(
+    path: '$photoSearch/$photoResultsPath',
+    queryParameters: {
+      imageParam: imageUrl,
+      productParam: ?productId,
+      cropParam: ?crop,
+    },
+  ).toString();
+
   /// Notification centre (UI_DESIGN §7.21).
   static const notifications = '/notifications';
 

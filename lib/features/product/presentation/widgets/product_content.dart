@@ -24,6 +24,7 @@ class ProductContent extends StatelessWidget {
     required this.onComingSoon,
     required this.onPriceAlert,
     required this.onAllReviews,
+    required this.onFindSimilar,
     super.key,
   });
 
@@ -32,6 +33,9 @@ class ProductContent extends StatelessWidget {
   final VoidCallback onComingSoon;
   final VoidCallback onPriceAlert;
   final VoidCallback onAllReviews;
+
+  /// «Найти похожие»: photo search by this product's photo.
+  final VoidCallback onFindSimilar;
 
   @override
   Widget build(BuildContext context) {
@@ -126,7 +130,7 @@ class ProductContent extends StatelessWidget {
                 child: TertiaryButton(
                   label: l10n.productFindSimilar,
                   icon: AppIcons.camera,
-                  onPressed: onComingSoon,
+                  onPressed: onFindSimilar,
                 ),
               ),
               if (details.descriptionHtml.isNotEmpty) ...[

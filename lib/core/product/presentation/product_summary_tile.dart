@@ -14,12 +14,16 @@ class ProductSummaryTile extends StatelessWidget {
     required this.product,
     required this.onTap,
     this.isCompact = false,
+    this.imageFooter,
     super.key,
   });
 
   final ProductSummary product;
   final VoidCallback onTap;
   final bool isCompact;
+
+  /// Strip along the bottom of the photo, e.g. «Сходство 94 %».
+  final Widget? imageFooter;
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +38,7 @@ class ProductSummaryTile extends StatelessWidget {
       soldCount: product.soldCount,
       isIllustration: product.isIllustration,
       isCompact: isCompact,
+      imageFooter: imageFooter,
       onTap: onTap,
       badges: productBadges(product),
       isFavourite: isFavourite,

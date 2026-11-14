@@ -19,6 +19,7 @@ class ProductPage extends StatelessWidget {
     required this.onAllReviews,
     required this.onComingSoon,
     required this.onQuickOrder,
+    required this.onFindSimilar,
     this.onHome,
     this.preview,
     super.key,
@@ -36,6 +37,9 @@ class ProductPage extends StatelessWidget {
 
   /// «Купить сейчас» with the chosen variant.
   final ValueChanged<CartItem> onQuickOrder;
+
+  /// «Найти похожие»: photo search by this product.
+  final void Function(String productId, String imageUrl) onFindSimilar;
 
   /// «На главную» when the product is gone.
   final VoidCallback? onHome;
@@ -59,6 +63,7 @@ class ProductPage extends StatelessWidget {
         onAllReviews: onAllReviews,
         onComingSoon: onComingSoon,
         onQuickOrder: onQuickOrder,
+        onFindSimilar: onFindSimilar,
         onHome: onHome,
       ),
     );

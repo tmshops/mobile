@@ -2073,4 +2073,66 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get quickOrderContinue => 'Продолжить покупки';
+
+  @override
+  String get photoCameraTip => 'Сфотографируйте товар крупно';
+
+  @override
+  String get photoCameraShutter => 'Сделать снимок';
+
+  @override
+  String get photoCameraGallery => 'Галерея';
+
+  @override
+  String get photoCameraSwitch => 'Сменить камеру';
+
+  @override
+  String get photoGalleryTitle => 'Выберите фото';
+
+  @override
+  String get photoCropTitle => 'Выделите товар';
+
+  @override
+  String get photoCropHint => 'Перетащите рамку на товар или потяните за углы';
+
+  @override
+  String photoUploading(int percent) {
+    return 'Загружаем фото · $percent %';
+  }
+
+  @override
+  String get photoSearching => 'Ищем похожие товары…';
+
+  @override
+  String get photoResultsTitle => 'Похожие товары';
+
+  @override
+  String photoResultsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count товаров',
+      few: '$count товара',
+      one: '$count товар',
+    );
+    return '$_temp0 · по степени похожести';
+  }
+
+  @override
+  String photoSimilarity(int percent) {
+    return 'Сходство $percent %';
+  }
+
+  @override
+  String get photoAnotherPhoto => 'Другое фото';
+
+  @override
+  String get photoEmptyTitle => 'Ничего похожего не нашли';
+
+  @override
+  String get photoEmptyText =>
+      'Попробуйте другое фото или выделите товар точнее. Или оставьте заявку — оператор найдёт его для вас';
+
+  @override
+  String get photoFindForMe => 'Найдите мне товар';
 }

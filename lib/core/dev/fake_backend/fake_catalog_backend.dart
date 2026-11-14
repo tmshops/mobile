@@ -488,7 +488,7 @@ class _FakeProduct {
     'title': lang == 'tk'
         ? '${tk.substring(0, 1)}${tk.substring(1)} $brand, model $code'
         : '$ru $brand, модель $code',
-    'image_url': fakeImageUrl(id, 600, 600),
+    'image_url': fakeProductImageUrl(id.substring(0, id.lastIndexOf('-')), id),
     'price': price,
     'old_price': ?oldPrice,
     'sold_count': sold,

@@ -34,6 +34,7 @@ export 'product/product_list_row.dart';
 export 'product/product_tile.dart';
 export 'product/rating_stars.dart';
 export 'product/section_header.dart';
+export 'product/tile_strip.dart';
 export 'promo/countdown_timer.dart';
 export 'promo/promo_banner_carousel.dart';
 export 'selection/app_chip.dart';

@@ -39,6 +39,10 @@ import '../../features/quick_order/presentation/widgets/quick_order_sheet.dart';
 import '../../features/promotions/presentation/widgets/promo_header.dart';
 import '../../features/profile/presentation/pages/profile_page.dart';
 import '../../features/reviews/presentation/pages/reviews_pages.dart';
+import '../../features/photo_search/domain/entities/photo_search.dart';
+import '../../features/photo_search/presentation/pages/photo_camera_page.dart';
+import '../../features/photo_search/presentation/pages/photo_crop_page.dart';
+import '../../features/photo_search/presentation/pages/photo_results_page.dart';
 import '../../features/settings/presentation/pages/settings_page.dart';
 import '../../features/wallet/presentation/bloc/wallet_payment_cubit.dart';
 import '../../features/wallet/presentation/pages/balance_page.dart';
@@ -174,6 +178,8 @@ GoRouter createAppRouter({
             onHome: () => context.go(AppRoutes.home),
             onComingSoon: () => showComingSoon(context),
             onQuickOrder: (line) => _quickOrder(context, [line]),
+            onFindSimilar: (id, image) =>
+                context.push(AppRoutes.photoResults(image, productId: id)),
           );
         },
         routes: [
@@ -255,6 +261,46 @@ GoRouter createAppRouter({
                 topic: topic,
                 onOpenTopic: (t) => _openInfo(context, t),
                 onTapLink: (link) => _openInfoLink(context, link),
+              );
+            },
+          ),
+        ],
+      ),
+      GoRoute(
+        path: AppRoutes.photoSearch,
+        builder: (context, _) => PhotoCameraPage(
+          onClose: () => context.pop(),
+          onPhoto: (image) => context.push(AppRoutes.photoCrop(image)),
+        ),
+        routes: [
+          GoRoute(
+            path: AppRoutes.photoCropPath,
+            builder: (context, state) {
+              final image = state.uri.queryParameters[AppRoutes.imageParam];
+              if (image == null) return _notFound(context);
+              return PhotoCropPage(
+                imageUrl: image,
+                // Replaces the crop screen: back from results is the camera.
+                onSearch: (crop) => context.pushReplacement(
+                  AppRoutes.photoResults(image, crop: _encodeCrop(crop)),
+                ),
+              );
+            },
+          ),
+          GoRoute(
+            path: AppRoutes.photoResultsPath,
+            builder: (context, state) {
+              final query = _photoQuery(state.uri.queryParameters);
+              if (query == null) return _notFound(context);
+              return PhotoResultsPage(
+                query: query,
+                onOpenProduct: (product) => _openProduct(context, product),
+                // From the camera, back is the camera; from a product, the
+                // camera takes the place of the results.
+                onAnotherPhoto: query.needsUpload
+                    ? () => context.pop()
+                    : () => context.pushReplacement(AppRoutes.photoSearch),
+                onFindForMe: () => showComingSoon(context),
               );
             },
           ),
@@ -463,6 +509,34 @@ Future<bool> _quickOrder(BuildContext context, List<CartItem> lines) async {
     unawaited(context.push(AppRoutes.order(result.orderNumber)));
   }
   return true;
+}
+
+Widget _notFound(BuildContext context) =>
+    NotFoundPage(onHome: () => context.go(AppRoutes.home));
+
+/// `left,top,width,height`, three decimals: enough for a frame, short in
+/// the URL.
+String _encodeCrop(PhotoCrop crop) => [
+  crop.left,
+  crop.top,
+  crop.width,
+  crop.height,
+].map((v) => v.toStringAsFixed(3)).join(',');
+
+PhotoQuery? _photoQuery(Map<String, String> params) {
+  final image = params[AppRoutes.imageParam];
+  if (image == null || image.isEmpty) return null;
+  final parts = params[AppRoutes.cropParam]?.split(',').map(double.tryParse);
+  final crop = switch (parts?.toList()) {
+    [final double l, final double t, final double w, final double h] =>
+      PhotoCrop(left: l, top: t, width: w, height: h),
+    _ => null,
+  };
+  return PhotoQuery(
+    imageUrl: image,
+    productId: params[AppRoutes.productParam],
+    crop: crop,
+  );
 }
 
 void _openProduct(BuildContext context, ProductSummary product) =>

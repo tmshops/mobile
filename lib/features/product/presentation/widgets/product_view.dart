@@ -34,6 +34,7 @@ class ProductView extends StatefulWidget {
     required this.onAllReviews,
     required this.onComingSoon,
     required this.onQuickOrder,
+    required this.onFindSimilar,
     this.onHome,
     super.key,
   });
@@ -52,6 +53,10 @@ class ProductView extends StatefulWidget {
 
   /// «Купить сейчас»: the chosen variant goes to a quick order (TZ §5.11).
   final ValueChanged<CartItem> onQuickOrder;
+
+  /// «Найти похожие»: photo search by the product's id and the photo of
+  /// the chosen variant.
+  final void Function(String productId, String imageUrl) onFindSimilar;
 
   /// «На главную» on «Товар не найден».
   final VoidCallback? onHome;
@@ -88,6 +93,16 @@ class _ProductViewState extends State<ProductView> {
       return;
     }
     await _addToCart(line);
+  }
+
+  void _findSimilar() {
+    final state = _bloc.state;
+    final details = state.details;
+    if (details == null) return;
+    widget.onFindSimilar(
+      details.id,
+      state.selection?.chosenImage ?? details.media.firstOrNull?.imageUrl ?? '',
+    );
   }
 
   /// The chosen variant, quantity and note as one line; `null` until a
@@ -205,6 +220,7 @@ class _ProductViewState extends State<ProductView> {
                 onComingSoon: widget.onComingSoon,
                 onPriceAlert: _togglePriceAlert,
                 onAllReviews: widget.onAllReviews,
+                onFindSimilar: _findSimilar,
                 onHome: widget.onHome,
               ),
               _TopButtons(
@@ -239,6 +255,7 @@ class _Body extends StatelessWidget {
     required this.onComingSoon,
     required this.onPriceAlert,
     required this.onAllReviews,
+    required this.onFindSimilar,
     required this.onHome,
   });
 
@@ -248,6 +265,7 @@ class _Body extends StatelessWidget {
   final VoidCallback onComingSoon;
   final VoidCallback onPriceAlert;
   final VoidCallback onAllReviews;
+  final VoidCallback onFindSimilar;
   final VoidCallback? onHome;
 
   @override
@@ -327,6 +345,7 @@ class _Body extends StatelessWidget {
                           onComingSoon: onComingSoon,
                           onPriceAlert: onPriceAlert,
                           onAllReviews: onAllReviews,
+                          onFindSimilar: onFindSimilar,
                         ),
                 ),
               ),

@@ -30,8 +30,9 @@ void openHomeDestination(BuildContext context, HomeDestination destination) {
       context.push(AppRoutes.notifications);
     case LinkDestination(link: PromoLink(:final id)):
       context.push(id.isEmpty ? AppRoutes.promotions : AppRoutes.promo(id));
+    case PhotoSearchDestination():
+      context.push(AppRoutes.photoSearch);
     case SearchDestination() ||
-        PhotoSearchDestination() ||
         PasteLinkDestination() ||
         VideoFeedDestination() ||
         LinkDestination():

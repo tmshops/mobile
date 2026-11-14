@@ -607,5 +607,22 @@
   "quickOrderDoneTitle": "№{number} sargyt kabul edildi",
   "quickOrderDoneText": "Operator iş wagtynda siz bilen habarlaşar",
   "quickOrderToOrder": "Sargyda geç",
-  "quickOrderContinue": "Söwda etmegi dowam et"
+  "quickOrderContinue": "Söwda etmegi dowam et",
+
+  "photoCameraTip": "Harydy ýakyndan suratyny alyň",
+  "photoCameraShutter": "Surata al",
+  "photoCameraGallery": "Galereýa",
+  "photoCameraSwitch": "Kamerany çalyş",
+  "photoGalleryTitle": "Surat saýlaň",
+  "photoCropTitle": "Harydy belläň",
+  "photoCropHint": "Çarçuwany haryda süýşüriň ýa-da burçlaryndan çekiň",
+  "photoUploading": "Surat ýüklenýär · {percent} %",
+  "photoSearching": "Meňzeş harytlar gözlenýär…",
+  "photoResultsTitle": "Meňzeş harytlar",
+  "photoResultsCount": "{count} haryt · meňzeşligi boýunça",
+  "photoSimilarity": "Meňzeşligi {percent} %",
+  "photoAnotherPhoto": "Başga surat",
+  "photoEmptyTitle": "Meňzeş zat tapylmady",
+  "photoEmptyText": "Başga surat synap görüň ýa-da harydy has takyk belläň. Ýa-da arza goýuň — operator ony siziň üçin tapar",
+  "photoFindForMe": "Maňa haryt tapyň"
 }

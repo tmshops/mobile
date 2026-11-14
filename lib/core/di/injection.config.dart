@@ -181,6 +181,16 @@ import 'package:tmshop/features/orders/presentation/bloc/orders_cubit.dart'
     as _i41;
 import 'package:tmshop/features/orders/presentation/bloc/parcel_cubits.dart'
     as _i706;
+import 'package:tmshop/features/photo_search/data/datasources/photo_search_remote_data_source.dart'
+    as _i502;
+import 'package:tmshop/features/photo_search/data/repositories/photo_search_repository_impl.dart'
+    as _i398;
+import 'package:tmshop/features/photo_search/domain/repositories/photo_search_repository.dart'
+    as _i535;
+import 'package:tmshop/features/photo_search/presentation/bloc/photo_camera_cubit.dart'
+    as _i314;
+import 'package:tmshop/features/photo_search/presentation/bloc/photo_search_cubit.dart'
+    as _i616;
 import 'package:tmshop/features/product/data/datasources/fake_product_remote_data_source.dart'
     as _i682;
 import 'package:tmshop/features/product/data/datasources/product_remote_data_source.dart'
@@ -411,6 +421,10 @@ extension GetItInjectableX on _i174.GetIt {
       ),
       registerFor: {_dev},
     );
+    gh.lazySingleton<_i502.PhotoSearchRemoteDataSource>(
+      () => _i502.FakePhotoSearchRemoteDataSource(gh<_i566.NetworkInfo>()),
+      registerFor: {_dev},
+    );
     gh.lazySingleton<_i49.CatalogLocalDataSource>(
       () => _i49.CatalogLocalDataSourceImpl(
         gh<_i1055.LazyBox<String>>(instanceName: 'catalog_cache'),
@@ -621,6 +635,11 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i597.GetRecentProductUseCase>(
       () => _i597.GetRecentProductUseCase(gh<_i210.ProductRepository>()),
     );
+    gh.lazySingleton<_i535.PhotoSearchRepository>(
+      () => _i398.PhotoSearchRepositoryImpl(
+        gh<_i502.PhotoSearchRemoteDataSource>(),
+      ),
+    );
     gh.factory<_i621.HomeBloc>(
       () => _i621.HomeBloc(
         gh<_i628.GetCachedHomeUseCase>(),
@@ -702,6 +721,12 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i935.FavouritesCubit>(
       () => _i935.FavouritesCubit(gh<_i703.FavouritesRepository>()),
+    );
+    gh.factory<_i314.PhotoCameraCubit>(
+      () => _i314.PhotoCameraCubit(gh<_i535.PhotoSearchRepository>()),
+    );
+    gh.factory<_i616.PhotoSearchCubit>(
+      () => _i616.PhotoSearchCubit(gh<_i535.PhotoSearchRepository>()),
     );
     gh.lazySingleton<_i1054.PromotionsRepository>(
       () => _i322.PromotionsRepositoryImpl(

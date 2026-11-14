@@ -3517,6 +3517,102 @@ abstract class AppLocalizations {
   /// In ru, this message translates to:
   /// **'Продолжить покупки'**
   String get quickOrderContinue;
+
+  /// Photo search camera: tip over the viewfinder
+  ///
+  /// In ru, this message translates to:
+  /// **'Сфотографируйте товар крупно'**
+  String get photoCameraTip;
+
+  /// Photo search camera: accessibility label of the shutter button
+  ///
+  /// In ru, this message translates to:
+  /// **'Сделать снимок'**
+  String get photoCameraShutter;
+
+  /// Photo search camera: opens the photos on the phone
+  ///
+  /// In ru, this message translates to:
+  /// **'Галерея'**
+  String get photoCameraGallery;
+
+  /// Photo search camera: accessibility label of the switch-camera button
+  ///
+  /// In ru, this message translates to:
+  /// **'Сменить камеру'**
+  String get photoCameraSwitch;
+
+  /// Photo search: title of the sheet with the photos on the phone
+  ///
+  /// In ru, this message translates to:
+  /// **'Выберите фото'**
+  String get photoGalleryTitle;
+
+  /// Photo search: title of the screen where the area is chosen
+  ///
+  /// In ru, this message translates to:
+  /// **'Выделите товар'**
+  String get photoCropTitle;
+
+  /// Photo search: hint under the photo with the crop frame
+  ///
+  /// In ru, this message translates to:
+  /// **'Перетащите рамку на товар или потяните за углы'**
+  String get photoCropHint;
+
+  /// Photo search: the photo is being sent
+  ///
+  /// In ru, this message translates to:
+  /// **'Загружаем фото · {percent} %'**
+  String photoUploading(int percent);
+
+  /// Photo search: the photo is sent, the server is searching
+  ///
+  /// In ru, this message translates to:
+  /// **'Ищем похожие товары…'**
+  String get photoSearching;
+
+  /// Photo search results: header above the products
+  ///
+  /// In ru, this message translates to:
+  /// **'Похожие товары'**
+  String get photoResultsTitle;
+
+  /// Photo search results: how many products were found and how they are ordered
+  ///
+  /// In ru, this message translates to:
+  /// **'{count, plural, one{{count} товар} few{{count} товара} other{{count} товаров}} · по степени похожести'**
+  String photoResultsCount(int count);
+
+  /// Photo search results: strip on a product photo with how similar it is
+  ///
+  /// In ru, this message translates to:
+  /// **'Сходство {percent} %'**
+  String photoSimilarity(int percent);
+
+  /// Photo search results: back to the camera
+  ///
+  /// In ru, this message translates to:
+  /// **'Другое фото'**
+  String get photoAnotherPhoto;
+
+  /// Photo search: no results title
+  ///
+  /// In ru, this message translates to:
+  /// **'Ничего похожего не нашли'**
+  String get photoEmptyTitle;
+
+  /// Photo search: no results explanation
+  ///
+  /// In ru, this message translates to:
+  /// **'Попробуйте другое фото или выделите товар точнее. Или оставьте заявку — оператор найдёт его для вас'**
+  String get photoEmptyText;
+
+  /// Photo search, no results: sends the photo to an operator
+  ///
+  /// In ru, this message translates to:
+  /// **'Найдите мне товар'**
+  String get photoFindForMe;
 }
 
 class _AppLocalizationsDelegate

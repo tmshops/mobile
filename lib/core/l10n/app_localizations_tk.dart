@@ -2011,4 +2011,60 @@ class AppLocalizationsTk extends AppLocalizations {
 
   @override
   String get quickOrderContinue => 'Söwda etmegi dowam et';
+
+  @override
+  String get photoCameraTip => 'Harydy ýakyndan suratyny alyň';
+
+  @override
+  String get photoCameraShutter => 'Surata al';
+
+  @override
+  String get photoCameraGallery => 'Galereýa';
+
+  @override
+  String get photoCameraSwitch => 'Kamerany çalyş';
+
+  @override
+  String get photoGalleryTitle => 'Surat saýlaň';
+
+  @override
+  String get photoCropTitle => 'Harydy belläň';
+
+  @override
+  String get photoCropHint =>
+      'Çarçuwany haryda süýşüriň ýa-da burçlaryndan çekiň';
+
+  @override
+  String photoUploading(int percent) {
+    return 'Surat ýüklenýär · $percent %';
+  }
+
+  @override
+  String get photoSearching => 'Meňzeş harytlar gözlenýär…';
+
+  @override
+  String get photoResultsTitle => 'Meňzeş harytlar';
+
+  @override
+  String photoResultsCount(int count) {
+    return '$count haryt · meňzeşligi boýunça';
+  }
+
+  @override
+  String photoSimilarity(int percent) {
+    return 'Meňzeşligi $percent %';
+  }
+
+  @override
+  String get photoAnotherPhoto => 'Başga surat';
+
+  @override
+  String get photoEmptyTitle => 'Meňzeş zat tapylmady';
+
+  @override
+  String get photoEmptyText =>
+      'Başga surat synap görüň ýa-da harydy has takyk belläň. Ýa-da arza goýuň — operator ony siziň üçin tapar';
+
+  @override
+  String get photoFindForMe => 'Maňa haryt tapyň';
 }

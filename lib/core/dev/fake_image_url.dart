@@ -124,3 +124,53 @@ String fakeImageUrl(String seed, int width, [int? height]) {
       return 'https://placehold.co/${width}x$h/$bg/$_placeholdInk/png?text=$text';
   }
 }
+
+/// Catalog leaf slug → dummyjson categories whose photos look like it, so a
+/// list of «Кроссовки» shows shoes. Leaves not listed get [fakeImageUrl].
+const Map<String, List<String>> _leafPhotos = {
+  'clothes-women-dresses': ['womens-dresses', 'tops'],
+  'clothes-women-blouses': ['tops'],
+  'clothes-men-tshirts': ['mens-shirts'],
+  'clothes-men-shirts': ['mens-shirts'],
+  'shoes-women-sneakers': ['womens-shoes'],
+  'shoes-women-boots': ['womens-shoes'],
+  'shoes-women-sandals': ['womens-shoes'],
+  'shoes-men-sneakers': ['mens-shoes'],
+  'shoes-men-boots': ['mens-shoes'],
+  'shoes-men-classic': ['mens-shoes'],
+  'el-phone-cases': ['smartphones'],
+  'el-phone-chargers': ['mobile-accessories'],
+  'el-phone-powerbanks': ['mobile-accessories'],
+  'el-audio-headphones': ['mobile-accessories'],
+  'el-audio-speakers': ['mobile-accessories'],
+  'el-smart-watches': ['mens-watches', 'womens-watches'],
+  'el-smart-bands': ['mens-watches'],
+  'home-kitchen-cookware': ['kitchen-accessories'],
+  'home-kitchen-knives': ['kitchen-accessories'],
+  'home-kitchen-storage': ['kitchen-accessories'],
+  'home-decor': ['home-decoration'],
+  'beauty-makeup': ['beauty'],
+  'beauty-care-face': ['skin-care'],
+  'beauty-care-hair': ['skin-care'],
+  'sport-outdoor-backpacks': ['womens-bags'],
+};
+
+/// Photo of generated product [seed] from catalog leaf [leafSlug]: a photo
+/// of the same kind of thing where one exists.
+String fakeProductImageUrl(String leafSlug, String seed) {
+  final categories = _leafPhotos[leafSlug];
+  if (fakeImageProvider != FakeImageProvider.dummyjson || categories == null) {
+    return fakeImageUrl(seed, 600, 600);
+  }
+  final paths = [
+    for (final path in _dummyJsonProducts)
+      if (categories.any((c) => path.startsWith('$c/'))) path,
+  ];
+  return '$_dummyJsonBase/${paths[seed.hashCode.abs() % paths.length]}/1.webp';
+}
+
+/// The photo of one dummyjson product, `<category>/<product>`.
+String fakePhotoUrl(String path) =>
+    fakeImageProvider == FakeImageProvider.dummyjson
+    ? '$_dummyJsonBase/$path/1.webp'
+    : fakeImageUrl(path, 800, 800);

@@ -100,6 +100,8 @@ extension on FacetOptionModel {
 abstract final class CatalogQueryParams {
   static const category = 'category';
   static const promo = 'promo';
+  static const text = 'q';
+  static const seller = 'seller';
   static const sort = 'sort';
   static const cursor = 'cursor';
   static const priceMin = 'price_min';
@@ -119,13 +121,16 @@ abstract final class CatalogQueryParams {
     ProductSort.sales => 'sales',
   };
 
-  static Map<String, String> filters(
-    String categorySlug,
-    AppliedFilters f, {
-    String? promoSlug,
-  }) => {
-    if (categorySlug.isNotEmpty) category: categorySlug,
-    promo: ?promoSlug,
+  /// What [query] lists and how it is filtered: the facets request.
+  static Map<String, String> filters(ProductQuery query) => {
+    if (query.categorySlug.isNotEmpty) category: query.categorySlug,
+    promo: ?query.promoSlug,
+    text: ?query.searchText,
+    seller: ?query.sellerId,
+    ..._applied(query.filters),
+  };
+
+  static Map<String, String> _applied(AppliedFilters f) => {
     if (f.price.min case final min?) priceMin: '$min',
     if (f.price.max case final max?) priceMax: '$max',
     for (final MapEntry(:key, :value) in f.choices.entries)
@@ -134,7 +139,7 @@ abstract final class CatalogQueryParams {
   };
 
   static Map<String, String> products(ProductQuery query, {String? cursor}) => {
-    ...filters(query.categorySlug, query.filters, promoSlug: query.promoSlug),
+    ...filters(query),
     sort: sortValue(query.sort),
     CatalogQueryParams.cursor: ?cursor,
   };

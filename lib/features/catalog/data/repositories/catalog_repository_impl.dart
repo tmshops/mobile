@@ -87,13 +87,11 @@ class CatalogRepositoryImpl implements CatalogRepository {
   @override
   Future<Either<Failure, FacetsResult>> getFacets({
     required String languageCode,
-    required String categorySlug,
-    required AppliedFilters filters,
-    String? promoSlug,
+    required ProductQuery query,
   }) => _guard(
     () async => (await _remote.getFacets(
       languageCode,
-      CatalogQueryParams.filters(categorySlug, filters, promoSlug: promoSlug),
+      CatalogQueryParams.filters(query),
     )).toEntity(),
   );
 

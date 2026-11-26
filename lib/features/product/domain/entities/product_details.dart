@@ -101,6 +101,9 @@ abstract class SpecRow with _$SpecRow {
 @freezed
 abstract class Seller with _$Seller {
   const factory Seller({
+    /// For «Все товары продавца»; `null` when the server does not list
+    /// the seller's products.
+    String? id,
     required String name,
 
     /// Marketplace name: Taobao, 1688, Tmall.

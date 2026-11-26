@@ -84,7 +84,19 @@ abstract class ProductQuery with _$ProductQuery {
     /// The products of this promotion instead of a category (UI_DESIGN
     /// §7.16).
     String? promoSlug,
+
+    /// Products matching this text instead of a category (TZ §5.7).
+    String? searchText,
+
+    /// Products of this seller («Все товары продавца»).
+    String? sellerId,
     @Default(ProductSort.popular) ProductSort sort,
     @Default(AppliedFilters()) AppliedFilters filters,
   }) = _ProductQuery;
+
+  const ProductQuery._();
+
+  /// A promotion, search or seller list: no category of its own.
+  bool get isScoped =>
+      promoSlug != null || searchText != null || sellerId != null;
 }

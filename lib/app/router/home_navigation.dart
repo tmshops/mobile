@@ -32,10 +32,10 @@ void openHomeDestination(BuildContext context, HomeDestination destination) {
       context.push(id.isEmpty ? AppRoutes.promotions : AppRoutes.promo(id));
     case PhotoSearchDestination():
       context.push(AppRoutes.photoSearch);
-    case SearchDestination() ||
-        PasteLinkDestination() ||
-        VideoFeedDestination() ||
-        LinkDestination():
+    // The search field takes links too, and offers a copied one.
+    case SearchDestination() || PasteLinkDestination():
+      context.push(AppRoutes.search);
+    case VideoFeedDestination() || LinkDestination():
       showComingSoon(context);
   }
 }

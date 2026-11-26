@@ -2067,4 +2067,178 @@ class AppLocalizationsTk extends AppLocalizations {
 
   @override
   String get photoFindForMe => 'Maňa haryt tapyň';
+
+  @override
+  String get searchRecent => 'Siz gözlediňiz';
+
+  @override
+  String get searchClearHistory => 'Arassala';
+
+  @override
+  String searchRemoveQuery(String query) {
+    return '«$query» taryhdan aýyr';
+  }
+
+  @override
+  String get searchPopular => 'Meşhur gözlegler';
+
+  @override
+  String searchDidYouMean(String query) {
+    return 'Belki, siz şuny gözlediňiz: $query';
+  }
+
+  @override
+  String searchFor(String query) {
+    return '«$query» gözle';
+  }
+
+  @override
+  String get searchOpenLink => 'Harydy salgy boýunça aç';
+
+  @override
+  String get searchClearText => 'Meýdany arassala';
+
+  @override
+  String searchEmptyTitle(String query) {
+    return '«$query» boýunça hiç zat ýok';
+  }
+
+  @override
+  String get searchEmptyText =>
+      'Ýazylyşyny barlaň ýa-da surat boýunça gözläň. Ýa-da arza goýuň — operator harydy siziň üçin tapar';
+
+  @override
+  String get linkImportTitle => 'Salgy boýunça haryt';
+
+  @override
+  String get linkImportWaitTitle => 'Haryt ýüklenýär';
+
+  @override
+  String get linkImportWaitText =>
+      'Adatça bir minuda çenli wagt alýar. Programmany ýygnap bilersiňiz — ýükleme dowam eder';
+
+  @override
+  String get linkImportStepOpening => 'Sahypany açýarys';
+
+  @override
+  String get linkImportStepTranslating => 'Terjime edýäris';
+
+  @override
+  String get linkImportStepPricing => 'Bahany hasaplaýarys';
+
+  @override
+  String get linkImportFailedTitle => 'Ýükläp bolmady';
+
+  @override
+  String get linkImportFailedText =>
+      'Salgyny operatora berdik — ol harydy tapar we size goldaw çatynda ýazar';
+
+  @override
+  String get linkImportToSupport => 'Çaty aç';
+
+  @override
+  String get supportTitle => 'Goldaw';
+
+  @override
+  String get supportHours => 'Her gün 9:00-dan 21:00-a çenli jogap berýäris';
+
+  @override
+  String get supportOtherWays => 'Habarlaşmagyň beýleki ýollary';
+
+  @override
+  String get supportCall => 'Jaň et';
+
+  @override
+  String get chatInputHint => 'Hat';
+
+  @override
+  String get chatSend => 'Iber';
+
+  @override
+  String get chatAttach => 'Goş';
+
+  @override
+  String get chatAttachCamera => 'Kamera';
+
+  @override
+  String get chatAttachGallery => 'Galereýa';
+
+  @override
+  String get chatAttachOrder => 'Sargyt';
+
+  @override
+  String get chatPickOrder => 'Sargyt saýlaň';
+
+  @override
+  String get chatNoOrders => 'Işjeň sargyt ýok';
+
+  @override
+  String get chatPickPhotos => 'Surat saýlaň';
+
+  @override
+  String get chatNotSent => 'Iberilmedi';
+
+  @override
+  String get chatSending => 'Iberilýär';
+
+  @override
+  String get chatSent => 'Iberildi';
+
+  @override
+  String get chatOpenProduct => 'Aç';
+
+  @override
+  String get chatQuickWhereOrder => 'Sargydym nirede?';
+
+  @override
+  String get chatQuickSurcharge => 'Goşmaça tölegi nädip tölemeli?';
+
+  @override
+  String get chatEmptyTitle => 'Bize ýazyň';
+
+  @override
+  String get requestSearching => 'Gözleýäris';
+
+  @override
+  String get requestFound => 'Tapyldy';
+
+  @override
+  String get findHeader =>
+      'Gerekli zady tapmadyňyzmy? Harydy beýan ediň — operator ony Taobao, 1688 ýa-da Tmall-da tapar';
+
+  @override
+  String get findDescription => 'Harydy beýan ediň';
+
+  @override
+  String get findDescriptionHint =>
+      'Meselem: galyň dabanly ak krossowka, 38 ölçeg';
+
+  @override
+  String get findLink => 'Salgy (hökmany däl)';
+
+  @override
+  String get findSend => 'Arza iber';
+
+  @override
+  String get findNeedSomething => 'Beýan, surat ýa-da salgy goşuň';
+
+  @override
+  String chatOrder(String number) {
+    return 'Sargyt $number';
+  }
+
+  @override
+  String requestTitle(String id) {
+    return 'Arza $id';
+  }
+
+  @override
+  String findPhotos(int count, int max) {
+    return 'Surat · $count / $max';
+  }
+
+  @override
+  String chatSendPhotos(int count) {
+    return 'Iber · $count';
+  }
 }

@@ -12,12 +12,10 @@ part 'filters_bloc.freezed.dart';
 
 @freezed
 sealed class FiltersEvent with _$FiltersEvent {
-  /// Sheet opened with the filters currently applied to the list.
+  /// Sheet opened for the list's [query], with its applied filters.
   const factory FiltersEvent.started({
     required String languageCode,
-    required String categorySlug,
-    required AppliedFilters applied,
-    String? promoSlug,
+    required ProductQuery query,
   }) = FiltersStarted;
 
   /// The user changed the draft; counts are refreshed after a short pause.
@@ -60,17 +58,15 @@ class FiltersBloc extends Bloc<FiltersEvent, FiltersState> {
   static const debounce = Duration(milliseconds: 300);
 
   String _languageCode = '';
-  String _slug = '';
-  String? _promoSlug;
+  ProductQuery? _query;
 
   Future<void> _onStarted(
     FiltersStarted event,
     Emitter<FiltersState> emit,
   ) async {
     _languageCode = event.languageCode;
-    _slug = event.categorySlug;
-    _promoSlug = event.promoSlug;
-    emit(FiltersState(draft: event.applied));
+    _query = event.query;
+    emit(FiltersState(draft: event.query.filters));
     await _count(emit);
   }
 
@@ -87,12 +83,13 @@ class FiltersBloc extends Bloc<FiltersEvent, FiltersState> {
   }
 
   Future<void> _count(Emitter<FiltersState> emit) async {
-    if (_slug.isEmpty && _promoSlug == null) return;
+    final query = _query;
+    if (query == null || (query.categorySlug.isEmpty && !query.isScoped)) {
+      return;
+    }
     final result = await _getFacets(
       languageCode: _languageCode,
-      categorySlug: _slug,
-      filters: state.draft,
-      promoSlug: _promoSlug,
+      query: query.copyWith(filters: state.draft),
     );
     emit(
       result.match(

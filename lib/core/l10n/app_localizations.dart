@@ -3613,6 +3613,312 @@ abstract class AppLocalizations {
   /// In ru, this message translates to:
   /// **'Найдите мне товар'**
   String get photoFindForMe;
+
+  /// Search screen: header of the query history
+  ///
+  /// In ru, this message translates to:
+  /// **'Вы искали'**
+  String get searchRecent;
+
+  /// Search screen: clears the query history
+  ///
+  /// In ru, this message translates to:
+  /// **'Очистить'**
+  String get searchClearHistory;
+
+  /// Search screen: accessibility label of × on a history chip
+  ///
+  /// In ru, this message translates to:
+  /// **'Удалить «{query}» из истории'**
+  String searchRemoveQuery(String query);
+
+  /// Search screen: header of popular queries
+  ///
+  /// In ru, this message translates to:
+  /// **'Популярные запросы'**
+  String get searchPopular;
+
+  /// Search screen: typo fix suggested by the server
+  ///
+  /// In ru, this message translates to:
+  /// **'Возможно, вы искали: {query}'**
+  String searchDidYouMean(String query);
+
+  /// Search screen: row that searches exactly what was typed
+  ///
+  /// In ru, this message translates to:
+  /// **'Искать «{query}»'**
+  String searchFor(String query);
+
+  /// Search screen: a marketplace link was typed, pasted or copied
+  ///
+  /// In ru, this message translates to:
+  /// **'Открыть товар по ссылке'**
+  String get searchOpenLink;
+
+  /// Search field: accessibility label of the × button
+  ///
+  /// In ru, this message translates to:
+  /// **'Очистить поле'**
+  String get searchClearText;
+
+  /// Search results: nothing found
+  ///
+  /// In ru, this message translates to:
+  /// **'По запросу «{query}» ничего нет'**
+  String searchEmptyTitle(String query);
+
+  /// Search results: nothing found, what to do
+  ///
+  /// In ru, this message translates to:
+  /// **'Проверьте написание или поищите по фото. А можно оставить заявку — оператор найдёт товар для вас'**
+  String get searchEmptyText;
+
+  /// Link import screen title
+  ///
+  /// In ru, this message translates to:
+  /// **'Товар по ссылке'**
+  String get linkImportTitle;
+
+  /// Link import: the server is reading the marketplace page
+  ///
+  /// In ru, this message translates to:
+  /// **'Загружаем товар'**
+  String get linkImportWaitTitle;
+
+  /// Link import: how long it takes
+  ///
+  /// In ru, this message translates to:
+  /// **'Обычно это занимает до минуты. Можно свернуть приложение — загрузка продолжится'**
+  String get linkImportWaitText;
+
+  /// Link import step 1
+  ///
+  /// In ru, this message translates to:
+  /// **'Открываем страницу'**
+  String get linkImportStepOpening;
+
+  /// Link import step 2
+  ///
+  /// In ru, this message translates to:
+  /// **'Переводим'**
+  String get linkImportStepTranslating;
+
+  /// Link import step 3
+  ///
+  /// In ru, this message translates to:
+  /// **'Считаем цену'**
+  String get linkImportStepPricing;
+
+  /// Link import failed: title
+  ///
+  /// In ru, this message translates to:
+  /// **'Не удалось загрузить'**
+  String get linkImportFailedTitle;
+
+  /// Link import failed: the link went to an operator
+  ///
+  /// In ru, this message translates to:
+  /// **'Передали ссылку оператору — он найдёт товар и напишет вам в чат поддержки'**
+  String get linkImportFailedText;
+
+  /// Link import failed: opens the support chat
+  ///
+  /// In ru, this message translates to:
+  /// **'Открыть чат'**
+  String get linkImportToSupport;
+
+  /// Support chat title
+  ///
+  /// In ru, this message translates to:
+  /// **'Поддержка'**
+  String get supportTitle;
+
+  /// Support chat: working hours under the title
+  ///
+  /// In ru, this message translates to:
+  /// **'Отвечаем ежедневно с 9:00 до 21:00'**
+  String get supportHours;
+
+  /// Support chat: menu with phone, Telegram, WhatsApp
+  ///
+  /// In ru, this message translates to:
+  /// **'Другие способы связи'**
+  String get supportOtherWays;
+
+  /// Support chat menu: call
+  ///
+  /// In ru, this message translates to:
+  /// **'Позвонить'**
+  String get supportCall;
+
+  /// Support chat: input hint
+  ///
+  /// In ru, this message translates to:
+  /// **'Сообщение'**
+  String get chatInputHint;
+
+  /// Support chat: accessibility label of the send button
+  ///
+  /// In ru, this message translates to:
+  /// **'Отправить'**
+  String get chatSend;
+
+  /// Support chat: accessibility label of the + button
+  ///
+  /// In ru, this message translates to:
+  /// **'Прикрепить'**
+  String get chatAttach;
+
+  /// Support chat attach sheet: take a photo
+  ///
+  /// In ru, this message translates to:
+  /// **'Камера'**
+  String get chatAttachCamera;
+
+  /// Support chat attach sheet: photos on the phone
+  ///
+  /// In ru, this message translates to:
+  /// **'Галерея'**
+  String get chatAttachGallery;
+
+  /// Support chat attach sheet: one of my orders
+  ///
+  /// In ru, this message translates to:
+  /// **'Заказ'**
+  String get chatAttachOrder;
+
+  /// Support chat: order picker title
+  ///
+  /// In ru, this message translates to:
+  /// **'Выберите заказ'**
+  String get chatPickOrder;
+
+  /// Support chat: order picker is empty
+  ///
+  /// In ru, this message translates to:
+  /// **'Активных заказов нет'**
+  String get chatNoOrders;
+
+  /// Support chat: photo picker title
+  ///
+  /// In ru, this message translates to:
+  /// **'Выберите фото'**
+  String get chatPickPhotos;
+
+  /// Support chat: a message failed to send
+  ///
+  /// In ru, this message translates to:
+  /// **'Не отправлено'**
+  String get chatNotSent;
+
+  /// Support chat: accessibility label of a message being sent
+  ///
+  /// In ru, this message translates to:
+  /// **'Отправляется'**
+  String get chatSending;
+
+  /// Support chat: accessibility label of a sent message
+  ///
+  /// In ru, this message translates to:
+  /// **'Отправлено'**
+  String get chatSent;
+
+  /// Support chat: opens a product card sent by an operator
+  ///
+  /// In ru, this message translates to:
+  /// **'Открыть'**
+  String get chatOpenProduct;
+
+  /// Support chat: quick-start chip
+  ///
+  /// In ru, this message translates to:
+  /// **'Где мой заказ?'**
+  String get chatQuickWhereOrder;
+
+  /// Support chat: quick-start chip
+  ///
+  /// In ru, this message translates to:
+  /// **'Как оплатить доплату?'**
+  String get chatQuickSurcharge;
+
+  /// Support chat: no messages yet
+  ///
+  /// In ru, this message translates to:
+  /// **'Напишите нам'**
+  String get chatEmptyTitle;
+
+  /// Find-me request card: status while searching
+  ///
+  /// In ru, this message translates to:
+  /// **'Ищем'**
+  String get requestSearching;
+
+  /// Find-me request card: status once found
+  ///
+  /// In ru, this message translates to:
+  /// **'Найдено'**
+  String get requestFound;
+
+  /// Find-me form: explanation on top
+  ///
+  /// In ru, this message translates to:
+  /// **'Не нашли нужное? Опишите товар — оператор найдёт его на Taobao, 1688 или Tmall'**
+  String get findHeader;
+
+  /// Find-me form: description field label
+  ///
+  /// In ru, this message translates to:
+  /// **'Опишите товар'**
+  String get findDescription;
+
+  /// Find-me form: description field hint
+  ///
+  /// In ru, this message translates to:
+  /// **'Например: белые кроссовки на толстой подошве, размер 38'**
+  String get findDescriptionHint;
+
+  /// Find-me form: link field label
+  ///
+  /// In ru, this message translates to:
+  /// **'Ссылка (необязательно)'**
+  String get findLink;
+
+  /// Find-me form: submit
+  ///
+  /// In ru, this message translates to:
+  /// **'Отправить заявку'**
+  String get findSend;
+
+  /// Find-me form: why the submit button is disabled
+  ///
+  /// In ru, this message translates to:
+  /// **'Добавьте описание, фото или ссылку'**
+  String get findNeedSomething;
+
+  /// Support chat: order chip message
+  ///
+  /// In ru, this message translates to:
+  /// **'Заказ {number}'**
+  String chatOrder(String number);
+
+  /// Find-me request card title
+  ///
+  /// In ru, this message translates to:
+  /// **'Заявка {id}'**
+  String requestTitle(String id);
+
+  /// Find-me form: photo slots header
+  ///
+  /// In ru, this message translates to:
+  /// **'Фото · {count} из {max}'**
+  String findPhotos(int count, int max);
+
+  /// Support chat photo picker: send the chosen photos
+  ///
+  /// In ru, this message translates to:
+  /// **'Отправить · {count}'**
+  String chatSendPhotos(int count);
 }
 
 class _AppLocalizationsDelegate

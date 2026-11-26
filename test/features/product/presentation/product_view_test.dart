@@ -24,7 +24,7 @@ class _MockProductBloc extends MockBloc<ProductEvent, ProductState>
 void main() {
   late _MockProductBloc bloc;
   late GlobalCubits cubits;
-  late int comingSoon;
+  late List<String> sellers;
   late List<CartItem> quickOrders;
   late int logins;
   late List<(String, String)> similar;
@@ -32,7 +32,7 @@ void main() {
 
   setUp(() {
     bloc = _MockProductBloc();
-    comingSoon = 0;
+    sellers = [];
     quickOrders = [];
     similar = [];
     logins = 0;
@@ -85,7 +85,7 @@ void main() {
             onOpenCart: () {},
             onLogin: () => logins++,
             onAllReviews: () {},
-            onComingSoon: () => comingSoon++,
+            onOpenSeller: (id, _) => sellers.add(id),
             onQuickOrder: quickOrders.add,
             onFindSimilar: (id, image) => similar.add((id, image)),
           ),
@@ -205,7 +205,7 @@ void main() {
     expect(quickOrders, hasLength(1));
     expect(quickOrders.single.productId, state.details!.id);
     expect(quickOrders.single.skuId, state.selection!.sku!.id);
-    expect(comingSoon, 0);
+    expect(sellers, isEmpty);
     expect(find.text('Быстрый заказ'), findsNothing);
     verifyNever(() => cubits.cart.add(any()));
     await tester.pumpWidget(const SizedBox());
@@ -224,7 +224,25 @@ void main() {
     expect(similar, hasLength(1));
     expect(similar.single.$1, state.details!.id);
     expect(similar.single.$2, isNotEmpty);
-    expect(comingSoon, 0);
+    expect(sellers, isEmpty);
+    await tester.pumpWidget(const SizedBox());
+  });
+
+  testWidgets('«Все товары продавца» opens the seller', (tester) async {
+    final state = ready('ru', clothingId);
+    await pump(tester, state);
+    await scrollDown(tester);
+    // The button ends up under the pinned top bar; press it directly.
+    tester
+        .widget<TertiaryButton>(
+          find.ancestor(
+            of: find.text(ru.productSellerAll),
+            matching: find.byType(TertiaryButton),
+          ),
+        )
+        .onPressed
+        ?.call();
+    expect(sellers, [state.details!.seller!.id]);
     await tester.pumpWidget(const SizedBox());
   });
 

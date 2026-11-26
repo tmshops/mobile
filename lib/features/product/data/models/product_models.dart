@@ -122,6 +122,7 @@ abstract class SpecRowModel with _$SpecRowModel {
 @freezed
 abstract class SellerModel with _$SellerModel {
   const factory SellerModel({
+    String? id,
     required String name,
     required String source,
     double? rating,

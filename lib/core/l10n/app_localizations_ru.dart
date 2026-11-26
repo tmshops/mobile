@@ -2135,4 +2135,178 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get photoFindForMe => 'Найдите мне товар';
+
+  @override
+  String get searchRecent => 'Вы искали';
+
+  @override
+  String get searchClearHistory => 'Очистить';
+
+  @override
+  String searchRemoveQuery(String query) {
+    return 'Удалить «$query» из истории';
+  }
+
+  @override
+  String get searchPopular => 'Популярные запросы';
+
+  @override
+  String searchDidYouMean(String query) {
+    return 'Возможно, вы искали: $query';
+  }
+
+  @override
+  String searchFor(String query) {
+    return 'Искать «$query»';
+  }
+
+  @override
+  String get searchOpenLink => 'Открыть товар по ссылке';
+
+  @override
+  String get searchClearText => 'Очистить поле';
+
+  @override
+  String searchEmptyTitle(String query) {
+    return 'По запросу «$query» ничего нет';
+  }
+
+  @override
+  String get searchEmptyText =>
+      'Проверьте написание или поищите по фото. А можно оставить заявку — оператор найдёт товар для вас';
+
+  @override
+  String get linkImportTitle => 'Товар по ссылке';
+
+  @override
+  String get linkImportWaitTitle => 'Загружаем товар';
+
+  @override
+  String get linkImportWaitText =>
+      'Обычно это занимает до минуты. Можно свернуть приложение — загрузка продолжится';
+
+  @override
+  String get linkImportStepOpening => 'Открываем страницу';
+
+  @override
+  String get linkImportStepTranslating => 'Переводим';
+
+  @override
+  String get linkImportStepPricing => 'Считаем цену';
+
+  @override
+  String get linkImportFailedTitle => 'Не удалось загрузить';
+
+  @override
+  String get linkImportFailedText =>
+      'Передали ссылку оператору — он найдёт товар и напишет вам в чат поддержки';
+
+  @override
+  String get linkImportToSupport => 'Открыть чат';
+
+  @override
+  String get supportTitle => 'Поддержка';
+
+  @override
+  String get supportHours => 'Отвечаем ежедневно с 9:00 до 21:00';
+
+  @override
+  String get supportOtherWays => 'Другие способы связи';
+
+  @override
+  String get supportCall => 'Позвонить';
+
+  @override
+  String get chatInputHint => 'Сообщение';
+
+  @override
+  String get chatSend => 'Отправить';
+
+  @override
+  String get chatAttach => 'Прикрепить';
+
+  @override
+  String get chatAttachCamera => 'Камера';
+
+  @override
+  String get chatAttachGallery => 'Галерея';
+
+  @override
+  String get chatAttachOrder => 'Заказ';
+
+  @override
+  String get chatPickOrder => 'Выберите заказ';
+
+  @override
+  String get chatNoOrders => 'Активных заказов нет';
+
+  @override
+  String get chatPickPhotos => 'Выберите фото';
+
+  @override
+  String get chatNotSent => 'Не отправлено';
+
+  @override
+  String get chatSending => 'Отправляется';
+
+  @override
+  String get chatSent => 'Отправлено';
+
+  @override
+  String get chatOpenProduct => 'Открыть';
+
+  @override
+  String get chatQuickWhereOrder => 'Где мой заказ?';
+
+  @override
+  String get chatQuickSurcharge => 'Как оплатить доплату?';
+
+  @override
+  String get chatEmptyTitle => 'Напишите нам';
+
+  @override
+  String get requestSearching => 'Ищем';
+
+  @override
+  String get requestFound => 'Найдено';
+
+  @override
+  String get findHeader =>
+      'Не нашли нужное? Опишите товар — оператор найдёт его на Taobao, 1688 или Tmall';
+
+  @override
+  String get findDescription => 'Опишите товар';
+
+  @override
+  String get findDescriptionHint =>
+      'Например: белые кроссовки на толстой подошве, размер 38';
+
+  @override
+  String get findLink => 'Ссылка (необязательно)';
+
+  @override
+  String get findSend => 'Отправить заявку';
+
+  @override
+  String get findNeedSomething => 'Добавьте описание, фото или ссылку';
+
+  @override
+  String chatOrder(String number) {
+    return 'Заказ $number';
+  }
+
+  @override
+  String requestTitle(String id) {
+    return 'Заявка $id';
+  }
+
+  @override
+  String findPhotos(int count, int max) {
+    return 'Фото · $count из $max';
+  }
+
+  @override
+  String chatSendPhotos(int count) {
+    return 'Отправить · $count';
+  }
 }

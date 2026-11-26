@@ -21,7 +21,7 @@ class ProductContent extends StatelessWidget {
   const ProductContent({
     required this.state,
     required this.onOpenProduct,
-    required this.onComingSoon,
+    required this.onOpenSeller,
     required this.onPriceAlert,
     required this.onAllReviews,
     required this.onFindSimilar,
@@ -30,7 +30,9 @@ class ProductContent extends StatelessWidget {
 
   final ProductState state;
   final ValueChanged<ProductSummary> onOpenProduct;
-  final VoidCallback onComingSoon;
+
+  /// «Все товары продавца».
+  final void Function(String sellerId, String name) onOpenSeller;
   final VoidCallback onPriceAlert;
   final VoidCallback onAllReviews;
 
@@ -143,7 +145,13 @@ class ProductContent extends StatelessWidget {
               ],
               if (seller != null) ...[
                 const SizedBox(height: AppSpacing.x24),
-                SellerCard(seller: seller, onAllProducts: onComingSoon),
+                SellerCard(
+                  seller: seller,
+                  onAllProducts: switch (seller.id) {
+                    final id? => () => onOpenSeller(id, seller.name),
+                    null => null,
+                  },
+                ),
               ],
               if (reviews != null) ...[
                 const SizedBox(height: AppSpacing.x24),

@@ -43,6 +43,9 @@ import '../../features/photo_search/domain/entities/photo_search.dart';
 import '../../features/photo_search/presentation/pages/photo_camera_page.dart';
 import '../../features/photo_search/presentation/pages/photo_crop_page.dart';
 import '../../features/photo_search/presentation/pages/photo_results_page.dart';
+import '../../features/link_import/presentation/pages/link_import_page.dart';
+import '../../features/search/presentation/pages/search_page.dart';
+import '../../features/search/presentation/widgets/search_results_parts.dart';
 import '../../features/settings/presentation/pages/settings_page.dart';
 import '../../features/wallet/presentation/bloc/wallet_payment_cubit.dart';
 import '../../features/wallet/presentation/pages/balance_page.dart';
@@ -176,7 +179,8 @@ GoRouter createAppRouter({
             onLogin: () => context.push(AppRoutes.login),
             onAllReviews: () => context.push(AppRoutes.productReviews(id)),
             onHome: () => context.go(AppRoutes.home),
-            onComingSoon: () => showComingSoon(context),
+            onOpenSeller: (sellerId, name) =>
+                context.push(AppRoutes.sellerProducts(sellerId, name)),
             onQuickOrder: (line) => _quickOrder(context, [line]),
             onFindSimilar: (id, image) =>
                 context.push(AppRoutes.photoResults(image, productId: id)),
@@ -234,7 +238,7 @@ GoRouter createAppRouter({
         builder: (context, state) {
           final slug = state.pathParameters[AppRoutes.slugParam] ?? '';
           // The promotions feature draws the top, the catalog the products.
-          return PromoProductsPage(
+          return ScopedProductsPage(
             key: ValueKey(slug),
             promoSlug: slug,
             header: PromoHeader(slug: slug),
@@ -261,6 +265,75 @@ GoRouter createAppRouter({
                 topic: topic,
                 onOpenTopic: (t) => _openInfo(context, t),
                 onTapLink: (link) => _openInfoLink(context, link),
+              );
+            },
+          ),
+        ],
+      ),
+      GoRoute(
+        path: AppRoutes.sellerPath,
+        builder: (context, state) {
+          final id = state.pathParameters[AppRoutes.idParam] ?? '';
+          final name = state.uri.queryParameters[AppRoutes.nameParam] ?? '';
+          return ScopedProductsPage(
+            key: ValueKey(id),
+            sellerId: id,
+            header: SliverAppBar(pinned: true, title: Text(name)),
+            onOpenProduct: (product) => _openProduct(context, product),
+            onOpenCatalog: () => context.go(AppRoutes.catalog),
+          );
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.linkImport,
+        builder: (context, state) {
+          final link = state.uri.queryParameters[AppRoutes.linkParam] ?? '';
+          if (link.isEmpty) return _notFound(context);
+          return LinkImportPage(
+            link: link,
+            onCancel: () => context.pop(),
+            // The product takes the waiting screen's place: back leads to
+            // where the link was pasted.
+            onDone: (id) => context.pushReplacement(AppRoutes.product(id)),
+            onSupport: () => showComingSoon(context),
+          );
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.search,
+        builder: (context, state) => SearchPage(
+          initialText: state.uri.queryParameters[AppRoutes.queryParam] ?? '',
+          onSearch: (query) => context.push(AppRoutes.searchResults(query)),
+          onOpenLink: (link) => context.push(AppRoutes.linkImportOf(link)),
+          onPhotoSearch: () => context.push(AppRoutes.photoSearch),
+        ),
+        routes: [
+          GoRoute(
+            path: AppRoutes.searchResultsPath,
+            builder: (context, state) {
+              final query =
+                  state.uri.queryParameters[AppRoutes.queryParam] ?? '';
+              if (query.trim().isEmpty) return _notFound(context);
+              // The search feature draws the top, the catalog the products.
+              return ScopedProductsPage(
+                key: ValueKey(query),
+                searchText: query,
+                header: SearchResultsHeader(
+                  query: query,
+                  // Back to the search screen that still holds the text;
+                  // opened from a link, a new one with it.
+                  onEdit: () => context.canPop()
+                      ? context.pop()
+                      : context.pushReplacement(AppRoutes.searchWith(query)),
+                  onPhotoSearch: () => context.push(AppRoutes.photoSearch),
+                ),
+                empty: SearchEmptyState(
+                  query: query,
+                  onPhotoSearch: () => context.push(AppRoutes.photoSearch),
+                  onFindForMe: () => showComingSoon(context),
+                ),
+                onOpenProduct: (product) => _openProduct(context, product),
+                onOpenCatalog: () => context.go(AppRoutes.catalog),
               );
             },
           ),

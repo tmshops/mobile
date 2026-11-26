@@ -219,7 +219,9 @@ class SellerCard extends StatelessWidget {
   });
 
   final Seller seller;
-  final VoidCallback onAllProducts;
+
+  /// `null` hides «Все товары»: the seller has no list of their own.
+  final VoidCallback? onAllProducts;
 
   static const double _avatar = 44;
 
@@ -294,10 +296,11 @@ class SellerCard extends StatelessWidget {
                     ),
                   ],
                 ),
-                TertiaryButton(
-                  label: l10n.productSellerAll,
-                  onPressed: onAllProducts,
-                ),
+                if (onAllProducts case final onAll?)
+                  TertiaryButton(
+                    label: l10n.productSellerAll,
+                    onPressed: onAll,
+                  ),
               ],
             ),
           ),

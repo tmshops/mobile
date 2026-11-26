@@ -54,8 +54,7 @@ void main() {
     when(
       () => repository.getFacets(
         languageCode: 'ru',
-        categorySlug: 'shoes',
-        filters: const AppliedFilters(),
+        query: const ProductQuery(categorySlug: 'shoes'),
       ),
     ).thenAnswer((_) async => right(facets));
 
@@ -70,8 +69,7 @@ void main() {
     expect(
       await GetCategoryFacetsUseCase(repository)(
         languageCode: 'ru',
-        categorySlug: 'shoes',
-        filters: const AppliedFilters(),
+        query: const ProductQuery(categorySlug: 'shoes'),
       ),
       right(facets),
     );

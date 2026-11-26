@@ -101,8 +101,7 @@ void main() {
     ).thenThrow(const ServerException(message: 'Сервис недоступен'));
     final failure = (await repository.getFacets(
       languageCode: 'ru',
-      categorySlug: 'shoes',
-      filters: const AppliedFilters(),
+      query: const ProductQuery(categorySlug: 'shoes'),
     )).getLeft().toNullable();
     expect((failure! as ServerFailure).message, 'Сервис недоступен');
   });

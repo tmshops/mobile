@@ -18,21 +18,13 @@ import 'price_range_filter.dart';
 Future<AppliedFilters?> showFiltersSheet(
   BuildContext context, {
   required String languageCode,
-  required String categorySlug,
-  required AppliedFilters applied,
-  String? promoSlug,
+  required ProductQuery query,
 }) => showAppBottomSheet<AppliedFilters>(
   context: context,
   builder: (_) => BlocProvider(
-    create: (_) => getIt<FiltersBloc>()
-      ..add(
-        FiltersEvent.started(
-          languageCode: languageCode,
-          categorySlug: categorySlug,
-          applied: applied,
-          promoSlug: promoSlug,
-        ),
-      ),
+    create: (_) =>
+        getIt<FiltersBloc>()
+          ..add(FiltersEvent.started(languageCode: languageCode, query: query)),
     child: const FiltersSheet(),
   ),
 );

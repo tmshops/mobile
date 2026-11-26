@@ -338,6 +338,15 @@ class FakeCatalogBackend {
 
   /// A category, or a promotion's products when `promo` is set.
   List<_FakeProduct> _productsFor(Map<String, String> params) {
+    final text = params[FakeApiParams.text];
+    if (text != null) return _matchingText(text);
+    final seller = params[FakeApiParams.seller];
+    if (seller != null) {
+      return [
+        for (final p in _everything())
+          if (sellerIdOf(p.brand) == seller) p,
+      ];
+    }
     final promo = params[FakeApiParams.promo];
     if (promo == null) {
       return _productsUnder(params[FakeApiParams.category] ?? '');
@@ -351,6 +360,36 @@ class FakeCatalogBackend {
           if (!isDiscountedOnly || p.oldPrice != null) p,
     ];
   }
+
+  /// Seller id of a brand's store: the brand in lower case.
+  static String sellerIdOf(String brand) => brand.toLowerCase();
+
+  Iterable<_FakeProduct> _everything() sync* {
+    for (final root in FakeCatalogTree.roots) {
+      yield* _productsUnder(root.slug);
+    }
+  }
+
+  /// Every word of [text] is in the product's name (RU or TK), brand or
+  /// model code, ignoring case.
+  List<_FakeProduct> _matchingText(String text) {
+    final words = searchWords(text);
+    if (words.isEmpty) return const [];
+    return [
+      for (final p in _everything())
+        if (words.every(
+          '${p.ru} ${p.tk} ${p.brand} ${p.code}'.toLowerCase().contains,
+        ))
+          p,
+    ];
+  }
+
+  /// Lower-case words of a query, as the fake server compares them.
+  static List<String> searchWords(String text) => text
+      .toLowerCase()
+      .split(RegExp(r'[\s,.]+'))
+      .where((w) => w.isNotEmpty)
+      .toList();
 
   List<_FakeProduct> _productsUnder(String slug) =>
       _bySlug.putIfAbsent(slug, () {

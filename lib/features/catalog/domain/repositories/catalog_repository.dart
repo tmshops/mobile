@@ -26,11 +26,10 @@ abstract interface class CatalogRepository {
     String? cursor,
   });
 
-  /// Facet counts and total for a draft of filters (not yet applied).
+  /// Facet counts and total for [query] with a draft of filters (not yet
+  /// applied).
   Future<Either<Failure, FacetsResult>> getFacets({
     required String languageCode,
-    required String categorySlug,
-    required AppliedFilters filters,
-    String? promoSlug,
+    required ProductQuery query,
   });
 }

@@ -21,6 +21,12 @@ sealed class CategoryProductsEvent with _$CategoryProductsEvent {
 
     /// A promotion's products instead of category [slug] (pass '').
     String? promoSlug,
+
+    /// Search results instead of category [slug] (pass '').
+    String? searchText,
+
+    /// A seller's products instead of category [slug] (pass '').
+    String? sellerId,
   }) = CategoryProductsStarted;
 
   const factory CategoryProductsEvent.sortChanged(ProductSort sort) =
@@ -103,12 +109,20 @@ class CategoryProductsBloc
         :final languageCode,
         :final slug,
         :final promoSlug,
+        :final searchText,
+        :final sellerId,
       ):
         _languageCode = languageCode;
-        query = ProductQuery(categorySlug: slug, promoSlug: promoSlug);
+        query = ProductQuery(
+          categorySlug: slug,
+          promoSlug: promoSlug,
+          searchText: searchText,
+          sellerId: sellerId,
+        );
         emit(CategoryProductsState(query: query));
-        // A promotion's page says who it is itself; no category to find.
-        if (promoSlug != null) break;
+        // Promotion, search and seller pages say what they are themselves;
+        // no category to find.
+        if (query.isScoped) break;
         final found = await _getCategory(
           languageCode: languageCode,
           slug: slug,

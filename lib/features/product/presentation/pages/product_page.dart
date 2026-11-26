@@ -17,7 +17,7 @@ class ProductPage extends StatelessWidget {
     required this.onOpenCart,
     required this.onLogin,
     required this.onAllReviews,
-    required this.onComingSoon,
+    required this.onOpenSeller,
     required this.onQuickOrder,
     required this.onFindSimilar,
     this.onHome,
@@ -33,7 +33,9 @@ class ProductPage extends StatelessWidget {
   final VoidCallback onOpenCart;
   final VoidCallback onLogin;
   final VoidCallback onAllReviews;
-  final VoidCallback onComingSoon;
+
+  /// «Все товары продавца».
+  final void Function(String sellerId, String name) onOpenSeller;
 
   /// «Купить сейчас» with the chosen variant.
   final ValueChanged<CartItem> onQuickOrder;
@@ -61,7 +63,7 @@ class ProductPage extends StatelessWidget {
         onOpenCart: onOpenCart,
         onLogin: onLogin,
         onAllReviews: onAllReviews,
-        onComingSoon: onComingSoon,
+        onOpenSeller: onOpenSeller,
         onQuickOrder: onQuickOrder,
         onFindSimilar: onFindSimilar,
         onHome: onHome,

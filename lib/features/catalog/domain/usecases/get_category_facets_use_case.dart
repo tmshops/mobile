@@ -14,13 +14,6 @@ class GetCategoryFacetsUseCase {
 
   Future<Either<Failure, FacetsResult>> call({
     required String languageCode,
-    required String categorySlug,
-    required AppliedFilters filters,
-    String? promoSlug,
-  }) => _repository.getFacets(
-    languageCode: languageCode,
-    categorySlug: categorySlug,
-    filters: filters,
-    promoSlug: promoSlug,
-  );
+    required ProductQuery query,
+  }) => _repository.getFacets(languageCode: languageCode, query: query);
 }

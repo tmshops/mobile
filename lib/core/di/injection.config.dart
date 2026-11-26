@@ -159,6 +159,14 @@ import 'package:tmshop/features/info/domain/repositories/info_repository.dart'
     as _i513;
 import 'package:tmshop/features/info/presentation/bloc/info_cubits.dart'
     as _i429;
+import 'package:tmshop/features/link_import/data/datasources/link_import_remote_data_source.dart'
+    as _i436;
+import 'package:tmshop/features/link_import/data/repositories/link_import_repository_impl.dart'
+    as _i807;
+import 'package:tmshop/features/link_import/domain/repositories/link_import_repository.dart'
+    as _i300;
+import 'package:tmshop/features/link_import/presentation/bloc/link_import_cubit.dart'
+    as _i146;
 import 'package:tmshop/features/notifications/data/datasources/notifications_remote_data_source.dart'
     as _i442;
 import 'package:tmshop/features/notifications/data/repositories/notifications_repository_impl.dart'
@@ -243,6 +251,16 @@ import 'package:tmshop/features/reviews/domain/repositories/reviews_repository.d
     as _i357;
 import 'package:tmshop/features/reviews/presentation/bloc/reviews_cubits.dart'
     as _i553;
+import 'package:tmshop/features/search/data/datasources/search_local_data_source.dart'
+    as _i670;
+import 'package:tmshop/features/search/data/datasources/search_remote_data_source.dart'
+    as _i540;
+import 'package:tmshop/features/search/data/repositories/search_repository_impl.dart'
+    as _i143;
+import 'package:tmshop/features/search/domain/repositories/search_repository.dart'
+    as _i574;
+import 'package:tmshop/features/search/presentation/bloc/search_bloc.dart'
+    as _i315;
 import 'package:tmshop/features/settings/data/datasources/settings_remote_data_source.dart'
     as _i48;
 import 'package:tmshop/features/settings/data/repositories/settings_repository_impl.dart'
@@ -349,6 +367,11 @@ extension GetItInjectableX on _i174.GetIt {
       instanceName: 'info_cache',
       preResolve: true,
     );
+    await gh.singletonAsync<_i965.Box<String>>(
+      () => registerModule.searchHistoryBox,
+      instanceName: 'search_history',
+      preResolve: true,
+    );
     await gh.singletonAsync<_i965.LazyBox<String>>(
       () => registerModule.accountBox,
       instanceName: 'account',
@@ -384,6 +407,11 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i210.ProductRepository>(
       () => _i270.ProductRepositoryImpl(gh<_i777.ProductRemoteDataSource>()),
     );
+    gh.lazySingleton<_i670.SearchLocalDataSource>(
+      () => _i670.SearchLocalDataSource(
+        gh<_i1055.Box<String>>(instanceName: 'search_history'),
+      ),
+    );
     gh.lazySingleton<_i892.WalletRemoteDataSource>(
       () => _i892.FakeWalletRemoteDataSource(
         gh<_i566.NetworkInfo>(),
@@ -393,6 +421,10 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i331.VariantsRemoteDataSource>(
       () => _i331.FakeVariantsRemoteDataSource(gh<_i566.NetworkInfo>()),
+      registerFor: {_dev},
+    );
+    gh.lazySingleton<_i436.LinkImportRemoteDataSource>(
+      () => _i436.FakeLinkImportRemoteDataSource(gh<_i566.NetworkInfo>()),
       registerFor: {_dev},
     );
     gh.lazySingleton<_i408.CartRemoteDataSource>(
@@ -429,6 +461,10 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i49.CatalogLocalDataSourceImpl(
         gh<_i1055.LazyBox<String>>(instanceName: 'catalog_cache'),
       ),
+    );
+    gh.lazySingleton<_i540.SearchRemoteDataSource>(
+      () => _i540.FakeSearchRemoteDataSource(gh<_i566.NetworkInfo>()),
+      registerFor: {_dev},
     );
     gh.lazySingleton<_i208.InfoRemoteDataSource>(
       () => _i208.FakeInfoRemoteDataSource(
@@ -562,6 +598,11 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i1055.Box<String>>(instanceName: 'cart'),
       ),
     );
+    gh.lazySingleton<_i300.LinkImportRepository>(
+      () => _i807.LinkImportRepositoryImpl(
+        gh<_i436.LinkImportRemoteDataSource>(),
+      ),
+    );
     gh.lazySingleton<_i1001.CartCubit>(
       () => _i1001.CartCubit(gh<_i361.CartRepository>()),
     );
@@ -606,6 +647,12 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i710.ConfigRepositoryImpl(
         gh<_i451.ConfigRemoteDataSource>(),
         gh<_i451.ConfigLocalDataSource>(),
+      ),
+    );
+    gh.lazySingleton<_i574.SearchRepository>(
+      () => _i143.SearchRepositoryImpl(
+        gh<_i540.SearchRemoteDataSource>(),
+        gh<_i670.SearchLocalDataSource>(),
       ),
     );
     gh.lazySingleton<_i465.HomeRepository>(
@@ -696,6 +743,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i594.ForYouBloc>(
       () => _i594.ForYouBloc(gh<_i113.GetRecommendationsUseCase>()),
     );
+    gh.factory<_i146.LinkImportCubit>(
+      () => _i146.LinkImportCubit(gh<_i300.LinkImportRepository>()),
+    );
     gh.lazySingleton<_i280.LocaleCubit>(
       () => _i280.LocaleCubit(gh<_i630.LocaleRepository>()),
     );
@@ -721,6 +771,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i935.FavouritesCubit>(
       () => _i935.FavouritesCubit(gh<_i703.FavouritesRepository>()),
+    );
+    gh.factory<_i315.SearchBloc>(
+      () => _i315.SearchBloc(gh<_i574.SearchRepository>()),
     );
     gh.factory<_i314.PhotoCameraCubit>(
       () => _i314.PhotoCameraCubit(gh<_i535.PhotoSearchRepository>()),

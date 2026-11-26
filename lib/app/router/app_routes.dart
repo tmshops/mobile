@@ -139,6 +139,38 @@ abstract final class AppRoutes {
 
   static String infoPage(String slug) => '$info/${Uri.encodeComponent(slug)}';
 
+  /// «Все товары продавца»; [nameParam] is the title until the list says
+  /// more.
+  static const sellerPath = '/seller/:$idParam';
+  static const nameParam = 'name';
+
+  static String sellerProducts(String id, String name) => Uri(
+    path: '/seller/${Uri.encodeComponent(id)}',
+    queryParameters: {nameParam: name},
+  ).toString();
+
+  /// «Товар по ссылке» (TZ §5.9) for the marketplace link in [linkParam].
+  static const linkImport = '/import';
+  static const linkParam = 'url';
+
+  static String linkImportOf(String link) =>
+      Uri(path: linkImport, queryParameters: {linkParam: link}).toString();
+
+  /// Search screen (TZ §5.7); [queryParam] prefills the field.
+  static const search = '/search';
+  static const queryParam = 'q';
+
+  /// Relative to [search].
+  static const searchResultsPath = 'results';
+
+  static String searchWith(String query) =>
+      Uri(path: search, queryParameters: {queryParam: query}).toString();
+
+  static String searchResults(String query) => Uri(
+    path: '$search/$searchResultsPath',
+    queryParameters: {queryParam: query},
+  ).toString();
+
   /// Photo search (TZ §5.8): camera, then the crop screen, then results.
   static const photoSearch = '/photo-search';
 

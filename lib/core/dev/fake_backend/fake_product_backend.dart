@@ -88,6 +88,7 @@ class FakeProductBackend {
         {'name': t('Артикул', 'Artikul'), 'value': id.toUpperCase()},
       ],
       'seller': {
+        'id': FakeCatalogBackend.sellerIdOf(base.brand),
         'name': '${base.brand} Official Store',
         'source': base.source,
         'rating': 4 + r.nextInt(10) / 10,

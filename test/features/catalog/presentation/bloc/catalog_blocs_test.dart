@@ -245,8 +245,7 @@ void main() {
       when(
         () => getFacets(
           languageCode: any(named: 'languageCode'),
-          categorySlug: any(named: 'categorySlug'),
-          filters: any(named: 'filters'),
+          query: any(named: 'query'),
         ),
       ).thenAnswer((_) async => right(facets));
     });
@@ -258,8 +257,7 @@ void main() {
         bloc.add(
           const FiltersEvent.started(
             languageCode: 'ru',
-            categorySlug: 'shoes',
-            applied: AppliedFilters(),
+            query: ProductQuery(categorySlug: 'shoes'),
           ),
         );
         await Future<void>.delayed(Duration.zero);
@@ -274,8 +272,7 @@ void main() {
         verify(
           () => getFacets(
             languageCode: 'ru',
-            categorySlug: 'shoes',
-            filters: any(named: 'filters'),
+            query: any(named: 'query', that: _inCategory('shoes')),
           ),
         ).called(2);
         expect(bloc.state.draft.price.max, 700);
@@ -290,16 +287,17 @@ void main() {
       setUp: () => when(
         () => getFacets(
           languageCode: any(named: 'languageCode'),
-          categorySlug: any(named: 'categorySlug'),
-          filters: any(named: 'filters'),
+          query: any(named: 'query'),
         ),
       ).thenAnswer((_) async => left(const NetworkFailure())),
       build: () => FiltersBloc(getFacets),
       act: (bloc) => bloc.add(
         const FiltersEvent.started(
           languageCode: 'ru',
-          categorySlug: 'shoes',
-          applied: AppliedFilters(price: PriceRange(min: 10)),
+          query: ProductQuery(
+            categorySlug: 'shoes',
+            filters: AppliedFilters(price: PriceRange(min: 10)),
+          ),
         ),
       ),
       expect: () => const [
@@ -313,3 +311,6 @@ void main() {
     );
   });
 }
+
+Matcher _inCategory(String slug) =>
+    isA<ProductQuery>().having((q) => q.categorySlug, 'categorySlug', slug);

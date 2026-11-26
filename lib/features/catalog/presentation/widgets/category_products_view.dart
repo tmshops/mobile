@@ -25,6 +25,7 @@ class CategoryProductsView extends StatefulWidget {
     required this.onOpenProduct,
     required this.onOpenCatalog,
     this.header,
+    this.empty,
     super.key,
   });
 
@@ -35,6 +36,9 @@ class CategoryProductsView extends StatefulWidget {
   /// Sliver above the toolbar that replaces the app bar, e.g. a
   /// promotion's collapsing banner (UI_DESIGN §7.16).
   final Widget? header;
+
+  /// Replaces the plain empty state when nothing matches without filters.
+  final Widget? empty;
 
   @override
   State<CategoryProductsView> createState() => _CategoryProductsViewState();
@@ -58,9 +62,7 @@ class _CategoryProductsViewState extends State<CategoryProductsView> {
     final applied = await showFiltersSheet(
       context,
       languageCode: context.read<LocaleCubit>().state.languageCode,
-      categorySlug: query.categorySlug,
-      applied: query.filters,
-      promoSlug: query.promoSlug,
+      query: query,
     );
     if (applied != null) {
       _bloc.add(CategoryProductsEvent.filtersApplied(applied));
@@ -98,6 +100,8 @@ class _CategoryProductsViewState extends State<CategoryProductsView> {
               languageCode: locale.languageCode,
               slug: _bloc.state.query.categorySlug,
               promoSlug: _bloc.state.query.promoSlug,
+              searchText: _bloc.state.query.searchText,
+              sellerId: _bloc.state.query.sellerId,
             ),
           ),
         ),
@@ -249,6 +253,7 @@ class _CategoryProductsViewState extends State<CategoryProductsView> {
         onLoadMore: () =>
             _bloc.add(const CategoryProductsEvent.nextPageRequested()),
         onClearFilters: () => _applyFilters(const AppliedFilters()),
+        empty: widget.empty,
       ),
     ];
   }

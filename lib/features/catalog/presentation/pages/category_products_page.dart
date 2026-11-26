@@ -41,22 +41,39 @@ class CategoryProductsPage extends StatelessWidget {
   }
 }
 
-/// A promotion's products with sort and filters, under [header] (the
-/// promotion's banner and conditions, built by the promotions feature and
-/// joined here by the router).
-class PromoProductsPage extends StatelessWidget {
-  const PromoProductsPage({
-    required this.promoSlug,
+/// A list with sort and filters that is not a category: a promotion's
+/// products, search results or a seller's products. Exactly one of
+/// [promoSlug], [searchText] and [sellerId] is set. [header] (built by the
+/// feature that owns the list and joined here by the router) replaces the
+/// app bar.
+class ScopedProductsPage extends StatelessWidget {
+  const ScopedProductsPage({
     required this.header,
     required this.onOpenProduct,
     required this.onOpenCatalog,
+    this.promoSlug,
+    this.searchText,
+    this.sellerId,
+    this.empty,
     super.key,
-  });
+  }) : assert(
+         (promoSlug == null ? 0 : 1) +
+                 (searchText == null ? 0 : 1) +
+                 (sellerId == null ? 0 : 1) ==
+             1,
+         'exactly one scope',
+       );
 
-  final String promoSlug;
+  final String? promoSlug;
+  final String? searchText;
+  final String? sellerId;
   final Widget header;
   final ValueChanged<ProductSummary> onOpenProduct;
   final VoidCallback onOpenCatalog;
+
+  /// Shown instead of «Здесь пока пусто» when nothing matches without
+  /// filters, e.g. search's «Поиск по фото» and «Найдите мне товар».
+  final Widget? empty;
 
   @override
   Widget build(BuildContext context) {
@@ -68,11 +85,14 @@ class PromoProductsPage extends StatelessWidget {
             languageCode: languageCode,
             slug: '',
             promoSlug: promoSlug,
+            searchText: searchText,
+            sellerId: sellerId,
           ),
         ),
       child: CategoryProductsView(
         header: header,
-        // No subcategories on a promotion page.
+        empty: empty,
+        // No subcategories on these lists.
         onOpenCategory: (_) {},
         onOpenProduct: onOpenProduct,
         onOpenCatalog: onOpenCatalog,

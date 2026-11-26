@@ -29,5 +29,10 @@ FacetsResult sampleFacets(
   String slug, [
   AppliedFilters filters = const AppliedFilters(),
 ]) => FacetsResultModel.fromJson(
-  _backend.facets(lang, CatalogQueryParams.filters(slug, filters)),
+  _backend.facets(
+    lang,
+    CatalogQueryParams.filters(
+      ProductQuery(categorySlug: slug, filters: filters),
+    ),
+  ),
 ).toEntity();

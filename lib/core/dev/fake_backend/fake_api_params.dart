@@ -4,6 +4,8 @@
 abstract final class FakeApiParams {
   static const category = 'category';
   static const promo = 'promo';
+  static const text = 'q';
+  static const seller = 'seller';
   static const sort = 'sort';
   static const cursor = 'cursor';
   static const priceMin = 'price_min';

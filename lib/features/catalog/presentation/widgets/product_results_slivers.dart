@@ -17,6 +17,7 @@ class ProductResultsSlivers extends StatelessWidget {
     required this.onRetry,
     required this.onLoadMore,
     required this.onClearFilters,
+    this.empty,
     super.key,
   });
 
@@ -26,6 +27,9 @@ class ProductResultsSlivers extends StatelessWidget {
   final VoidCallback onRetry;
   final VoidCallback onLoadMore;
   final VoidCallback onClearFilters;
+
+  /// Replaces the plain empty state when nothing matches without filters.
+  final Widget? empty;
 
   static const _skeletonRows = 2;
 
@@ -64,11 +68,13 @@ class ProductResultsSlivers extends StatelessWidget {
               actionLabel: l10n.catalogClearFilters,
               onAction: onClearFilters,
             ),
-            null => EmptyState(
-              icon: AppIcons.package,
-              title: l10n.catalogEmptyTitle,
-              message: l10n.catalogEmptyText,
-            ),
+            null =>
+              empty ??
+                  EmptyState(
+                    icon: AppIcons.package,
+                    title: l10n.catalogEmptyTitle,
+                    message: l10n.catalogEmptyText,
+                  ),
           },
         ),
       );

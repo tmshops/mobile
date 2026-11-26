@@ -64,6 +64,7 @@ extension ProductDetailsModelX on ProductDetailsModel {
       specs: [for (final s in specs) SpecRow(name: s.name, value: s.value)],
       seller: switch (seller) {
         final s? => Seller(
+          id: s.id,
           name: s.name,
           source: s.source,
           rating: s.rating,

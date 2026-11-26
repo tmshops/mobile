@@ -2367,7 +2367,7 @@ as String,
 /// @nodoc
 mixin _$SellerModel {
 
- String get name; String get source; double? get rating; int? get salesCount;
+ String? get id; String get name; String get source; double? get rating; int? get salesCount;
 /// Create a copy of SellerModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -2380,16 +2380,16 @@ $SellerModelCopyWith<SellerModel> get copyWith => _$SellerModelCopyWithImpl<Sell
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SellerModel&&(identical(other.name, name) || other.name == name)&&(identical(other.source, source) || other.source == source)&&(identical(other.rating, rating) || other.rating == rating)&&(identical(other.salesCount, salesCount) || other.salesCount == salesCount));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SellerModel&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.source, source) || other.source == source)&&(identical(other.rating, rating) || other.rating == rating)&&(identical(other.salesCount, salesCount) || other.salesCount == salesCount));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,name,source,rating,salesCount);
+int get hashCode => Object.hash(runtimeType,id,name,source,rating,salesCount);
 
 @override
 String toString() {
-  return 'SellerModel(name: $name, source: $source, rating: $rating, salesCount: $salesCount)';
+  return 'SellerModel(id: $id, name: $name, source: $source, rating: $rating, salesCount: $salesCount)';
 }
 
 
@@ -2400,7 +2400,7 @@ abstract mixin class $SellerModelCopyWith<$Res>  {
   factory $SellerModelCopyWith(SellerModel value, $Res Function(SellerModel) _then) = _$SellerModelCopyWithImpl;
 @useResult
 $Res call({
- String name, String source, double? rating, int? salesCount
+ String? id, String name, String source, double? rating, int? salesCount
 });
 
 
@@ -2417,9 +2417,10 @@ class _$SellerModelCopyWithImpl<$Res>
 
 /// Create a copy of SellerModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? name = null,Object? source = null,Object? rating = freezed,Object? salesCount = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? name = null,Object? source = null,Object? rating = freezed,Object? salesCount = freezed,}) {
   return _then(_self.copyWith(
-name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
+id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as String?,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,source: null == source ? _self.source : source // ignore: cast_nullable_to_non_nullable
 as String,rating: freezed == rating ? _self.rating : rating // ignore: cast_nullable_to_non_nullable
 as double?,salesCount: freezed == salesCount ? _self.salesCount : salesCount // ignore: cast_nullable_to_non_nullable
@@ -2508,10 +2509,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String name,  String source,  double? rating,  int? salesCount)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? id,  String name,  String source,  double? rating,  int? salesCount)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _SellerModel() when $default != null:
-return $default(_that.name,_that.source,_that.rating,_that.salesCount);case _:
+return $default(_that.id,_that.name,_that.source,_that.rating,_that.salesCount);case _:
   return orElse();
 
 }
@@ -2529,10 +2530,10 @@ return $default(_that.name,_that.source,_that.rating,_that.salesCount);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String name,  String source,  double? rating,  int? salesCount)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? id,  String name,  String source,  double? rating,  int? salesCount)  $default,) {final _that = this;
 switch (_that) {
 case _SellerModel():
-return $default(_that.name,_that.source,_that.rating,_that.salesCount);case _:
+return $default(_that.id,_that.name,_that.source,_that.rating,_that.salesCount);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -2549,10 +2550,10 @@ return $default(_that.name,_that.source,_that.rating,_that.salesCount);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String name,  String source,  double? rating,  int? salesCount)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? id,  String name,  String source,  double? rating,  int? salesCount)?  $default,) {final _that = this;
 switch (_that) {
 case _SellerModel() when $default != null:
-return $default(_that.name,_that.source,_that.rating,_that.salesCount);case _:
+return $default(_that.id,_that.name,_that.source,_that.rating,_that.salesCount);case _:
   return null;
 
 }
@@ -2564,9 +2565,10 @@ return $default(_that.name,_that.source,_that.rating,_that.salesCount);case _:
 @JsonSerializable()
 
 class _SellerModel implements SellerModel {
-  const _SellerModel({required this.name, required this.source, this.rating, this.salesCount});
+  const _SellerModel({this.id, required this.name, required this.source, this.rating, this.salesCount});
   factory _SellerModel.fromJson(Map<String, dynamic> json) => _$SellerModelFromJson(json);
 
+@override final  String? id;
 @override final  String name;
 @override final  String source;
 @override final  double? rating;
@@ -2585,16 +2587,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SellerModel&&(identical(other.name, name) || other.name == name)&&(identical(other.source, source) || other.source == source)&&(identical(other.rating, rating) || other.rating == rating)&&(identical(other.salesCount, salesCount) || other.salesCount == salesCount));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SellerModel&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.source, source) || other.source == source)&&(identical(other.rating, rating) || other.rating == rating)&&(identical(other.salesCount, salesCount) || other.salesCount == salesCount));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,name,source,rating,salesCount);
+int get hashCode => Object.hash(runtimeType,id,name,source,rating,salesCount);
 
 @override
 String toString() {
-  return 'SellerModel(name: $name, source: $source, rating: $rating, salesCount: $salesCount)';
+  return 'SellerModel(id: $id, name: $name, source: $source, rating: $rating, salesCount: $salesCount)';
 }
 
 
@@ -2605,7 +2607,7 @@ abstract mixin class _$SellerModelCopyWith<$Res> implements $SellerModelCopyWith
   factory _$SellerModelCopyWith(_SellerModel value, $Res Function(_SellerModel) _then) = __$SellerModelCopyWithImpl;
 @override @useResult
 $Res call({
- String name, String source, double? rating, int? salesCount
+ String? id, String name, String source, double? rating, int? salesCount
 });
 
 
@@ -2622,9 +2624,10 @@ class __$SellerModelCopyWithImpl<$Res>
 
 /// Create a copy of SellerModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? name = null,Object? source = null,Object? rating = freezed,Object? salesCount = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? name = null,Object? source = null,Object? rating = freezed,Object? salesCount = freezed,}) {
   return _then(_SellerModel(
-name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
+id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as String?,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,source: null == source ? _self.source : source // ignore: cast_nullable_to_non_nullable
 as String,rating: freezed == rating ? _self.rating : rating // ignore: cast_nullable_to_non_nullable
 as double?,salesCount: freezed == salesCount ? _self.salesCount : salesCount // ignore: cast_nullable_to_non_nullable

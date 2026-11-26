@@ -1516,7 +1516,9 @@ as String,
 /// @nodoc
 mixin _$Seller {
 
- String get name;/// Marketplace name: Taobao, 1688, Tmall.
+/// For «Все товары продавца»; `null` when the server does not list
+/// the seller's products.
+ String? get id; String get name;/// Marketplace name: Taobao, 1688, Tmall.
  String get source; double? get rating; int? get salesCount;
 /// Create a copy of Seller
 /// with the given fields replaced by the non-null parameter values.
@@ -1528,16 +1530,16 @@ $SellerCopyWith<Seller> get copyWith => _$SellerCopyWithImpl<Seller>(this as Sel
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Seller&&(identical(other.name, name) || other.name == name)&&(identical(other.source, source) || other.source == source)&&(identical(other.rating, rating) || other.rating == rating)&&(identical(other.salesCount, salesCount) || other.salesCount == salesCount));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Seller&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.source, source) || other.source == source)&&(identical(other.rating, rating) || other.rating == rating)&&(identical(other.salesCount, salesCount) || other.salesCount == salesCount));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,name,source,rating,salesCount);
+int get hashCode => Object.hash(runtimeType,id,name,source,rating,salesCount);
 
 @override
 String toString() {
-  return 'Seller(name: $name, source: $source, rating: $rating, salesCount: $salesCount)';
+  return 'Seller(id: $id, name: $name, source: $source, rating: $rating, salesCount: $salesCount)';
 }
 
 
@@ -1548,7 +1550,7 @@ abstract mixin class $SellerCopyWith<$Res>  {
   factory $SellerCopyWith(Seller value, $Res Function(Seller) _then) = _$SellerCopyWithImpl;
 @useResult
 $Res call({
- String name, String source, double? rating, int? salesCount
+ String? id, String name, String source, double? rating, int? salesCount
 });
 
 
@@ -1565,9 +1567,10 @@ class _$SellerCopyWithImpl<$Res>
 
 /// Create a copy of Seller
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? name = null,Object? source = null,Object? rating = freezed,Object? salesCount = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? name = null,Object? source = null,Object? rating = freezed,Object? salesCount = freezed,}) {
   return _then(_self.copyWith(
-name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
+id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as String?,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,source: null == source ? _self.source : source // ignore: cast_nullable_to_non_nullable
 as String,rating: freezed == rating ? _self.rating : rating // ignore: cast_nullable_to_non_nullable
 as double?,salesCount: freezed == salesCount ? _self.salesCount : salesCount // ignore: cast_nullable_to_non_nullable
@@ -1656,10 +1659,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String name,  String source,  double? rating,  int? salesCount)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? id,  String name,  String source,  double? rating,  int? salesCount)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Seller() when $default != null:
-return $default(_that.name,_that.source,_that.rating,_that.salesCount);case _:
+return $default(_that.id,_that.name,_that.source,_that.rating,_that.salesCount);case _:
   return orElse();
 
 }
@@ -1677,10 +1680,10 @@ return $default(_that.name,_that.source,_that.rating,_that.salesCount);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String name,  String source,  double? rating,  int? salesCount)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? id,  String name,  String source,  double? rating,  int? salesCount)  $default,) {final _that = this;
 switch (_that) {
 case _Seller():
-return $default(_that.name,_that.source,_that.rating,_that.salesCount);case _:
+return $default(_that.id,_that.name,_that.source,_that.rating,_that.salesCount);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -1697,10 +1700,10 @@ return $default(_that.name,_that.source,_that.rating,_that.salesCount);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String name,  String source,  double? rating,  int? salesCount)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? id,  String name,  String source,  double? rating,  int? salesCount)?  $default,) {final _that = this;
 switch (_that) {
 case _Seller() when $default != null:
-return $default(_that.name,_that.source,_that.rating,_that.salesCount);case _:
+return $default(_that.id,_that.name,_that.source,_that.rating,_that.salesCount);case _:
   return null;
 
 }
@@ -1712,9 +1715,12 @@ return $default(_that.name,_that.source,_that.rating,_that.salesCount);case _:
 
 
 class _Seller implements Seller {
-  const _Seller({required this.name, required this.source, this.rating, this.salesCount});
+  const _Seller({this.id, required this.name, required this.source, this.rating, this.salesCount});
   
 
+/// For «Все товары продавца»; `null` when the server does not list
+/// the seller's products.
+@override final  String? id;
 @override final  String name;
 /// Marketplace name: Taobao, 1688, Tmall.
 @override final  String source;
@@ -1731,16 +1737,16 @@ _$SellerCopyWith<_Seller> get copyWith => __$SellerCopyWithImpl<_Seller>(this, _
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Seller&&(identical(other.name, name) || other.name == name)&&(identical(other.source, source) || other.source == source)&&(identical(other.rating, rating) || other.rating == rating)&&(identical(other.salesCount, salesCount) || other.salesCount == salesCount));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Seller&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.source, source) || other.source == source)&&(identical(other.rating, rating) || other.rating == rating)&&(identical(other.salesCount, salesCount) || other.salesCount == salesCount));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,name,source,rating,salesCount);
+int get hashCode => Object.hash(runtimeType,id,name,source,rating,salesCount);
 
 @override
 String toString() {
-  return 'Seller(name: $name, source: $source, rating: $rating, salesCount: $salesCount)';
+  return 'Seller(id: $id, name: $name, source: $source, rating: $rating, salesCount: $salesCount)';
 }
 
 
@@ -1751,7 +1757,7 @@ abstract mixin class _$SellerCopyWith<$Res> implements $SellerCopyWith<$Res> {
   factory _$SellerCopyWith(_Seller value, $Res Function(_Seller) _then) = __$SellerCopyWithImpl;
 @override @useResult
 $Res call({
- String name, String source, double? rating, int? salesCount
+ String? id, String name, String source, double? rating, int? salesCount
 });
 
 
@@ -1768,9 +1774,10 @@ class __$SellerCopyWithImpl<$Res>
 
 /// Create a copy of Seller
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? name = null,Object? source = null,Object? rating = freezed,Object? salesCount = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? name = null,Object? source = null,Object? rating = freezed,Object? salesCount = freezed,}) {
   return _then(_Seller(
-name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
+id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as String?,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,source: null == source ? _self.source : source // ignore: cast_nullable_to_non_nullable
 as String,rating: freezed == rating ? _self.rating : rating // ignore: cast_nullable_to_non_nullable
 as double?,salesCount: freezed == salesCount ? _self.salesCount : salesCount // ignore: cast_nullable_to_non_nullable

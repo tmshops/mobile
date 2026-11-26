@@ -28,6 +28,10 @@ abstract final class HiveBoxes {
   /// only. `Box<String>`.
   static const viewed = 'viewed';
 
+  /// Search queries as one JSON list, newest first, up to 20 (TZ §5.7).
+  /// Device only. `Box<String>`.
+  static const searchHistory = 'search_history';
+
   /// Last app config (min version, maintenance, contacts) as JSON, so a
   /// launch without network still knows them (TZ §8.2). `LazyBox<String>`.
   static const configCache = 'config_cache';

@@ -32,7 +32,7 @@ class ProductView extends StatefulWidget {
     required this.onOpenCart,
     required this.onLogin,
     required this.onAllReviews,
-    required this.onComingSoon,
+    required this.onOpenSeller,
     required this.onQuickOrder,
     required this.onFindSimilar,
     this.onHome,
@@ -48,8 +48,8 @@ class ProductView extends StatefulWidget {
   /// «Все отзывы».
   final VoidCallback onAllReviews;
 
-  /// For actions whose screens do not exist yet (checkout, reviews, …).
-  final VoidCallback onComingSoon;
+  /// «Все товары продавца».
+  final void Function(String sellerId, String name) onOpenSeller;
 
   /// «Купить сейчас»: the chosen variant goes to a quick order (TZ §5.11).
   final ValueChanged<CartItem> onQuickOrder;
@@ -217,7 +217,7 @@ class _ProductViewState extends State<ProductView> {
                 state: state,
                 imageKey: _imageKey,
                 onOpenProduct: widget.onOpenProduct,
-                onComingSoon: widget.onComingSoon,
+                onOpenSeller: widget.onOpenSeller,
                 onPriceAlert: _togglePriceAlert,
                 onAllReviews: widget.onAllReviews,
                 onFindSimilar: _findSimilar,
@@ -252,7 +252,7 @@ class _Body extends StatelessWidget {
     required this.state,
     required this.imageKey,
     required this.onOpenProduct,
-    required this.onComingSoon,
+    required this.onOpenSeller,
     required this.onPriceAlert,
     required this.onAllReviews,
     required this.onFindSimilar,
@@ -262,7 +262,9 @@ class _Body extends StatelessWidget {
   final ProductState state;
   final GlobalKey imageKey;
   final ValueChanged<ProductSummary> onOpenProduct;
-  final VoidCallback onComingSoon;
+
+  /// «Все товары продавца».
+  final void Function(String sellerId, String name) onOpenSeller;
   final VoidCallback onPriceAlert;
   final VoidCallback onAllReviews;
   final VoidCallback onFindSimilar;
@@ -342,7 +344,7 @@ class _Body extends StatelessWidget {
                       : ProductContent(
                           state: state,
                           onOpenProduct: onOpenProduct,
-                          onComingSoon: onComingSoon,
+                          onOpenSeller: onOpenSeller,
                           onPriceAlert: onPriceAlert,
                           onAllReviews: onAllReviews,
                           onFindSimilar: onFindSimilar,

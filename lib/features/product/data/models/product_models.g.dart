@@ -305,6 +305,7 @@ Map<String, dynamic> _$SpecRowModelToJson(_SpecRowModel instance) =>
 _SellerModel _$SellerModelFromJson(Map<String, dynamic> json) =>
     $checkedCreate('_SellerModel', json, ($checkedConvert) {
       final val = _SellerModel(
+        id: $checkedConvert('id', (v) => v as String?),
         name: $checkedConvert('name', (v) => v as String),
         source: $checkedConvert('source', (v) => v as String),
         rating: $checkedConvert('rating', (v) => (v as num?)?.toDouble()),
@@ -315,6 +316,7 @@ _SellerModel _$SellerModelFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$SellerModelToJson(_SellerModel instance) =>
     <String, dynamic>{
+      'id': instance.id,
       'name': instance.name,
       'source': instance.source,
       'rating': instance.rating,

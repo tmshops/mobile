@@ -6,6 +6,9 @@ import 'package:mocktail/mocktail.dart';
 import 'package:tmshop/core/cart/cart_cubit.dart';
 import 'package:tmshop/core/cart/cart_item.dart';
 import 'package:tmshop/core/error/failures.dart';
+import 'package:tmshop/core/favourites/favourite.dart';
+import 'package:tmshop/core/favourites/favourites_cubit.dart';
+import 'package:tmshop/core/product/domain/product_summary.dart';
 import 'package:tmshop/core/l10n/l10n.dart';
 import 'package:tmshop/core/theme/theme.dart';
 import 'package:tmshop/core/widgets/widgets.dart';
@@ -42,12 +45,14 @@ void main() {
     Locale locale = AppLocales.ru,
     double textScale = 1,
     double width = 360,
+    FavouritesState favourites = const FavouritesState(),
   }) async {
     when(() => quoteBloc.state).thenReturn(quote);
-    cubits = GlobalCubits(locale: locale, cart: cart);
+    cubits = GlobalCubits(locale: locale, cart: cart, favourites: favourites);
     when(() => cubits.cart.remove(any())).thenAnswer((_) async => 1);
     when(() => cubits.cart.restore(any(), any())).thenAnswer((_) async {});
     when(() => cubits.cart.removeMany(any())).thenAnswer((_) async {});
+    when(() => cubits.cart.setQuantity(any(), any())).thenAnswer((_) async {});
     when(
       () =>
           cubits.cart.setSelected(any(), isSelected: any(named: 'isSelected')),
@@ -114,7 +119,7 @@ void main() {
       find.textContaining('Доставка по Китаю:', skipOffstage: false),
       findsNWidgets(sellers.length),
     );
-    expect(find.text('Выбрано: 3 из 3'), findsOneWidget);
+    expect(find.text('Оформить (3)'), findsOneWidget);
     await tester.pumpWidget(const SizedBox());
   });
 
@@ -147,7 +152,7 @@ void main() {
       items: [for (final l in sampleCart('ru')) l.copyWith(quantity: 5)],
     );
     await pump(tester, cart: cart, quote: quoted('ru', cart));
-    await tester.tap(find.text('Оформить'));
+    await tester.tap(find.byType(PrimaryButton));
     expect(checkouts, [null]);
     await tester.pumpWidget(const SizedBox());
   });
@@ -211,6 +216,23 @@ void main() {
     await tester.pumpWidget(const SizedBox());
   });
 
+  testWidgets('«×N» opens the stepper and a step reaches the cart', (
+    tester,
+  ) async {
+    final cart = CartState(items: sampleCart('ru'));
+    await pump(tester, cart: cart, quote: quoted('ru', cart));
+    final first = cart.items.first;
+    await tester.tap(find.text('×${first.quantity}').first);
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 500));
+    expect(find.text('Количество'), findsOneWidget);
+    await tester.tap(find.bySemanticsLabel('Увеличить количество'));
+    verify(
+      () => cubits.cart.setQuantity(first.key, first.quantity + 1),
+    ).called(1);
+    await tester.pumpWidget(const SizedBox());
+  });
+
   testWidgets('swipe removes with «Отменить»', (tester) async {
     final cart = CartState(items: sampleCart('ru'));
     await pump(tester, cart: cart, quote: quoted('ru', cart));
@@ -225,6 +247,73 @@ void main() {
     expect(find.text('Товар удалён из корзины'), findsOneWidget);
     await tester.tap(find.text('Отменить'));
     verify(() => cubits.cart.restore(first, 1)).called(1);
+    verifyNever(() => cubits.favourites.toggle(any()));
+    await tester.pumpWidget(const SizedBox());
+  });
+
+  Future<void> swipeRight(WidgetTester tester, CartItem line) async {
+    await tester.drag(find.byKey(ValueKey(line.key)), const Offset(500, 0));
+    for (var i = 0; i < 10; i++) {
+      await tester.pump(const Duration(milliseconds: 100));
+    }
+  }
+
+  testWidgets('swipe right moves to favourites; «Отменить» undoes both', (
+    tester,
+  ) async {
+    final cart = CartState(items: sampleCart('ru'));
+    final quote = quoted('ru', cart);
+    await pump(tester, cart: cart, quote: quote);
+    final first = cart.items.first;
+    await swipeRight(tester, first);
+
+    verify(() => cubits.cart.remove(first.key)).called(1);
+    final saved =
+        verify(() => cubits.favourites.toggle(captureAny())).captured.single
+            as ProductSummary;
+    expect(saved.id, first.productId);
+    expect(saved.price, quote.quote!.lines[first.key]!.price);
+
+    expect(find.text('Товар перенесён в избранное'), findsOneWidget);
+    await tester.tap(find.text('Отменить'));
+    await tester.pump();
+    verify(() => cubits.cart.restore(first, 1)).called(1);
+    verify(() => cubits.favourites.removeMany({first.productId})).called(1);
+    await tester.pumpWidget(const SizedBox());
+  });
+
+  testWidgets('an older favourite is kept, also after «Отменить»', (
+    tester,
+  ) async {
+    final cart = CartState(items: sampleCart('ru'));
+    final first = cart.items.first;
+    await pump(
+      tester,
+      cart: cart,
+      quote: quoted('ru', cart),
+      favourites: FavouritesState(
+        items: [
+          Favourite(
+            product: ProductSummary(
+              id: first.productId,
+              title: first.title,
+              imageUrl: first.imageUrl,
+              price: first.price,
+            ),
+            savedPrice: first.price,
+            addedAt: DateTime(2026),
+          ),
+        ],
+      ),
+    );
+    await swipeRight(tester, first);
+
+    verify(() => cubits.cart.remove(first.key)).called(1);
+    verifyNever(() => cubits.favourites.toggle(any()));
+    await tester.tap(find.text('Отменить'));
+    await tester.pump();
+    verify(() => cubits.cart.restore(first, 1)).called(1);
+    verifyNever(() => cubits.favourites.removeMany(any()));
     await tester.pumpWidget(const SizedBox());
   });
 

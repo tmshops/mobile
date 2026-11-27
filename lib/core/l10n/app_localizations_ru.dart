@@ -318,11 +318,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String get cartSelectAll => 'Выбрать все';
 
   @override
-  String cartSelectedCount(int selected, int total) {
-    return 'Выбрано: $selected из $total';
-  }
-
-  @override
   String get cartOtherSeller => 'Другие товары';
 
   @override
@@ -374,6 +369,30 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get cartCheckout => 'Оформить';
+
+  @override
+  String cartCheckoutCount(int count) {
+    return 'Оформить ($count)';
+  }
+
+  @override
+  String cartQuantityBadge(int count) {
+    return '×$count';
+  }
+
+  @override
+  String cartQuantitySpoken(int count) {
+    return 'Количество: $count. Изменить';
+  }
+
+  @override
+  String get cartQuantityTitle => 'Количество';
+
+  @override
+  String get cartMoveToFavourites => 'В избранное';
+
+  @override
+  String get cartMovedToFavourites => 'Товар перенесён в избранное';
 
   @override
   String get cartNothingSelected => 'Отметьте товары для заказа';

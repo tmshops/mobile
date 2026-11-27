@@ -5,11 +5,14 @@ import '../../../../core/theme/theme.dart';
 import '../../../../core/widgets/widgets.dart';
 import '../../domain/entities/cart_quote.dart';
 
-/// Sticky bottom: «Итого … ▾» (tap → breakdown) and «Оформить», plus
-/// «Быстрый заказ» above (UI_DESIGN §7.7).
+/// Sticky bottom: round «Выбрать все» and «Быстрый заказ» above,
+/// «Итого … ▾» (tap → breakdown) and «Оформить (N)» (UI_DESIGN §7.7).
 class CartSummaryBar extends StatelessWidget {
   const CartSummaryBar({
     required this.total,
+    required this.selectedCount,
+    required this.isAllSelected,
+    required this.onSelectAll,
     required this.canCheckout,
     required this.onCheckout,
     required this.onQuickOrder,
@@ -20,6 +23,9 @@ class CartSummaryBar extends StatelessWidget {
 
   /// Server total, or the local sum of ticked lines before it arrives.
   final int total;
+  final int selectedCount;
+  final bool isAllSelected;
+  final ValueChanged<bool> onSelectAll;
   final CartSummary? summary;
   final bool isLoading;
   final bool canCheckout;
@@ -31,9 +37,16 @@ class CartSummaryBar extends StatelessWidget {
     final l10n = context.l10n;
     final breakdown = summary;
     return StickyActionBar(
-      above: TertiaryButton(
-        label: l10n.productQuickOrder,
-        onPressed: canCheckout ? onQuickOrder : null,
+      above: Row(
+        children: [
+          Expanded(
+            child: _SelectAll(isAll: isAllSelected, onChanged: onSelectAll),
+          ),
+          TertiaryButton(
+            label: l10n.productQuickOrder,
+            onPressed: canCheckout ? onQuickOrder : null,
+          ),
+        ],
       ),
       leading: Opacity(
         // A recalculation is on its way: the number is not final yet.
@@ -46,11 +59,42 @@ class CartSummaryBar extends StatelessWidget {
         ),
       ),
       primary: PrimaryButton(
-        label: l10n.cartCheckout,
+        label: selectedCount > 0
+            ? l10n.cartCheckoutCount(selectedCount)
+            : l10n.cartCheckout,
         onPressed: canCheckout ? onCheckout : null,
       ),
     );
   }
+}
+
+/// Round tick plus «Выбрать все»; the whole row is one tap target.
+class _SelectAll extends StatelessWidget {
+  const _SelectAll({required this.isAll, required this.onChanged});
+
+  final bool isAll;
+  final ValueChanged<bool> onChanged;
+
+  @override
+  Widget build(BuildContext context) => MergeSemantics(
+    child: InkWell(
+      onTap: () => onChanged(!isAll),
+      borderRadius: AppRadii.badgeBorder,
+      child: Row(
+        children: [
+          RoundCheckbox(value: isAll, onChanged: (v) => onChanged(v ?? false)),
+          Flexible(
+            child: Text(
+              context.l10n.cartSelectAll,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: context.text.body,
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
 }
 
 /// Items, China delivery, international estimate, discount, total.

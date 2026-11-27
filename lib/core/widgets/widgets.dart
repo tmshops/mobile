@@ -40,6 +40,7 @@ export 'promo/promo_banner_carousel.dart';
 export 'selection/app_chip.dart';
 export 'selection/quantity_stepper.dart';
 export 'selection/radio_mark.dart';
+export 'selection/round_checkbox.dart';
 export 'selection/segmented_control.dart';
 export 'selection/sku_selector.dart';
 export 'states/app_toast.dart';

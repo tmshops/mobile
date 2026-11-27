@@ -7,8 +7,8 @@ import '../../../../core/utils/money_format.dart';
 import '../../../../core/widgets/widgets.dart';
 import '../../domain/entities/cart_quote.dart';
 
-/// Lines of one seller in a card, with the seller's tick and China
-/// delivery (TZ §5.10).
+/// Lines of one seller in a white card on the grey cart, with the seller's
+/// round tick and China delivery (TZ §5.10).
 class SellerGroupCard extends StatelessWidget {
   const SellerGroupCard({
     required this.title,
@@ -39,78 +39,56 @@ class SellerGroupCard extends StatelessWidget {
         ? true
         : null;
     final meta = context.text.caption.copyWith(color: c.inkSecondary);
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(
-        AppSpacing.screen,
-        0,
-        AppSpacing.screen,
-        AppSpacing.x12,
-      ),
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          border: Border.all(color: c.divider),
-          borderRadius: AppRadii.cardBorder,
-        ),
-        child: ClipRRect(
-          borderRadius: AppRadii.cardBorder,
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(
-              0,
-              AppSpacing.x4,
-              AppSpacing.x12,
-              AppSpacing.x4,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
+    return ContentCard(
+      padding: const EdgeInsets.symmetric(vertical: AppSpacing.x4),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Padding(
+            padding: const EdgeInsetsDirectional.only(end: AppSpacing.x12),
+            child: Row(
               children: [
-                Row(
-                  children: [
-                    Checkbox(
-                      tristate: true,
-                      value: tick,
-                      // From «some» a tap ticks all, as users expect.
-                      onChanged: (_) => onSelectedAll(tick != true),
-                      semanticLabel: title,
-                    ),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                RoundCheckbox(
+                  isTristate: true,
+                  value: tick,
+                  // From «some» a tap ticks all, as users expect.
+                  onChanged: (_) => onSelectedAll(tick != true),
+                  semanticLabel: title,
+                ),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Wrap(
+                        spacing: AppSpacing.x8,
+                        crossAxisAlignment: WrapCrossAlignment.center,
                         children: [
-                          Wrap(
-                            spacing: AppSpacing.x8,
-                            crossAxisAlignment: WrapCrossAlignment.center,
-                            children: [
-                              Text(title, style: context.text.h3),
-                              if (s != null)
-                                SmallPill(
-                                  label: s.source,
-                                  background: c.surface,
-                                  foreground: c.ink,
-                                ),
-                            ],
-                          ),
-                          Text(switch (s) {
-                            SellerQuote(:final chinaDelivery)
-                                when chinaDelivery > 0 =>
-                              l10n.cartChinaDelivery(
-                                MoneyFormat.tmt(l10n, chinaDelivery),
-                              ),
-                            SellerQuote() => '',
-                            null => l10n.cartChinaDeliveryPending,
-                          }, style: meta),
+                          Text(title, style: context.text.h3),
+                          if (s != null)
+                            SmallPill(
+                              label: s.source,
+                              background: c.surface,
+                              foreground: c.ink,
+                            ),
                         ],
                       ),
-                    ),
-                  ],
+                      Text(switch (s) {
+                        SellerQuote(:final chinaDelivery)
+                            when chinaDelivery > 0 =>
+                          l10n.cartChinaDelivery(
+                            MoneyFormat.tmt(l10n, chinaDelivery),
+                          ),
+                        SellerQuote() => '',
+                        null => l10n.cartChinaDeliveryPending,
+                      }, style: meta),
+                    ],
+                  ),
                 ),
-                for (final (i, line) in lines.indexed) ...[
-                  if (i > 0) const Divider(indent: AppSpacing.x48),
-                  lineBuilder(line),
-                ],
               ],
             ),
           ),
-        ),
+          for (final line in lines) lineBuilder(line),
+        ],
       ),
     );
   }

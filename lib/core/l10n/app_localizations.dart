@@ -596,12 +596,6 @@ abstract class AppLocalizations {
   /// **'Выбрать все'**
   String get cartSelectAll;
 
-  /// Next to «Выбрать все»
-  ///
-  /// In ru, this message translates to:
-  /// **'Выбрано: {selected} из {total}'**
-  String cartSelectedCount(int selected, int total);
-
   /// Group for lines whose seller is unknown
   ///
   /// In ru, this message translates to:
@@ -691,6 +685,42 @@ abstract class AppLocalizations {
   /// In ru, this message translates to:
   /// **'Оформить'**
   String get cartCheckout;
+
+  /// Primary button of the cart with the number of ticked lines
+  ///
+  /// In ru, this message translates to:
+  /// **'Оформить ({count})'**
+  String cartCheckoutCount(int count);
+
+  /// Compact quantity next to a cart line title; tap opens the stepper
+  ///
+  /// In ru, this message translates to:
+  /// **'×{count}'**
+  String cartQuantityBadge(int count);
+
+  /// Screen-reader label of the quantity badge
+  ///
+  /// In ru, this message translates to:
+  /// **'Количество: {count}. Изменить'**
+  String cartQuantitySpoken(int count);
+
+  /// Title of the cart quantity sheet
+  ///
+  /// In ru, this message translates to:
+  /// **'Количество'**
+  String get cartQuantityTitle;
+
+  /// Swipe-right action on a cart line and its screen-reader action
+  ///
+  /// In ru, this message translates to:
+  /// **'В избранное'**
+  String get cartMoveToFavourites;
+
+  /// Toast after a cart line was moved to favourites, with «Отменить»
+  ///
+  /// In ru, this message translates to:
+  /// **'Товар перенесён в избранное'**
+  String get cartMovedToFavourites;
 
   /// Shown when no line is ticked
   ///

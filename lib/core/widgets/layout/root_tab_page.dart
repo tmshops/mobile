@@ -12,6 +12,7 @@ class RootTabPage extends StatefulWidget {
     this.slivers = const [],
     this.top,
     this.bottomBar,
+    this.backgroundColor,
     super.key,
   });
 
@@ -27,6 +28,9 @@ class RootTabPage extends StatefulWidget {
   /// Sticky bar under the content, e.g. the cart total and «Оформить».
   final Widget? bottomBar;
 
+  /// Screen colour; `surface` for screens made of white cards, like the cart.
+  final Color? backgroundColor;
+
   @override
   State<RootTabPage> createState() => _RootTabPageState();
 }
@@ -35,6 +39,7 @@ class _RootTabPageState extends State<RootTabPage> with TabReselectScrollMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: widget.backgroundColor,
       bottomNavigationBar: widget.bottomBar,
       body: SafeArea(
         bottom: false,

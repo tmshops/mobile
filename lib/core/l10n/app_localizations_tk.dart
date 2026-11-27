@@ -298,11 +298,6 @@ class AppLocalizationsTk extends AppLocalizations {
   String get cartSelectAll => 'Hemmesini saýla';
 
   @override
-  String cartSelectedCount(int selected, int total) {
-    return '$total-den $selected saýlandy';
-  }
-
-  @override
   String get cartOtherSeller => 'Beýleki harytlar';
 
   @override
@@ -355,6 +350,30 @@ class AppLocalizationsTk extends AppLocalizations {
 
   @override
   String get cartCheckout => 'Resmileşdir';
+
+  @override
+  String cartCheckoutCount(int count) {
+    return 'Resmileşdir ($count)';
+  }
+
+  @override
+  String cartQuantityBadge(int count) {
+    return '×$count';
+  }
+
+  @override
+  String cartQuantitySpoken(int count) {
+    return 'Mukdary: $count. Üýtget';
+  }
+
+  @override
+  String get cartQuantityTitle => 'Mukdary';
+
+  @override
+  String get cartMoveToFavourites => 'Halanlaryma';
+
+  @override
+  String get cartMovedToFavourites => 'Haryt halanlaryma geçirildi';
 
   @override
   String get cartNothingSelected => 'Sargyt üçin harytlary belläň';

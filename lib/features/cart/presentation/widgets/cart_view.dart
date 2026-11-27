@@ -3,15 +3,18 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/cart/cart_cubit.dart';
 import '../../../../core/cart/cart_item.dart';
+import '../../../../core/favourites/favourites_cubit.dart';
 import '../../../../core/l10n/l10n.dart';
 import '../../../../core/locale/locale_cubit.dart';
 import '../../../../core/network/connectivity_cubit.dart';
+import '../../../../core/product/domain/product_summary.dart';
 import '../../../../core/product/presentation/variant_sheet.dart';
 import '../../../../core/region/region_cubit.dart';
 import '../../../../core/theme/theme.dart';
 import '../../../../core/widgets/widgets.dart';
 import '../bloc/cart_quote_bloc.dart';
 import 'cart_line_row.dart';
+import 'cart_quantity_sheet.dart';
 import 'cart_summary.dart';
 import 'seller_group_card.dart';
 
@@ -145,8 +148,12 @@ class _CartScaffold extends StatelessWidget {
     return RootTabPage(
       title: l10n.tabCart,
       top: offline,
+      backgroundColor: context.colors.surface,
       bottomBar: CartSummaryBar(
         total: quote?.summary.total ?? localSum,
+        selectedCount: selected.length,
+        isAllSelected: cart.isAllSelected,
+        onSelectAll: (all) => cubit.setSelectedMany(isSelected: all),
         summary: quote?.summary,
         isLoading: quoteState.isLoading,
         canCheckout: canCheckout,
@@ -161,14 +168,6 @@ class _CartScaffold extends StatelessWidget {
         },
       ),
       slivers: [
-        SliverToBoxAdapter(
-          child: _SelectAllRow(
-            selected: selected.length,
-            total: cart.items.length,
-            isAll: cart.isAllSelected,
-            onChanged: (all) => cubit.setSelectedMany(isSelected: all),
-          ),
-        ),
         for (final MapEntry(key: seller, value: lines) in _bySeller(
           cart.items,
         ).entries)
@@ -185,43 +184,53 @@ class _CartScaffold extends StatelessWidget {
                 item: line,
                 quote: quote?.lines[line.key],
                 onSelected: (v) => cubit.setSelected(line.key, isSelected: v),
-                onQuantity: (q) => cubit.setQuantity(line.key, q),
+                onEditQuantity: (max) =>
+                    showCartQuantitySheet(context, lineKey: line.key, max: max),
                 onChangeVariant: () => _changeVariant(context, line),
                 onOpen: () => onOpenProduct(line.productId),
                 onRemove: () => _remove(context, line),
+                onMoveToFavourites: () => _moveToFavourites(
+                  context,
+                  line,
+                  price: quote?.lines[line.key]?.price ?? line.price,
+                ),
               ),
             ),
           ),
         SliverToBoxAdapter(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              PromoCodeBlock(
-                appliedCode: quote?.promo?.isApplied ?? false
-                    ? quote?.promo?.code
-                    : null,
-                error: quoteState.promoError,
-                isChecking:
-                    quoteState.isLoading && quoteState.promoCode != null,
-                onApply: (code) =>
-                    quoteBloc.add(CartQuoteEvent.promoApplied(code)),
-                onRemove: () =>
-                    quoteBloc.add(const CartQuoteEvent.promoRemoved()),
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(
-                  AppSpacing.screen,
-                  AppSpacing.x8,
-                  AppSpacing.screen,
-                  AppSpacing.x24,
+          child: ContentCard(
+            padding: const EdgeInsets.only(top: AppSpacing.x4),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                PromoCodeBlock(
+                  appliedCode: quote?.promo?.isApplied ?? false
+                      ? quote?.promo?.code
+                      : null,
+                  error: quoteState.promoError,
+                  isChecking:
+                      quoteState.isLoading && quoteState.promoCode != null,
+                  onApply: (code) =>
+                      quoteBloc.add(CartQuoteEvent.promoApplied(code)),
+                  onRemove: () =>
+                      quoteBloc.add(const CartQuoteEvent.promoRemoved()),
                 ),
-                child: _StatusNotes(
-                  hasSelection: selected.isNotEmpty,
-                  quoteState: quoteState,
-                  onRetry: () => quoteBloc.add(const CartQuoteEvent.retried()),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(
+                    AppSpacing.screen,
+                    AppSpacing.x8,
+                    AppSpacing.screen,
+                    AppSpacing.x12,
+                  ),
+                  child: _StatusNotes(
+                    hasSelection: selected.isNotEmpty,
+                    quoteState: quoteState,
+                    onRetry: () =>
+                        quoteBloc.add(const CartQuoteEvent.retried()),
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ],
@@ -250,50 +259,41 @@ class _CartScaffold extends StatelessWidget {
       onAction: () => cubit.restore(line, index),
     );
   }
-}
 
-class _SelectAllRow extends StatelessWidget {
-  const _SelectAllRow({
-    required this.selected,
-    required this.total,
-    required this.isAll,
-    required this.onChanged,
-  });
-
-  final int selected;
-  final int total;
-  final bool isAll;
-  final ValueChanged<bool> onChanged;
-
-  @override
-  Widget build(BuildContext context) {
+  /// Swipe right: the line leaves the cart and the product gets a heart.
+  /// «Отменить» puts the line back and drops the heart only if it was
+  /// added here, so an older favourite stays.
+  static Future<void> _moveToFavourites(
+    BuildContext context,
+    CartItem line, {
+    required int price,
+  }) async {
+    final cart = context.read<CartCubit>();
+    final favourites = context.read<FavouritesCubit>();
     final l10n = context.l10n;
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(
-        AppSpacing.x4,
-        0,
-        AppSpacing.screen,
-        AppSpacing.x4,
-      ),
-      child: MergeSemantics(
-        child: InkWell(
-          onTap: () => onChanged(!isAll),
-          child: Row(
-            children: [
-              Checkbox(value: isAll, onChanged: (v) => onChanged(v ?? false)),
-              Expanded(
-                child: Text(l10n.cartSelectAll, style: context.text.bodyStrong),
-              ),
-              Text(
-                l10n.cartSelectedCount(selected, total),
-                style: context.text.caption.copyWith(
-                  color: context.colors.inkSecondary,
-                ),
-              ),
-            ],
-          ),
+    final wasFavourite = favourites.state.contains(line.productId);
+    final index = await cart.remove(line.key);
+    if (index < 0) return;
+    if (!wasFavourite) {
+      await favourites.toggle(
+        ProductSummary(
+          id: line.productId,
+          title: line.title,
+          imageUrl: line.imageUrl,
+          price: price,
         ),
-      ),
+      );
+    }
+    if (!context.mounted) return;
+    showAppToast(
+      context,
+      message: l10n.cartMovedToFavourites,
+      icon: AppIcons.heart,
+      actionLabel: l10n.actionUndo,
+      onAction: () async {
+        await cart.restore(line, index);
+        if (!wasFavourite) await favourites.removeMany({line.productId});
+      },
     );
   }
 }

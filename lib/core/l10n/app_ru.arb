@@ -242,11 +242,6 @@
 
   "cartSelectAll": "Выбрать все",
   "@cartSelectAll": { "description": "Tick that selects every cart line" },
-  "cartSelectedCount": "Выбрано: {selected} из {total}",
-  "@cartSelectedCount": {
-    "description": "Next to «Выбрать все»",
-    "placeholders": { "selected": { "type": "int" }, "total": { "type": "int" } }
-  },
   "cartOtherSeller": "Другие товары",
   "@cartOtherSeller": { "description": "Group for lines whose seller is unknown" },
   "cartChinaDelivery": "Доставка по Китаю: {amount}",
@@ -292,6 +287,27 @@
   },
   "cartCheckout": "Оформить",
   "@cartCheckout": { "description": "Primary button of the cart" },
+  "cartCheckoutCount": "Оформить ({count})",
+  "@cartCheckoutCount": {
+    "description": "Primary button of the cart with the number of ticked lines",
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "cartQuantityBadge": "×{count}",
+  "@cartQuantityBadge": {
+    "description": "Compact quantity next to a cart line title; tap opens the stepper",
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "cartQuantitySpoken": "Количество: {count}. Изменить",
+  "@cartQuantitySpoken": {
+    "description": "Screen-reader label of the quantity badge",
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "cartQuantityTitle": "Количество",
+  "@cartQuantityTitle": { "description": "Title of the cart quantity sheet" },
+  "cartMoveToFavourites": "В избранное",
+  "@cartMoveToFavourites": { "description": "Swipe-right action on a cart line and its screen-reader action" },
+  "cartMovedToFavourites": "Товар перенесён в избранное",
+  "@cartMovedToFavourites": { "description": "Toast after a cart line was moved to favourites, with «Отменить»" },
   "cartNothingSelected": "Отметьте товары для заказа",
   "@cartNothingSelected": { "description": "Shown when no line is ticked" },
   "cartEmptyTitle": "В корзине пока пусто",

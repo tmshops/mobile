@@ -114,6 +114,7 @@ Build each with all variants and states (default, pressed, disabled, loading, er
 - **ProductCarousel:** section header ("Хиты" + «Все →») plus horizontal list of compact tiles, peeking the next item.
 - **SkuSelector:** colour swatches with thumbnails, size chips, unavailable options greyed and struck; plus a «Размерная сетка» link.
 - **QuantityStepper:** − value +, min/max aware, long-press to repeat.
+- **RoundCheckbox:** circular tick (optionally tristate) for selecting list rows such as cart lines and sellers; form consents keep the square checkbox.
 - **Chips:** filter chip, selected chip (`primarySoft` + orange border), removable active-filter chip.
 - **Inputs:** `AppTextField`, `PhoneField` (fixed `+993` prefix, mask `XX XXXXXX`), `OtpField` (4–6 boxes, auto-advance, paste support, SMS autofill), `SearchBar` (with camera icon for photo search).
 - **StatusChip** and **StatusTimeline** (vertical: icon dot + title + date; done = success, current = orange halo + bold, upcoming = grey).
@@ -180,10 +181,16 @@ Sections, in a vertical scroll with 24-dp gaps:
 - Link import loading: a friendly progress screen (animated illustration, steps «Открываем страницу → Переводим → Считаем цену», up to 60 s, «Отмена»).
 
 ### 7.7 Cart
-- Grouped by seller: each group a card with seller name and «Доставка по Китаю: 24 TMT»; item rows with checkbox, image, title, SKU summary chip (tap → change), `QuantityStepper`, price; swipe left to delete or move to favourites.
+- Screen background `surface`; content sits in white cards (radius 16, no border), 12 dp apart.
+- Grouped by seller: each group a white card. Header: tristate `RoundCheckbox` (tap from «some» ticks all) + seller name (h3) + source pill, and «Доставка по Китаю: 24 TMT» caption below.
+- Item rows (no dividers): `RoundCheckbox` · image 96 px (radius 12) · details column:
+  - title (`bodyStrong`, max 2 lines) with a compact outlined **«×N»** badge on the right; tap → «Количество» bottom sheet with a `QuantityStepper` (each step applies at once; max = stock). No badge on unavailable lines.
+  - SKU summary as one grey caption line with a `›` chevron (tap → change variant).
+  - warnings, then the **unit** price in `price` style, `primary` colour (`inkTertiary` when unavailable).
+  - swipe left (red, bin) to delete; swipe right (orange, heart) to move to favourites: the line leaves the cart and the product gets a heart. Both show a toast with «Отменить», which restores the line and drops the heart only if this swipe added it. Both are also screen-reader custom actions.
 - Price-changed warning inline on the row (warning colour, old → new).
-- Promo code field (collapsible row). `ProgressToMinimum` when below the minimum.
-- Sticky bottom: «Итого 1 216 TMT» (tap → expands `MoneyBreakdown` sheet) + «Оформить» primary. «Быстрый заказ» secondary link.
+- Promo code field (collapsible row) and `ProgressToMinimum` (when below the minimum) share one white card at the end of the list.
+- Sticky bottom: top row = `RoundCheckbox` «Выбрать все» (whole row tappable) left + «Быстрый заказ» text button right; main row = «Итого 1 216 TMT» (tap → expands `MoneyBreakdown` sheet) + «Оформить (N)» primary, where N is the number of ticked lines («Оформить» when none).
 - Empty cart: friendly illustration + «В каталог».
 
 ### 7.8 Checkout (one screen)

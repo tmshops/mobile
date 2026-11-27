@@ -16,8 +16,12 @@ class OrderPage extends StatelessWidget {
     required this.onPay,
     required this.onOpenCart,
     required this.onWriteReview,
+    required this.onAskSupport,
     super.key,
   });
+
+  /// «Написать в поддержку по заказу»: the chat with this order attached.
+  final VoidCallback onAskSupport;
 
   final String number;
   final ValueChanged<String> onOpenParcel;
@@ -42,6 +46,7 @@ class OrderPage extends StatelessWidget {
       onPay: onPay,
       onOpenCart: onOpenCart,
       onWriteReview: onWriteReview,
+      onAskSupport: onAskSupport,
     ),
   );
 }

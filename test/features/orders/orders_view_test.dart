@@ -155,11 +155,13 @@ void main() {
     late _MockOrderCubit cubit;
     late List<OrderDetails> paid;
     late List<String> reviewed;
+    late int askedSupport;
 
     setUp(() {
       cubit = _MockOrderCubit();
       paid = [];
       reviewed = [];
+      askedSupport = 0;
       when(() => cubit.refresh()).thenAnswer((_) async {});
       when(() => cubit.cancel(any())).thenAnswer((_) async {});
       when(
@@ -192,6 +194,7 @@ void main() {
           onPay: paid.add,
           onOpenCart: () {},
           onWriteReview: (id) async => reviewed.add(id),
+          onAskSupport: () => askedSupport++,
         ),
         providers: [BlocProvider<OrderCubit>.value(value: cubit)],
         locale: locale,
@@ -222,6 +225,20 @@ void main() {
       await tester.pump();
       expect(reviewed, [item.id]);
       verify(() => cubit.refresh()).called(1);
+    });
+
+    testWidgets('«Написать в поддержку по заказу» opens the chat', (
+      tester,
+    ) async {
+      await pump(tester, sampleOrder('ru', '10228'));
+      final button = find.text(ru.orderAskSupport);
+      await tester.scrollUntilVisible(
+        button,
+        200,
+        scrollable: find.byType(Scrollable).first,
+      );
+      await tester.tap(button);
+      expect(askedSupport, 1);
     });
 
     testWidgets('cancel asks for a reason, then cancels', (tester) async {

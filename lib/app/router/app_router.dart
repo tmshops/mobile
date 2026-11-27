@@ -455,9 +455,10 @@ GoRouter createAppRouter({
       ),
       GoRoute(
         path: AppRoutes.support,
-        builder: (context, _) {
+        builder: (context, state) {
           final contacts = context.read<AppConfigCubit>().state.config?.support;
           return SupportChatPage(
+            aboutOrder: state.uri.queryParameters[AppRoutes.aboutOrderParam],
             contacts: SupportChannels(
               phone: contacts?.phone,
               telegram: contacts?.telegram,
@@ -676,6 +677,7 @@ final _profileRoutes = <RouteBase>[
             onOpenCart: () => context.go(AppRoutes.cart),
             onWriteReview: (itemId) =>
                 context.push<void>(AppRoutes.writeReviewFor(number, itemId)),
+            onAskSupport: () => context.push(AppRoutes.supportAbout(number)),
             // No payment id yet: the payment page starts a new one.
             onPay: (order) => context.push(
               AppRoutes.payment(order.number),

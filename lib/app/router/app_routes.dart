@@ -238,6 +238,12 @@ abstract final class AppRoutes {
 
   /// Support chat (TZ §5.17).
   static const support = '/support';
+  static const aboutOrderParam = 'order';
+
+  /// The chat with order [number] attached (TZ §5.15: «Написать в
+  /// поддержку по заказу»).
+  static String supportAbout(String number) =>
+      Uri(path: support, queryParameters: {aboutOrderParam: number}).toString();
 
   /// «Найдите мне товар»; relative to [support].
   static const findRequestPath = 'find';

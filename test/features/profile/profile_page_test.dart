@@ -157,6 +157,14 @@ void main() {
     verify(() => cubits.locale.select(AppLocales.tk)).called(1);
   });
 
+  testWidgets('guest: «Поддержка» opens the chat (via login)', (tester) async {
+    await pump(tester, const AuthState.guest());
+    final row = find.text(ru.profileSupport);
+    await tester.ensureVisible(row);
+    await tester.tap(row);
+    expect(taps, ['support']);
+  });
+
   testWidgets('customer: header, debt, wholesale badge, orders', (
     tester,
   ) async {

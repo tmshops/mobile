@@ -217,7 +217,7 @@ Full-screen OSM map, a fixed centre pin that lifts while dragging, a "my locatio
 - **«Мои заказы» card** (signed-in, right under the header; a `surface` group like the menu): title + «Все» (→ Orders list), then 5 equal filter buttons — icon with a red `CountBadge` + caption label (wraps, never truncated): **Ждут оплаты** (order awaiting payment or parcel awaiting surcharge), **Выкупаем** (paid / purchased / to warehouse / in warehouse items), **В пути** (parcels in transit → with courier), **Ждут отзыва** (received items without a review), **Проблемы** (items in «Проблема»). Counters come from the server; before the answer the filters work without them.
 - Under the filters, a white **tracking line**: photo 48 px, status (bold) + time (today) or date, one line of tracking text, outlined «Смотреть» pill; the whole row opens the parcel or order. With several updates it turns to the next one every 3 s (slide-up + fade; no motion when reduced; stays still for screen-reader users). Counters reload when the user comes back from any screen opened here.
 - Grouped menu lists (rounded white groups on `surface`): Orders, Parcels, Surcharges and refunds, Balance, Addresses / Favourites, Viewed, My reviews, Price alerts / Notifications, Support, Wholesale / Info, Settings.
-- Guest: an illustrated sign-in card on top «Войдите, чтобы видеть заказы» + primary «Войти».
+- Guest: an illustrated sign-in card on top «Войдите, чтобы видеть заказы» + primary «Войти». Below it: language, region, «Поддержка» (opens the chat after sign-in), information.
 - Bottom (everyone): endless **«Вам может понравиться»** 2-column product grid, the same recommendations feed as «Для вас» on Home.
 
 ### 7.12 Orders and parcels (make tracking delightful)

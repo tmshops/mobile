@@ -1880,6 +1880,12 @@ abstract class AppLocalizations {
   /// **'История'**
   String get orderHistory;
 
+  /// Order details button: opens the support chat with this order attached
+  ///
+  /// In ru, this message translates to:
+  /// **'Написать в поддержку по заказу'**
+  String get orderAskSupport;
+
   /// Cancel order button
   ///
   /// In ru, this message translates to:

@@ -855,6 +855,8 @@
   "@orderDue": { "description": "Still to pay for an order" },
   "orderHistory": "История",
   "@orderHistory": { "description": "Status history card title" },
+  "orderAskSupport": "Написать в поддержку по заказу",
+  "@orderAskSupport": { "description": "Order details button: opens the support chat with this order attached" },
   "orderCancel": "Отменить заказ",
   "@orderCancel": { "description": "Cancel order button" },
   "orderCancelTitle": "Отмена заказа",

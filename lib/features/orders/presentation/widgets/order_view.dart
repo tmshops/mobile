@@ -23,10 +23,12 @@ class OrderView extends StatelessWidget {
     required this.onPay,
     required this.onOpenCart,
     required this.onWriteReview,
+    required this.onAskSupport,
     super.key,
   });
 
   final String number;
+  final VoidCallback onAskSupport;
   final ValueChanged<String> onOpenParcel;
   final ValueChanged<String> onOpenProduct;
   final ValueChanged<OrderDetails> onPay;
@@ -88,6 +90,7 @@ class OrderView extends StatelessWidget {
                 order: order,
                 onOpenParcel: onOpenParcel,
                 onOpenProduct: onOpenProduct,
+                onAskSupport: onAskSupport,
                 onWriteReview: (itemId) async {
                   await onWriteReview(itemId);
                   await cubit.refresh();
@@ -124,6 +127,7 @@ class _OrderContent extends StatelessWidget {
     required this.onOpenParcel,
     required this.onOpenProduct,
     required this.onWriteReview,
+    required this.onAskSupport,
   });
 
   final OrderState state;
@@ -131,6 +135,7 @@ class _OrderContent extends StatelessWidget {
   final ValueChanged<String> onOpenParcel;
   final ValueChanged<String> onOpenProduct;
   final ValueChanged<String> onWriteReview;
+  final VoidCallback onAskSupport;
 
   @override
   Widget build(BuildContext context) {
@@ -174,6 +179,14 @@ class _OrderContent extends StatelessWidget {
               onPressed: state.canChange ? cubit.repeat : null,
             ),
           ),
+        Padding(
+          padding: AppSpacing.screenPadding,
+          child: SecondaryButton(
+            label: l10n.orderAskSupport,
+            icon: AppIcons.chat,
+            onPressed: onAskSupport,
+          ),
+        ),
         OrderCancelFooter(
           order: order,
           isBusy: state.busy == OrderAction.cancel,

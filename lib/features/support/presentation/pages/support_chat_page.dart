@@ -16,8 +16,12 @@ class SupportChatPage extends StatelessWidget {
     required this.onOpenProduct,
     required this.onOpenOrder,
     required this.onFindForMe,
+    this.aboutOrder,
     super.key,
   });
+
+  /// Opened from an order: it is attached to the conversation.
+  final String? aboutOrder;
 
   /// Phone, Telegram and WhatsApp from the config, for «Другие способы».
   final SupportChannels contacts;
@@ -31,9 +35,11 @@ class SupportChatPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) =>
-          getIt<SupportChatCubit>()
-            ..load(context.read<LocaleCubit>().state.languageCode),
+      create: (context) => getIt<SupportChatCubit>()
+        ..load(
+          context.read<LocaleCubit>().state.languageCode,
+          aboutOrder: aboutOrder,
+        ),
       child: SupportChatView(
         contacts: contacts,
         onOpenProduct: onOpenProduct,

@@ -1117,6 +1117,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get orderHistory => 'История';
 
   @override
+  String get orderAskSupport => 'Написать в поддержку по заказу';
+
+  @override
   String get orderCancel => 'Отменить заказ';
 
   @override

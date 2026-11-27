@@ -50,14 +50,18 @@ class SupportChatCubit extends Cubit<SupportChatState> {
   final Duration _pollInterval;
 
   String _languageCode = '';
+  String? _aboutOrder;
   Timer? _poll;
   var _localId = 0;
 
   /// Unsent drafts by local message id, for «Повторить».
   final _drafts = <String, ChatDraft>{};
 
-  Future<void> load(String languageCode) async {
+  /// With [aboutOrder], that order is attached once the history is in,
+  /// unless the customer's last message already points at it.
+  Future<void> load(String languageCode, {String? aboutOrder}) async {
     _languageCode = languageCode;
+    _aboutOrder = aboutOrder ?? _aboutOrder;
     emit(state.copyWith(isLoading: true, failure: null));
     final result = await _repository.history(languageCode);
     if (isClosed) return;
@@ -74,6 +78,17 @@ class SupportChatCubit extends Cubit<SupportChatState> {
     _poll?.cancel();
     _poll = Timer.periodic(_pollInterval, (_) => refresh());
     unawaited(_loadAttachments());
+    await _attachOrder();
+  }
+
+  Future<void> _attachOrder() async {
+    final number = _aboutOrder;
+    // After a failed first page «Повторить» calls load again and attaches.
+    if (number == null || state.failure != null) return;
+    _aboutOrder = null;
+    final lastMine = state.messages.where((m) => m.isMine).firstOrNull;
+    if (lastMine?.content == ChatContent.order(number)) return;
+    await send(ChatDraft(orderNumber: number));
   }
 
   Future<void> _loadAttachments() async {

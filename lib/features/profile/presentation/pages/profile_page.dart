@@ -124,7 +124,10 @@ class _ProfilePageState extends State<ProfilePage> {
                     AuthGuest() => SliverList.list(
                       children: [
                         GuestSignInCard(onLogin: widget.onLogin),
-                        GuestMenu(onOpenInfo: widget.onOpenInfo),
+                        GuestMenu(
+                          onOpenInfo: widget.onOpenInfo,
+                          onOpenSupport: widget.onOpenSupport,
+                        ),
                       ],
                     ),
                     AuthSignedIn(:final profile) => SliverList.list(

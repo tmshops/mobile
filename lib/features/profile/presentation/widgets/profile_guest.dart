@@ -53,17 +53,29 @@ class GuestSignInCard extends StatelessWidget {
   }
 }
 
-/// A guest sees language, region and information (TZ §5.14).
+/// A guest sees language, region, support and information (TZ §5.14).
+/// The chat needs a sign-in, so «Поддержка» leads through the login and
+/// back to the chat.
 class GuestMenu extends StatelessWidget {
-  const GuestMenu({required this.onOpenInfo, super.key});
+  const GuestMenu({
+    required this.onOpenInfo,
+    required this.onOpenSupport,
+    super.key,
+  });
 
   final VoidCallback onOpenInfo;
+  final VoidCallback onOpenSupport;
 
   @override
   Widget build(BuildContext context) => MenuGroup(
     children: [
       const LanguageMenuRow(),
       const RegionMenuRow(),
+      MenuRow(
+        icon: AppIcons.support,
+        title: context.l10n.profileSupport,
+        onTap: onOpenSupport,
+      ),
       MenuRow(
         icon: AppIcons.info,
         title: context.l10n.profileInfo,

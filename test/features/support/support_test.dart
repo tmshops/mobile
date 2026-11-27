@@ -73,6 +73,44 @@ void main() {
       },
     );
 
+    ChatMessage orderChip(String id, String number) => ChatMessage(
+      id: id,
+      isMine: true,
+      sentAt: at,
+      content: ChatContent.order(number),
+    );
+
+    blocTest<SupportChatCubit, SupportChatState>(
+      'opened from an order: attaches it once the history is in',
+      build: build,
+      setUp: () => when(
+        () => repository.send(any(), any()),
+      ).thenAnswer((_) async => right(orderChip('m2', '10228'))),
+      act: (cubit) => cubit.load('ru', aboutOrder: '10228'),
+      verify: (cubit) {
+        verify(
+          () => repository.send('ru', const ChatDraft(orderNumber: '10228')),
+        ).called(1);
+        expect(cubit.state.messages.first.id, 'm2');
+      },
+    );
+
+    blocTest<SupportChatCubit, SupportChatState>(
+      'opened from an order already attached last: nothing is resent',
+      build: build,
+      setUp: () =>
+          when(
+            () => repository.history(
+              any(),
+              olderCursor: any(named: 'olderCursor'),
+            ),
+          ).thenAnswer(
+            (_) async => right(ChatPage(messages: [orderChip('m1', '10228')])),
+          ),
+      act: (cubit) => cubit.load('ru', aboutOrder: '10228'),
+      verify: (_) => verifyNever(() => repository.send(any(), any())),
+    );
+
     blocTest<SupportChatCubit, SupportChatState>(
       'a failed message can be sent again',
       build: build,

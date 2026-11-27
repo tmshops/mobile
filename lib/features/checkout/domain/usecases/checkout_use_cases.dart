@@ -16,6 +16,16 @@ class LoadSavedRecipientUseCase {
 }
 
 @lazySingleton
+class GetSavedAddressesUseCase {
+  const GetSavedAddressesUseCase(this._repository);
+
+  final CheckoutRepository _repository;
+
+  Future<Either<Failure, List<SavedAddress>>> call(String languageCode) =>
+      _repository.savedAddresses(languageCode);
+}
+
+@lazySingleton
 class GetCheckoutPreviewUseCase {
   const GetCheckoutPreviewUseCase(this._repository);
 

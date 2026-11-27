@@ -124,6 +124,8 @@ abstract final class CheckoutRequest {
     },
     if (draft.method == ReceivingMethod.courier)
       'address': {
+        // The server uses the saved address (and its point) when given.
+        'id': ?draft.address.savedId,
         'street': draft.address.street.trim(),
         'details': draft.address.details.trim(),
       },

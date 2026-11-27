@@ -1765,5 +1765,10 @@
   "videoPaused": "Пауза",
   "@videoPaused": {"description":"Video feed: shown while the video is held"},
   "videoEmpty": "Видео пока нет",
-  "@videoEmpty": {"description":"Video feed: no clips"}
+  "@videoEmpty": {"description":"Video feed: no clips"},
+
+  "checkoutOtherAddress": "Другой адрес",
+  "@checkoutOtherAddress": {"description":"Checkout: type an address instead of a saved one"},
+  "checkoutAddressOnMap": "Указать на карте",
+  "@checkoutAddressOnMap": {"description":"Checkout: no saved addresses yet, add one on the map"}
 }

@@ -29,6 +29,29 @@ class CheckoutRepositoryImpl implements CheckoutRepository {
   }
 
   @override
+  Future<Either<Failure, List<SavedAddress>>> savedAddresses(
+    String languageCode,
+  ) => _guard(() async {
+    final json = await _remote.savedAddresses(languageCode);
+    try {
+      return [
+        for (final a
+            in (json['addresses'] as List<dynamic>)
+                .cast<Map<String, dynamic>>())
+          SavedAddress(
+            id: a['id'] as String,
+            street: a['address'] as String,
+            details: a['details'] as String? ?? '',
+            region: a['region'] as String? ?? '',
+            isDefault: a['is_default'] as bool? ?? false,
+          ),
+      ];
+    } on Object catch (e) {
+      throw ServerException(cause: e);
+    }
+  });
+
+  @override
   Future<Either<Failure, CheckoutPreview>> preview({
     required String languageCode,
     required String regionId,

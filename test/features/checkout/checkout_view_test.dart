@@ -49,7 +49,7 @@ void main() {
       when(() => bloc.state).thenReturn(state);
       return pumpView(
         tester,
-        CheckoutView(onReadOffer: () {}),
+        CheckoutView(onReadOffer: () {}, onAddAddress: () async => null),
         providers: [BlocProvider<CheckoutBloc>.value(value: bloc)],
         locale: locale,
         textScale: textScale,
@@ -59,6 +59,45 @@ void main() {
 
     PrimaryButton payButton(WidgetTester tester) =>
         tester.widget<PrimaryButton>(find.byType(PrimaryButton));
+
+    testWidgets('saved addresses are offered, with «Другой адрес»', (
+      tester,
+    ) async {
+      const home = SavedAddress(
+        id: 'a1',
+        street: 'ул. Андалиба, 12',
+        details: 'кв. 14',
+        isDefault: true,
+      );
+      const office = SavedAddress(id: 'a2', street: 'ул. Азади, 5');
+      await pump(
+        tester,
+        ready.copyWith(
+          draft: ready.draft.copyWith(
+            method: ReceivingMethod.courier,
+            address: home.asCourier,
+          ),
+          savedAddresses: const [home, office],
+        ),
+      );
+      expect(find.text('ул. Андалиба, 12'), findsOneWidget);
+      expect(find.text(ru.addressesDefault), findsOneWidget);
+      expect(find.text(ru.checkoutOtherAddress), findsOneWidget);
+      expect(find.text(ru.checkoutStreet), findsNothing);
+      expect(find.text(ru.addressesAdd), findsOneWidget);
+
+      await tester.tap(find.text('ул. Азади, 5'));
+      verify(
+        () => bloc.add(
+          CheckoutEvent.draftChanged(
+            ready.draft.copyWith(
+              method: ReceivingMethod.courier,
+              address: office.asCourier,
+            ),
+          ),
+        ),
+      ).called(1);
+    });
 
     testWidgets('before the first preview: skeleton, pay disabled', (
       tester,
@@ -161,7 +200,7 @@ void main() {
       );
       await pumpView(
         tester,
-        CheckoutView(onReadOffer: () {}),
+        CheckoutView(onReadOffer: () {}, onAddAddress: () async => null),
         providers: [BlocProvider<CheckoutBloc>.value(value: bloc)],
       );
       await tester.pump();

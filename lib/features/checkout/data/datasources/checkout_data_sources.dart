@@ -4,6 +4,7 @@ import 'package:hive_ce/hive_ce.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../../core/database/hive_registry.dart';
+import '../../../../core/dev/fake_backend/fake_address_backend.dart';
 import '../../../../core/dev/fake_backend/fake_checkout_backend.dart';
 import '../../../../core/dev/fake_backend/fake_orders_backend.dart';
 import '../../../../core/error/exceptions.dart';
@@ -27,6 +28,10 @@ abstract interface class CheckoutRemoteDataSource {
   /// New payment id for [orderNumber].
   Future<String> restartPayment(String orderNumber);
 
+  /// The account's addresses, the same list as «Адреса»:
+  /// `{addresses: [{id, address, details, region, is_default}]}`.
+  Future<Map<String, dynamic>> savedAddresses(String languageCode);
+
   Future<PaymentStatusModel> paymentStatus(
     String languageCode,
     String paymentId,
@@ -36,11 +41,21 @@ abstract interface class CheckoutRemoteDataSource {
 /// Dev stand-in until the backend exists; keeps orders for the session.
 @LazySingleton(as: CheckoutRemoteDataSource, env: [Environment.dev])
 class FakeCheckoutRemoteDataSource implements CheckoutRemoteDataSource {
-  FakeCheckoutRemoteDataSource(this._networkInfo, FakeOrdersBackend orders)
-    : _backend = FakeCheckoutBackend(orders: orders);
+  FakeCheckoutRemoteDataSource(
+    this._networkInfo,
+    FakeOrdersBackend orders,
+    this._addresses,
+  ) : _backend = FakeCheckoutBackend(orders: orders);
 
   final NetworkInfo _networkInfo;
   final FakeCheckoutBackend _backend;
+  final FakeAddressBackend _addresses;
+
+  @override
+  Future<Map<String, dynamic>> savedAddresses(String languageCode) async {
+    await _request(_statusLatency);
+    return _addresses.list(languageCode);
+  }
 
   static const _latency = Duration(milliseconds: 500);
   static const _orderLatency = Duration(milliseconds: 900);
@@ -123,6 +138,7 @@ class CheckoutLocalDataSource {
           phone: r['phone'] as String? ?? '',
         ),
         CourierAddress(
+          savedId: a['saved_id'] as String?,
           street: a['street'] as String? ?? '',
           details: a['details'] as String? ?? '',
         ),
@@ -142,6 +158,7 @@ class CheckoutLocalDataSource {
           'phone': recipient.phone,
         }),
         SettingsKeys.checkoutAddress: jsonEncode({
+          'saved_id': ?address.savedId,
           'street': address.street.trim(),
           'details': address.details.trim(),
         }),

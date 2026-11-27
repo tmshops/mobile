@@ -55,7 +55,7 @@ extension CheckoutEventPatterns on CheckoutEvent {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( CheckoutStarted value)?  started,TResult Function( CheckoutDraftChanged value)?  draftChanged,TResult Function( CheckoutRegionChanged value)?  regionChanged,TResult Function( CheckoutPreviewRetried value)?  previewRetried,TResult Function( CheckoutSubmitted value)?  submitted,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( CheckoutStarted value)?  started,TResult Function( CheckoutDraftChanged value)?  draftChanged,TResult Function( CheckoutRegionChanged value)?  regionChanged,TResult Function( CheckoutPreviewRetried value)?  previewRetried,TResult Function( CheckoutSubmitted value)?  submitted,TResult Function( CheckoutAddressesRequested value)?  addressesRequested,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case CheckoutStarted() when started != null:
@@ -63,7 +63,8 @@ return started(_that);case CheckoutDraftChanged() when draftChanged != null:
 return draftChanged(_that);case CheckoutRegionChanged() when regionChanged != null:
 return regionChanged(_that);case CheckoutPreviewRetried() when previewRetried != null:
 return previewRetried(_that);case CheckoutSubmitted() when submitted != null:
-return submitted(_that);case _:
+return submitted(_that);case CheckoutAddressesRequested() when addressesRequested != null:
+return addressesRequested(_that);case _:
   return orElse();
 
 }
@@ -81,7 +82,7 @@ return submitted(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( CheckoutStarted value)  started,required TResult Function( CheckoutDraftChanged value)  draftChanged,required TResult Function( CheckoutRegionChanged value)  regionChanged,required TResult Function( CheckoutPreviewRetried value)  previewRetried,required TResult Function( CheckoutSubmitted value)  submitted,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( CheckoutStarted value)  started,required TResult Function( CheckoutDraftChanged value)  draftChanged,required TResult Function( CheckoutRegionChanged value)  regionChanged,required TResult Function( CheckoutPreviewRetried value)  previewRetried,required TResult Function( CheckoutSubmitted value)  submitted,required TResult Function( CheckoutAddressesRequested value)  addressesRequested,}){
 final _that = this;
 switch (_that) {
 case CheckoutStarted():
@@ -89,7 +90,8 @@ return started(_that);case CheckoutDraftChanged():
 return draftChanged(_that);case CheckoutRegionChanged():
 return regionChanged(_that);case CheckoutPreviewRetried():
 return previewRetried(_that);case CheckoutSubmitted():
-return submitted(_that);}
+return submitted(_that);case CheckoutAddressesRequested():
+return addressesRequested(_that);}
 }
 /// A variant of `map` that fallback to returning `null`.
 ///
@@ -103,7 +105,7 @@ return submitted(_that);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( CheckoutStarted value)?  started,TResult? Function( CheckoutDraftChanged value)?  draftChanged,TResult? Function( CheckoutRegionChanged value)?  regionChanged,TResult? Function( CheckoutPreviewRetried value)?  previewRetried,TResult? Function( CheckoutSubmitted value)?  submitted,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( CheckoutStarted value)?  started,TResult? Function( CheckoutDraftChanged value)?  draftChanged,TResult? Function( CheckoutRegionChanged value)?  regionChanged,TResult? Function( CheckoutPreviewRetried value)?  previewRetried,TResult? Function( CheckoutSubmitted value)?  submitted,TResult? Function( CheckoutAddressesRequested value)?  addressesRequested,}){
 final _that = this;
 switch (_that) {
 case CheckoutStarted() when started != null:
@@ -111,7 +113,8 @@ return started(_that);case CheckoutDraftChanged() when draftChanged != null:
 return draftChanged(_that);case CheckoutRegionChanged() when regionChanged != null:
 return regionChanged(_that);case CheckoutPreviewRetried() when previewRetried != null:
 return previewRetried(_that);case CheckoutSubmitted() when submitted != null:
-return submitted(_that);case _:
+return submitted(_that);case CheckoutAddressesRequested() when addressesRequested != null:
+return addressesRequested(_that);case _:
   return null;
 
 }
@@ -128,14 +131,15 @@ return submitted(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( String languageCode,  String regionId,  List<CartItem> lines,  String? promoCode,  Recipient? profileRecipient)?  started,TResult Function( CheckoutDraft draft)?  draftChanged,TResult Function( String regionId)?  regionChanged,TResult Function()?  previewRetried,TResult Function()?  submitted,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( String languageCode,  String regionId,  List<CartItem> lines,  String? promoCode,  Recipient? profileRecipient)?  started,TResult Function( CheckoutDraft draft)?  draftChanged,TResult Function( String regionId)?  regionChanged,TResult Function()?  previewRetried,TResult Function()?  submitted,TResult Function( String? selectId)?  addressesRequested,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case CheckoutStarted() when started != null:
 return started(_that.languageCode,_that.regionId,_that.lines,_that.promoCode,_that.profileRecipient);case CheckoutDraftChanged() when draftChanged != null:
 return draftChanged(_that.draft);case CheckoutRegionChanged() when regionChanged != null:
 return regionChanged(_that.regionId);case CheckoutPreviewRetried() when previewRetried != null:
 return previewRetried();case CheckoutSubmitted() when submitted != null:
-return submitted();case _:
+return submitted();case CheckoutAddressesRequested() when addressesRequested != null:
+return addressesRequested(_that.selectId);case _:
   return orElse();
 
 }
@@ -153,14 +157,15 @@ return submitted();case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( String languageCode,  String regionId,  List<CartItem> lines,  String? promoCode,  Recipient? profileRecipient)  started,required TResult Function( CheckoutDraft draft)  draftChanged,required TResult Function( String regionId)  regionChanged,required TResult Function()  previewRetried,required TResult Function()  submitted,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( String languageCode,  String regionId,  List<CartItem> lines,  String? promoCode,  Recipient? profileRecipient)  started,required TResult Function( CheckoutDraft draft)  draftChanged,required TResult Function( String regionId)  regionChanged,required TResult Function()  previewRetried,required TResult Function()  submitted,required TResult Function( String? selectId)  addressesRequested,}) {final _that = this;
 switch (_that) {
 case CheckoutStarted():
 return started(_that.languageCode,_that.regionId,_that.lines,_that.promoCode,_that.profileRecipient);case CheckoutDraftChanged():
 return draftChanged(_that.draft);case CheckoutRegionChanged():
 return regionChanged(_that.regionId);case CheckoutPreviewRetried():
 return previewRetried();case CheckoutSubmitted():
-return submitted();}
+return submitted();case CheckoutAddressesRequested():
+return addressesRequested(_that.selectId);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -174,14 +179,15 @@ return submitted();}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( String languageCode,  String regionId,  List<CartItem> lines,  String? promoCode,  Recipient? profileRecipient)?  started,TResult? Function( CheckoutDraft draft)?  draftChanged,TResult? Function( String regionId)?  regionChanged,TResult? Function()?  previewRetried,TResult? Function()?  submitted,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( String languageCode,  String regionId,  List<CartItem> lines,  String? promoCode,  Recipient? profileRecipient)?  started,TResult? Function( CheckoutDraft draft)?  draftChanged,TResult? Function( String regionId)?  regionChanged,TResult? Function()?  previewRetried,TResult? Function()?  submitted,TResult? Function( String? selectId)?  addressesRequested,}) {final _that = this;
 switch (_that) {
 case CheckoutStarted() when started != null:
 return started(_that.languageCode,_that.regionId,_that.lines,_that.promoCode,_that.profileRecipient);case CheckoutDraftChanged() when draftChanged != null:
 return draftChanged(_that.draft);case CheckoutRegionChanged() when regionChanged != null:
 return regionChanged(_that.regionId);case CheckoutPreviewRetried() when previewRetried != null:
 return previewRetried();case CheckoutSubmitted() when submitted != null:
-return submitted();case _:
+return submitted();case CheckoutAddressesRequested() when addressesRequested != null:
+return addressesRequested(_that.selectId);case _:
   return null;
 
 }
@@ -488,10 +494,77 @@ String toString() {
 
 
 /// @nodoc
+
+
+class CheckoutAddressesRequested implements CheckoutEvent {
+  const CheckoutAddressesRequested({this.selectId});
+  
+
+ final  String? selectId;
+
+/// Create a copy of CheckoutEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$CheckoutAddressesRequestedCopyWith<CheckoutAddressesRequested> get copyWith => _$CheckoutAddressesRequestedCopyWithImpl<CheckoutAddressesRequested>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CheckoutAddressesRequested&&(identical(other.selectId, selectId) || other.selectId == selectId));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,selectId);
+
+@override
+String toString() {
+  return 'CheckoutEvent.addressesRequested(selectId: $selectId)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $CheckoutAddressesRequestedCopyWith<$Res> implements $CheckoutEventCopyWith<$Res> {
+  factory $CheckoutAddressesRequestedCopyWith(CheckoutAddressesRequested value, $Res Function(CheckoutAddressesRequested) _then) = _$CheckoutAddressesRequestedCopyWithImpl;
+@useResult
+$Res call({
+ String? selectId
+});
+
+
+
+
+}
+/// @nodoc
+class _$CheckoutAddressesRequestedCopyWithImpl<$Res>
+    implements $CheckoutAddressesRequestedCopyWith<$Res> {
+  _$CheckoutAddressesRequestedCopyWithImpl(this._self, this._then);
+
+  final CheckoutAddressesRequested _self;
+  final $Res Function(CheckoutAddressesRequested) _then;
+
+/// Create a copy of CheckoutEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? selectId = freezed,}) {
+  return _then(CheckoutAddressesRequested(
+selectId: freezed == selectId ? _self.selectId : selectId // ignore: cast_nullable_to_non_nullable
+as String?,
+  ));
+}
+
+
+}
+
+/// @nodoc
 mixin _$CheckoutState {
 
  CheckoutDraft get draft; CheckoutPreview? get preview; bool get isPreviewLoading; Failure? get previewFailure; CheckoutStatus get status; Failure? get submitFailure;/// Set after the first «Оплатить», so errors show only once asked.
- bool get showProblems; PlacedOrder? get order;
+ bool get showProblems; PlacedOrder? get order;/// The account's addresses; empty until loaded or when there are none.
+ List<SavedAddress> get savedAddresses;
 /// Create a copy of CheckoutState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -502,16 +575,16 @@ $CheckoutStateCopyWith<CheckoutState> get copyWith => _$CheckoutStateCopyWithImp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CheckoutState&&(identical(other.draft, draft) || other.draft == draft)&&(identical(other.preview, preview) || other.preview == preview)&&(identical(other.isPreviewLoading, isPreviewLoading) || other.isPreviewLoading == isPreviewLoading)&&(identical(other.previewFailure, previewFailure) || other.previewFailure == previewFailure)&&(identical(other.status, status) || other.status == status)&&(identical(other.submitFailure, submitFailure) || other.submitFailure == submitFailure)&&(identical(other.showProblems, showProblems) || other.showProblems == showProblems)&&(identical(other.order, order) || other.order == order));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CheckoutState&&(identical(other.draft, draft) || other.draft == draft)&&(identical(other.preview, preview) || other.preview == preview)&&(identical(other.isPreviewLoading, isPreviewLoading) || other.isPreviewLoading == isPreviewLoading)&&(identical(other.previewFailure, previewFailure) || other.previewFailure == previewFailure)&&(identical(other.status, status) || other.status == status)&&(identical(other.submitFailure, submitFailure) || other.submitFailure == submitFailure)&&(identical(other.showProblems, showProblems) || other.showProblems == showProblems)&&(identical(other.order, order) || other.order == order)&&const DeepCollectionEquality().equals(other.savedAddresses, savedAddresses));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,draft,preview,isPreviewLoading,previewFailure,status,submitFailure,showProblems,order);
+int get hashCode => Object.hash(runtimeType,draft,preview,isPreviewLoading,previewFailure,status,submitFailure,showProblems,order,const DeepCollectionEquality().hash(savedAddresses));
 
 @override
 String toString() {
-  return 'CheckoutState(draft: $draft, preview: $preview, isPreviewLoading: $isPreviewLoading, previewFailure: $previewFailure, status: $status, submitFailure: $submitFailure, showProblems: $showProblems, order: $order)';
+  return 'CheckoutState(draft: $draft, preview: $preview, isPreviewLoading: $isPreviewLoading, previewFailure: $previewFailure, status: $status, submitFailure: $submitFailure, showProblems: $showProblems, order: $order, savedAddresses: $savedAddresses)';
 }
 
 
@@ -522,7 +595,7 @@ abstract mixin class $CheckoutStateCopyWith<$Res>  {
   factory $CheckoutStateCopyWith(CheckoutState value, $Res Function(CheckoutState) _then) = _$CheckoutStateCopyWithImpl;
 @useResult
 $Res call({
- CheckoutDraft draft, CheckoutPreview? preview, bool isPreviewLoading, Failure? previewFailure, CheckoutStatus status, Failure? submitFailure, bool showProblems, PlacedOrder? order
+ CheckoutDraft draft, CheckoutPreview? preview, bool isPreviewLoading, Failure? previewFailure, CheckoutStatus status, Failure? submitFailure, bool showProblems, PlacedOrder? order, List<SavedAddress> savedAddresses
 });
 
 
@@ -539,7 +612,7 @@ class _$CheckoutStateCopyWithImpl<$Res>
 
 /// Create a copy of CheckoutState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? draft = null,Object? preview = freezed,Object? isPreviewLoading = null,Object? previewFailure = freezed,Object? status = null,Object? submitFailure = freezed,Object? showProblems = null,Object? order = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? draft = null,Object? preview = freezed,Object? isPreviewLoading = null,Object? previewFailure = freezed,Object? status = null,Object? submitFailure = freezed,Object? showProblems = null,Object? order = freezed,Object? savedAddresses = null,}) {
   return _then(_self.copyWith(
 draft: null == draft ? _self.draft : draft // ignore: cast_nullable_to_non_nullable
 as CheckoutDraft,preview: freezed == preview ? _self.preview : preview // ignore: cast_nullable_to_non_nullable
@@ -549,7 +622,8 @@ as Failure?,status: null == status ? _self.status : status // ignore: cast_nulla
 as CheckoutStatus,submitFailure: freezed == submitFailure ? _self.submitFailure : submitFailure // ignore: cast_nullable_to_non_nullable
 as Failure?,showProblems: null == showProblems ? _self.showProblems : showProblems // ignore: cast_nullable_to_non_nullable
 as bool,order: freezed == order ? _self.order : order // ignore: cast_nullable_to_non_nullable
-as PlacedOrder?,
+as PlacedOrder?,savedAddresses: null == savedAddresses ? _self.savedAddresses : savedAddresses // ignore: cast_nullable_to_non_nullable
+as List<SavedAddress>,
   ));
 }
 /// Create a copy of CheckoutState
@@ -667,10 +741,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( CheckoutDraft draft,  CheckoutPreview? preview,  bool isPreviewLoading,  Failure? previewFailure,  CheckoutStatus status,  Failure? submitFailure,  bool showProblems,  PlacedOrder? order)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( CheckoutDraft draft,  CheckoutPreview? preview,  bool isPreviewLoading,  Failure? previewFailure,  CheckoutStatus status,  Failure? submitFailure,  bool showProblems,  PlacedOrder? order,  List<SavedAddress> savedAddresses)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _CheckoutState() when $default != null:
-return $default(_that.draft,_that.preview,_that.isPreviewLoading,_that.previewFailure,_that.status,_that.submitFailure,_that.showProblems,_that.order);case _:
+return $default(_that.draft,_that.preview,_that.isPreviewLoading,_that.previewFailure,_that.status,_that.submitFailure,_that.showProblems,_that.order,_that.savedAddresses);case _:
   return orElse();
 
 }
@@ -688,10 +762,10 @@ return $default(_that.draft,_that.preview,_that.isPreviewLoading,_that.previewFa
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( CheckoutDraft draft,  CheckoutPreview? preview,  bool isPreviewLoading,  Failure? previewFailure,  CheckoutStatus status,  Failure? submitFailure,  bool showProblems,  PlacedOrder? order)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( CheckoutDraft draft,  CheckoutPreview? preview,  bool isPreviewLoading,  Failure? previewFailure,  CheckoutStatus status,  Failure? submitFailure,  bool showProblems,  PlacedOrder? order,  List<SavedAddress> savedAddresses)  $default,) {final _that = this;
 switch (_that) {
 case _CheckoutState():
-return $default(_that.draft,_that.preview,_that.isPreviewLoading,_that.previewFailure,_that.status,_that.submitFailure,_that.showProblems,_that.order);case _:
+return $default(_that.draft,_that.preview,_that.isPreviewLoading,_that.previewFailure,_that.status,_that.submitFailure,_that.showProblems,_that.order,_that.savedAddresses);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -708,10 +782,10 @@ return $default(_that.draft,_that.preview,_that.isPreviewLoading,_that.previewFa
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( CheckoutDraft draft,  CheckoutPreview? preview,  bool isPreviewLoading,  Failure? previewFailure,  CheckoutStatus status,  Failure? submitFailure,  bool showProblems,  PlacedOrder? order)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( CheckoutDraft draft,  CheckoutPreview? preview,  bool isPreviewLoading,  Failure? previewFailure,  CheckoutStatus status,  Failure? submitFailure,  bool showProblems,  PlacedOrder? order,  List<SavedAddress> savedAddresses)?  $default,) {final _that = this;
 switch (_that) {
 case _CheckoutState() when $default != null:
-return $default(_that.draft,_that.preview,_that.isPreviewLoading,_that.previewFailure,_that.status,_that.submitFailure,_that.showProblems,_that.order);case _:
+return $default(_that.draft,_that.preview,_that.isPreviewLoading,_that.previewFailure,_that.status,_that.submitFailure,_that.showProblems,_that.order,_that.savedAddresses);case _:
   return null;
 
 }
@@ -723,7 +797,7 @@ return $default(_that.draft,_that.preview,_that.isPreviewLoading,_that.previewFa
 
 
 class _CheckoutState extends CheckoutState {
-  const _CheckoutState({this.draft = const CheckoutDraft(), this.preview, this.isPreviewLoading = true, this.previewFailure, this.status = CheckoutStatus.editing, this.submitFailure, this.showProblems = false, this.order}): super._();
+  const _CheckoutState({this.draft = const CheckoutDraft(), this.preview, this.isPreviewLoading = true, this.previewFailure, this.status = CheckoutStatus.editing, this.submitFailure, this.showProblems = false, this.order, final  List<SavedAddress> savedAddresses = const <SavedAddress>[]}): _savedAddresses = savedAddresses,super._();
   
 
 @override@JsonKey() final  CheckoutDraft draft;
@@ -735,6 +809,15 @@ class _CheckoutState extends CheckoutState {
 /// Set after the first «Оплатить», so errors show only once asked.
 @override@JsonKey() final  bool showProblems;
 @override final  PlacedOrder? order;
+/// The account's addresses; empty until loaded or when there are none.
+ final  List<SavedAddress> _savedAddresses;
+/// The account's addresses; empty until loaded or when there are none.
+@override@JsonKey() List<SavedAddress> get savedAddresses {
+  if (_savedAddresses is EqualUnmodifiableListView) return _savedAddresses;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_savedAddresses);
+}
+
 
 /// Create a copy of CheckoutState
 /// with the given fields replaced by the non-null parameter values.
@@ -746,16 +829,16 @@ _$CheckoutStateCopyWith<_CheckoutState> get copyWith => __$CheckoutStateCopyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CheckoutState&&(identical(other.draft, draft) || other.draft == draft)&&(identical(other.preview, preview) || other.preview == preview)&&(identical(other.isPreviewLoading, isPreviewLoading) || other.isPreviewLoading == isPreviewLoading)&&(identical(other.previewFailure, previewFailure) || other.previewFailure == previewFailure)&&(identical(other.status, status) || other.status == status)&&(identical(other.submitFailure, submitFailure) || other.submitFailure == submitFailure)&&(identical(other.showProblems, showProblems) || other.showProblems == showProblems)&&(identical(other.order, order) || other.order == order));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CheckoutState&&(identical(other.draft, draft) || other.draft == draft)&&(identical(other.preview, preview) || other.preview == preview)&&(identical(other.isPreviewLoading, isPreviewLoading) || other.isPreviewLoading == isPreviewLoading)&&(identical(other.previewFailure, previewFailure) || other.previewFailure == previewFailure)&&(identical(other.status, status) || other.status == status)&&(identical(other.submitFailure, submitFailure) || other.submitFailure == submitFailure)&&(identical(other.showProblems, showProblems) || other.showProblems == showProblems)&&(identical(other.order, order) || other.order == order)&&const DeepCollectionEquality().equals(other._savedAddresses, _savedAddresses));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,draft,preview,isPreviewLoading,previewFailure,status,submitFailure,showProblems,order);
+int get hashCode => Object.hash(runtimeType,draft,preview,isPreviewLoading,previewFailure,status,submitFailure,showProblems,order,const DeepCollectionEquality().hash(_savedAddresses));
 
 @override
 String toString() {
-  return 'CheckoutState(draft: $draft, preview: $preview, isPreviewLoading: $isPreviewLoading, previewFailure: $previewFailure, status: $status, submitFailure: $submitFailure, showProblems: $showProblems, order: $order)';
+  return 'CheckoutState(draft: $draft, preview: $preview, isPreviewLoading: $isPreviewLoading, previewFailure: $previewFailure, status: $status, submitFailure: $submitFailure, showProblems: $showProblems, order: $order, savedAddresses: $savedAddresses)';
 }
 
 
@@ -766,7 +849,7 @@ abstract mixin class _$CheckoutStateCopyWith<$Res> implements $CheckoutStateCopy
   factory _$CheckoutStateCopyWith(_CheckoutState value, $Res Function(_CheckoutState) _then) = __$CheckoutStateCopyWithImpl;
 @override @useResult
 $Res call({
- CheckoutDraft draft, CheckoutPreview? preview, bool isPreviewLoading, Failure? previewFailure, CheckoutStatus status, Failure? submitFailure, bool showProblems, PlacedOrder? order
+ CheckoutDraft draft, CheckoutPreview? preview, bool isPreviewLoading, Failure? previewFailure, CheckoutStatus status, Failure? submitFailure, bool showProblems, PlacedOrder? order, List<SavedAddress> savedAddresses
 });
 
 
@@ -783,7 +866,7 @@ class __$CheckoutStateCopyWithImpl<$Res>
 
 /// Create a copy of CheckoutState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? draft = null,Object? preview = freezed,Object? isPreviewLoading = null,Object? previewFailure = freezed,Object? status = null,Object? submitFailure = freezed,Object? showProblems = null,Object? order = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? draft = null,Object? preview = freezed,Object? isPreviewLoading = null,Object? previewFailure = freezed,Object? status = null,Object? submitFailure = freezed,Object? showProblems = null,Object? order = freezed,Object? savedAddresses = null,}) {
   return _then(_CheckoutState(
 draft: null == draft ? _self.draft : draft // ignore: cast_nullable_to_non_nullable
 as CheckoutDraft,preview: freezed == preview ? _self.preview : preview // ignore: cast_nullable_to_non_nullable
@@ -793,7 +876,8 @@ as Failure?,status: null == status ? _self.status : status // ignore: cast_nulla
 as CheckoutStatus,submitFailure: freezed == submitFailure ? _self.submitFailure : submitFailure // ignore: cast_nullable_to_non_nullable
 as Failure?,showProblems: null == showProblems ? _self.showProblems : showProblems // ignore: cast_nullable_to_non_nullable
 as bool,order: freezed == order ? _self.order : order // ignore: cast_nullable_to_non_nullable
-as PlacedOrder?,
+as PlacedOrder?,savedAddresses: null == savedAddresses ? _self._savedAddresses : savedAddresses // ignore: cast_nullable_to_non_nullable
+as List<SavedAddress>,
   ));
 }
 

@@ -36,6 +36,11 @@ sealed class CheckoutEvent with _$CheckoutEvent {
 
   /// «Оплатить» / «Подтвердить новую сумму».
   const factory CheckoutEvent.submitted() = CheckoutSubmitted;
+
+  /// Loads the account's saved addresses; [selectId] is picked, e.g. one
+  /// just added on the map.
+  const factory CheckoutEvent.addressesRequested({String? selectId}) =
+      CheckoutAddressesRequested;
 }
 
 enum CheckoutStatus {
@@ -60,6 +65,9 @@ abstract class CheckoutState with _$CheckoutState {
     /// Set after the first «Оплатить», so errors show only once asked.
     @Default(false) bool showProblems,
     PlacedOrder? order,
+
+    /// The account's addresses; empty until loaded or when there are none.
+    @Default(<SavedAddress>[]) List<SavedAddress> savedAddresses,
   }) = _CheckoutState;
 
   const CheckoutState._();
@@ -81,26 +89,32 @@ class CheckoutBloc extends Bloc<CheckoutEvent, CheckoutState> {
   CheckoutBloc(
     this._loadSaved,
     this._getPreview,
-    this._placeOrder, {
+    this._placeOrder,
+    this._getAddresses, {
     @ignoreParam Random? random,
   }) : _random = random ?? Random.secure(),
        super(const CheckoutState()) {
     on<CheckoutEvent>(_onChange, transformer: _editsOnly);
     // A second tap while the order is being created does nothing.
     on<CheckoutSubmitted>(_onSubmitted, transformer: droppable());
+    // Kept apart from the edits, so typing does not cancel the list.
+    on<CheckoutAddressesRequested>(_onAddresses, transformer: restartable());
   }
 
   static Stream<CheckoutEvent> _editsOnly(
     Stream<CheckoutEvent> events,
     EventMapper<CheckoutEvent> mapper,
   ) => restartable<CheckoutEvent>()(
-    events.where((e) => e is! CheckoutSubmitted),
+    events.where(
+      (e) => e is! CheckoutSubmitted && e is! CheckoutAddressesRequested,
+    ),
     mapper,
   );
 
   final LoadSavedRecipientUseCase _loadSaved;
   final GetCheckoutPreviewUseCase _getPreview;
   final PlaceOrderUseCase _placeOrder;
+  final GetSavedAddressesUseCase _getAddresses;
   final Random _random;
 
   static const debounce = Duration(milliseconds: 350);
@@ -145,6 +159,7 @@ class CheckoutBloc extends Bloc<CheckoutEvent, CheckoutState> {
             ),
           );
         }
+        add(const CheckoutEvent.addressesRequested());
         wait = false;
       case CheckoutDraftChanged(:final draft):
         final old = state.draft;
@@ -172,10 +187,40 @@ class CheckoutBloc extends Bloc<CheckoutEvent, CheckoutState> {
         wait = false;
       case CheckoutPreviewRetried():
         wait = false;
-      case CheckoutSubmitted():
+      case CheckoutSubmitted() || CheckoutAddressesRequested():
         return;
     }
     await _refreshPreview(emit, wait: wait);
+  }
+
+  /// Picks, in order: [CheckoutAddressesRequested.selectId], the saved
+  /// address chosen last time, the default one. The address typed for the
+  /// last order gives way to the account's list; «Другой адрес» brings
+  /// the fields back.
+  Future<void> _onAddresses(
+    CheckoutAddressesRequested event,
+    Emitter<CheckoutState> emit,
+  ) async {
+    if (_languageCode.isEmpty) return;
+    final result = await _getAddresses(_languageCode);
+    // Without the list the customer can still type the address in.
+    final addresses = result.getOrElse((_) => const []);
+    if (addresses.isEmpty) {
+      return emit(state.copyWith(savedAddresses: addresses));
+    }
+    final current = state.draft.address;
+    SavedAddress? find(String? id) =>
+        addresses.where((a) => a.id == id).firstOrNull;
+    final chosen =
+        find(event.selectId) ??
+        find(current.savedId) ??
+        addresses.firstWhere((a) => a.isDefault, orElse: () => addresses.first);
+    emit(
+      state.copyWith(
+        savedAddresses: addresses,
+        draft: state.draft.copyWith(address: chosen.asCourier),
+      ),
+    );
   }
 
   static bool _affectsPrice(CheckoutDraft a, CheckoutDraft b) =>

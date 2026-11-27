@@ -730,5 +730,8 @@
   "videoSoundOn": "Sesi aç",
   "videoSoundOff": "Sesi öçür",
   "videoPaused": "Arakesme",
-  "videoEmpty": "Entek wideo ýok"
+  "videoEmpty": "Entek wideo ýok",
+
+  "checkoutOtherAddress": "Başga salgy",
+  "checkoutAddressOnMap": "Kartada görkez"
 }

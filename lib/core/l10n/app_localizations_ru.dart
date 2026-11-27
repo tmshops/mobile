@@ -2470,4 +2470,10 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get videoEmpty => 'Видео пока нет';
+
+  @override
+  String get checkoutOtherAddress => 'Другой адрес';
+
+  @override
+  String get checkoutAddressOnMap => 'Указать на карте';
 }

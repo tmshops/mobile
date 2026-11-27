@@ -229,6 +229,7 @@ GoRouter createAppRouter({
             extra: order,
           ),
           onReadOffer: () => _openInfo(context, InfoTopic.offer),
+          onAddAddress: () => context.push<String>(AppRoutes.addressEditor),
         ),
       ),
       GoRoute(
@@ -433,7 +434,8 @@ GoRouter createAppRouter({
             final DeliveryAddress a => a,
             _ => null,
           },
-          onSaved: (_) => context.pop(),
+          // The id lets checkout pick the address it was opened for.
+          onSaved: (address) => context.pop(address.id),
         ),
       ),
       GoRoute(
@@ -531,7 +533,7 @@ final _profileRoutes = <RouteBase>[
     path: AppRoutes.addressesPath,
     builder: (context, _) => AddressesPage(
       onOpenEditor: (address) =>
-          context.push<void>(AppRoutes.addressEditor, extra: address),
+          context.push<String>(AppRoutes.addressEditor, extra: address),
     ),
   ),
   GoRoute(

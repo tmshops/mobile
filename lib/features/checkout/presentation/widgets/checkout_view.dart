@@ -15,9 +15,16 @@ import 'recipient_receiving_sections.dart';
 /// One-screen checkout (UI_DESIGN §7.8): six numbered cards on a grey
 /// background and a sticky pay button. Expects [CheckoutBloc] above it.
 class CheckoutView extends StatelessWidget {
-  const CheckoutView({required this.onReadOffer, super.key});
+  const CheckoutView({
+    required this.onReadOffer,
+    required this.onAddAddress,
+    super.key,
+  });
 
   final VoidCallback onReadOffer;
+
+  /// Opens the address map; the new address id, or `null`.
+  final Future<String?> Function() onAddAddress;
 
   @override
   Widget build(BuildContext context) {
@@ -62,8 +69,11 @@ class CheckoutView extends StatelessWidget {
             ),
             Expanded(
               child: BlocBuilder<CheckoutBloc, CheckoutState>(
-                builder: (context, state) =>
-                    _Sections(state: state, onReadOffer: onReadOffer),
+                builder: (context, state) => _Sections(
+                  state: state,
+                  onReadOffer: onReadOffer,
+                  onAddAddress: onAddAddress,
+                ),
               ),
             ),
           ],
@@ -80,10 +90,15 @@ class CheckoutView extends StatelessWidget {
 }
 
 class _Sections extends StatelessWidget {
-  const _Sections({required this.state, required this.onReadOffer});
+  const _Sections({
+    required this.state,
+    required this.onReadOffer,
+    required this.onAddAddress,
+  });
 
   final CheckoutState state;
   final VoidCallback onReadOffer;
+  final Future<String?> Function() onAddAddress;
 
   static const double _skeleton = 160;
 
@@ -128,6 +143,8 @@ class _Sections extends StatelessWidget {
             draft: draft,
             preview: preview,
             showErrors: state.showProblems,
+            savedAddresses: state.savedAddresses,
+            onAddAddress: onAddAddress,
           ),
           if (preview == null)
             const Padding(

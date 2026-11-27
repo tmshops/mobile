@@ -8,6 +8,7 @@ import '../../../../core/theme/theme.dart';
 import '../../../../core/utils/money_format.dart';
 import '../../../../core/widgets/widgets.dart';
 import '../../domain/entities/checkout.dart';
+import '../bloc/checkout_bloc.dart';
 import 'checkout_section.dart';
 
 /// 1. Recipient: a summary with «Изменить» when filled in before, else
@@ -135,12 +136,21 @@ class ReceivingSection extends StatelessWidget {
     required this.draft,
     required this.preview,
     required this.showErrors,
+    required this.savedAddresses,
+    required this.onAddAddress,
     super.key,
   });
 
   final CheckoutDraft draft;
   final CheckoutPreview? preview;
   final bool showErrors;
+
+  /// The account's addresses; empty: the fields to type one in.
+  final List<SavedAddress> savedAddresses;
+
+  /// Opens the address map; completes with the new address id, `null`
+  /// when nothing was saved.
+  final Future<String?> Function() onAddAddress;
 
   @override
   Widget build(BuildContext context) {
@@ -172,9 +182,32 @@ class ReceivingSection extends StatelessWidget {
           const SizedBox(height: AppSpacing.x12),
           const _RegionRow(),
           const SizedBox(height: AppSpacing.x8),
-          if (isCourier)
-            _CourierFields(address: draft.address, preview: preview)
-          else
+          if (isCourier) ...[
+            _CourierPrice(preview: preview),
+            const SizedBox(height: AppSpacing.x8),
+            if (savedAddresses.isEmpty)
+              _TypedAddress(address: draft.address)
+            else
+              _SavedAddresses(
+                addresses: savedAddresses,
+                current: draft.address,
+              ),
+            const SizedBox(height: AppSpacing.x8),
+            Align(
+              alignment: AlignmentDirectional.centerStart,
+              child: TertiaryButton(
+                label: savedAddresses.isEmpty
+                    ? l10n.checkoutAddressOnMap
+                    : l10n.addressesAdd,
+                icon: AppIcons.mapPin,
+                onPressed: () async {
+                  final bloc = context.read<CheckoutBloc>();
+                  final id = await onAddAddress();
+                  bloc.add(CheckoutEvent.addressesRequested(selectId: id));
+                },
+              ),
+            ),
+          ] else
             _PickupPoints(
               points: preview?.pickupPoints ?? const [],
               selectedId: draft.pickupPointId,
@@ -219,23 +252,163 @@ class _RegionRow extends StatelessWidget {
   }
 }
 
-class _CourierFields extends StatefulWidget {
-  const _CourierFields({required this.address, required this.preview});
+/// «Курьер — N TMT · бесплатно от …».
+class _CourierPrice extends StatelessWidget {
+  const _CourierPrice({required this.preview});
 
-  final CourierAddress address;
   final CheckoutPreview? preview;
 
   @override
-  State<_CourierFields> createState() => _CourierFieldsState();
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final preview = this.preview;
+    if (preview == null) return const SizedBox.shrink();
+    final freeFrom = preview.courierFreeFrom;
+    return Text.rich(
+      TextSpan(
+        text: l10n.checkoutCourierPrice(
+          MoneyFormat.tmt(l10n, preview.courierPrice),
+        ),
+        children: [
+          if (freeFrom != null) ...[
+            const TextSpan(text: ' · '),
+            TextSpan(
+              text: l10n.checkoutCourierFree(MoneyFormat.tmt(l10n, freeFrom)),
+            ),
+          ],
+        ],
+      ),
+      style: context.text.caption.copyWith(color: context.colors.inkSecondary),
+    );
+  }
 }
 
-class _CourierFieldsState extends State<_CourierFields> {
+/// The account's addresses as radio cards, and «Другой адрес» with the
+/// fields to type one in.
+class _SavedAddresses extends StatelessWidget {
+  const _SavedAddresses({required this.addresses, required this.current});
+
+  final List<SavedAddress> addresses;
+  final CourierAddress current;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final c = context.colors;
+    final isTyped = current.savedId == null;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        for (final address in addresses)
+          _AddressOption(
+            isSelected: address.id == current.savedId,
+            onTap: () => editDraft(
+              context,
+              (d) => d.copyWith(address: address.asCourier),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(address.street, style: context.text.bodyStrong),
+                if (address.details.isNotEmpty)
+                  Text(address.details, style: context.text.body),
+                if (address.isDefault)
+                  Text(
+                    l10n.addressesDefault,
+                    style: context.text.caption.copyWith(color: c.primary),
+                  ),
+              ],
+            ),
+          ),
+        _AddressOption(
+          isSelected: isTyped,
+          onTap: () {
+            if (isTyped) return;
+            editDraft(
+              context,
+              (d) => d.copyWith(address: const CourierAddress()),
+            );
+          },
+          child: Text(
+            l10n.checkoutOtherAddress,
+            style: context.text.bodyStrong,
+          ),
+        ),
+        if (isTyped) ...[
+          const SizedBox(height: AppSpacing.x12),
+          _TypedAddress(address: current),
+        ],
+      ],
+    );
+  }
+}
+
+class _AddressOption extends StatelessWidget {
+  const _AddressOption({
+    required this.isSelected,
+    required this.onTap,
+    required this.child,
+  });
+
+  final bool isSelected;
+  final VoidCallback onTap;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    final c = context.colors;
+    return Padding(
+      padding: const EdgeInsets.only(top: AppSpacing.x8),
+      child: Semantics(
+        inMutuallyExclusiveGroup: true,
+        checked: isSelected,
+        child: Material(
+          color: isSelected ? c.primarySoft : c.surface,
+          borderRadius: AppRadii.cardBorder,
+          clipBehavior: Clip.antiAlias,
+          child: InkWell(
+            onTap: onTap,
+            child: Padding(
+              padding: AppSpacing.cardPadding,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsetsDirectional.only(
+                      end: AppSpacing.x12,
+                      top: AppSpacing.x2,
+                    ),
+                    child: RadioMark(isSelected: isSelected),
+                  ),
+                  Expanded(child: child),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// Street and «квартира / ориентир» typed by hand.
+class _TypedAddress extends StatefulWidget {
+  const _TypedAddress({required this.address});
+
+  final CourierAddress address;
+
+  @override
+  State<_TypedAddress> createState() => _TypedAddressState();
+}
+
+class _TypedAddressState extends State<_TypedAddress> {
   late final _street = TextEditingController(text: widget.address.street);
   late final _details = TextEditingController(text: widget.address.details);
 
   @override
-  void didUpdateWidget(_CourierFields oldWidget) {
+  void didUpdateWidget(_TypedAddress oldWidget) {
     super.didUpdateWidget(oldWidget);
+    // The address saved on the device arrives after the first frame.
     if (_street.text.isEmpty && widget.address.street.isNotEmpty) {
       _street.text = widget.address.street;
       _details.text = widget.address.details;
@@ -252,33 +425,9 @@ class _CourierFieldsState extends State<_CourierFields> {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    final preview = widget.preview;
-    final freeFrom = preview?.courierFreeFrom;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        if (preview != null)
-          Text.rich(
-            TextSpan(
-              text: l10n.checkoutCourierPrice(
-                MoneyFormat.tmt(l10n, preview.courierPrice),
-              ),
-              children: [
-                if (freeFrom != null) ...[
-                  const TextSpan(text: ' · '),
-                  TextSpan(
-                    text: l10n.checkoutCourierFree(
-                      MoneyFormat.tmt(l10n, freeFrom),
-                    ),
-                  ),
-                ],
-              ],
-            ),
-            style: context.text.caption.copyWith(
-              color: context.colors.inkSecondary,
-            ),
-          ),
-        const SizedBox(height: AppSpacing.x8),
         AppTextField(
           controller: _street,
           label: l10n.checkoutStreet,

@@ -505,6 +505,14 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i251.FakeHomeRemoteDataSource(gh<_i566.NetworkInfo>()),
       registerFor: {_dev},
     );
+    gh.lazySingleton<_i932.CheckoutRemoteDataSource>(
+      () => _i932.FakeCheckoutRemoteDataSource(
+        gh<_i566.NetworkInfo>(),
+        gh<_i435.FakeOrdersBackend>(),
+        gh<_i274.FakeAddressBackend>(),
+      ),
+      registerFor: {_dev},
+    );
     gh.lazySingleton<_i940.ReviewsRemoteDataSource>(
       () => _i940.FakeReviewsRemoteDataSource(
         gh<_i566.NetworkInfo>(),
@@ -598,13 +606,6 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i942.WalletRepository>(
       () => _i403.WalletRepositoryImpl(gh<_i892.WalletRemoteDataSource>()),
-    );
-    gh.lazySingleton<_i932.CheckoutRemoteDataSource>(
-      () => _i932.FakeCheckoutRemoteDataSource(
-        gh<_i566.NetworkInfo>(),
-        gh<_i435.FakeOrdersBackend>(),
-      ),
-      registerFor: {_dev},
     );
     gh.lazySingleton<_i263.ViewedRepository>(
       () => _i663.ViewedRepositoryImpl(
@@ -1000,6 +1001,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i779.LoadSavedRecipientUseCase>(
       () => _i779.LoadSavedRecipientUseCase(gh<_i837.CheckoutRepository>()),
     );
+    gh.lazySingleton<_i779.GetSavedAddressesUseCase>(
+      () => _i779.GetSavedAddressesUseCase(gh<_i837.CheckoutRepository>()),
+    );
     gh.lazySingleton<_i779.GetCheckoutPreviewUseCase>(
       () => _i779.GetCheckoutPreviewUseCase(gh<_i837.CheckoutRepository>()),
     );
@@ -1011,13 +1015,6 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i779.GetPaymentStatusUseCase>(
       () => _i779.GetPaymentStatusUseCase(gh<_i837.CheckoutRepository>()),
-    );
-    gh.factory<_i888.CheckoutBloc>(
-      () => _i888.CheckoutBloc(
-        gh<_i779.LoadSavedRecipientUseCase>(),
-        gh<_i779.GetCheckoutPreviewUseCase>(),
-        gh<_i779.PlaceOrderUseCase>(),
-      ),
     );
     gh.lazySingleton<_i717.LoginRepository>(
       () => _i300.LoginRepositoryImpl(
@@ -1125,6 +1122,14 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i923.VerifyCodeUseCase>(
       () => _i923.VerifyCodeUseCase(gh<_i717.LoginRepository>()),
+    );
+    gh.factory<_i888.CheckoutBloc>(
+      () => _i888.CheckoutBloc(
+        gh<_i779.LoadSavedRecipientUseCase>(),
+        gh<_i779.GetCheckoutPreviewUseCase>(),
+        gh<_i779.PlaceOrderUseCase>(),
+        gh<_i779.GetSavedAddressesUseCase>(),
+      ),
     );
     gh.factory<_i379.PhoneChangeCubit>(
       () => _i379.PhoneChangeCubit(gh<_i523.ProfileEditRepository>()),

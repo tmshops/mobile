@@ -10,6 +10,11 @@ abstract interface class CheckoutRepository {
 
   Future<void> save(Recipient recipient, CourierAddress address);
 
+  /// Addresses saved on the account, the default one first.
+  Future<Either<Failure, List<SavedAddress>>> savedAddresses(
+    String languageCode,
+  );
+
   Future<Either<Failure, CheckoutPreview>> preview({
     required String languageCode,
     required String regionId,

@@ -16,6 +16,7 @@ class CheckoutPage extends StatelessWidget {
   const CheckoutPage({
     required this.onPlaced,
     required this.onReadOffer,
+    required this.onAddAddress,
     this.promoCode,
     super.key,
   });
@@ -26,6 +27,10 @@ class CheckoutPage extends StatelessWidget {
   /// Next step after the order exists: payment check or result.
   final ValueChanged<PlacedOrder> onPlaced;
   final VoidCallback onReadOffer;
+
+  /// Opens the address map; completes with the new address id, `null`
+  /// when nothing was saved.
+  final Future<String?> Function() onAddAddress;
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +64,10 @@ class CheckoutPage extends StatelessWidget {
           cart.removeMany({for (final l in lines) l.key});
           onPlaced(order);
         },
-        child: CheckoutView(onReadOffer: onReadOffer),
+        child: CheckoutView(
+          onReadOffer: onReadOffer,
+          onAddAddress: onAddAddress,
+        ),
       ),
     );
   }

@@ -4213,6 +4213,18 @@ abstract class AppLocalizations {
   /// In ru, this message translates to:
   /// **'Видео пока нет'**
   String get videoEmpty;
+
+  /// Checkout: type an address instead of a saved one
+  ///
+  /// In ru, this message translates to:
+  /// **'Другой адрес'**
+  String get checkoutOtherAddress;
+
+  /// Checkout: no saved addresses yet, add one on the map
+  ///
+  /// In ru, this message translates to:
+  /// **'Указать на карте'**
+  String get checkoutAddressOnMap;
 }
 
 class _AppLocalizationsDelegate

@@ -2402,4 +2402,10 @@ class AppLocalizationsTk extends AppLocalizations {
 
   @override
   String get videoEmpty => 'Entek wideo ýok';
+
+  @override
+  String get checkoutOtherAddress => 'Başga salgy';
+
+  @override
+  String get checkoutAddressOnMap => 'Kartada görkez';
 }

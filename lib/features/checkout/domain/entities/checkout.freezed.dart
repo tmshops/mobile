@@ -279,7 +279,8 @@ as String,
 /// @nodoc
 mixin _$CourierAddress {
 
-/// Street and house.
+/// Id of the saved address; `null` when typed in by hand.
+ String? get savedId;/// Street and house.
  String get street;/// «Квартира / ориентир».
  String get details;
 /// Create a copy of CourierAddress
@@ -292,16 +293,16 @@ $CourierAddressCopyWith<CourierAddress> get copyWith => _$CourierAddressCopyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CourierAddress&&(identical(other.street, street) || other.street == street)&&(identical(other.details, details) || other.details == details));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CourierAddress&&(identical(other.savedId, savedId) || other.savedId == savedId)&&(identical(other.street, street) || other.street == street)&&(identical(other.details, details) || other.details == details));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,street,details);
+int get hashCode => Object.hash(runtimeType,savedId,street,details);
 
 @override
 String toString() {
-  return 'CourierAddress(street: $street, details: $details)';
+  return 'CourierAddress(savedId: $savedId, street: $street, details: $details)';
 }
 
 
@@ -312,7 +313,7 @@ abstract mixin class $CourierAddressCopyWith<$Res>  {
   factory $CourierAddressCopyWith(CourierAddress value, $Res Function(CourierAddress) _then) = _$CourierAddressCopyWithImpl;
 @useResult
 $Res call({
- String street, String details
+ String? savedId, String street, String details
 });
 
 
@@ -329,9 +330,10 @@ class _$CourierAddressCopyWithImpl<$Res>
 
 /// Create a copy of CourierAddress
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? street = null,Object? details = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? savedId = freezed,Object? street = null,Object? details = null,}) {
   return _then(_self.copyWith(
-street: null == street ? _self.street : street // ignore: cast_nullable_to_non_nullable
+savedId: freezed == savedId ? _self.savedId : savedId // ignore: cast_nullable_to_non_nullable
+as String?,street: null == street ? _self.street : street // ignore: cast_nullable_to_non_nullable
 as String,details: null == details ? _self.details : details // ignore: cast_nullable_to_non_nullable
 as String,
   ));
@@ -418,10 +420,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String street,  String details)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? savedId,  String street,  String details)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _CourierAddress() when $default != null:
-return $default(_that.street,_that.details);case _:
+return $default(_that.savedId,_that.street,_that.details);case _:
   return orElse();
 
 }
@@ -439,10 +441,10 @@ return $default(_that.street,_that.details);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String street,  String details)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? savedId,  String street,  String details)  $default,) {final _that = this;
 switch (_that) {
 case _CourierAddress():
-return $default(_that.street,_that.details);case _:
+return $default(_that.savedId,_that.street,_that.details);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -459,10 +461,10 @@ return $default(_that.street,_that.details);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String street,  String details)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? savedId,  String street,  String details)?  $default,) {final _that = this;
 switch (_that) {
 case _CourierAddress() when $default != null:
-return $default(_that.street,_that.details);case _:
+return $default(_that.savedId,_that.street,_that.details);case _:
   return null;
 
 }
@@ -474,9 +476,11 @@ return $default(_that.street,_that.details);case _:
 
 
 class _CourierAddress extends CourierAddress {
-  const _CourierAddress({this.street = '', this.details = ''}): super._();
+  const _CourierAddress({this.savedId, this.street = '', this.details = ''}): super._();
   
 
+/// Id of the saved address; `null` when typed in by hand.
+@override final  String? savedId;
 /// Street and house.
 @override@JsonKey() final  String street;
 /// «Квартира / ориентир».
@@ -492,16 +496,16 @@ _$CourierAddressCopyWith<_CourierAddress> get copyWith => __$CourierAddressCopyW
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CourierAddress&&(identical(other.street, street) || other.street == street)&&(identical(other.details, details) || other.details == details));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CourierAddress&&(identical(other.savedId, savedId) || other.savedId == savedId)&&(identical(other.street, street) || other.street == street)&&(identical(other.details, details) || other.details == details));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,street,details);
+int get hashCode => Object.hash(runtimeType,savedId,street,details);
 
 @override
 String toString() {
-  return 'CourierAddress(street: $street, details: $details)';
+  return 'CourierAddress(savedId: $savedId, street: $street, details: $details)';
 }
 
 
@@ -512,7 +516,7 @@ abstract mixin class _$CourierAddressCopyWith<$Res> implements $CourierAddressCo
   factory _$CourierAddressCopyWith(_CourierAddress value, $Res Function(_CourierAddress) _then) = __$CourierAddressCopyWithImpl;
 @override @useResult
 $Res call({
- String street, String details
+ String? savedId, String street, String details
 });
 
 
@@ -529,11 +533,283 @@ class __$CourierAddressCopyWithImpl<$Res>
 
 /// Create a copy of CourierAddress
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? street = null,Object? details = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? savedId = freezed,Object? street = null,Object? details = null,}) {
   return _then(_CourierAddress(
-street: null == street ? _self.street : street // ignore: cast_nullable_to_non_nullable
+savedId: freezed == savedId ? _self.savedId : savedId // ignore: cast_nullable_to_non_nullable
+as String?,street: null == street ? _self.street : street // ignore: cast_nullable_to_non_nullable
 as String,details: null == details ? _self.details : details // ignore: cast_nullable_to_non_nullable
 as String,
+  ));
+}
+
+
+}
+
+/// @nodoc
+mixin _$SavedAddress {
+
+ String get id;/// Street and house.
+ String get street; String get details; String get region; bool get isDefault;
+/// Create a copy of SavedAddress
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$SavedAddressCopyWith<SavedAddress> get copyWith => _$SavedAddressCopyWithImpl<SavedAddress>(this as SavedAddress, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SavedAddress&&(identical(other.id, id) || other.id == id)&&(identical(other.street, street) || other.street == street)&&(identical(other.details, details) || other.details == details)&&(identical(other.region, region) || other.region == region)&&(identical(other.isDefault, isDefault) || other.isDefault == isDefault));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,id,street,details,region,isDefault);
+
+@override
+String toString() {
+  return 'SavedAddress(id: $id, street: $street, details: $details, region: $region, isDefault: $isDefault)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $SavedAddressCopyWith<$Res>  {
+  factory $SavedAddressCopyWith(SavedAddress value, $Res Function(SavedAddress) _then) = _$SavedAddressCopyWithImpl;
+@useResult
+$Res call({
+ String id, String street, String details, String region, bool isDefault
+});
+
+
+
+
+}
+/// @nodoc
+class _$SavedAddressCopyWithImpl<$Res>
+    implements $SavedAddressCopyWith<$Res> {
+  _$SavedAddressCopyWithImpl(this._self, this._then);
+
+  final SavedAddress _self;
+  final $Res Function(SavedAddress) _then;
+
+/// Create a copy of SavedAddress
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? street = null,Object? details = null,Object? region = null,Object? isDefault = null,}) {
+  return _then(_self.copyWith(
+id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as String,street: null == street ? _self.street : street // ignore: cast_nullable_to_non_nullable
+as String,details: null == details ? _self.details : details // ignore: cast_nullable_to_non_nullable
+as String,region: null == region ? _self.region : region // ignore: cast_nullable_to_non_nullable
+as String,isDefault: null == isDefault ? _self.isDefault : isDefault // ignore: cast_nullable_to_non_nullable
+as bool,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [SavedAddress].
+extension SavedAddressPatterns on SavedAddress {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _SavedAddress value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _SavedAddress() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _SavedAddress value)  $default,){
+final _that = this;
+switch (_that) {
+case _SavedAddress():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _SavedAddress value)?  $default,){
+final _that = this;
+switch (_that) {
+case _SavedAddress() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String street,  String details,  String region,  bool isDefault)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _SavedAddress() when $default != null:
+return $default(_that.id,_that.street,_that.details,_that.region,_that.isDefault);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String street,  String details,  String region,  bool isDefault)  $default,) {final _that = this;
+switch (_that) {
+case _SavedAddress():
+return $default(_that.id,_that.street,_that.details,_that.region,_that.isDefault);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String street,  String details,  String region,  bool isDefault)?  $default,) {final _that = this;
+switch (_that) {
+case _SavedAddress() when $default != null:
+return $default(_that.id,_that.street,_that.details,_that.region,_that.isDefault);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+
+
+class _SavedAddress extends SavedAddress {
+  const _SavedAddress({required this.id, required this.street, this.details = '', this.region = '', this.isDefault = false}): super._();
+  
+
+@override final  String id;
+/// Street and house.
+@override final  String street;
+@override@JsonKey() final  String details;
+@override@JsonKey() final  String region;
+@override@JsonKey() final  bool isDefault;
+
+/// Create a copy of SavedAddress
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$SavedAddressCopyWith<_SavedAddress> get copyWith => __$SavedAddressCopyWithImpl<_SavedAddress>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SavedAddress&&(identical(other.id, id) || other.id == id)&&(identical(other.street, street) || other.street == street)&&(identical(other.details, details) || other.details == details)&&(identical(other.region, region) || other.region == region)&&(identical(other.isDefault, isDefault) || other.isDefault == isDefault));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,id,street,details,region,isDefault);
+
+@override
+String toString() {
+  return 'SavedAddress(id: $id, street: $street, details: $details, region: $region, isDefault: $isDefault)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$SavedAddressCopyWith<$Res> implements $SavedAddressCopyWith<$Res> {
+  factory _$SavedAddressCopyWith(_SavedAddress value, $Res Function(_SavedAddress) _then) = __$SavedAddressCopyWithImpl;
+@override @useResult
+$Res call({
+ String id, String street, String details, String region, bool isDefault
+});
+
+
+
+
+}
+/// @nodoc
+class __$SavedAddressCopyWithImpl<$Res>
+    implements _$SavedAddressCopyWith<$Res> {
+  __$SavedAddressCopyWithImpl(this._self, this._then);
+
+  final _SavedAddress _self;
+  final $Res Function(_SavedAddress) _then;
+
+/// Create a copy of SavedAddress
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? street = null,Object? details = null,Object? region = null,Object? isDefault = null,}) {
+  return _then(_SavedAddress(
+id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as String,street: null == street ? _self.street : street // ignore: cast_nullable_to_non_nullable
+as String,details: null == details ? _self.details : details // ignore: cast_nullable_to_non_nullable
+as String,region: null == region ? _self.region : region // ignore: cast_nullable_to_non_nullable
+as String,isDefault: null == isDefault ? _self.isDefault : isDefault // ignore: cast_nullable_to_non_nullable
+as bool,
   ));
 }
 

@@ -24,6 +24,8 @@ class _MockGetPreview extends Mock implements GetCheckoutPreviewUseCase {}
 
 class _MockPlaceOrder extends Mock implements PlaceOrderUseCase {}
 
+class _MockGetAddresses extends Mock implements GetSavedAddressesUseCase {}
+
 class _MockGetStatus extends Mock implements GetPaymentStatusUseCase {}
 
 class _MockRestart extends Mock implements RestartPaymentUseCase {}
@@ -92,6 +94,7 @@ void main() {
     late _MockLoadSaved loadSaved;
     late _MockGetPreview getPreview;
     late _MockPlaceOrder placeOrder;
+    late _MockGetAddresses getAddresses;
 
     When<Future<Either<Failure, CheckoutPreview>>> whenPreview() => when(
       () => getPreview(
@@ -127,7 +130,8 @@ void main() {
       ),
     ).captured.cast<String>();
 
-    CheckoutBloc build() => CheckoutBloc(loadSaved, getPreview, placeOrder);
+    CheckoutBloc build() =>
+        CheckoutBloc(loadSaved, getPreview, placeOrder, getAddresses);
 
     const started = CheckoutEvent.started(
       languageCode: 'ru',
@@ -151,10 +155,68 @@ void main() {
       loadSaved = _MockLoadSaved();
       getPreview = _MockGetPreview();
       placeOrder = _MockPlaceOrder();
+      getAddresses = _MockGetAddresses();
+      when(
+        () => getAddresses(any()),
+      ).thenAnswer((_) async => right(const <SavedAddress>[]));
       when(
         () => loadSaved(),
       ).thenAnswer((_) async => (validRecipient, _address));
       whenPreview().thenAnswer((_) async => right(preview));
+    });
+
+    group('saved addresses', () {
+      const home = SavedAddress(
+        id: 'a1',
+        street: 'ул. Андалиба, 12',
+        details: 'кв. 14',
+        isDefault: true,
+      );
+      const office = SavedAddress(id: 'a2', street: 'ул. Азади, 5');
+
+      setUp(
+        () => when(
+          () => getAddresses(any()),
+        ).thenAnswer((_) async => right(const [office, home])),
+      );
+
+      blocTest<CheckoutBloc, CheckoutState>(
+        'the default one replaces the address typed last time',
+        build: build,
+        act: (bloc) async {
+          bloc.add(started);
+          await bloc.stream.firstWhere((s) => s.savedAddresses.isNotEmpty);
+        },
+        verify: (bloc) {
+          expect(bloc.state.savedAddresses, [office, home]);
+          expect(bloc.state.draft.address, home.asCourier);
+        },
+      );
+
+      blocTest<CheckoutBloc, CheckoutState>(
+        'the one chosen last time is chosen again',
+        setUp: () => when(
+          () => loadSaved(),
+        ).thenAnswer((_) async => (validRecipient, office.asCourier)),
+        build: build,
+        act: (bloc) async {
+          bloc.add(started);
+          await bloc.stream.firstWhere((s) => s.savedAddresses.isNotEmpty);
+        },
+        verify: (bloc) => expect(bloc.state.draft.address.savedId, 'a2'),
+      );
+
+      blocTest<CheckoutBloc, CheckoutState>(
+        'an address just added on the map is picked',
+        build: build,
+        act: (bloc) async {
+          bloc.add(started);
+          await bloc.stream.firstWhere((s) => s.savedAddresses.isNotEmpty);
+          bloc.add(const CheckoutEvent.addressesRequested(selectId: 'a2'));
+          await bloc.stream.firstWhere((s) => s.draft.address.savedId == 'a2');
+        },
+        verify: (bloc) => expect(bloc.state.draft.address, office.asCourier),
+      );
     });
 
     blocTest<CheckoutBloc, CheckoutState>(

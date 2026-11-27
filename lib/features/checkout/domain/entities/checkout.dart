@@ -36,10 +36,13 @@ abstract class Recipient with _$Recipient {
       phone.length == phoneLength;
 }
 
-/// Courier address, typed in until the map picker exists (TZ §5.16).
+/// Courier address: one of the saved ones (TZ §5.16), or typed in.
 @freezed
 abstract class CourierAddress with _$CourierAddress {
   const factory CourierAddress({
+    /// Id of the saved address; `null` when typed in by hand.
+    String? savedId,
+
     /// Street and house.
     @Default('') String street,
 
@@ -50,6 +53,25 @@ abstract class CourierAddress with _$CourierAddress {
   const CourierAddress._();
 
   bool get isValid => street.trim().isNotEmpty;
+}
+
+/// A delivery address saved on the account («Адреса», TZ §5.16).
+@freezed
+abstract class SavedAddress with _$SavedAddress {
+  const factory SavedAddress({
+    required String id,
+
+    /// Street and house.
+    required String street,
+    @Default('') String details,
+    @Default('') String region,
+    @Default(false) bool isDefault,
+  }) = _SavedAddress;
+
+  const SavedAddress._();
+
+  CourierAddress get asCourier =>
+      CourierAddress(savedId: id, street: street, details: details);
 }
 
 /// Everything the customer chose. Sent to the server for each preview and

@@ -1075,6 +1075,9 @@ class AppLocalizationsTk extends AppLocalizations {
   String get orderHistory => 'Taryh';
 
   @override
+  String get orderRecommendations => 'Size ýarap biler';
+
+  @override
   String get orderAskSupport => 'Sargyt boýunça goldawa ýazmak';
 
   @override

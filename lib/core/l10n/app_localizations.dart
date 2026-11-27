@@ -1880,6 +1880,12 @@ abstract class AppLocalizations {
   /// **'История'**
   String get orderHistory;
 
+  /// Title of the endless product grid at the bottom of an order
+  ///
+  /// In ru, this message translates to:
+  /// **'Вам может понравиться'**
+  String get orderRecommendations;
+
   /// Order details button: opens the support chat with this order attached
   ///
   /// In ru, this message translates to:

@@ -75,6 +75,43 @@ class ForYouSlivers extends StatelessWidget {
   }
 }
 
+/// Asks [ForYouBloc] for the next page when the vertical scroll in [child]
+/// comes within [loadMoreExtent] of its end.
+class ForYouPager extends StatelessWidget {
+  const ForYouPager({
+    required this.child,
+    this.loadMoreExtent = 800,
+    this.canLoadMore,
+    super.key,
+  });
+
+  final Widget child;
+  final double loadMoreExtent;
+
+  /// Checked on every scroll, e.g. so the home screen waits for its own
+  /// content before paging the grid under it. `null`: always allowed.
+  final ValueGetter<bool>? canLoadMore;
+
+  bool _onScroll(BuildContext context, ScrollNotification n) {
+    final forYou = context.read<ForYouBloc>();
+    if ((canLoadMore?.call() ?? true) &&
+        n.metrics.axis == Axis.vertical &&
+        n.metrics.extentAfter < loadMoreExtent &&
+        forYou.state.status == ForYouStatus.idle &&
+        forYou.state.hasMore) {
+      forYou.add(const ForYouEvent.nextPageRequested());
+    }
+    return false;
+  }
+
+  @override
+  Widget build(BuildContext context) =>
+      NotificationListener<ScrollNotification>(
+        onNotification: (n) => _onScroll(context, n),
+        child: child,
+      );
+}
+
 class _Footer extends StatelessWidget {
   const _Footer({required this.state});
 

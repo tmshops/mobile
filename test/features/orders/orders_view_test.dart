@@ -5,6 +5,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:tmshop/core/error/failures.dart';
 import 'package:tmshop/core/l10n/l10n.dart';
+import 'package:tmshop/core/product/domain/product_summary.dart';
+import 'package:tmshop/core/product/presentation/for_you_bloc.dart';
+import 'package:tmshop/core/product/presentation/product_summary_tile.dart';
 import 'package:tmshop/core/utils/money_format.dart';
 import 'package:tmshop/core/widgets/widgets.dart';
 import 'package:tmshop/features/orders/domain/entities/order.dart';
@@ -19,6 +22,8 @@ import 'package:tmshop/features/orders/presentation/widgets/order_card.dart';
 import 'package:tmshop/features/orders/presentation/widgets/order_view.dart';
 import 'package:tmshop/features/orders/presentation/widgets/orders_view.dart';
 
+import '../../helpers/home_fixtures.dart';
+import '../../helpers/mock_blocs.dart';
 import '../../helpers/orders_fixtures.dart';
 import '../../helpers/pump_view.dart';
 
@@ -156,12 +161,23 @@ void main() {
     late List<OrderDetails> paid;
     late List<String> reviewed;
     late int askedSupport;
+    late MockForYouBloc forYou;
+    late List<ProductSummary> recommended;
 
     setUp(() {
       cubit = _MockOrderCubit();
       paid = [];
       reviewed = [];
       askedSupport = 0;
+      recommended = [];
+      forYou = MockForYouBloc();
+      when(() => forYou.state).thenReturn(
+        ForYouState(
+          items: samplePage('ru').items,
+          nextCursor: '1',
+          status: ForYouStatus.idle,
+        ),
+      );
       when(() => cubit.refresh()).thenAnswer((_) async {});
       when(() => cubit.cancel(any())).thenAnswer((_) async {});
       when(
@@ -191,12 +207,16 @@ void main() {
           number: order.number,
           onOpenParcel: (_) {},
           onOpenProduct: (_) {},
+          onOpenRecommended: recommended.add,
           onPay: paid.add,
           onOpenCart: () {},
           onWriteReview: (id) async => reviewed.add(id),
           onAskSupport: () => askedSupport++,
         ),
-        providers: [BlocProvider<OrderCubit>.value(value: cubit)],
+        providers: [
+          BlocProvider<OrderCubit>.value(value: cubit),
+          BlocProvider<ForYouBloc>.value(value: forYou),
+        ],
         locale: locale,
         textScale: textScale,
         width: width,
@@ -241,10 +261,41 @@ void main() {
       expect(askedSupport, 1);
     });
 
+    testWidgets('recommendations below the order; more load near the end', (
+      tester,
+    ) async {
+      await pump(tester, sampleOrder('ru', '10228'));
+      final first = samplePage('ru').items.first;
+      final header = find.text(ru.orderRecommendations);
+      await tester.scrollUntilVisible(
+        header,
+        300,
+        scrollable: find.byType(Scrollable).first,
+      );
+      final tile = find.widgetWithText(ProductSummaryTile, first.title);
+      await tester.scrollUntilVisible(
+        tile,
+        300,
+        scrollable: find.byType(Scrollable).first,
+      );
+      await tester.ensureVisible(tile.first);
+      await tester.pump();
+      await tester.tap(tile.first);
+      expect(recommended, [first]);
+      verify(
+        () => forYou.add(const ForYouEvent.nextPageRequested()),
+      ).called(greaterThan(0));
+    });
+
     testWidgets('cancel asks for a reason, then cancels', (tester) async {
       await pump(tester, sampleOrder('ru', '10228'));
-      await scrollThrough(tester, find.byType(Scrollable).first);
-      await tester.tap(find.text(ru.orderCancel).last);
+      final cancel = find.text(ru.orderCancel);
+      await tester.scrollUntilVisible(
+        cancel,
+        300,
+        scrollable: find.byType(Scrollable).first,
+      );
+      await tester.tap(cancel.last);
       await tester.pump(const Duration(milliseconds: 500));
 
       final confirm = find.descendant(

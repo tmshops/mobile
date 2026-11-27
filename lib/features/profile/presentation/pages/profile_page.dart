@@ -72,9 +72,6 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  /// Ask for the next page this far from the end of the scroll.
-  static const double _loadMoreExtent = 800;
-
   @override
   void initState() {
     super.initState();
@@ -82,17 +79,6 @@ class _ProfilePageState extends State<ProfilePage> {
     context.read<AuthCubit>().refresh(
       context.read<LocaleCubit>().state.languageCode,
     );
-  }
-
-  bool _onScroll(BuildContext context, ScrollNotification n) {
-    final forYou = context.read<ForYouBloc>();
-    if (n.metrics.axis == Axis.vertical &&
-        n.metrics.extentAfter < _loadMoreExtent &&
-        forYou.state.status == ForYouStatus.idle &&
-        forYou.state.hasMore) {
-      forYou.add(const ForYouEvent.nextPageRequested());
-    }
-    return false;
   }
 
   @override
@@ -107,63 +93,60 @@ class _ProfilePageState extends State<ProfilePage> {
         listener: (context, locale) => context.read<ForYouBloc>().add(
           ForYouEvent.started(locale.languageCode),
         ),
-        child: Builder(
-          builder: (context) => NotificationListener<ScrollNotification>(
-            onNotification: (n) => _onScroll(context, n),
-            child: BlocBuilder<AuthCubit, AuthState>(
-              builder: (context, state) => RootTabPage(
-                title: l10n.tabProfile,
-                slivers: [
-                  switch (state) {
-                    AuthUnknown() => const SliverToBoxAdapter(
-                      child: Padding(
-                        padding: AppSpacing.screenPadding,
-                        child: SkeletonList(itemCount: 3),
-                      ),
+        child: ForYouPager(
+          child: BlocBuilder<AuthCubit, AuthState>(
+            builder: (context, state) => RootTabPage(
+              title: l10n.tabProfile,
+              slivers: [
+                switch (state) {
+                  AuthUnknown() => const SliverToBoxAdapter(
+                    child: Padding(
+                      padding: AppSpacing.screenPadding,
+                      child: SkeletonList(itemCount: 3),
                     ),
-                    AuthGuest() => SliverList.list(
-                      children: [
-                        GuestSignInCard(onLogin: widget.onLogin),
-                        GuestMenu(
-                          onOpenInfo: widget.onOpenInfo,
-                          onOpenSupport: widget.onOpenSupport,
-                        ),
-                      ],
-                    ),
-                    AuthSignedIn(:final profile) => SliverList.list(
-                      children: [
-                        ProfileHeader(
-                          profile: profile,
-                          onPayDebt: widget.onOpenSurcharges,
-                          onOpenBalance: widget.onOpenBalance,
-                          onEdit: widget.onEditProfile,
-                        ),
-                        ?widget.ordersSection,
-                        CustomerMenu(
-                          isWholesale: profile.isWholesale,
-                          onOpenOrders: widget.onOpenOrders,
-                          onOpenParcels: widget.onOpenParcels,
-                          onOpenViewed: widget.onOpenViewed,
-                          onOpenPriceAlerts: widget.onOpenPriceAlerts,
-                          onOpenBalance: widget.onOpenBalance,
-                          onOpenSurcharges: widget.onOpenSurcharges,
-                          onOpenSettings: widget.onOpenSettings,
-                          onOpenNotifications: widget.onOpenNotifications,
-                          onOpenMyReviews: widget.onOpenMyReviews,
-                          onOpenInfo: widget.onOpenInfo,
-                          onOpenSupport: widget.onOpenSupport,
-                          onOpenAddresses: widget.onOpenAddresses,
-                          onOpenWholesale: widget.onOpenWholesale,
-                        ),
-                      ],
-                    ),
-                  },
-                  ForYouSlivers(
-                    title: l10n.profileRecommendations,
-                    onOpenProduct: widget.onOpenProduct,
                   ),
-                ],
-              ),
+                  AuthGuest() => SliverList.list(
+                    children: [
+                      GuestSignInCard(onLogin: widget.onLogin),
+                      GuestMenu(
+                        onOpenInfo: widget.onOpenInfo,
+                        onOpenSupport: widget.onOpenSupport,
+                      ),
+                    ],
+                  ),
+                  AuthSignedIn(:final profile) => SliverList.list(
+                    children: [
+                      ProfileHeader(
+                        profile: profile,
+                        onPayDebt: widget.onOpenSurcharges,
+                        onOpenBalance: widget.onOpenBalance,
+                        onEdit: widget.onEditProfile,
+                      ),
+                      ?widget.ordersSection,
+                      CustomerMenu(
+                        isWholesale: profile.isWholesale,
+                        onOpenOrders: widget.onOpenOrders,
+                        onOpenParcels: widget.onOpenParcels,
+                        onOpenViewed: widget.onOpenViewed,
+                        onOpenPriceAlerts: widget.onOpenPriceAlerts,
+                        onOpenBalance: widget.onOpenBalance,
+                        onOpenSurcharges: widget.onOpenSurcharges,
+                        onOpenSettings: widget.onOpenSettings,
+                        onOpenNotifications: widget.onOpenNotifications,
+                        onOpenMyReviews: widget.onOpenMyReviews,
+                        onOpenInfo: widget.onOpenInfo,
+                        onOpenSupport: widget.onOpenSupport,
+                        onOpenAddresses: widget.onOpenAddresses,
+                        onOpenWholesale: widget.onOpenWholesale,
+                      ),
+                    ],
+                  ),
+                },
+                ForYouSlivers(
+                  title: l10n.profileRecommendations,
+                  onOpenProduct: widget.onOpenProduct,
+                ),
+              ],
             ),
           ),
         ),

@@ -674,6 +674,7 @@ final _profileRoutes = <RouteBase>[
             number: number,
             onOpenParcel: (n) => context.push(AppRoutes.parcel(n)),
             onOpenProduct: (id) => context.push(AppRoutes.product(id)),
+            onOpenRecommended: (product) => _openProduct(context, product),
             onOpenCart: () => context.go(AppRoutes.cart),
             onWriteReview: (itemId) =>
                 context.push<void>(AppRoutes.writeReviewFor(number, itemId)),

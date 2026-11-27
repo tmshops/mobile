@@ -30,9 +30,6 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> with TabReselectScrollMixin {
-  /// Start loading the next «Для вас» page this far from the bottom.
-  static const double _loadMoreExtent = 800;
-
   void _restart(String languageCode) {
     context.read<HomeBloc>().add(HomeEvent.started(languageCode));
     context.read<ForYouBloc>().add(ForYouEvent.started(languageCode));
@@ -62,19 +59,6 @@ class _HomeViewState extends State<HomeView> with TabReselectScrollMixin {
     if (forYou.state.status == ForYouStatus.failure) {
       forYou.add(const ForYouEvent.nextPageRequested());
     }
-  }
-
-  bool _onScroll(ScrollNotification n) {
-    final isHomeShown = context.read<HomeBloc>().state is HomeLoaded;
-    final forYou = context.read<ForYouBloc>();
-    if (isHomeShown &&
-        n.metrics.axis == Axis.vertical &&
-        n.metrics.extentAfter < _loadMoreExtent &&
-        forYou.state.status == ForYouStatus.idle &&
-        forYou.state.hasMore) {
-      forYou.add(const ForYouEvent.nextPageRequested());
-    }
-    return false;
   }
 
   @override
@@ -112,8 +96,10 @@ class _HomeViewState extends State<HomeView> with TabReselectScrollMixin {
                     isOnline ? const SizedBox.shrink() : const OfflineBanner(),
               ),
               Expanded(
-                child: NotificationListener<ScrollNotification>(
-                  onNotification: _onScroll,
+                child: ForYouPager(
+                  // «Для вас» pages only once the home content is shown.
+                  canLoadMore: () =>
+                      context.read<HomeBloc>().state is HomeLoaded,
                   child: RefreshIndicator(
                     onRefresh: _onPullToRefresh,
                     child: _HomeScrollView(

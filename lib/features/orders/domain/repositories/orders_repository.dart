@@ -3,6 +3,7 @@ import 'package:fpdart/fpdart.dart';
 import '../../../../core/error/failures.dart';
 import '../entities/order.dart';
 import '../entities/order_status.dart';
+import '../entities/orders_feed.dart';
 import '../entities/parcel.dart';
 
 /// Orders and parcels of the signed-in customer (TZ §5.15).
@@ -50,5 +51,16 @@ abstract interface class OrdersRepository {
   Future<Either<Failure, ParcelDetails>> sendNow({
     required String languageCode,
     required String number,
+  });
+
+  /// Filter counters and the tracking line of «Мои заказы» (profile).
+  Future<Either<Failure, Fetched<OrdersOverview>>> overview({
+    required String languageCode,
+  });
+
+  /// Cards of one profile filter.
+  Future<Either<Failure, Fetched<List<FeedCard>>>> feed({
+    required String languageCode,
+    required OrdersFilter filter,
   });
 }

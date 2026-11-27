@@ -90,13 +90,6 @@ extension on HomeSection {
   };
 }
 
-extension ProductPageModelX on ProductPageModel {
-  ProductPage toEntity() => ProductPage(
-    items: [for (final p in items) p.toEntity()],
-    nextCursor: nextCursor,
-  );
-}
-
 extension on VideoStoryModel {
   VideoStory toEntity() => VideoStory(
     id: id,

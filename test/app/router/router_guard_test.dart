@@ -19,6 +19,11 @@ import 'package:tmshop/features/auth/presentation/bloc/login_bloc.dart';
 import 'package:tmshop/features/auth/presentation/widgets/login_view.dart';
 import 'package:tmshop/features/orders/presentation/bloc/order_cubit.dart';
 import 'package:tmshop/features/orders/presentation/bloc/orders_cubit.dart';
+import 'package:tmshop/features/orders/presentation/bloc/loadable.dart';
+import 'package:tmshop/features/orders/presentation/bloc/orders_feed_cubits.dart';
+import 'package:tmshop/features/orders/domain/entities/orders_feed.dart';
+import 'package:tmshop/features/orders/presentation/widgets/orders_feed_view.dart';
+import 'package:tmshop/core/product/presentation/for_you_bloc.dart';
 import 'package:tmshop/features/orders/presentation/widgets/order_view.dart';
 import 'package:tmshop/features/orders/presentation/widgets/orders_view.dart';
 
@@ -34,6 +39,12 @@ class _MockLoginBloc extends MockBloc<LoginEvent, LoginState>
 class _MockOrdersCubit extends MockCubit<OrdersState> implements OrdersCubit {}
 
 class _MockOrderCubit extends MockCubit<OrderState> implements OrderCubit {}
+
+class _MockOverviewCubit extends MockCubit<Loadable<OrdersOverview>>
+    implements OrdersOverviewCubit {}
+
+class _MockFeedCubit extends MockCubit<OrdersFeedState>
+    implements OrdersFeedCubit {}
 
 class _MockViewedCubit extends MockCubit<ViewedState> implements ViewedCubit {}
 
@@ -66,8 +77,23 @@ void main() {
     when(
       () => wholesale.load(any(), prefill: any(named: 'prefill')),
     ).thenAnswer((_) async {});
+    final overview = _MockOverviewCubit();
+    when(() => overview.state).thenReturn(const Loadable<OrdersOverview>());
+    when(() => overview.load(any())).thenAnswer((_) async {});
+    final feed = _MockFeedCubit();
+    when(
+      () => feed.state,
+    ).thenReturn(const OrdersFeedState(filter: OrdersFilter.inTransit));
+    when(() => feed.load(any())).thenAnswer((_) async {});
+    final forYou = MockForYouBloc();
+    when(() => forYou.state).thenReturn(const ForYouState());
     getIt
       ..registerFactory<ViewedCubit>(() => viewed)
+      ..registerFactory<ForYouBloc>(() => forYou)
+      ..registerFactory<OrdersOverviewCubit>(() => overview)
+      ..registerFactoryParam<OrdersFeedCubit, OrdersFilter?, Object?>(
+        (filter, _) => feed,
+      )
       ..registerFactory<WholesaleApplicationCubit>(() => wholesale)
       ..registerFactory<LoginBloc>(() => login)
       ..registerFactory<OrdersCubit>(() => orders)
@@ -180,6 +206,19 @@ void main() {
     await go(tester, '/account/orders/10228');
     expect(location(), AppRoutes.order('10228'));
     expect(find.byType(OrderView), findsOneWidget);
+  });
+
+  testWidgets('profile filters need an account and open the filter', (
+    tester,
+  ) async {
+    final path = AppRoutes.ordersFeed(OrdersFilter.inTransit.name);
+    expect(AppRoutes.needsLogin(path), isTrue);
+    await pump(
+      tester,
+      const AuthState.signedIn(UserProfile(id: 'u', phone: '65123456')),
+    );
+    await go(tester, path);
+    expect(find.byType(OrdersFeedView), findsOneWidget);
   });
 
   testWidgets('notification links: tabs switch, unknown ones toast', (

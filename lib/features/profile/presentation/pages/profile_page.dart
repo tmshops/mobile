@@ -2,16 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/auth/auth_cubit.dart';
+import '../../../../core/di/injection.dart';
 import '../../../../core/l10n/l10n.dart';
 import '../../../../core/locale/locale_cubit.dart';
+import '../../../../core/product/domain/product_summary.dart';
+import '../../../../core/product/presentation/for_you_bloc.dart';
+import '../../../../core/product/presentation/for_you_slivers.dart';
 import '../../../../core/theme/theme.dart';
 import '../../../../core/widgets/widgets.dart';
 import '../widgets/profile_guest.dart';
 import '../widgets/profile_header.dart';
 import '../widgets/profile_menu.dart';
 
-/// Profile tab root (TZ §5.14, UI_DESIGN §7.11): the customer's header and
-/// menu, or a sign-in card for a guest.
+/// Profile tab root (TZ §5.14, UI_DESIGN §7.11): the customer's header,
+/// «Мои заказы» and menu, or a sign-in card for a guest; then an endless
+/// «Вам может понравиться» grid.
 class ProfilePage extends StatefulWidget {
   const ProfilePage({
     required this.onLogin,
@@ -29,6 +34,8 @@ class ProfilePage extends StatefulWidget {
     required this.onOpenSupport,
     required this.onOpenAddresses,
     required this.onOpenWholesale,
+    required this.onOpenProduct,
+    this.ordersSection,
     super.key,
   });
 
@@ -53,11 +60,21 @@ class ProfilePage extends StatefulWidget {
   /// wholesale one.
   final VoidCallback onOpenWholesale;
 
+  /// A tile of the recommendations grid.
+  final ValueChanged<ProductSummary> onOpenProduct;
+
+  /// «Мои заказы» card under the header, signed-in only. Built by the app
+  /// from the orders feature, which this feature must not import.
+  final Widget? ordersSection;
+
   @override
   State<ProfilePage> createState() => _ProfilePageState();
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  /// Ask for the next page this far from the end of the scroll.
+  static const double _loadMoreExtent = 800;
+
   @override
   void initState() {
     super.initState();
@@ -67,55 +84,86 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
+  bool _onScroll(BuildContext context, ScrollNotification n) {
+    final forYou = context.read<ForYouBloc>();
+    if (n.metrics.axis == Axis.vertical &&
+        n.metrics.extentAfter < _loadMoreExtent &&
+        forYou.state.status == ForYouStatus.idle &&
+        forYou.state.hasMore) {
+      forYou.add(const ForYouEvent.nextPageRequested());
+    }
+    return false;
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    return BlocBuilder<AuthCubit, AuthState>(
-      builder: (context, state) => RootTabPage(
-        title: l10n.tabProfile,
-        slivers: [
-          switch (state) {
-            AuthUnknown() => const SliverToBoxAdapter(
-              child: Padding(
-                padding: AppSpacing.screenPadding,
-                child: SkeletonList(itemCount: 3),
+    return BlocProvider(
+      create: (context) => getIt<ForYouBloc>()
+        ..add(
+          ForYouEvent.started(context.read<LocaleCubit>().state.languageCode),
+        ),
+      child: BlocListener<LocaleCubit, Locale>(
+        listener: (context, locale) => context.read<ForYouBloc>().add(
+          ForYouEvent.started(locale.languageCode),
+        ),
+        child: Builder(
+          builder: (context) => NotificationListener<ScrollNotification>(
+            onNotification: (n) => _onScroll(context, n),
+            child: BlocBuilder<AuthCubit, AuthState>(
+              builder: (context, state) => RootTabPage(
+                title: l10n.tabProfile,
+                slivers: [
+                  switch (state) {
+                    AuthUnknown() => const SliverToBoxAdapter(
+                      child: Padding(
+                        padding: AppSpacing.screenPadding,
+                        child: SkeletonList(itemCount: 3),
+                      ),
+                    ),
+                    AuthGuest() => SliverList.list(
+                      children: [
+                        GuestSignInCard(onLogin: widget.onLogin),
+                        GuestMenu(onOpenInfo: widget.onOpenInfo),
+                      ],
+                    ),
+                    AuthSignedIn(:final profile) => SliverList.list(
+                      children: [
+                        ProfileHeader(
+                          profile: profile,
+                          onPayDebt: widget.onOpenSurcharges,
+                          onOpenBalance: widget.onOpenBalance,
+                          onEdit: widget.onEditProfile,
+                        ),
+                        ?widget.ordersSection,
+                        CustomerMenu(
+                          isWholesale: profile.isWholesale,
+                          onOpenOrders: widget.onOpenOrders,
+                          onOpenParcels: widget.onOpenParcels,
+                          onOpenViewed: widget.onOpenViewed,
+                          onOpenPriceAlerts: widget.onOpenPriceAlerts,
+                          onOpenBalance: widget.onOpenBalance,
+                          onOpenSurcharges: widget.onOpenSurcharges,
+                          onOpenSettings: widget.onOpenSettings,
+                          onOpenNotifications: widget.onOpenNotifications,
+                          onOpenMyReviews: widget.onOpenMyReviews,
+                          onOpenInfo: widget.onOpenInfo,
+                          onOpenSupport: widget.onOpenSupport,
+                          onOpenAddresses: widget.onOpenAddresses,
+                          onOpenWholesale: widget.onOpenWholesale,
+                        ),
+                      ],
+                    ),
+                  },
+                  ForYouSlivers(
+                    title: l10n.profileRecommendations,
+                    onOpenProduct: widget.onOpenProduct,
+                  ),
+                ],
               ),
             ),
-            AuthGuest() => SliverList.list(
-              children: [
-                GuestSignInCard(onLogin: widget.onLogin),
-                GuestMenu(onOpenInfo: widget.onOpenInfo),
-              ],
-            ),
-            AuthSignedIn(:final profile) => SliverList.list(
-              children: [
-                ProfileHeader(
-                  profile: profile,
-                  onPayDebt: widget.onOpenSurcharges,
-                  onOpenBalance: widget.onOpenBalance,
-                  onEdit: widget.onEditProfile,
-                ),
-                CustomerMenu(
-                  isWholesale: profile.isWholesale,
-                  onOpenOrders: widget.onOpenOrders,
-                  onOpenParcels: widget.onOpenParcels,
-                  onOpenViewed: widget.onOpenViewed,
-                  onOpenPriceAlerts: widget.onOpenPriceAlerts,
-                  onOpenBalance: widget.onOpenBalance,
-                  onOpenSurcharges: widget.onOpenSurcharges,
-                  onOpenSettings: widget.onOpenSettings,
-                  onOpenNotifications: widget.onOpenNotifications,
-                  onOpenMyReviews: widget.onOpenMyReviews,
-                  onOpenInfo: widget.onOpenInfo,
-                  onOpenSupport: widget.onOpenSupport,
-                  onOpenAddresses: widget.onOpenAddresses,
-                  onOpenWholesale: widget.onOpenWholesale,
-                ),
-              ],
-            ),
-          },
-          const SliverToBoxAdapter(child: SizedBox(height: AppSpacing.x24)),
-        ],
+          ),
+        ),
       ),
     );
   }

@@ -4,12 +4,17 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:tmshop/core/auth/auth_cubit.dart';
 import 'package:tmshop/core/auth/user_profile.dart';
+import 'package:tmshop/core/di/injection.dart';
 import 'package:tmshop/core/l10n/l10n.dart';
+import 'package:tmshop/core/product/presentation/for_you_bloc.dart';
 import 'package:tmshop/core/theme/theme.dart';
 import 'package:tmshop/core/utils/money_format.dart';
 import 'package:tmshop/features/profile/presentation/pages/profile_page.dart';
 
+import '../../helpers/home_fixtures.dart';
 import '../../helpers/mock_blocs.dart';
+
+const _ordersSection = 'orders-section';
 
 const _customer = UserProfile(
   id: 'u',
@@ -26,6 +31,21 @@ void main() {
   final ru = lookupAppLocalizations(AppLocales.ru);
   late GlobalCubits cubits;
   late List<String> taps;
+  late MockForYouBloc forYou;
+
+  setUp(() {
+    forYou = MockForYouBloc();
+    when(() => forYou.state).thenReturn(
+      ForYouState(
+        items: samplePage('ru').items,
+        nextCursor: '1',
+        status: ForYouStatus.idle,
+      ),
+    );
+    getIt.registerFactory<ForYouBloc>(() => forYou);
+  });
+
+  tearDown(getIt.reset);
 
   Future<void> pump(
     WidgetTester tester,
@@ -68,12 +88,61 @@ void main() {
             onOpenSupport: () => taps.add('support'),
             onOpenAddresses: () => taps.add('addresses'),
             onOpenWholesale: () => taps.add('wholesale'),
+            onOpenProduct: (p) => taps.add('product:${p.id}'),
+            ordersSection: const Text(_ordersSection),
           ),
         ),
       ),
     );
     await tester.pump();
   }
+
+  testWidgets('«Мои заказы» sits under the header, signed-in only', (
+    tester,
+  ) async {
+    await pump(tester, const AuthState.guest());
+    expect(find.text(_ordersSection), findsNothing);
+
+    await pump(tester, const AuthState.signedIn(_customer));
+    expect(find.text(_ordersSection), findsOneWidget);
+    final header = tester
+        .getTopLeft(find.textContaining(_customer.firstName))
+        .dy;
+    final orders = tester.getTopLeft(find.text(_ordersSection)).dy;
+    final menu = tester.getTopLeft(find.text(ru.profileOrders)).dy;
+    expect(orders, greaterThan(header));
+    expect(orders, lessThan(menu));
+  });
+
+  testWidgets('recommendations grid at the bottom opens a product', (
+    tester,
+  ) async {
+    await pump(tester, const AuthState.signedIn(_customer));
+    final first = samplePage('ru').items.first;
+    final tile = find.text(first.title);
+    await tester.dragUntilVisible(
+      tile,
+      find.byType(CustomScrollView),
+      const Offset(0, -300),
+    );
+    expect(find.text(ru.profileRecommendations), findsOneWidget);
+    await tester.ensureVisible(tile);
+    await tester.pump();
+    await tester.tap(tile);
+    expect(taps, ['product:${first.id}']);
+    await tester.pumpWidget(const SizedBox());
+  });
+
+  testWidgets('scrolling near the end asks for the next page', (tester) async {
+    await pump(tester, const AuthState.signedIn(_customer));
+    verify(() => forYou.add(const ForYouEvent.started('ru'))).called(1);
+    await tester.drag(find.byType(CustomScrollView), const Offset(0, -3000));
+    await tester.pump();
+    verify(
+      () => forYou.add(const ForYouEvent.nextPageRequested()),
+    ).called(greaterThan(0));
+    await tester.pumpWidget(const SizedBox());
+  });
 
   testWidgets('guest: sign-in card, language and region', (tester) async {
     await pump(tester, const AuthState.guest());

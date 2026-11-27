@@ -18,8 +18,6 @@ class FakeHomeRemoteDataSource implements HomeRemoteDataSource {
   final NetworkInfo _networkInfo;
 
   static const _latency = Duration(milliseconds: 700);
-  static const _pageSize = 10;
-  static const _pageCount = 5;
 
   Future<void> _request() async {
     if (!await _networkInfo.isOnline) throw const NetworkException();
@@ -31,26 +29,6 @@ class FakeHomeRemoteDataSource implements HomeRemoteDataSource {
     await _request();
     final json = FakeHomeSamples.home(languageCode, now: DateTime.now());
     return _parse(() => HomeResponseModel.fromJson(json));
-  }
-
-  @override
-  Future<ProductPageModel> getRecommendations({
-    required String languageCode,
-    String? cursor,
-  }) async {
-    await _request();
-    final page = cursor == null ? 0 : int.tryParse(cursor) ?? 0;
-    final json = {
-      'items': [
-        for (var i = 0; i < _pageSize; i++)
-          FakeHomeSamples.product(
-            languageCode,
-            page * _pageSize + i + FakeHomeSamples.feedSeedOffset,
-          ),
-      ],
-      'next_cursor': page + 1 < _pageCount ? '${page + 1}' : null,
-    };
-    return _parse(() => ProductPageModel.fromJson(json));
   }
 
   static T _parse<T>(T Function() parse) {

@@ -127,15 +127,3 @@ abstract class DeliveryTermModel with _$DeliveryTermModel {
   factory DeliveryTermModel.fromJson(Map<String, dynamic> json) =>
       _$DeliveryTermModelFromJson(json);
 }
-
-/// `GET /home/recommendations?cursor=` response.
-@freezed
-abstract class ProductPageModel with _$ProductPageModel {
-  const factory ProductPageModel({
-    required List<ProductSummaryModel> items,
-    String? nextCursor,
-  }) = _ProductPageModel;
-
-  factory ProductPageModel.fromJson(Map<String, dynamic> json) =>
-      _$ProductPageModelFromJson(json);
-}

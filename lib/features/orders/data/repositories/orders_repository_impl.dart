@@ -5,9 +5,12 @@ import '../../../../core/error/exceptions.dart';
 import '../../../../core/error/failures.dart';
 import '../../domain/entities/order.dart';
 import '../../domain/entities/order_status.dart';
+import '../../domain/entities/orders_feed.dart';
 import '../../domain/entities/parcel.dart';
 import '../../domain/repositories/orders_repository.dart';
 import '../datasources/orders_data_sources.dart';
+import '../models/orders_feed_mappers.dart';
+import '../models/orders_feed_models.dart';
 import '../models/orders_mappers.dart';
 import '../models/orders_models.dart';
 
@@ -120,6 +123,32 @@ class OrdersRepositoryImpl implements OrdersRepository {
     toJson: (m) => m.toJson(),
     toEntity: (m) => m.toEntity(),
   );
+
+  @override
+  Future<Either<Failure, Fetched<OrdersOverview>>> overview({
+    required String languageCode,
+  }) => _fetch(
+    key: OrdersLocalDataSource.overviewKey(languageCode),
+    load: () => _remote.overview(languageCode),
+    toJson: (m) => m.toJson(),
+    fromJson: OrdersOverviewModel.fromJson,
+    toEntity: (m) => m.toEntity(),
+  );
+
+  @override
+  Future<Either<Failure, Fetched<List<FeedCard>>>> feed({
+    required String languageCode,
+    required OrdersFilter filter,
+  }) {
+    final param = ordersFilterParam(filter);
+    return _fetch(
+      key: OrdersLocalDataSource.feedKey(languageCode, param),
+      load: () => _remote.feed(languageCode, param),
+      toJson: (m) => m.toJson(),
+      fromJson: OrdersFeedModel.fromJson,
+      toEntity: (m) => m.toEntity(),
+    );
+  }
 
   /// Network first; when offline, the device copy marked as such.
   Future<Either<Failure, Fetched<E>>> _fetch<M, E>({

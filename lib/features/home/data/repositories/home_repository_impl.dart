@@ -58,22 +58,6 @@ class HomeRepositoryImpl implements HomeRepository {
     }
   }
 
-  @override
-  Future<Either<Failure, ProductPage>> getRecommendations({
-    required String languageCode,
-    String? cursor,
-  }) async {
-    try {
-      final page = await _remote.getRecommendations(
-        languageCode: languageCode,
-        cursor: cursor,
-      );
-      return right(page.toEntity());
-    } on AppException catch (e) {
-      return left(_mapException(e));
-    }
-  }
-
   static Failure _mapException(AppException e) => switch (e) {
     NetworkException() => const NetworkFailure(),
     ServerException(:final code, :final message) => ServerFailure(

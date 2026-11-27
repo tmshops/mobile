@@ -55,9 +55,14 @@ import 'package:tmshop/core/network/network_info.dart' as _i566;
 import 'package:tmshop/core/notifications/notifications_counter.dart' as _i363;
 import 'package:tmshop/core/price_alerts/price_alerts_cubit.dart' as _i1065;
 import 'package:tmshop/core/price_alerts/price_alerts_repository.dart' as _i944;
+import 'package:tmshop/core/product/data/recommendations_repository_impl.dart'
+    as _i617;
 import 'package:tmshop/core/product/data/variants_repository_impl.dart'
     as _i331;
 import 'package:tmshop/core/product/domain/product_variants.dart' as _i623;
+import 'package:tmshop/core/product/domain/recommendations_repository.dart'
+    as _i868;
+import 'package:tmshop/core/product/presentation/for_you_bloc.dart' as _i226;
 import 'package:tmshop/core/product/presentation/variant_picker_cubit.dart'
     as _i508;
 import 'package:tmshop/core/region/region_cubit.dart' as _i627;
@@ -164,10 +169,6 @@ import 'package:tmshop/features/home/domain/usecases/fetch_home_use_case.dart'
     as _i895;
 import 'package:tmshop/features/home/domain/usecases/get_cached_home_use_case.dart'
     as _i628;
-import 'package:tmshop/features/home/domain/usecases/get_recommendations_use_case.dart'
-    as _i113;
-import 'package:tmshop/features/home/presentation/bloc/for_you_bloc.dart'
-    as _i594;
 import 'package:tmshop/features/home/presentation/bloc/home_bloc.dart' as _i621;
 import 'package:tmshop/features/info/data/datasources/info_data_sources.dart'
     as _i208;
@@ -197,6 +198,8 @@ import 'package:tmshop/features/orders/data/datasources/orders_data_sources.dart
     as _i867;
 import 'package:tmshop/features/orders/data/repositories/orders_repository_impl.dart'
     as _i847;
+import 'package:tmshop/features/orders/domain/entities/orders_feed.dart'
+    as _i375;
 import 'package:tmshop/features/orders/domain/repositories/orders_repository.dart'
     as _i1026;
 import 'package:tmshop/features/orders/domain/usecases/orders_use_cases.dart'
@@ -205,6 +208,8 @@ import 'package:tmshop/features/orders/presentation/bloc/order_cubit.dart'
     as _i756;
 import 'package:tmshop/features/orders/presentation/bloc/orders_cubit.dart'
     as _i41;
+import 'package:tmshop/features/orders/presentation/bloc/orders_feed_cubits.dart'
+    as _i372;
 import 'package:tmshop/features/orders/presentation/bloc/parcel_cubits.dart'
     as _i706;
 import 'package:tmshop/features/photo_search/data/datasources/photo_search_remote_data_source.dart'
@@ -540,6 +545,10 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i1055.LazyBox<String>>(instanceName: 'catalog_cache'),
       ),
     );
+    gh.lazySingleton<_i617.RecommendationsRemoteDataSource>(
+      () => _i617.FakeRecommendationsRemoteDataSource(gh<_i566.NetworkInfo>()),
+      registerFor: {_dev},
+    );
     gh.lazySingleton<_i862.VideoFeedRemoteDataSource>(
       () => _i862.FakeVideoFeedRemoteDataSource(
         gh<_i823.FakeVideoBackend>(),
@@ -669,6 +678,11 @@ extension GetItInjectableX on _i174.GetIt {
       ),
       registerFor: {_dev},
     );
+    gh.lazySingleton<_i868.RecommendationsRepository>(
+      () => _i617.RecommendationsRepositoryImpl(
+        gh<_i617.RecommendationsRemoteDataSource>(),
+      ),
+    );
     gh.lazySingleton<_i703.FavouritesRemoteDataSource>(
       () => _i703.FakeFavouritesRemoteDataSource(
         gh<_i566.NetworkInfo>(),
@@ -789,9 +803,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i628.GetCachedHomeUseCase>(
       () => _i628.GetCachedHomeUseCase(gh<_i465.HomeRepository>()),
     );
-    gh.lazySingleton<_i113.GetRecommendationsUseCase>(
-      () => _i113.GetRecommendationsUseCase(gh<_i465.HomeRepository>()),
-    );
     gh.lazySingleton<_i1046.FetchProductUseCase>(
       () => _i1046.FetchProductUseCase(gh<_i210.ProductRepository>()),
     );
@@ -868,9 +879,6 @@ extension GetItInjectableX on _i174.GetIt {
       ),
       registerFor: {_dev},
     );
-    gh.factory<_i594.ForYouBloc>(
-      () => _i594.ForYouBloc(gh<_i113.GetRecommendationsUseCase>()),
-    );
     gh.factory<_i146.LinkImportCubit>(
       () => _i146.LinkImportCubit(gh<_i300.LinkImportRepository>()),
     );
@@ -883,6 +891,11 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i333.FakeSettingsBackend>(),
       ),
       registerFor: {_dev},
+    );
+    gh.lazySingleton<_i868.GetRecommendationsUseCase>(
+      () => _i868.GetRecommendationsUseCase(
+        gh<_i868.RecommendationsRepository>(),
+      ),
     );
     gh.lazySingleton<_i1026.OrdersRepository>(
       () => _i847.OrdersRepositoryImpl(
@@ -1090,14 +1103,26 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i642.SendParcelNowUseCase>(
       () => _i642.SendParcelNowUseCase(gh<_i1026.OrdersRepository>()),
     );
+    gh.lazySingleton<_i642.GetOrdersOverviewUseCase>(
+      () => _i642.GetOrdersOverviewUseCase(gh<_i1026.OrdersRepository>()),
+    );
+    gh.lazySingleton<_i642.GetOrdersFeedUseCase>(
+      () => _i642.GetOrdersFeedUseCase(gh<_i1026.OrdersRepository>()),
+    );
     gh.factory<_i154.AuthCubit>(
       () => _i154.AuthCubit(gh<_i238.SessionRepository>()),
+    );
+    gh.factory<_i226.ForYouBloc>(
+      () => _i226.ForYouBloc(gh<_i868.GetRecommendationsUseCase>()),
     );
     gh.factory<_i613.FiltersBloc>(
       () => _i613.FiltersBloc(gh<_i970.GetCategoryFacetsUseCase>()),
     );
     gh.factory<_i706.ParcelsCubit>(
       () => _i706.ParcelsCubit(gh<_i642.GetParcelsUseCase>()),
+    );
+    gh.factory<_i372.OrdersOverviewCubit>(
+      () => _i372.OrdersOverviewCubit(gh<_i642.GetOrdersOverviewUseCase>()),
     );
     gh.factory<_i41.OrdersCubit>(
       () => _i41.OrdersCubit(
@@ -1145,6 +1170,10 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i923.RequestCodeUseCase>(),
         gh<_i923.VerifyCodeUseCase>(),
       ),
+    );
+    gh.factoryParam<_i372.OrdersFeedCubit, _i375.OrdersFilter?, dynamic>(
+      (initial, _) =>
+          _i372.OrdersFeedCubit(gh<_i642.GetOrdersFeedUseCase>(), initial),
     );
     gh.factory<_i756.OrderCubit>(
       () => _i756.OrderCubit(

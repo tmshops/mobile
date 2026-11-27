@@ -3,9 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../../../core/error/failures.dart';
-import '../../../../core/product/domain/product_summary.dart';
-import '../../domain/usecases/get_recommendations_use_case.dart';
+import '../../error/failures.dart';
+import '../domain/product_summary.dart';
+import '../domain/recommendations_repository.dart';
 
 part 'for_you_bloc.freezed.dart';
 
@@ -34,7 +34,8 @@ abstract class ForYouState with _$ForYouState {
   bool get hasMore => status == ForYouStatus.initial || nextCursor != null;
 }
 
-/// Endless «Для вас» grid at the bottom of Home.
+/// Endless recommendations grid at the bottom of Home («Для вас») and
+/// Profile («Вам может понравиться»).
 @injectable
 class ForYouBloc extends Bloc<ForYouEvent, ForYouState> {
   ForYouBloc(this._getRecommendations) : super(const ForYouState()) {

@@ -9,10 +9,4 @@ abstract interface class HomeRepository {
 
   /// Downloads Home and replaces the cache on success.
   Future<Either<Failure, HomeContent>> fetchHome(String languageCode);
-
-  /// One page of «Для вас»; `cursor == null` loads the first page.
-  Future<Either<Failure, ProductPage>> getRecommendations({
-    required String languageCode,
-    String? cursor,
-  });
 }

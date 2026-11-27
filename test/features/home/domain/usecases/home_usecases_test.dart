@@ -5,7 +5,6 @@ import 'package:tmshop/core/error/failures.dart';
 import 'package:tmshop/features/home/domain/repositories/home_repository.dart';
 import 'package:tmshop/features/home/domain/usecases/fetch_home_use_case.dart';
 import 'package:tmshop/features/home/domain/usecases/get_cached_home_use_case.dart';
-import 'package:tmshop/features/home/domain/usecases/get_recommendations_use_case.dart';
 
 import '../../../../helpers/home_fixtures.dart';
 
@@ -30,17 +29,5 @@ void main() {
     ).thenAnswer((_) async => left(const NetworkFailure()));
     final result = await FetchHomeUseCase(repository)('tk');
     expect(result.getLeft().toNullable(), isA<NetworkFailure>());
-  });
-
-  test('GetRecommendationsUseCase passes the cursor through', () async {
-    final page = samplePage('ru');
-    when(
-      () => repository.getRecommendations(languageCode: 'ru', cursor: '3'),
-    ).thenAnswer((_) async => right(page));
-    final result = await GetRecommendationsUseCase(repository)(
-      languageCode: 'ru',
-      cursor: '3',
-    );
-    expect(result, right(page));
   });
 }

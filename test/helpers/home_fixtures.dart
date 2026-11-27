@@ -1,5 +1,7 @@
 import 'package:tmshop/core/dev/fake_backend/fake_home_samples.dart';
 import 'package:tmshop/features/home/data/models/home_mappers.dart';
+import 'package:tmshop/core/product/data/product_page_model.dart';
+import 'package:tmshop/core/product/domain/product_page.dart';
 import 'package:tmshop/features/home/data/models/home_models.dart';
 import 'package:tmshop/features/home/domain/entities/home_content.dart';
 

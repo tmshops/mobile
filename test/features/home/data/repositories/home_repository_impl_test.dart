@@ -4,8 +4,6 @@ import 'package:tmshop/core/error/exceptions.dart';
 import 'package:tmshop/core/error/failures.dart';
 import 'package:tmshop/features/home/data/datasources/home_local_data_source.dart';
 import 'package:tmshop/features/home/data/datasources/home_remote_data_source.dart';
-import 'package:tmshop/core/product/data/product_summary_model.dart';
-import 'package:tmshop/features/home/data/models/home_models.dart';
 import 'package:tmshop/features/home/data/repositories/home_repository_impl.dart';
 
 import '../../../../helpers/home_fixtures.dart';
@@ -95,24 +93,5 @@ void main() {
         isA<CacheFailure>(),
       );
     });
-  });
-
-  test('getRecommendations maps the page', () async {
-    when(
-      () => remote.getRecommendations(languageCode: 'ru', cursor: '1'),
-    ).thenAnswer(
-      (_) async => const ProductPageModel(
-        items: [
-          ProductSummaryModel(id: 'a', title: 'A', imageUrl: 'u', price: 1),
-        ],
-        nextCursor: '2',
-      ),
-    );
-    final page = (await repository.getRecommendations(
-      languageCode: 'ru',
-      cursor: '1',
-    )).getOrElse((_) => throw StateError('left'));
-    expect(page.items.single.id, 'a');
-    expect(page.nextCursor, '2');
   });
 }

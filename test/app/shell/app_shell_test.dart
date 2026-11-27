@@ -15,7 +15,7 @@ import 'package:tmshop/features/catalog/presentation/bloc/category_products_bloc
 import 'package:tmshop/features/catalog/presentation/bloc/category_tree_bloc.dart';
 import 'package:tmshop/features/catalog/presentation/widgets/catalog_view.dart';
 import 'package:tmshop/features/catalog/presentation/widgets/category_products_view.dart';
-import 'package:tmshop/features/home/presentation/bloc/for_you_bloc.dart';
+import 'package:tmshop/core/product/presentation/for_you_bloc.dart';
 import 'package:tmshop/features/home/presentation/bloc/home_bloc.dart';
 import 'package:tmshop/features/home/presentation/widgets/home_view.dart';
 import 'package:tmshop/features/kit/presentation/pages/kit_page.dart';

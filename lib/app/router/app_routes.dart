@@ -29,6 +29,16 @@ abstract final class AppRoutes {
   static String order(String number) =>
       '$orders/${Uri.encodeComponent(number)}';
 
+  static const ordersFilterParam = 'filter';
+
+  /// Profile «Мои заказы» filter: [ordersFilterParam] is an `OrdersFilter`
+  /// name. Relative to [profile].
+  static const ordersFeedPath = 'my-orders/:$ordersFilterParam';
+  static const ordersFeedPrefix = '$profile/my-orders';
+
+  static String ordersFeed(String filter) =>
+      '$ordersFeedPrefix/${Uri.encodeComponent(filter)}';
+
   static const parcelsPath = 'parcels';
   static const parcels = '$profile/$parcelsPath';
 
@@ -272,6 +282,7 @@ abstract final class AppRoutes {
       location == checkout ||
       location.startsWith('$checkout?') ||
       location.startsWith(orders) ||
+      location.startsWith(ordersFeedPrefix) ||
       location.startsWith(parcels) ||
       location.startsWith(priceAlerts) ||
       location.startsWith(balance) ||

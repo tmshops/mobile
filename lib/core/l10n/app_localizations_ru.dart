@@ -1000,6 +1000,67 @@ class AppLocalizationsRu extends AppLocalizations {
   String get ordersCopy => 'Скопировать';
 
   @override
+  String get ordersFilterAwaitingPayment => 'Ждут оплаты';
+
+  @override
+  String get ordersFilterBuying => 'Выкупаем';
+
+  @override
+  String get ordersFilterInTransit => 'В пути';
+
+  @override
+  String get ordersFilterToReview => 'Ждут отзыва';
+
+  @override
+  String get ordersFilterProblems => 'Проблемы';
+
+  @override
+  String ordersFilterSpoken(String label, int count) {
+    return '$label: $count';
+  }
+
+  @override
+  String get ordersTrackingOpen => 'Смотреть';
+
+  @override
+  String get ordersFeedPay => 'Оплатить';
+
+  @override
+  String get ordersFeedPaySurcharge => 'Доплатить';
+
+  @override
+  String get ordersFeedTrack => 'Отследить';
+
+  @override
+  String get ordersFeedReview => 'Оставить отзыв';
+
+  @override
+  String get ordersFeedResolve => 'Решить';
+
+  @override
+  String get ordersFeedDetails => 'Подробнее';
+
+  @override
+  String ordersFeedDue(String amount) {
+    return 'К оплате $amount';
+  }
+
+  @override
+  String ordersFeedQuantity(int count) {
+    return '×$count';
+  }
+
+  @override
+  String get ordersFeedEmpty => 'Здесь пока пусто';
+
+  @override
+  String get ordersFeedEmptyText =>
+      'Когда появятся такие заказы, они будут здесь';
+
+  @override
+  String get profileRecommendations => 'Вам может понравиться';
+
+  @override
   String orderNumber(String number) {
     return 'Заказ №$number';
   }

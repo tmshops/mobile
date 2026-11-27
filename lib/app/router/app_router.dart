@@ -32,7 +32,11 @@ import '../../features/info/presentation/pages/info_pages.dart';
 import '../../features/kit/presentation/pages/kit_page.dart';
 import '../../features/notifications/presentation/pages/notifications_page.dart';
 import '../../features/orders/presentation/pages/order_page.dart';
+import '../../features/orders/domain/entities/orders_feed.dart';
+import '../../features/orders/presentation/pages/orders_feed_page.dart';
 import '../../features/orders/presentation/pages/orders_page.dart';
+import '../../features/orders/presentation/widgets/orders_feed_view.dart';
+import '../../features/orders/presentation/widgets/orders_overview_section.dart';
 import '../../features/orders/presentation/pages/parcel_page.dart';
 import '../../features/orders/presentation/pages/parcels_page.dart';
 import '../../features/product/presentation/pages/product_page.dart';
@@ -170,6 +174,17 @@ GoRouter createAppRouter({
                   AppRoutes.wholesaleDocs,
                 _ => AppRoutes.wholesale,
               }),
+              onOpenProduct: (product) => _openProduct(context, product),
+              ordersSection: OrdersOverviewSection(
+                onOpenAll: () => context.push<void>(AppRoutes.orders),
+                onOpenFilter: (filter) =>
+                    context.push<void>(AppRoutes.ordersFeed(filter.name)),
+                onOpenTracking: (update) =>
+                    context.push<void>(switch (update.kind) {
+                      FeedKind.order => AppRoutes.order(update.number),
+                      FeedKind.parcel => AppRoutes.parcel(update.number),
+                    }),
+              ),
             ),
             routes: _profileRoutes,
           ),
@@ -529,6 +544,33 @@ String? _guard(AuthState auth, Uri uri) {
 
 /// Orders, parcels, money, viewed and price alerts inside the Profile tab.
 final _profileRoutes = <RouteBase>[
+  GoRoute(
+    path: AppRoutes.ordersFeedPath,
+    builder: (context, state) {
+      final name = state.pathParameters[AppRoutes.ordersFilterParam];
+      final filter = OrdersFilter.values.asNameMap()[name];
+      return OrdersFeedPage(
+        // Key by filter so a link to another filter opens a fresh page.
+        key: ValueKey(filter),
+        filter: filter ?? OrdersFilter.values.first,
+        navigator: OrdersFeedNavigator(
+          openOrder: (number) => context.push<void>(AppRoutes.order(number)),
+          openParcel: (number) => context.push<void>(AppRoutes.parcel(number)),
+          // No payment id yet: the payment page starts a new one.
+          pay: (number, amount) => context.push<void>(
+            AppRoutes.payment(number),
+            extra: PlacedOrder(
+              number: number,
+              payNow: amount,
+              payment: PaymentMethod.card,
+            ),
+          ),
+          writeReview: (number, itemId) =>
+              context.push<void>(AppRoutes.writeReviewFor(number, itemId)),
+        ),
+      );
+    },
+  ),
   GoRoute(
     path: AppRoutes.addressesPath,
     builder: (context, _) => AddressesPage(

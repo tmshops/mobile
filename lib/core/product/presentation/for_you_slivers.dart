@@ -1,21 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/l10n/l10n.dart';
-import '../../../../core/theme/theme.dart';
-import '../../../../core/widgets/widgets.dart';
-import '../bloc/for_you_bloc.dart';
-import '../home_destination.dart';
-import '../../../../core/product/presentation/product_summary_tile.dart';
+import '../../l10n/l10n.dart';
+import '../../theme/theme.dart';
+import '../../widgets/widgets.dart';
+import '../domain/product_summary.dart';
+import 'for_you_bloc.dart';
+import 'product_summary_tile.dart';
 
-/// «Для вас»: header, 2-column grid and a bottom loader / retry row.
+/// Recommendations: [title] header, 2-column grid and a bottom loader /
+/// retry row. Expects [ForYouBloc]; the screen asks for more pages on
+/// scroll.
 ///
 /// Rows of two tiles rather than a fixed-extent grid, so tiles grow with
 /// Turkmen titles and large text instead of clipping.
 class ForYouSlivers extends StatelessWidget {
-  const ForYouSlivers({required this.onNavigate, super.key});
+  const ForYouSlivers({
+    required this.title,
+    required this.onOpenProduct,
+    super.key,
+  });
 
-  final HomeNavigator onNavigate;
+  final String title;
+
+  /// The tapped tile, passed on as the product page preview.
+  final ValueChanged<ProductSummary> onOpenProduct;
 
   @override
   Widget build(BuildContext context) {
@@ -31,9 +40,7 @@ class ForYouSlivers extends StatelessWidget {
                   top: AppSpacing.section,
                   bottom: AppSpacing.x12,
                 ),
-                sliver: SliverToBoxAdapter(
-                  child: SectionHeader(title: context.l10n.homeForYou),
-                ),
+                sliver: SliverToBoxAdapter(child: SectionHeader(title: title)),
               ),
             SliverPadding(
               padding: AppSpacing.screenPadding,
@@ -50,12 +57,7 @@ class ForYouSlivers extends StatelessWidget {
                         child: switch (row * 2 + col) {
                           final i when i < items.length => ProductSummaryTile(
                             product: items[i],
-                            onTap: () => onNavigate(
-                              HomeDestination.product(
-                                items[i].id,
-                                preview: items[i],
-                              ),
-                            ),
+                            onTap: () => onOpenProduct(items[i]),
                           ),
                           _ => const SizedBox.shrink(),
                         },

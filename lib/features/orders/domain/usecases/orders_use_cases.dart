@@ -4,6 +4,7 @@ import 'package:injectable/injectable.dart';
 import '../../../../core/error/failures.dart';
 import '../entities/order.dart';
 import '../entities/order_status.dart';
+import '../entities/orders_feed.dart';
 import '../entities/parcel.dart';
 import '../repositories/orders_repository.dart';
 
@@ -112,4 +113,27 @@ class SendParcelNowUseCase {
     required String languageCode,
     required String number,
   }) => _repository.sendNow(languageCode: languageCode, number: number);
+}
+
+@lazySingleton
+class GetOrdersOverviewUseCase {
+  const GetOrdersOverviewUseCase(this._repository);
+
+  final OrdersRepository _repository;
+
+  Future<Either<Failure, Fetched<OrdersOverview>>> call({
+    required String languageCode,
+  }) => _repository.overview(languageCode: languageCode);
+}
+
+@lazySingleton
+class GetOrdersFeedUseCase {
+  const GetOrdersFeedUseCase(this._repository);
+
+  final OrdersRepository _repository;
+
+  Future<Either<Failure, Fetched<List<FeedCard>>>> call({
+    required String languageCode,
+    required OrdersFilter filter,
+  }) => _repository.feed(languageCode: languageCode, filter: filter);
 }

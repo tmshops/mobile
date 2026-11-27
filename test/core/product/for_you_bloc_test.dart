@@ -5,11 +5,11 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:tmshop/core/error/failures.dart';
-import 'package:tmshop/features/home/domain/entities/home_content.dart';
-import 'package:tmshop/features/home/domain/usecases/get_recommendations_use_case.dart';
-import 'package:tmshop/features/home/presentation/bloc/for_you_bloc.dart';
+import 'package:tmshop/core/product/domain/product_page.dart';
+import 'package:tmshop/core/product/domain/recommendations_repository.dart';
+import 'package:tmshop/core/product/presentation/for_you_bloc.dart';
 
-import '../../../../helpers/home_fixtures.dart';
+import '../../helpers/home_fixtures.dart';
 
 class _MockGetRecommendations extends Mock
     implements GetRecommendationsUseCase {}

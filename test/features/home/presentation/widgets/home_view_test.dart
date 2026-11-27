@@ -7,7 +7,7 @@ import 'package:tmshop/core/error/failures.dart';
 import 'package:tmshop/core/l10n/l10n.dart';
 import 'package:tmshop/core/theme/theme.dart';
 import 'package:tmshop/core/widgets/widgets.dart';
-import 'package:tmshop/features/home/presentation/bloc/for_you_bloc.dart';
+import 'package:tmshop/core/product/presentation/for_you_bloc.dart';
 import 'package:tmshop/features/home/presentation/bloc/home_bloc.dart';
 import 'package:tmshop/features/home/presentation/home_destination.dart';
 import 'package:tmshop/features/home/presentation/widgets/home_skeleton.dart';

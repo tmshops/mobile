@@ -1676,6 +1676,114 @@ abstract class AppLocalizations {
   /// **'Скопировать'**
   String get ordersCopy;
 
+  /// Profile «Мои заказы» filter: order awaiting payment or parcel awaiting surcharge
+  ///
+  /// In ru, this message translates to:
+  /// **'Ждут оплаты'**
+  String get ordersFilterAwaitingPayment;
+
+  /// Profile «Мои заказы» filter: paid items being bought and brought to the China warehouse
+  ///
+  /// In ru, this message translates to:
+  /// **'Выкупаем'**
+  String get ordersFilterBuying;
+
+  /// Profile «Мои заказы» filter: parcels on the way until handover
+  ///
+  /// In ru, this message translates to:
+  /// **'В пути'**
+  String get ordersFilterInTransit;
+
+  /// Profile «Мои заказы» filter: received items without a review
+  ///
+  /// In ru, this message translates to:
+  /// **'Ждут отзыва'**
+  String get ordersFilterToReview;
+
+  /// Profile «Мои заказы» filter: items that need the customer's decision
+  ///
+  /// In ru, this message translates to:
+  /// **'Проблемы'**
+  String get ordersFilterProblems;
+
+  /// Screen-reader label of a filter with its counter
+  ///
+  /// In ru, this message translates to:
+  /// **'{label}: {count}'**
+  String ordersFilterSpoken(String label, int count);
+
+  /// Button of the rotating tracking line in the profile
+  ///
+  /// In ru, this message translates to:
+  /// **'Смотреть'**
+  String get ordersTrackingOpen;
+
+  /// Order card button: pay the order by card
+  ///
+  /// In ru, this message translates to:
+  /// **'Оплатить'**
+  String get ordersFeedPay;
+
+  /// Parcel card button: pay the weight surcharge
+  ///
+  /// In ru, this message translates to:
+  /// **'Доплатить'**
+  String get ordersFeedPaySurcharge;
+
+  /// Parcel card button: open tracking
+  ///
+  /// In ru, this message translates to:
+  /// **'Отследить'**
+  String get ordersFeedTrack;
+
+  /// Card button: write a review of a received item
+  ///
+  /// In ru, this message translates to:
+  /// **'Оставить отзыв'**
+  String get ordersFeedReview;
+
+  /// Card button: open the order to decide on a problem item
+  ///
+  /// In ru, this message translates to:
+  /// **'Решить'**
+  String get ordersFeedResolve;
+
+  /// Card button: open the order
+  ///
+  /// In ru, this message translates to:
+  /// **'Подробнее'**
+  String get ordersFeedDetails;
+
+  /// Amount to pay now on an order or parcel card
+  ///
+  /// In ru, this message translates to:
+  /// **'К оплате {amount}'**
+  String ordersFeedDue(String amount);
+
+  /// Quantity of an item on an order card
+  ///
+  /// In ru, this message translates to:
+  /// **'×{count}'**
+  String ordersFeedQuantity(int count);
+
+  /// Empty profile order filter: title
+  ///
+  /// In ru, this message translates to:
+  /// **'Здесь пока пусто'**
+  String get ordersFeedEmpty;
+
+  /// Empty profile order filter: text
+  ///
+  /// In ru, this message translates to:
+  /// **'Когда появятся такие заказы, они будут здесь'**
+  String get ordersFeedEmptyText;
+
+  /// Title of the endless product grid at the bottom of Profile
+  ///
+  /// In ru, this message translates to:
+  /// **'Вам может понравиться'**
+  String get profileRecommendations;
+
   /// Order title
   ///
   /// In ru, this message translates to:

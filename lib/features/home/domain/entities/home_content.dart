@@ -1,7 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import 'home_section.dart';
-import '../../../../core/product/domain/product_summary.dart';
 
 part 'home_content.freezed.dart';
 
@@ -16,15 +15,4 @@ abstract class HomeContent with _$HomeContent {
     /// `true` when it came from the local cache.
     @Default(false) bool isFromCache,
   }) = _HomeContent;
-}
-
-/// One page of the endless «Для вас» feed.
-@freezed
-abstract class ProductPage with _$ProductPage {
-  const factory ProductPage({
-    required List<ProductSummary> items,
-
-    /// `null` when there are no more pages.
-    String? nextCursor,
-  }) = _ProductPage;
 }

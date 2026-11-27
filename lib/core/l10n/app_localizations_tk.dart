@@ -958,6 +958,67 @@ class AppLocalizationsTk extends AppLocalizations {
   String get ordersCopy => 'Göçürmek';
 
   @override
+  String get ordersFilterAwaitingPayment => 'Töleg garaşylýar';
+
+  @override
+  String get ordersFilterBuying => 'Satyn alýarys';
+
+  @override
+  String get ordersFilterInTransit => 'Ýolda';
+
+  @override
+  String get ordersFilterToReview => 'Syn garaşylýar';
+
+  @override
+  String get ordersFilterProblems => 'Meseleler';
+
+  @override
+  String ordersFilterSpoken(String label, int count) {
+    return '$label: $count';
+  }
+
+  @override
+  String get ordersTrackingOpen => 'Görmek';
+
+  @override
+  String get ordersFeedPay => 'Tölemek';
+
+  @override
+  String get ordersFeedPaySurcharge => 'Goşmaça tölemek';
+
+  @override
+  String get ordersFeedTrack => 'Yzarlamak';
+
+  @override
+  String get ordersFeedReview => 'Syn ýazmak';
+
+  @override
+  String get ordersFeedResolve => 'Çözmek';
+
+  @override
+  String get ordersFeedDetails => 'Jikme-jik';
+
+  @override
+  String ordersFeedDue(String amount) {
+    return 'Tölemeli $amount';
+  }
+
+  @override
+  String ordersFeedQuantity(int count) {
+    return '×$count';
+  }
+
+  @override
+  String get ordersFeedEmpty => 'Bu ýerde häzirlikçe boş';
+
+  @override
+  String get ordersFeedEmptyText =>
+      'Şeýle sargytlar peýda bolanda, şu ýerde görersiňiz';
+
+  @override
+  String get profileRecommendations => 'Size ýarap biler';
+
+  @override
   String orderNumber(String number) {
     return '№$number sargyt';
   }

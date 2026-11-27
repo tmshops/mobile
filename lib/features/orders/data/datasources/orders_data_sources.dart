@@ -6,6 +6,7 @@ import '../../../../core/database/json_cache.dart';
 import '../../../../core/dev/fake_backend/fake_orders_backend.dart';
 import '../../../../core/error/exceptions.dart';
 import '../../../../core/network/network_info.dart';
+import '../models/orders_feed_models.dart';
 import '../models/orders_models.dart';
 
 /// Orders and parcels API. Throws `NetworkException` / `ServerException`.
@@ -34,6 +35,11 @@ abstract interface class OrdersRemoteDataSource {
   Future<RepeatResponseModel> repeat(String languageCode, String number);
 
   Future<ParcelDetailsModel> sendNow(String languageCode, String number);
+
+  /// Counters and tracking line of «Мои заказы» in the profile.
+  Future<OrdersOverviewModel> overview(String languageCode);
+
+  Future<OrdersFeedModel> feed(String languageCode, String filter);
 }
 
 @LazySingleton(as: OrdersRemoteDataSource, env: [Environment.dev])
@@ -115,6 +121,16 @@ class FakeOrdersRemoteDataSource implements OrdersRemoteDataSource {
         () =>
             ParcelDetailsModel.fromJson(_backend.sendNow(languageCode, number)),
       );
+
+  @override
+  Future<OrdersOverviewModel> overview(String languageCode) => _call(
+    () => OrdersOverviewModel.fromJson(_backend.overview(languageCode)),
+  );
+
+  @override
+  Future<OrdersFeedModel> feed(String languageCode, String filter) => _call(
+    () => OrdersFeedModel.fromJson(_backend.feed(languageCode, filter)),
+  );
 }
 
 /// Last downloaded orders and parcels, for viewing offline (TZ §8). Kept in
@@ -130,6 +146,9 @@ class OrdersLocalDataSource {
   static String orderKey(String lang, String number) => 'order:$number:$lang';
   static String parcelsKey(String lang) => 'parcels:$lang';
   static String parcelKey(String lang, String number) => 'parcel:$number:$lang';
+  static String overviewKey(String lang) => 'orders-overview:$lang';
+  static String feedKey(String lang, String filter) =>
+      'orders-feed:$filter:$lang';
 
   Future<CachedJson?> read(String key) => _cache.read(key);
 

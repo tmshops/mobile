@@ -8,10 +8,10 @@ import '../../../../core/navigation/tab_reselect_scroll.dart';
 import '../../../../core/network/connectivity_cubit.dart';
 import '../../../../core/theme/theme.dart';
 import '../../../../core/widgets/widgets.dart';
-import '../bloc/for_you_bloc.dart';
+import '../../../../core/product/presentation/for_you_bloc.dart';
 import '../bloc/home_bloc.dart';
 import '../home_destination.dart';
-import 'for_you_slivers.dart';
+import '../../../../core/product/presentation/for_you_slivers.dart';
 import 'home_header.dart';
 import 'home_search_header.dart';
 import 'home_section_view.dart';
@@ -207,7 +207,11 @@ class _HomeScrollView extends StatelessWidget {
                     ),
                   ),
                 ),
-                ForYouSlivers(onNavigate: onNavigate),
+                ForYouSlivers(
+                  title: context.l10n.homeForYou,
+                  onOpenProduct: (p) =>
+                      onNavigate(HomeDestination.product(p.id, preview: p)),
+                ),
               ],
             ),
           },

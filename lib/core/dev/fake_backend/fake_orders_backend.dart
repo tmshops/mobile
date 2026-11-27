@@ -49,6 +49,313 @@ class FakeOrdersBackend {
   Map<String, dynamic> parcel(String lang, String number) =>
       _parcelDetails(lang, _parcel(number));
 
+  // ── Profile «Мои заказы» (UI_DESIGN §7.11) ────────────────────────────
+
+  /// Filters of the profile card, in display order.
+  static const feedFilters = [
+    'awaiting_payment',
+    'buying',
+    'in_transit',
+    'to_review',
+    'problems',
+  ];
+
+  static const _buyingStatuses = {
+    'paid',
+    'purchased',
+    'to_warehouse',
+    'in_warehouse',
+  };
+
+  static const _transitStatuses = {
+    'in_transit',
+    'customs',
+    'arrived_tm',
+    'ready_for_pickup',
+    'with_courier',
+  };
+
+  /// `GET /orders/overview`: a counter per filter and the latest moves of
+  /// what is on its way, for the rotating line under the filters.
+  Map<String, dynamic> overview(String lang) => {
+    'counts': {
+      for (final filter in feedFilters)
+        filter: (feed(lang, filter)['cards'] as List<dynamic>).length,
+    },
+    'tracking': _tracking(lang),
+  };
+
+  /// `GET /orders/feed?filter=`: orders and parcels as cards of items, each
+  /// with the buttons that fit the filter. Unknown filter → no cards.
+  Map<String, dynamic> feed(String lang, String filter) {
+    final orders = _orders.values.toList()
+      ..sort((a, b) => b.createdAt.compareTo(a.createdAt));
+    final parcels = _parcels.values.toList()
+      ..sort((a, b) => b.createdAt.compareTo(a.createdAt));
+    final cards = switch (filter) {
+      'awaiting_payment' => [
+        for (final o in orders)
+          if (o.status == 'awaiting_payment')
+            _orderCard(
+              lang,
+              o,
+              o.items,
+              // Same sum as «Оплатить» on the order page (money.due).
+              amountDue: o.total - o.paid,
+              actions: [
+                if (o.payment == 'card') ('pay', null, true),
+                ('details', null, o.payment != 'card'),
+              ],
+            ),
+        for (final p in parcels)
+          if (p.status == 'awaiting_surcharge')
+            _parcelCard(
+              lang,
+              p,
+              amountDue: switch (p.surcharge) {
+                final s? => s.cost - s.paid,
+                null => null,
+              },
+              actions: [('pay_surcharge', null, true)],
+            ),
+      ],
+      'buying' => [
+        for (final o in orders)
+          if (o.items.any((i) => _buyingStatuses.contains(i.status)))
+            _orderCard(
+              lang,
+              o,
+              [
+                for (final i in o.items)
+                  if (_buyingStatuses.contains(i.status)) i,
+              ],
+              actions: [('details', null, false)],
+            ),
+      ],
+      'in_transit' => [
+        for (final p in parcels)
+          if (_transitStatuses.contains(p.status))
+            _parcelCard(lang, p, actions: [('track', null, true)]),
+      ],
+      'to_review' => [
+        for (final o in orders)
+          for (final i in o.items)
+            if (i.canReview)
+              _orderCard(
+                lang,
+                o,
+                [i],
+                actions: [('details', null, false), ('review', i.id, true)],
+              ),
+      ],
+      'problems' => [
+        for (final o in orders)
+          if (o.items.any((i) => i.status == 'problem'))
+            _orderCard(
+              lang,
+              o,
+              [
+                for (final i in o.items)
+                  if (i.status == 'problem') i,
+              ],
+              actions: [('resolve', null, true)],
+            ),
+      ],
+      _ => const <Map<String, dynamic>>[],
+    };
+    return {'cards': cards};
+  }
+
+  Map<String, dynamic> _cardItem(
+    String lang, {
+    required String id,
+    required String productId,
+    required int price,
+    required int quantity,
+  }) {
+    final p = _product(lang, productId);
+    return {
+      'id': id,
+      'product_id': productId,
+      'title': p.title,
+      'image_url': p.imageUrl,
+      'options': ?p.options,
+      'price': price,
+      'quantity': quantity,
+    };
+  }
+
+  Map<String, dynamic> _orderCard(
+    String lang,
+    _Order o,
+    List<_Item> items, {
+    required List<(String, String?, bool)> actions,
+    int? amountDue,
+  }) {
+    final shipping = items.where((i) => i.status == 'to_warehouse');
+    final track = shipping.isEmpty ? null : shipping.first.chinaTrack;
+    return {
+      'kind': 'order',
+      'number': o.number,
+      'created_at': o.createdAt.toIso8601String(),
+      'status': _status(
+        lang,
+        items.length == 1 ? items.first.status : o.status,
+      ),
+      'items': [
+        for (final i in items)
+          _cardItem(
+            lang,
+            id: i.id,
+            productId: i.productId,
+            price: i.price,
+            quantity: i.quantity,
+          ),
+      ],
+      'amount_due': ?amountDue,
+      if (track != null)
+        'track': {
+          'title': _statusTitle(lang, 'to_warehouse'),
+          'text': _t(
+            lang,
+            'Продавец отправил, трек $track',
+            'Satyjy iberdi, trek $track',
+          ),
+        },
+      'actions': _actions(actions),
+    };
+  }
+
+  Map<String, dynamic> _parcelCard(
+    String lang,
+    _Parcel p, {
+    required List<(String, String?, bool)> actions,
+    int? amountDue,
+  }) => {
+    'kind': 'parcel',
+    'number': p.number,
+    'created_at': p.createdAt.toIso8601String(),
+    'status': _status(lang, p.status),
+    'items': [
+      for (final ref in p.items)
+        _cardItem(
+          lang,
+          id: ref.itemId,
+          productId: ref.productId,
+          price: _itemPrice(ref),
+          quantity: ref.quantity,
+        ),
+    ],
+    'amount_due': ?amountDue,
+    'track': {
+      'title': _statusTitle(lang, p.status),
+      'text': _trackText(lang, p),
+    },
+    'actions': _actions(actions),
+  };
+
+  static List<Map<String, dynamic>> _actions(
+    List<(String, String?, bool)> actions,
+  ) => [
+    for (final (id, itemId, isPrimary) in actions)
+      {'id': id, 'item_id': ?itemId, 'is_primary': isPrimary},
+  ];
+
+  int _itemPrice(_ParcelRef ref) {
+    for (final item in _orders[ref.orderNumber]?.items ?? const <_Item>[]) {
+      if (item.id == ref.itemId) return item.price;
+    }
+    return 0;
+  }
+
+  /// Newest first: parcels on their way and items the sellers have sent.
+  List<Map<String, dynamic>> _tracking(String lang) {
+    final entries = <(DateTime, Map<String, dynamic>)>[
+      for (final p in _parcels.values)
+        if (_transitStatuses.contains(p.status) ||
+            p.status == 'awaiting_surcharge')
+          (
+            p.history.last.$2,
+            {
+              'kind': 'parcel',
+              'number': p.number,
+              'image_url': p.items.isEmpty
+                  ? ''
+                  : _product(lang, p.items.first.productId).imageUrl,
+              'status': _status(lang, p.status),
+              'at': p.history.last.$2.toIso8601String(),
+              'text': _trackText(lang, p),
+            },
+          ),
+      for (final o in _orders.values)
+        for (final i in o.items)
+          if (i.status == 'to_warehouse')
+            (
+              o.history.last.$2,
+              {
+                'kind': 'order',
+                'number': o.number,
+                'image_url': _product(lang, i.productId).imageUrl,
+                'status': _status(lang, i.status),
+                'at': o.history.last.$2.toIso8601String(),
+                'text': _t(
+                  lang,
+                  'Продавец отправил, трек ${i.chinaTrack ?? '—'}',
+                  'Satyjy iberdi, trek ${i.chinaTrack ?? '—'}',
+                ),
+              },
+            ),
+    ]..sort((a, b) => b.$1.compareTo(a.$1));
+    return [for (final (_, json) in entries) json];
+  }
+
+  static String _dayMonth(DateTime d) =>
+      '${d.day.toString().padLeft(2, '0')}.'
+      '${d.month.toString().padLeft(2, '0')}';
+
+  String _trackText(String lang, _Parcel p) {
+    final from = p.etaFrom;
+    final to = p.etaTo;
+    final eta = from == null || to == null
+        ? null
+        : '${_dayMonth(from)}–${_dayMonth(to)}';
+    final point = _point(lang, p.pointId)['name'];
+    return switch (p.status) {
+      'awaiting_surcharge' => _t(
+        lang,
+        'Посылку взвесили — оплатите доставку, и она полетит',
+        'Posylka çekildi — eltip bermegi töläň, ol ugradylar',
+      ),
+      'in_transit' when eta != null => _t(
+        lang,
+        'Едет в Туркменистан, ожидается $eta',
+        'Türkmenistana gelýär, garaşylýan wagty $eta',
+      ),
+      'in_transit' => _t(lang, 'Едет в Туркменистан', 'Türkmenistana gelýär'),
+      'customs' => _t(
+        lang,
+        'Проходит таможенное оформление',
+        'Gümrük resmileşdirilmesinden geçýär',
+      ),
+      'arrived_tm' => _t(
+        lang,
+        'Прибыла, скоро будет в пункте выдачи',
+        'Geldi, ýakynda bermek nokadynda bolar',
+      ),
+      'ready_for_pickup' => _t(
+        lang,
+        'Ждёт вас в «$point»',
+        '«$point» size garaşýar',
+      ),
+      'with_courier' => _t(
+        lang,
+        'Курьер везёт посылку вам',
+        'Kurýer posylkany size getirýär',
+      ),
+      _ => _statusTitle(lang, p.status),
+    };
+  }
+
   // ── Changes ───────────────────────────────────────────────────────────
 
   Map<String, dynamic> cancel(String lang, String number, String reasonId) {

@@ -15,7 +15,7 @@ import 'package:tmshop/core/network/connectivity_cubit.dart';
 import 'package:tmshop/core/notifications/notifications_counter.dart';
 import 'package:tmshop/core/region/region.dart';
 import 'package:tmshop/core/region/region_cubit.dart';
-import 'package:tmshop/features/home/presentation/bloc/for_you_bloc.dart';
+import 'package:tmshop/core/product/presentation/for_you_bloc.dart';
 import 'package:tmshop/features/home/presentation/bloc/home_bloc.dart';
 
 class MockHomeBloc extends MockBloc<HomeEvent, HomeState> implements HomeBloc {}

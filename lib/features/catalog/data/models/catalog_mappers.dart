@@ -102,6 +102,7 @@ abstract final class CatalogQueryParams {
   static const promo = 'promo';
   static const text = 'q';
   static const seller = 'seller';
+  static const collection = 'collection';
   static const sort = 'sort';
   static const cursor = 'cursor';
   static const priceMin = 'price_min';
@@ -127,6 +128,7 @@ abstract final class CatalogQueryParams {
     promo: ?query.promoSlug,
     text: ?query.searchText,
     seller: ?query.sellerId,
+    collection: ?query.collectionId,
     ..._applied(query.filters),
   };
 

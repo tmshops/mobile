@@ -2309,4 +2309,165 @@ class AppLocalizationsRu extends AppLocalizations {
   String chatSendPhotos(int count) {
     return 'Отправить · $count';
   }
+
+  @override
+  String get wholesaleBenefitPrices => 'Оптовые цены';
+
+  @override
+  String get wholesaleBenefitPricesText =>
+      'Цена за штуку ниже при заказе от минимальной партии';
+
+  @override
+  String get wholesaleBenefitDocs => 'Счета и накладные';
+
+  @override
+  String get wholesaleBenefitDocsText => 'Документы по каждому заказу в PDF';
+
+  @override
+  String get wholesaleBenefitTerms => 'Персональные условия';
+
+  @override
+  String get wholesaleBenefitTermsText =>
+      'Свой менеджер, отсрочка и скидки для постоянных клиентов';
+
+  @override
+  String get wholesaleFormTitle => 'Заявка';
+
+  @override
+  String get wholesaleName => 'Имя';
+
+  @override
+  String get wholesaleCompany => 'Компания или ИП';
+
+  @override
+  String get wholesaleCity => 'Город';
+
+  @override
+  String get wholesaleSend => 'Отправить заявку';
+
+  @override
+  String get wholesaleFillAll => 'Заполните все поля';
+
+  @override
+  String get wholesalePendingTitle => 'Заявка на рассмотрении';
+
+  @override
+  String get wholesalePendingText =>
+      'Обычно отвечаем в течение рабочего дня. Пришлём уведомление, когда решение будет готово';
+
+  @override
+  String get wholesaleApprovedTitle => 'Заявка одобрена';
+
+  @override
+  String wholesaleApprovedText(String group) {
+    return 'Ваша группа: $group. Оптовые цены уже действуют в каталоге';
+  }
+
+  @override
+  String get wholesaleRejectedTitle => 'Заявка отклонена';
+
+  @override
+  String get wholesaleReapply => 'Подать снова';
+
+  @override
+  String get wholesaleRefresh => 'Обновить статус';
+
+  @override
+  String get wholesaleToCatalog => 'За покупками';
+
+  @override
+  String wholesaleInvoice(String number) {
+    return 'Счёт № $number';
+  }
+
+  @override
+  String wholesaleWaybill(String number) {
+    return 'Накладная № $number';
+  }
+
+  @override
+  String get wholesaleDownload => 'Скачать';
+
+  @override
+  String get wholesaleDocsEmpty => 'Документов пока нет';
+
+  @override
+  String get wholesaleDocsEmptyText =>
+      'Счета и накладные появятся после первого заказа';
+
+  @override
+  String get addressesEmpty => 'Адресов пока нет';
+
+  @override
+  String get addressesEmptyText =>
+      'Добавьте адрес — курьер привезёт заказ к двери';
+
+  @override
+  String get addressesAdd => 'Добавить адрес';
+
+  @override
+  String get addressesDefault => 'По умолчанию';
+
+  @override
+  String get addressesMenu => 'Действия с адресом';
+
+  @override
+  String get addressesEdit => 'Изменить';
+
+  @override
+  String get addressesMakeDefault => 'Сделать основным';
+
+  @override
+  String get addressesDeleteTitle => 'Удалить адрес?';
+
+  @override
+  String get addressesDeleted => 'Адрес удалён';
+
+  @override
+  String get addressNewTitle => 'Новый адрес';
+
+  @override
+  String get addressEditTitle => 'Изменить адрес';
+
+  @override
+  String get addressMyLocation => 'Моё местоположение';
+
+  @override
+  String get addressMoveHint =>
+      'Передвиньте карту, чтобы метка встала на ваш дом';
+
+  @override
+  String get addressLocating => 'Определяем адрес…';
+
+  @override
+  String get addressLookupFailed => 'Не удалось определить адрес';
+
+  @override
+  String get addressSave => 'Сохранить адрес';
+
+  @override
+  String addressRegion(String region) {
+    return 'Регион: $region';
+  }
+
+  @override
+  String get videoMore => 'Подробнее';
+
+  @override
+  String get videoLike => 'Нравится';
+
+  @override
+  String get videoFavourite => 'В избранное';
+
+  @override
+  String get videoSoundOn => 'Включить звук';
+
+  @override
+  String get videoSoundOff => 'Выключить звук';
+
+  @override
+  String get videoPaused => 'Пауза';
+
+  @override
+  String get videoEmpty => 'Видео пока нет';
 }

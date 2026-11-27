@@ -26,7 +26,9 @@ class ProfilePage extends StatefulWidget {
     required this.onOpenNotifications,
     required this.onOpenMyReviews,
     required this.onOpenInfo,
-    required this.onComingSoon,
+    required this.onOpenSupport,
+    required this.onOpenAddresses,
+    required this.onOpenWholesale,
     super.key,
   });
 
@@ -44,7 +46,12 @@ class ProfilePage extends StatefulWidget {
   final VoidCallback onOpenInfo;
 
   /// Sections not built yet (balance, addresses, settings, …).
-  final VoidCallback onComingSoon;
+  final VoidCallback onOpenSupport;
+  final VoidCallback onOpenAddresses;
+
+  /// «Стать оптовиком» for a retail customer, the documents for a
+  /// wholesale one.
+  final VoidCallback onOpenWholesale;
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();
@@ -100,7 +107,9 @@ class _ProfilePageState extends State<ProfilePage> {
                   onOpenNotifications: widget.onOpenNotifications,
                   onOpenMyReviews: widget.onOpenMyReviews,
                   onOpenInfo: widget.onOpenInfo,
-                  onComingSoon: widget.onComingSoon,
+                  onOpenSupport: widget.onOpenSupport,
+                  onOpenAddresses: widget.onOpenAddresses,
+                  onOpenWholesale: widget.onOpenWholesale,
                 ),
               ],
             ),

@@ -536,4 +536,39 @@ abstract final class AppIcons {
     fontFamily: _regular,
     fontPackage: _package,
   );
+  static const IconData send = IconData(
+    0xe396,
+    fontFamily: _fill,
+    fontPackage: _package,
+  );
+  static const IconData filePdf = IconData(
+    0xe702,
+    fontFamily: _regular,
+    fontPackage: _package,
+  );
+  static const IconData myLocation = IconData(
+    0xe1d6,
+    fontFamily: _regular,
+    fontPackage: _package,
+  );
+  static const IconData pause = IconData(
+    0xe39e,
+    fontFamily: _fill,
+    fontPackage: _package,
+  );
+  static const IconData soundOff = IconData(
+    0xe45a,
+    fontFamily: _regular,
+    fontPackage: _package,
+  );
+  static const IconData like = IconData(
+    0xe48e,
+    fontFamily: _regular,
+    fontPackage: _package,
+  );
+  static const IconData likeFilled = IconData(
+    0xe48e,
+    fontFamily: _fill,
+    fontPackage: _package,
+  );
 }

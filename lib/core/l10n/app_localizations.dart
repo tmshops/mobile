@@ -3919,6 +3919,300 @@ abstract class AppLocalizations {
   /// In ru, this message translates to:
   /// **'Отправить · {count}'**
   String chatSendPhotos(int count);
+
+  /// Become wholesaler: benefit 1 title
+  ///
+  /// In ru, this message translates to:
+  /// **'Оптовые цены'**
+  String get wholesaleBenefitPrices;
+
+  /// Become wholesaler: benefit 1 text
+  ///
+  /// In ru, this message translates to:
+  /// **'Цена за штуку ниже при заказе от минимальной партии'**
+  String get wholesaleBenefitPricesText;
+
+  /// Become wholesaler: benefit 2 title
+  ///
+  /// In ru, this message translates to:
+  /// **'Счета и накладные'**
+  String get wholesaleBenefitDocs;
+
+  /// Become wholesaler: benefit 2 text
+  ///
+  /// In ru, this message translates to:
+  /// **'Документы по каждому заказу в PDF'**
+  String get wholesaleBenefitDocsText;
+
+  /// Become wholesaler: benefit 3 title
+  ///
+  /// In ru, this message translates to:
+  /// **'Персональные условия'**
+  String get wholesaleBenefitTerms;
+
+  /// Become wholesaler: benefit 3 text
+  ///
+  /// In ru, this message translates to:
+  /// **'Свой менеджер, отсрочка и скидки для постоянных клиентов'**
+  String get wholesaleBenefitTermsText;
+
+  /// Become wholesaler: form header
+  ///
+  /// In ru, this message translates to:
+  /// **'Заявка'**
+  String get wholesaleFormTitle;
+
+  /// Become wholesaler: name field
+  ///
+  /// In ru, this message translates to:
+  /// **'Имя'**
+  String get wholesaleName;
+
+  /// Become wholesaler: company field
+  ///
+  /// In ru, this message translates to:
+  /// **'Компания или ИП'**
+  String get wholesaleCompany;
+
+  /// Become wholesaler: city field
+  ///
+  /// In ru, this message translates to:
+  /// **'Город'**
+  String get wholesaleCity;
+
+  /// Become wholesaler: submit
+  ///
+  /// In ru, this message translates to:
+  /// **'Отправить заявку'**
+  String get wholesaleSend;
+
+  /// Become wholesaler: why submit is disabled
+  ///
+  /// In ru, this message translates to:
+  /// **'Заполните все поля'**
+  String get wholesaleFillAll;
+
+  /// Wholesale application status: pending
+  ///
+  /// In ru, this message translates to:
+  /// **'Заявка на рассмотрении'**
+  String get wholesalePendingTitle;
+
+  /// Wholesale application status: pending, text
+  ///
+  /// In ru, this message translates to:
+  /// **'Обычно отвечаем в течение рабочего дня. Пришлём уведомление, когда решение будет готово'**
+  String get wholesalePendingText;
+
+  /// Wholesale application status: approved
+  ///
+  /// In ru, this message translates to:
+  /// **'Заявка одобрена'**
+  String get wholesaleApprovedTitle;
+
+  /// Wholesale application approved: group name
+  ///
+  /// In ru, this message translates to:
+  /// **'Ваша группа: {group}. Оптовые цены уже действуют в каталоге'**
+  String wholesaleApprovedText(String group);
+
+  /// Wholesale application status: rejected
+  ///
+  /// In ru, this message translates to:
+  /// **'Заявка отклонена'**
+  String get wholesaleRejectedTitle;
+
+  /// Wholesale application rejected: apply again
+  ///
+  /// In ru, this message translates to:
+  /// **'Подать снова'**
+  String get wholesaleReapply;
+
+  /// Wholesale application pending: reload the status
+  ///
+  /// In ru, this message translates to:
+  /// **'Обновить статус'**
+  String get wholesaleRefresh;
+
+  /// Wholesale application approved: open the catalog
+  ///
+  /// In ru, this message translates to:
+  /// **'За покупками'**
+  String get wholesaleToCatalog;
+
+  /// Wholesale document: invoice
+  ///
+  /// In ru, this message translates to:
+  /// **'Счёт № {number}'**
+  String wholesaleInvoice(String number);
+
+  /// Wholesale document: waybill
+  ///
+  /// In ru, this message translates to:
+  /// **'Накладная № {number}'**
+  String wholesaleWaybill(String number);
+
+  /// Wholesale document: open the PDF
+  ///
+  /// In ru, this message translates to:
+  /// **'Скачать'**
+  String get wholesaleDownload;
+
+  /// Wholesale documents: empty title
+  ///
+  /// In ru, this message translates to:
+  /// **'Документов пока нет'**
+  String get wholesaleDocsEmpty;
+
+  /// Wholesale documents: empty text
+  ///
+  /// In ru, this message translates to:
+  /// **'Счета и накладные появятся после первого заказа'**
+  String get wholesaleDocsEmptyText;
+
+  /// Addresses list: empty title
+  ///
+  /// In ru, this message translates to:
+  /// **'Адресов пока нет'**
+  String get addressesEmpty;
+
+  /// Addresses list: empty text
+  ///
+  /// In ru, this message translates to:
+  /// **'Добавьте адрес — курьер привезёт заказ к двери'**
+  String get addressesEmptyText;
+
+  /// Addresses list: add button
+  ///
+  /// In ru, this message translates to:
+  /// **'Добавить адрес'**
+  String get addressesAdd;
+
+  /// Addresses list: badge of the default address
+  ///
+  /// In ru, this message translates to:
+  /// **'По умолчанию'**
+  String get addressesDefault;
+
+  /// Addresses list: accessibility label of the overflow menu
+  ///
+  /// In ru, this message translates to:
+  /// **'Действия с адресом'**
+  String get addressesMenu;
+
+  /// Addresses list menu: edit
+  ///
+  /// In ru, this message translates to:
+  /// **'Изменить'**
+  String get addressesEdit;
+
+  /// Addresses list menu and editor switch: make default
+  ///
+  /// In ru, this message translates to:
+  /// **'Сделать основным'**
+  String get addressesMakeDefault;
+
+  /// Addresses list: delete confirmation title
+  ///
+  /// In ru, this message translates to:
+  /// **'Удалить адрес?'**
+  String get addressesDeleteTitle;
+
+  /// Addresses list: toast after delete
+  ///
+  /// In ru, this message translates to:
+  /// **'Адрес удалён'**
+  String get addressesDeleted;
+
+  /// Address editor title: new
+  ///
+  /// In ru, this message translates to:
+  /// **'Новый адрес'**
+  String get addressNewTitle;
+
+  /// Address editor title: edit
+  ///
+  /// In ru, this message translates to:
+  /// **'Изменить адрес'**
+  String get addressEditTitle;
+
+  /// Address editor: move the map to the phone's location
+  ///
+  /// In ru, this message translates to:
+  /// **'Моё местоположение'**
+  String get addressMyLocation;
+
+  /// Address editor: hint over the map
+  ///
+  /// In ru, this message translates to:
+  /// **'Передвиньте карту, чтобы метка встала на ваш дом'**
+  String get addressMoveHint;
+
+  /// Address editor: looking up the address of the point
+  ///
+  /// In ru, this message translates to:
+  /// **'Определяем адрес…'**
+  String get addressLocating;
+
+  /// Address editor: lookup failed
+  ///
+  /// In ru, this message translates to:
+  /// **'Не удалось определить адрес'**
+  String get addressLookupFailed;
+
+  /// Address editor: save
+  ///
+  /// In ru, this message translates to:
+  /// **'Сохранить адрес'**
+  String get addressSave;
+
+  /// Address editor: region of the point
+  ///
+  /// In ru, this message translates to:
+  /// **'Регион: {region}'**
+  String addressRegion(String region);
+
+  /// Video feed product card: open the product
+  ///
+  /// In ru, this message translates to:
+  /// **'Подробнее'**
+  String get videoMore;
+
+  /// Video feed: accessibility label of the like button
+  ///
+  /// In ru, this message translates to:
+  /// **'Нравится'**
+  String get videoLike;
+
+  /// Video feed: accessibility label of the favourite button
+  ///
+  /// In ru, this message translates to:
+  /// **'В избранное'**
+  String get videoFavourite;
+
+  /// Video feed: unmute
+  ///
+  /// In ru, this message translates to:
+  /// **'Включить звук'**
+  String get videoSoundOn;
+
+  /// Video feed: mute
+  ///
+  /// In ru, this message translates to:
+  /// **'Выключить звук'**
+  String get videoSoundOff;
+
+  /// Video feed: shown while the video is held
+  ///
+  /// In ru, this message translates to:
+  /// **'Пауза'**
+  String get videoPaused;
+
+  /// Video feed: no clips
+  ///
+  /// In ru, this message translates to:
+  /// **'Видео пока нет'**
+  String get videoEmpty;
 }
 
 class _AppLocalizationsDelegate

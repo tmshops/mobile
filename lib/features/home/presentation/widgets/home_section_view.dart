@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/theme/theme.dart';
 import '../../../../core/widgets/widgets.dart';
+import '../../domain/entities/home_link.dart';
 import '../../domain/entities/home_section.dart';
 import '../../../../core/product/domain/product_summary.dart';
 import '../home_destination.dart';
@@ -85,9 +86,13 @@ class HomeSectionView extends StatelessWidget {
             title: title,
             products: products,
             onNavigate: onNavigate,
-            seeAll: seeAll == null
-                ? null
-                : () => onNavigate(HomeDestination.link(seeAll)),
+            seeAll: switch (seeAll) {
+              null => null,
+              CollectionLink(:final id) => () => onNavigate(
+                HomeDestination.collection(id, title),
+              ),
+              final link => () => onNavigate(HomeDestination.link(link)),
+            },
           ),
         final HowWeWorkSection section => HowWeWorkCard(section: section),
       },

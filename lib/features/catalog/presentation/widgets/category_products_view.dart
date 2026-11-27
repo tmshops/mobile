@@ -102,6 +102,7 @@ class _CategoryProductsViewState extends State<CategoryProductsView> {
               promoSlug: _bloc.state.query.promoSlug,
               searchText: _bloc.state.query.searchText,
               sellerId: _bloc.state.query.sellerId,
+              collectionId: _bloc.state.query.collectionId,
             ),
           ),
         ),

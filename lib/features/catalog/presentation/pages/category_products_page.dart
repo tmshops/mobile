@@ -54,12 +54,14 @@ class ScopedProductsPage extends StatelessWidget {
     this.promoSlug,
     this.searchText,
     this.sellerId,
+    this.collectionId,
     this.empty,
     super.key,
   }) : assert(
          (promoSlug == null ? 0 : 1) +
                  (searchText == null ? 0 : 1) +
-                 (sellerId == null ? 0 : 1) ==
+                 (sellerId == null ? 0 : 1) +
+                 (collectionId == null ? 0 : 1) ==
              1,
          'exactly one scope',
        );
@@ -67,6 +69,9 @@ class ScopedProductsPage extends StatelessWidget {
   final String? promoSlug;
   final String? searchText;
   final String? sellerId;
+
+  /// A Home collection («Хиты», «Новинки»).
+  final String? collectionId;
   final Widget header;
   final ValueChanged<ProductSummary> onOpenProduct;
   final VoidCallback onOpenCatalog;
@@ -87,6 +92,7 @@ class ScopedProductsPage extends StatelessWidget {
             promoSlug: promoSlug,
             searchText: searchText,
             sellerId: sellerId,
+            collectionId: collectionId,
           ),
         ),
       child: CategoryProductsView(

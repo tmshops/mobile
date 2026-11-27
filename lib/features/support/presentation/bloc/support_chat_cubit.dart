@@ -116,10 +116,7 @@ class SupportChatCubit extends Cubit<SupportChatState> {
     final newest = state.messages
         .where((m) => m.status == MessageStatus.sent)
         .firstOrNull;
-    final result = await _repository.news(
-      _languageCode,
-      after: newest?.sentAt,
-    );
+    final result = await _repository.news(_languageCode, after: newest?.sentAt);
     if (isClosed) return;
     // A failed check is retried at the next tick.
     result.match((_) {}, (news) {
@@ -178,9 +175,7 @@ class SupportChatCubit extends Cubit<SupportChatState> {
 
   void _replace(String id, ChatMessage Function(ChatMessage) change) => emit(
     state.copyWith(
-      messages: [
-        for (final m in state.messages) m.id == id ? change(m) : m,
-      ],
+      messages: [for (final m in state.messages) m.id == id ? change(m) : m],
     ),
   );
 

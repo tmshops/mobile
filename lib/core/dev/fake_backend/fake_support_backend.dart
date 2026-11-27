@@ -108,16 +108,19 @@ class FakeSupportBackend {
   /// «Найдите мне товар»: the request goes into the chat as a card.
   Map<String, dynamic> request(String lang, Map<String, dynamic> body) {
     final description = (body['description'] as String? ?? '').trim();
-    final photos = (body['photos'] as List<dynamic>? ?? const []).cast<String>();
+    final photos = (body['photos'] as List<dynamic>? ?? const [])
+        .cast<String>();
     final link = body['link'] as String?;
     if (description.isEmpty && photos.isEmpty && link == null) {
       throw const ServerException(code: 'empty_request');
     }
     final now = _now();
     final id = 'R-${1000 + _requests.length + 1}';
-    final found = _catalog.products(lang, {
-      FakeApiParams.text: description.split(' ').first,
-    })['items'] as List<dynamic>;
+    final found =
+        _catalog.products(lang, {
+              FakeApiParams.text: description.split(' ').first,
+            })['items']
+            as List<dynamic>;
     _requests[id] = _Request(
       description: description,
       photos: photos,

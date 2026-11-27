@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/auth/auth_cubit.dart';
@@ -13,6 +14,8 @@ import '../../core/product/domain/product_summary.dart';
 import '../../core/theme/theme.dart';
 import '../../core/utils/external_links.dart';
 import '../../core/widgets/widgets.dart';
+import '../../features/addresses/domain/entities/delivery_address.dart';
+import '../../features/addresses/presentation/pages/address_pages.dart';
 import '../../features/auth/presentation/pages/login_page.dart';
 import '../../features/cart/presentation/pages/cart_page.dart';
 import '../../features/catalog/presentation/pages/catalog_page.dart';
@@ -47,7 +50,14 @@ import '../../features/link_import/presentation/pages/link_import_page.dart';
 import '../../features/search/presentation/pages/search_page.dart';
 import '../../features/search/presentation/widgets/search_results_parts.dart';
 import '../../features/settings/presentation/pages/settings_page.dart';
+import '../../features/config/presentation/bloc/app_config_cubit.dart';
+import '../../features/support/domain/entities/chat.dart';
+import '../../features/support/presentation/pages/find_request_page.dart';
+import '../../features/support/presentation/pages/support_chat_page.dart';
+import '../../features/support/presentation/widgets/chat_sheets.dart';
+import '../../features/video_feed/presentation/pages/video_feed_page.dart';
 import '../../features/wallet/presentation/bloc/wallet_payment_cubit.dart';
+import '../../features/wholesale/presentation/pages/wholesale_pages.dart';
 import '../../features/wallet/presentation/pages/balance_page.dart';
 import '../../features/wallet/presentation/pages/surcharges_page.dart';
 import '../../features/wallet/presentation/pages/wallet_payment_page.dart';
@@ -153,7 +163,13 @@ GoRouter createAppRouter({
               onOpenNotifications: () => context.push(AppRoutes.notifications),
               onOpenMyReviews: () => context.push(AppRoutes.myReviews),
               onOpenInfo: () => context.push(AppRoutes.info),
-              onComingSoon: () => showComingSoon(context),
+              onOpenSupport: () => context.push(AppRoutes.support),
+              onOpenAddresses: () => context.push(AppRoutes.addresses),
+              onOpenWholesale: () => context.push(switch (auth.state) {
+                AuthSignedIn(:final profile) when profile.isWholesale =>
+                  AppRoutes.wholesaleDocs,
+                _ => AppRoutes.wholesale,
+              }),
             ),
             routes: _profileRoutes,
           ),
@@ -285,6 +301,20 @@ GoRouter createAppRouter({
         },
       ),
       GoRoute(
+        path: AppRoutes.collectionPath,
+        builder: (context, state) {
+          final id = state.pathParameters[AppRoutes.idParam] ?? '';
+          final name = state.uri.queryParameters[AppRoutes.nameParam] ?? '';
+          return ScopedProductsPage(
+            key: ValueKey(id),
+            collectionId: id,
+            header: SliverAppBar(pinned: true, title: Text(name)),
+            onOpenProduct: (product) => _openProduct(context, product),
+            onOpenCatalog: () => context.go(AppRoutes.catalog),
+          );
+        },
+      ),
+      GoRoute(
         path: AppRoutes.linkImport,
         builder: (context, state) {
           final link = state.uri.queryParameters[AppRoutes.linkParam] ?? '';
@@ -295,7 +325,7 @@ GoRouter createAppRouter({
             // The product takes the waiting screen's place: back leads to
             // where the link was pasted.
             onDone: (id) => context.pushReplacement(AppRoutes.product(id)),
-            onSupport: () => showComingSoon(context),
+            onSupport: () => context.push(AppRoutes.support),
           );
         },
       ),
@@ -330,7 +360,8 @@ GoRouter createAppRouter({
                 empty: SearchEmptyState(
                   query: query,
                   onPhotoSearch: () => context.push(AppRoutes.photoSearch),
-                  onFindForMe: () => showComingSoon(context),
+                  onFindForMe: () =>
+                      context.push(AppRoutes.findRequestFor(query: query)),
                 ),
                 onOpenProduct: (product) => _openProduct(context, product),
                 onOpenCatalog: () => context.go(AppRoutes.catalog),
@@ -373,7 +404,9 @@ GoRouter createAppRouter({
                 onAnotherPhoto: query.needsUpload
                     ? () => context.pop()
                     : () => context.pushReplacement(AppRoutes.photoSearch),
-                onFindForMe: () => showComingSoon(context),
+                onFindForMe: () => context.push(
+                  AppRoutes.findRequestFor(image: query.imageUrl),
+                ),
               );
             },
           ),
@@ -383,6 +416,61 @@ GoRouter createAppRouter({
         path: AppRoutes.notifications,
         builder: (context, _) =>
             NotificationsPage(onOpen: (link) => openAppLink(context, link)),
+      ),
+      GoRoute(
+        path: AppRoutes.videoFeed,
+        builder: (context, state) => VideoFeedPage(
+          startId: state.uri.queryParameters[AppRoutes.storyParam],
+          onOpenProduct: (product) =>
+              context.push<void>(AppRoutes.product(product.id), extra: product),
+          onOpenCart: () => context.go(AppRoutes.cart),
+        ),
+      ),
+      GoRoute(
+        path: AppRoutes.addressEditor,
+        builder: (context, state) => AddressEditorPage(
+          address: switch (state.extra) {
+            final DeliveryAddress a => a,
+            _ => null,
+          },
+          onSaved: (_) => context.pop(),
+        ),
+      ),
+      GoRoute(
+        path: AppRoutes.support,
+        builder: (context, _) {
+          final contacts = context.read<AppConfigCubit>().state.config?.support;
+          return SupportChatPage(
+            contacts: SupportChannels(
+              phone: contacts?.phone,
+              telegram: contacts?.telegram,
+              whatsapp: contacts?.whatsapp,
+            ),
+            onOpenProduct: (product) => _openProduct(context, product),
+            onOpenOrder: (number) => context.push(AppRoutes.order(number)),
+            onFindForMe: () => context.push<ChatMessage>(
+              AppRoutes.findRequestFor(isInChat: true),
+            ),
+          );
+        },
+        routes: [
+          GoRoute(
+            path: AppRoutes.findRequestPath,
+            builder: (context, state) {
+              final params = state.uri.queryParameters;
+              final isInChat = params.containsKey(AppRoutes.inChatParam);
+              return FindRequestPage(
+                description: params[AppRoutes.queryParam] ?? '',
+                photo: params[AppRoutes.imageParam],
+                // From the chat: back to it with the card. From a search:
+                // the chat takes the form's place, back leads to results.
+                onSent: (card) => isInChat
+                    ? context.pop(card)
+                    : context.pushReplacement(AppRoutes.support),
+              );
+            },
+          ),
+        ],
       ),
       GoRoute(
         path: AppRoutes.walletPay,
@@ -427,11 +515,36 @@ String? _guard(AuthState auth, Uri uri) {
   if (auth is AuthGuest && AppRoutes.needsLogin(location)) {
     return AppRoutes.loginFrom(location);
   }
+  // Wholesale sections are for the wholesale group only; the rest get
+  // the application (TZ §4).
+  if (auth case AuthSignedIn(
+    :final profile,
+  ) when !profile.isWholesale && path.startsWith(AppRoutes.wholesaleDocs)) {
+    return AppRoutes.wholesale;
+  }
   return null;
 }
 
 /// Orders, parcels, money, viewed and price alerts inside the Profile tab.
 final _profileRoutes = <RouteBase>[
+  GoRoute(
+    path: AppRoutes.addressesPath,
+    builder: (context, _) => AddressesPage(
+      onOpenEditor: (address) =>
+          context.push<void>(AppRoutes.addressEditor, extra: address),
+    ),
+  ),
+  GoRoute(
+    path: AppRoutes.wholesalePath,
+    builder: (context, _) =>
+        BecomeWholesalePage(onOpenCatalog: () => context.go(AppRoutes.catalog)),
+    routes: [
+      GoRoute(
+        path: AppRoutes.wholesaleDocsPath,
+        builder: (_, _) => const WholesaleDocumentsPage(),
+      ),
+    ],
+  ),
   GoRoute(
     path: AppRoutes.myReviewsPath,
     builder: (context, _) => MyReviewsPage(

@@ -78,6 +78,15 @@ abstract final class AppRoutes {
   static const priceAlertsPath = 'price-alerts';
   static const priceAlerts = '$profile/$priceAlertsPath';
 
+  static const addressesPath = 'addresses';
+  static const addresses = '$profile/$addressesPath';
+
+  /// «Стать оптовиком» and, relative to it, the wholesale documents.
+  static const wholesalePath = 'wholesale';
+  static const wholesale = '$profile/$wholesalePath';
+  static const wholesaleDocsPath = 'documents';
+  static const wholesaleDocs = '$wholesale/$wholesaleDocsPath';
+
   /// Website links (TZ §4) mapped onto the routes above.
   static const accountPrefix = '/account';
 
@@ -149,6 +158,14 @@ abstract final class AppRoutes {
     queryParameters: {nameParam: name},
   ).toString();
 
+  /// «Все» of a Home collection; [nameParam] is the title.
+  static const collectionPath = '/collection/:$idParam';
+
+  static String collectionProducts(String id, String title) => Uri(
+    path: '/collection/${Uri.encodeComponent(id)}',
+    queryParameters: {if (title.isNotEmpty) nameParam: title},
+  ).toString();
+
   /// «Товар по ссылке» (TZ §5.9) for the marketplace link in [linkParam].
   static const linkImport = '/import';
   static const linkParam = 'url';
@@ -202,6 +219,40 @@ abstract final class AppRoutes {
     },
   ).toString();
 
+  /// Video feed (TZ §5.4), from the story in [storyParam].
+  static const videoFeed = '/video';
+  static const storyParam = 'story';
+
+  static String videoFeedFrom(String storyId) =>
+      Uri(path: videoFeed, queryParameters: {storyParam: storyId}).toString();
+
+  /// Support chat (TZ §5.17).
+  static const support = '/support';
+
+  /// «Найдите мне товар»; relative to [support].
+  static const findRequestPath = 'find';
+  static const findRequest = '$support/$findRequestPath';
+  static const inChatParam = 'in_chat';
+
+  /// Prefilled with [query] or [image]; [isInChat] when opened from the
+  /// chat, so sending goes back to it instead of opening a new one.
+  static String findRequestFor({
+    String? query,
+    String? image,
+    bool isInChat = false,
+  }) => Uri(
+    path: findRequest,
+    queryParameters: {
+      queryParam: ?query,
+      imageParam: ?image,
+      if (isInChat) inChatParam: '1',
+    },
+  ).toString();
+
+  /// Address on the map (TZ §4: over the menu); the address to change
+  /// comes as `extra`, none for a new one.
+  static const addressEditor = '/address';
+
   /// Notification centre (UI_DESIGN §7.21).
   static const notifications = '/notifications';
 
@@ -230,6 +281,12 @@ abstract final class AppRoutes {
       location.startsWith(walletPay) ||
       location == notifications ||
       location.startsWith(myReviews) ||
+      location.startsWith(wholesale) ||
+      location.startsWith(addresses) ||
+      location == addressEditor ||
+      location == support ||
+      location.startsWith('$support/') ||
+      location.startsWith('$support?') ||
       location.startsWith('$writeReview?') ||
       location.startsWith('/pay/');
 

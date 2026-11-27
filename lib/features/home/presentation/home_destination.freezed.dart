@@ -55,7 +55,7 @@ extension HomeDestinationPatterns on HomeDestination {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( SearchDestination value)?  search,TResult Function( PhotoSearchDestination value)?  photoSearch,TResult Function( PasteLinkDestination value)?  pasteLink,TResult Function( NotificationsDestination value)?  notifications,TResult Function( VideoFeedDestination value)?  videoFeed,TResult Function( ProductDestination value)?  product,TResult Function( CategoryDestination value)?  category,TResult Function( AllCategoriesDestination value)?  allCategories,TResult Function( LinkDestination value)?  link,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( SearchDestination value)?  search,TResult Function( PhotoSearchDestination value)?  photoSearch,TResult Function( PasteLinkDestination value)?  pasteLink,TResult Function( NotificationsDestination value)?  notifications,TResult Function( VideoFeedDestination value)?  videoFeed,TResult Function( ProductDestination value)?  product,TResult Function( CategoryDestination value)?  category,TResult Function( AllCategoriesDestination value)?  allCategories,TResult Function( LinkDestination value)?  link,TResult Function( CollectionDestination value)?  collection,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case SearchDestination() when search != null:
@@ -67,7 +67,8 @@ return videoFeed(_that);case ProductDestination() when product != null:
 return product(_that);case CategoryDestination() when category != null:
 return category(_that);case AllCategoriesDestination() when allCategories != null:
 return allCategories(_that);case LinkDestination() when link != null:
-return link(_that);case _:
+return link(_that);case CollectionDestination() when collection != null:
+return collection(_that);case _:
   return orElse();
 
 }
@@ -85,7 +86,7 @@ return link(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( SearchDestination value)  search,required TResult Function( PhotoSearchDestination value)  photoSearch,required TResult Function( PasteLinkDestination value)  pasteLink,required TResult Function( NotificationsDestination value)  notifications,required TResult Function( VideoFeedDestination value)  videoFeed,required TResult Function( ProductDestination value)  product,required TResult Function( CategoryDestination value)  category,required TResult Function( AllCategoriesDestination value)  allCategories,required TResult Function( LinkDestination value)  link,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( SearchDestination value)  search,required TResult Function( PhotoSearchDestination value)  photoSearch,required TResult Function( PasteLinkDestination value)  pasteLink,required TResult Function( NotificationsDestination value)  notifications,required TResult Function( VideoFeedDestination value)  videoFeed,required TResult Function( ProductDestination value)  product,required TResult Function( CategoryDestination value)  category,required TResult Function( AllCategoriesDestination value)  allCategories,required TResult Function( LinkDestination value)  link,required TResult Function( CollectionDestination value)  collection,}){
 final _that = this;
 switch (_that) {
 case SearchDestination():
@@ -97,7 +98,8 @@ return videoFeed(_that);case ProductDestination():
 return product(_that);case CategoryDestination():
 return category(_that);case AllCategoriesDestination():
 return allCategories(_that);case LinkDestination():
-return link(_that);}
+return link(_that);case CollectionDestination():
+return collection(_that);}
 }
 /// A variant of `map` that fallback to returning `null`.
 ///
@@ -111,7 +113,7 @@ return link(_that);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( SearchDestination value)?  search,TResult? Function( PhotoSearchDestination value)?  photoSearch,TResult? Function( PasteLinkDestination value)?  pasteLink,TResult? Function( NotificationsDestination value)?  notifications,TResult? Function( VideoFeedDestination value)?  videoFeed,TResult? Function( ProductDestination value)?  product,TResult? Function( CategoryDestination value)?  category,TResult? Function( AllCategoriesDestination value)?  allCategories,TResult? Function( LinkDestination value)?  link,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( SearchDestination value)?  search,TResult? Function( PhotoSearchDestination value)?  photoSearch,TResult? Function( PasteLinkDestination value)?  pasteLink,TResult? Function( NotificationsDestination value)?  notifications,TResult? Function( VideoFeedDestination value)?  videoFeed,TResult? Function( ProductDestination value)?  product,TResult? Function( CategoryDestination value)?  category,TResult? Function( AllCategoriesDestination value)?  allCategories,TResult? Function( LinkDestination value)?  link,TResult? Function( CollectionDestination value)?  collection,}){
 final _that = this;
 switch (_that) {
 case SearchDestination() when search != null:
@@ -123,7 +125,8 @@ return videoFeed(_that);case ProductDestination() when product != null:
 return product(_that);case CategoryDestination() when category != null:
 return category(_that);case AllCategoriesDestination() when allCategories != null:
 return allCategories(_that);case LinkDestination() when link != null:
-return link(_that);case _:
+return link(_that);case CollectionDestination() when collection != null:
+return collection(_that);case _:
   return null;
 
 }
@@ -140,7 +143,7 @@ return link(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  search,TResult Function()?  photoSearch,TResult Function()?  pasteLink,TResult Function()?  notifications,TResult Function( String storyId)?  videoFeed,TResult Function( String id,  ProductSummary? preview)?  product,TResult Function( String slug)?  category,TResult Function()?  allCategories,TResult Function( HomeLink link)?  link,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  search,TResult Function()?  photoSearch,TResult Function()?  pasteLink,TResult Function()?  notifications,TResult Function( String storyId)?  videoFeed,TResult Function( String id,  ProductSummary? preview)?  product,TResult Function( String slug)?  category,TResult Function()?  allCategories,TResult Function( HomeLink link)?  link,TResult Function( String id,  String title)?  collection,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case SearchDestination() when search != null:
 return search();case PhotoSearchDestination() when photoSearch != null:
@@ -151,7 +154,8 @@ return videoFeed(_that.storyId);case ProductDestination() when product != null:
 return product(_that.id,_that.preview);case CategoryDestination() when category != null:
 return category(_that.slug);case AllCategoriesDestination() when allCategories != null:
 return allCategories();case LinkDestination() when link != null:
-return link(_that.link);case _:
+return link(_that.link);case CollectionDestination() when collection != null:
+return collection(_that.id,_that.title);case _:
   return orElse();
 
 }
@@ -169,7 +173,7 @@ return link(_that.link);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  search,required TResult Function()  photoSearch,required TResult Function()  pasteLink,required TResult Function()  notifications,required TResult Function( String storyId)  videoFeed,required TResult Function( String id,  ProductSummary? preview)  product,required TResult Function( String slug)  category,required TResult Function()  allCategories,required TResult Function( HomeLink link)  link,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  search,required TResult Function()  photoSearch,required TResult Function()  pasteLink,required TResult Function()  notifications,required TResult Function( String storyId)  videoFeed,required TResult Function( String id,  ProductSummary? preview)  product,required TResult Function( String slug)  category,required TResult Function()  allCategories,required TResult Function( HomeLink link)  link,required TResult Function( String id,  String title)  collection,}) {final _that = this;
 switch (_that) {
 case SearchDestination():
 return search();case PhotoSearchDestination():
@@ -180,7 +184,8 @@ return videoFeed(_that.storyId);case ProductDestination():
 return product(_that.id,_that.preview);case CategoryDestination():
 return category(_that.slug);case AllCategoriesDestination():
 return allCategories();case LinkDestination():
-return link(_that.link);}
+return link(_that.link);case CollectionDestination():
+return collection(_that.id,_that.title);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -194,7 +199,7 @@ return link(_that.link);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  search,TResult? Function()?  photoSearch,TResult? Function()?  pasteLink,TResult? Function()?  notifications,TResult? Function( String storyId)?  videoFeed,TResult? Function( String id,  ProductSummary? preview)?  product,TResult? Function( String slug)?  category,TResult? Function()?  allCategories,TResult? Function( HomeLink link)?  link,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  search,TResult? Function()?  photoSearch,TResult? Function()?  pasteLink,TResult? Function()?  notifications,TResult? Function( String storyId)?  videoFeed,TResult? Function( String id,  ProductSummary? preview)?  product,TResult? Function( String slug)?  category,TResult? Function()?  allCategories,TResult? Function( HomeLink link)?  link,TResult? Function( String id,  String title)?  collection,}) {final _that = this;
 switch (_that) {
 case SearchDestination() when search != null:
 return search();case PhotoSearchDestination() when photoSearch != null:
@@ -205,7 +210,8 @@ return videoFeed(_that.storyId);case ProductDestination() when product != null:
 return product(_that.id,_that.preview);case CategoryDestination() when category != null:
 return category(_that.slug);case AllCategoriesDestination() when allCategories != null:
 return allCategories();case LinkDestination() when link != null:
-return link(_that.link);case _:
+return link(_that.link);case CollectionDestination() when collection != null:
+return collection(_that.id,_that.title);case _:
   return null;
 
 }
@@ -659,6 +665,74 @@ $HomeLinkCopyWith<$Res> get link {
     return _then(_self.copyWith(link: value));
   });
 }
+}
+
+/// @nodoc
+
+
+class CollectionDestination implements HomeDestination {
+  const CollectionDestination(this.id, this.title);
+  
+
+ final  String id;
+ final  String title;
+
+/// Create a copy of HomeDestination
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$CollectionDestinationCopyWith<CollectionDestination> get copyWith => _$CollectionDestinationCopyWithImpl<CollectionDestination>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CollectionDestination&&(identical(other.id, id) || other.id == id)&&(identical(other.title, title) || other.title == title));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,id,title);
+
+@override
+String toString() {
+  return 'HomeDestination.collection(id: $id, title: $title)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $CollectionDestinationCopyWith<$Res> implements $HomeDestinationCopyWith<$Res> {
+  factory $CollectionDestinationCopyWith(CollectionDestination value, $Res Function(CollectionDestination) _then) = _$CollectionDestinationCopyWithImpl;
+@useResult
+$Res call({
+ String id, String title
+});
+
+
+
+
+}
+/// @nodoc
+class _$CollectionDestinationCopyWithImpl<$Res>
+    implements $CollectionDestinationCopyWith<$Res> {
+  _$CollectionDestinationCopyWithImpl(this._self, this._then);
+
+  final CollectionDestination _self;
+  final $Res Function(CollectionDestination) _then;
+
+/// Create a copy of HomeDestination
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? id = null,Object? title = null,}) {
+  return _then(CollectionDestination(
+null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as String,null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
 }
 
 // dart format on

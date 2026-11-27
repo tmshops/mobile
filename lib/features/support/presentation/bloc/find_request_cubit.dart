@@ -47,12 +47,7 @@ class FindRequestCubit extends Cubit<FindRequestState> {
   /// [description] and [photo] come from where the form was opened: a
   /// search that found nothing, a photo search.
   Future<void> start({String description = '', String? photo}) async {
-    emit(
-      FindRequestState(
-        description: description,
-        photos: [?photo],
-      ),
-    );
+    emit(FindRequestState(description: description, photos: [?photo]));
     final gallery = await _repository.devicePhotos();
     if (isClosed) return;
     // Without the gallery the form still takes a description or a link.

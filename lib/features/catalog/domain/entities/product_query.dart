@@ -90,6 +90,9 @@ abstract class ProductQuery with _$ProductQuery {
 
     /// Products of this seller («Все товары продавца»).
     String? sellerId,
+
+    /// A Home collection («Хиты», «Новинки») behind «Все».
+    String? collectionId,
     @Default(ProductSort.popular) ProductSort sort,
     @Default(AppliedFilters()) AppliedFilters filters,
   }) = _ProductQuery;
@@ -98,5 +101,8 @@ abstract class ProductQuery with _$ProductQuery {
 
   /// A promotion, search or seller list: no category of its own.
   bool get isScoped =>
-      promoSlug != null || searchText != null || sellerId != null;
+      promoSlug != null ||
+      searchText != null ||
+      sellerId != null ||
+      collectionId != null;
 }

@@ -15,12 +15,14 @@ class MessageBubble extends StatelessWidget {
     required this.message,
     required this.onRetry,
     required this.onOpenProduct,
+    required this.onOpenOrder,
     super.key,
   });
 
   final ChatMessage message;
   final VoidCallback onRetry;
   final ValueChanged<ProductSummary> onOpenProduct;
+  final ValueChanged<String> onOpenOrder;
 
   static const double _radius = 18;
   static const double _tail = 4;
@@ -51,20 +53,29 @@ class MessageBubble extends StatelessWidget {
         product: product,
         onOpen: () => onOpenProduct(product),
       ),
-      ChatOrder(:final number) => Padding(
-        padding: AppSpacing.cardPadding,
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(AppIcons.order, color: c.primary),
-            const SizedBox(width: AppSpacing.x8),
-            Flexible(
-              child: Text(
-                context.l10n.chatOrder(number),
-                style: context.text.bodyStrong,
+      ChatOrder(:final number) => InkWell(
+        onTap: () => onOpenOrder(number),
+        child: Padding(
+          padding: AppSpacing.cardPadding,
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(AppIcons.order, color: c.primary),
+              const SizedBox(width: AppSpacing.x8),
+              Flexible(
+                child: Text(
+                  context.l10n.chatOrder(number),
+                  style: context.text.bodyStrong,
+                ),
               ),
-            ),
-          ],
+              const SizedBox(width: AppSpacing.x4),
+              Icon(
+                AppIcons.chevronRight,
+                size: AppSizes.iconSmall,
+                color: c.inkTertiary,
+              ),
+            ],
+          ),
         ),
       ),
       ChatRequest(:final request) => RequestCard(
@@ -93,9 +104,7 @@ class MessageBubble extends StatelessWidget {
                     : (isMine ? c.primarySoft : c.surface),
                 shape: RoundedRectangleBorder(
                   borderRadius: radius,
-                  side: isCard
-                      ? BorderSide(color: c.divider)
-                      : BorderSide.none,
+                  side: isCard ? BorderSide(color: c.divider) : BorderSide.none,
                 ),
                 clipBehavior: Clip.antiAlias,
                 child: body,
@@ -322,7 +331,10 @@ class RequestCard extends StatelessWidget {
           ],
           if (isFound && product != null) ...[
             const Divider(height: AppSpacing.x24),
-            _ProductCard(product: product, onOpen: () => onOpenProduct(product)),
+            _ProductCard(
+              product: product,
+              onOpen: () => onOpenProduct(product),
+            ),
           ],
         ],
       ),

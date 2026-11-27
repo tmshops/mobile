@@ -24,6 +24,10 @@ sealed class HomeDestination with _$HomeDestination {
   const factory HomeDestination.category(String slug) = CategoryDestination;
   const factory HomeDestination.allCategories() = AllCategoriesDestination;
   const factory HomeDestination.link(HomeLink link) = LinkDestination;
+
+  /// «Все» of a product carousel; [title] heads the list.
+  const factory HomeDestination.collection(String id, String title) =
+      CollectionDestination;
 }
 
 typedef HomeNavigator = void Function(HomeDestination destination);

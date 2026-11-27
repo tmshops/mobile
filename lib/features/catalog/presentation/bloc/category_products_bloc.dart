@@ -27,6 +27,9 @@ sealed class CategoryProductsEvent with _$CategoryProductsEvent {
 
     /// A seller's products instead of category [slug] (pass '').
     String? sellerId,
+
+    /// A Home collection instead of category [slug] (pass '').
+    String? collectionId,
   }) = CategoryProductsStarted;
 
   const factory CategoryProductsEvent.sortChanged(ProductSort sort) =
@@ -111,6 +114,7 @@ class CategoryProductsBloc
         :final promoSlug,
         :final searchText,
         :final sellerId,
+        :final collectionId,
       ):
         _languageCode = languageCode;
         query = ProductQuery(
@@ -118,6 +122,7 @@ class CategoryProductsBloc
           promoSlug: promoSlug,
           searchText: searchText,
           sellerId: sellerId,
+          collectionId: collectionId,
         );
         emit(CategoryProductsState(query: query));
         // Promotion, search and seller pages say what they are themselves;

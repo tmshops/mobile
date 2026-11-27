@@ -838,7 +838,8 @@ mixin _$ProductQuery {
 /// §7.16).
  String? get promoSlug;/// Products matching this text instead of a category (TZ §5.7).
  String? get searchText;/// Products of this seller («Все товары продавца»).
- String? get sellerId; ProductSort get sort; AppliedFilters get filters;
+ String? get sellerId;/// A Home collection («Хиты», «Новинки») behind «Все».
+ String? get collectionId; ProductSort get sort; AppliedFilters get filters;
 /// Create a copy of ProductQuery
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -849,16 +850,16 @@ $ProductQueryCopyWith<ProductQuery> get copyWith => _$ProductQueryCopyWithImpl<P
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ProductQuery&&(identical(other.categorySlug, categorySlug) || other.categorySlug == categorySlug)&&(identical(other.promoSlug, promoSlug) || other.promoSlug == promoSlug)&&(identical(other.searchText, searchText) || other.searchText == searchText)&&(identical(other.sellerId, sellerId) || other.sellerId == sellerId)&&(identical(other.sort, sort) || other.sort == sort)&&(identical(other.filters, filters) || other.filters == filters));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ProductQuery&&(identical(other.categorySlug, categorySlug) || other.categorySlug == categorySlug)&&(identical(other.promoSlug, promoSlug) || other.promoSlug == promoSlug)&&(identical(other.searchText, searchText) || other.searchText == searchText)&&(identical(other.sellerId, sellerId) || other.sellerId == sellerId)&&(identical(other.collectionId, collectionId) || other.collectionId == collectionId)&&(identical(other.sort, sort) || other.sort == sort)&&(identical(other.filters, filters) || other.filters == filters));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,categorySlug,promoSlug,searchText,sellerId,sort,filters);
+int get hashCode => Object.hash(runtimeType,categorySlug,promoSlug,searchText,sellerId,collectionId,sort,filters);
 
 @override
 String toString() {
-  return 'ProductQuery(categorySlug: $categorySlug, promoSlug: $promoSlug, searchText: $searchText, sellerId: $sellerId, sort: $sort, filters: $filters)';
+  return 'ProductQuery(categorySlug: $categorySlug, promoSlug: $promoSlug, searchText: $searchText, sellerId: $sellerId, collectionId: $collectionId, sort: $sort, filters: $filters)';
 }
 
 
@@ -869,7 +870,7 @@ abstract mixin class $ProductQueryCopyWith<$Res>  {
   factory $ProductQueryCopyWith(ProductQuery value, $Res Function(ProductQuery) _then) = _$ProductQueryCopyWithImpl;
 @useResult
 $Res call({
- String categorySlug, String? promoSlug, String? searchText, String? sellerId, ProductSort sort, AppliedFilters filters
+ String categorySlug, String? promoSlug, String? searchText, String? sellerId, String? collectionId, ProductSort sort, AppliedFilters filters
 });
 
 
@@ -886,12 +887,13 @@ class _$ProductQueryCopyWithImpl<$Res>
 
 /// Create a copy of ProductQuery
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? categorySlug = null,Object? promoSlug = freezed,Object? searchText = freezed,Object? sellerId = freezed,Object? sort = null,Object? filters = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? categorySlug = null,Object? promoSlug = freezed,Object? searchText = freezed,Object? sellerId = freezed,Object? collectionId = freezed,Object? sort = null,Object? filters = null,}) {
   return _then(_self.copyWith(
 categorySlug: null == categorySlug ? _self.categorySlug : categorySlug // ignore: cast_nullable_to_non_nullable
 as String,promoSlug: freezed == promoSlug ? _self.promoSlug : promoSlug // ignore: cast_nullable_to_non_nullable
 as String?,searchText: freezed == searchText ? _self.searchText : searchText // ignore: cast_nullable_to_non_nullable
 as String?,sellerId: freezed == sellerId ? _self.sellerId : sellerId // ignore: cast_nullable_to_non_nullable
+as String?,collectionId: freezed == collectionId ? _self.collectionId : collectionId // ignore: cast_nullable_to_non_nullable
 as String?,sort: null == sort ? _self.sort : sort // ignore: cast_nullable_to_non_nullable
 as ProductSort,filters: null == filters ? _self.filters : filters // ignore: cast_nullable_to_non_nullable
 as AppliedFilters,
@@ -988,10 +990,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String categorySlug,  String? promoSlug,  String? searchText,  String? sellerId,  ProductSort sort,  AppliedFilters filters)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String categorySlug,  String? promoSlug,  String? searchText,  String? sellerId,  String? collectionId,  ProductSort sort,  AppliedFilters filters)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ProductQuery() when $default != null:
-return $default(_that.categorySlug,_that.promoSlug,_that.searchText,_that.sellerId,_that.sort,_that.filters);case _:
+return $default(_that.categorySlug,_that.promoSlug,_that.searchText,_that.sellerId,_that.collectionId,_that.sort,_that.filters);case _:
   return orElse();
 
 }
@@ -1009,10 +1011,10 @@ return $default(_that.categorySlug,_that.promoSlug,_that.searchText,_that.seller
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String categorySlug,  String? promoSlug,  String? searchText,  String? sellerId,  ProductSort sort,  AppliedFilters filters)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String categorySlug,  String? promoSlug,  String? searchText,  String? sellerId,  String? collectionId,  ProductSort sort,  AppliedFilters filters)  $default,) {final _that = this;
 switch (_that) {
 case _ProductQuery():
-return $default(_that.categorySlug,_that.promoSlug,_that.searchText,_that.sellerId,_that.sort,_that.filters);case _:
+return $default(_that.categorySlug,_that.promoSlug,_that.searchText,_that.sellerId,_that.collectionId,_that.sort,_that.filters);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -1029,10 +1031,10 @@ return $default(_that.categorySlug,_that.promoSlug,_that.searchText,_that.seller
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String categorySlug,  String? promoSlug,  String? searchText,  String? sellerId,  ProductSort sort,  AppliedFilters filters)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String categorySlug,  String? promoSlug,  String? searchText,  String? sellerId,  String? collectionId,  ProductSort sort,  AppliedFilters filters)?  $default,) {final _that = this;
 switch (_that) {
 case _ProductQuery() when $default != null:
-return $default(_that.categorySlug,_that.promoSlug,_that.searchText,_that.sellerId,_that.sort,_that.filters);case _:
+return $default(_that.categorySlug,_that.promoSlug,_that.searchText,_that.sellerId,_that.collectionId,_that.sort,_that.filters);case _:
   return null;
 
 }
@@ -1044,7 +1046,7 @@ return $default(_that.categorySlug,_that.promoSlug,_that.searchText,_that.seller
 
 
 class _ProductQuery extends ProductQuery {
-  const _ProductQuery({required this.categorySlug, this.promoSlug, this.searchText, this.sellerId, this.sort = ProductSort.popular, this.filters = const AppliedFilters()}): super._();
+  const _ProductQuery({required this.categorySlug, this.promoSlug, this.searchText, this.sellerId, this.collectionId, this.sort = ProductSort.popular, this.filters = const AppliedFilters()}): super._();
   
 
 /// Empty for a promotion's products.
@@ -1056,6 +1058,8 @@ class _ProductQuery extends ProductQuery {
 @override final  String? searchText;
 /// Products of this seller («Все товары продавца»).
 @override final  String? sellerId;
+/// A Home collection («Хиты», «Новинки») behind «Все».
+@override final  String? collectionId;
 @override@JsonKey() final  ProductSort sort;
 @override@JsonKey() final  AppliedFilters filters;
 
@@ -1069,16 +1073,16 @@ _$ProductQueryCopyWith<_ProductQuery> get copyWith => __$ProductQueryCopyWithImp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ProductQuery&&(identical(other.categorySlug, categorySlug) || other.categorySlug == categorySlug)&&(identical(other.promoSlug, promoSlug) || other.promoSlug == promoSlug)&&(identical(other.searchText, searchText) || other.searchText == searchText)&&(identical(other.sellerId, sellerId) || other.sellerId == sellerId)&&(identical(other.sort, sort) || other.sort == sort)&&(identical(other.filters, filters) || other.filters == filters));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ProductQuery&&(identical(other.categorySlug, categorySlug) || other.categorySlug == categorySlug)&&(identical(other.promoSlug, promoSlug) || other.promoSlug == promoSlug)&&(identical(other.searchText, searchText) || other.searchText == searchText)&&(identical(other.sellerId, sellerId) || other.sellerId == sellerId)&&(identical(other.collectionId, collectionId) || other.collectionId == collectionId)&&(identical(other.sort, sort) || other.sort == sort)&&(identical(other.filters, filters) || other.filters == filters));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,categorySlug,promoSlug,searchText,sellerId,sort,filters);
+int get hashCode => Object.hash(runtimeType,categorySlug,promoSlug,searchText,sellerId,collectionId,sort,filters);
 
 @override
 String toString() {
-  return 'ProductQuery(categorySlug: $categorySlug, promoSlug: $promoSlug, searchText: $searchText, sellerId: $sellerId, sort: $sort, filters: $filters)';
+  return 'ProductQuery(categorySlug: $categorySlug, promoSlug: $promoSlug, searchText: $searchText, sellerId: $sellerId, collectionId: $collectionId, sort: $sort, filters: $filters)';
 }
 
 
@@ -1089,7 +1093,7 @@ abstract mixin class _$ProductQueryCopyWith<$Res> implements $ProductQueryCopyWi
   factory _$ProductQueryCopyWith(_ProductQuery value, $Res Function(_ProductQuery) _then) = __$ProductQueryCopyWithImpl;
 @override @useResult
 $Res call({
- String categorySlug, String? promoSlug, String? searchText, String? sellerId, ProductSort sort, AppliedFilters filters
+ String categorySlug, String? promoSlug, String? searchText, String? sellerId, String? collectionId, ProductSort sort, AppliedFilters filters
 });
 
 
@@ -1106,12 +1110,13 @@ class __$ProductQueryCopyWithImpl<$Res>
 
 /// Create a copy of ProductQuery
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? categorySlug = null,Object? promoSlug = freezed,Object? searchText = freezed,Object? sellerId = freezed,Object? sort = null,Object? filters = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? categorySlug = null,Object? promoSlug = freezed,Object? searchText = freezed,Object? sellerId = freezed,Object? collectionId = freezed,Object? sort = null,Object? filters = null,}) {
   return _then(_ProductQuery(
 categorySlug: null == categorySlug ? _self.categorySlug : categorySlug // ignore: cast_nullable_to_non_nullable
 as String,promoSlug: freezed == promoSlug ? _self.promoSlug : promoSlug // ignore: cast_nullable_to_non_nullable
 as String?,searchText: freezed == searchText ? _self.searchText : searchText // ignore: cast_nullable_to_non_nullable
 as String?,sellerId: freezed == sellerId ? _self.sellerId : sellerId // ignore: cast_nullable_to_non_nullable
+as String?,collectionId: freezed == collectionId ? _self.collectionId : collectionId // ignore: cast_nullable_to_non_nullable
 as String?,sort: null == sort ? _self.sort : sort // ignore: cast_nullable_to_non_nullable
 as ProductSort,filters: null == filters ? _self.filters : filters // ignore: cast_nullable_to_non_nullable
 as AppliedFilters,

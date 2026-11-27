@@ -23,6 +23,8 @@ import 'package:tmshop/features/orders/presentation/widgets/order_view.dart';
 import 'package:tmshop/features/orders/presentation/widgets/orders_view.dart';
 
 import 'package:tmshop/features/favourites/presentation/bloc/viewed_cubit.dart';
+import 'package:tmshop/features/wholesale/presentation/bloc/wholesale_application_cubit.dart';
+import 'package:tmshop/features/wholesale/presentation/widgets/become_wholesale_view.dart';
 
 import '../../helpers/mock_blocs.dart';
 
@@ -34,6 +36,9 @@ class _MockOrdersCubit extends MockCubit<OrdersState> implements OrdersCubit {}
 class _MockOrderCubit extends MockCubit<OrderState> implements OrderCubit {}
 
 class _MockViewedCubit extends MockCubit<ViewedState> implements ViewedCubit {}
+
+class _MockWholesaleCubit extends MockCubit<WholesaleApplicationState>
+    implements WholesaleApplicationCubit {}
 
 void main() {
   late GlobalCubits cubits;
@@ -56,8 +61,14 @@ void main() {
     final viewed = _MockViewedCubit();
     when(() => viewed.state).thenReturn(const ViewedState(isLoading: false));
     when(viewed.load).thenAnswer((_) async {});
+    final wholesale = _MockWholesaleCubit();
+    when(() => wholesale.state).thenReturn(const WholesaleApplicationState());
+    when(
+      () => wholesale.load(any(), prefill: any(named: 'prefill')),
+    ).thenAnswer((_) async {});
     getIt
       ..registerFactory<ViewedCubit>(() => viewed)
+      ..registerFactory<WholesaleApplicationCubit>(() => wholesale)
       ..registerFactory<LoginBloc>(() => login)
       ..registerFactory<OrdersCubit>(() => orders)
       ..registerFactory<OrderCubit>(() => order);
@@ -126,6 +137,17 @@ void main() {
     expect(AppRoutes.needsLogin(AppRoutes.productReviews('p1')), isFalse);
     expect(AppRoutes.needsLogin(AppRoutes.deleteAccount), isTrue);
     expect(AppRoutes.needsLogin(AppRoutes.walletPay), isTrue);
+    expect(AppRoutes.needsLogin(AppRoutes.support), isTrue);
+    expect(AppRoutes.needsLogin(AppRoutes.findRequestFor(query: 'q')), isTrue);
+    expect(AppRoutes.needsLogin(AppRoutes.addresses), isTrue);
+    expect(AppRoutes.needsLogin(AppRoutes.addressEditor), isTrue);
+    expect(AppRoutes.needsLogin(AppRoutes.wholesale), isTrue);
+    expect(AppRoutes.needsLogin(AppRoutes.wholesaleDocs), isTrue);
+    expect(AppRoutes.needsLogin(AppRoutes.videoFeedFrom('v1')), isFalse);
+    expect(
+      AppRoutes.needsLogin(AppRoutes.collectionProducts('hits', '')),
+      isFalse,
+    );
     final link = AppRoutes.surchargesWith(payParcel: 'P-5518');
     expect(AppRoutes.needsLogin(link), isTrue);
     expect(Uri.parse(link).queryParameters[AppRoutes.parcelPayParam], 'P-5518');
@@ -160,7 +182,7 @@ void main() {
     expect(find.byType(OrderView), findsOneWidget);
   });
 
-  testWidgets('notification links: tabs switch, unbuilt ones toast', (
+  testWidgets('notification links: tabs switch, unknown ones toast', (
     tester,
   ) async {
     await pump(
@@ -175,7 +197,8 @@ void main() {
     await tester.pump(const Duration(milliseconds: 500));
     expect(location(), AppRoutes.order('10228'));
 
-    openAppLink(tester.element(find.byType(Scaffold).first), '/support');
+    // A referral link (TZ §4, stage 2) has no screen in this version.
+    openAppLink(tester.element(find.byType(Scaffold).first), '/r/AB12');
     await tester.pump();
     expect(
       find.text(lookupAppLocalizations(AppLocales.ru).comingSoon),
@@ -193,6 +216,18 @@ void main() {
     expect(find.byType(NotFoundPage), findsOneWidget);
 
     expect(find.byType(PrimaryButton), findsOneWidget);
+  });
+
+  testWidgets('wholesale documents are for the wholesale group', (
+    tester,
+  ) async {
+    await pump(
+      tester,
+      const AuthState.signedIn(UserProfile(id: 'u', phone: '65123456')),
+    );
+    await go(tester, AppRoutes.wholesaleDocs);
+    expect(location(), AppRoutes.wholesale);
+    expect(find.byType(BecomeWholesaleView), findsOneWidget);
   });
 
   testWidgets('information is open to guests', (tester) async {

@@ -21,7 +21,9 @@ class CustomerMenu extends StatelessWidget {
     required this.onOpenNotifications,
     required this.onOpenMyReviews,
     required this.onOpenInfo,
-    required this.onComingSoon,
+    required this.onOpenSupport,
+    required this.onOpenAddresses,
+    required this.onOpenWholesale,
     super.key,
   });
 
@@ -36,7 +38,12 @@ class CustomerMenu extends StatelessWidget {
   final VoidCallback onOpenNotifications;
   final VoidCallback onOpenMyReviews;
   final VoidCallback onOpenInfo;
-  final VoidCallback onComingSoon;
+  final VoidCallback onOpenSupport;
+  final VoidCallback onOpenAddresses;
+
+  /// «Стать оптовиком» for a retail customer, the documents for a
+  /// wholesale one.
+  final VoidCallback onOpenWholesale;
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +79,7 @@ class CustomerMenu extends StatelessWidget {
             MenuRow(
               icon: AppIcons.address,
               title: l10n.profileAddresses,
-              onTap: onComingSoon,
+              onTap: onOpenAddresses,
             ),
             MenuRow(
               icon: AppIcons.viewed,
@@ -107,14 +114,14 @@ class CustomerMenu extends StatelessWidget {
             MenuRow(
               icon: AppIcons.support,
               title: l10n.profileSupport,
-              onTap: onComingSoon,
+              onTap: onOpenSupport,
             ),
             MenuRow(
               icon: AppIcons.wholesale,
               title: isWholesale
                   ? l10n.profileWholesaleDocs
                   : l10n.profileBecomeWholesale,
-              onTap: onComingSoon,
+              onTap: onOpenWholesale,
             ),
             MenuRow(
               icon: AppIcons.info,

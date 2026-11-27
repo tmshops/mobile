@@ -6,6 +6,7 @@ abstract final class FakeApiParams {
   static const promo = 'promo';
   static const text = 'q';
   static const seller = 'seller';
+  static const collection = 'collection';
   static const sort = 'sort';
   static const cursor = 'cursor';
   static const priceMin = 'price_min';

@@ -2241,4 +2241,165 @@ class AppLocalizationsTk extends AppLocalizations {
   String chatSendPhotos(int count) {
     return 'Iber · $count';
   }
+
+  @override
+  String get wholesaleBenefitPrices => 'Lomaý bahalar';
+
+  @override
+  String get wholesaleBenefitPricesText =>
+      'Iň az partiýadan sargyt edeniňizde bir sanynyň bahasy arzan';
+
+  @override
+  String get wholesaleBenefitDocs => 'Hasaplar we ýük haty';
+
+  @override
+  String get wholesaleBenefitDocsText => 'Her sargyt boýunça PDF resminamalar';
+
+  @override
+  String get wholesaleBenefitTerms => 'Şahsy şertler';
+
+  @override
+  String get wholesaleBenefitTermsText =>
+      'Aýratyn menejer, möhlet we hemişelik müşderiler üçin arzanladyşlar';
+
+  @override
+  String get wholesaleFormTitle => 'Arza';
+
+  @override
+  String get wholesaleName => 'Adyňyz';
+
+  @override
+  String get wholesaleCompany => 'Kompaniýa ýa-da telekeçi';
+
+  @override
+  String get wholesaleCity => 'Şäher';
+
+  @override
+  String get wholesaleSend => 'Arza iber';
+
+  @override
+  String get wholesaleFillAll => 'Ähli meýdanlary dolduryň';
+
+  @override
+  String get wholesalePendingTitle => 'Arza seredilýär';
+
+  @override
+  String get wholesalePendingText =>
+      'Adatça bir iş gününde jogap berýäris. Karar taýýar bolanda habar ibereris';
+
+  @override
+  String get wholesaleApprovedTitle => 'Arza kabul edildi';
+
+  @override
+  String wholesaleApprovedText(String group) {
+    return 'Siziň toparyňyz: $group. Lomaý bahalar katalogda eýýäm işleýär';
+  }
+
+  @override
+  String get wholesaleRejectedTitle => 'Arza ret edildi';
+
+  @override
+  String get wholesaleReapply => 'Täzeden iber';
+
+  @override
+  String get wholesaleRefresh => 'Ýagdaýy täzele';
+
+  @override
+  String get wholesaleToCatalog => 'Söwda başla';
+
+  @override
+  String wholesaleInvoice(String number) {
+    return 'Hasap № $number';
+  }
+
+  @override
+  String wholesaleWaybill(String number) {
+    return 'Ýük haty № $number';
+  }
+
+  @override
+  String get wholesaleDownload => 'Ýükle';
+
+  @override
+  String get wholesaleDocsEmpty => 'Entek resminama ýok';
+
+  @override
+  String get wholesaleDocsEmptyText =>
+      'Hasaplar we ýük haty ilkinji sargytdan soň peýda bolar';
+
+  @override
+  String get addressesEmpty => 'Entek salgy ýok';
+
+  @override
+  String get addressesEmptyText =>
+      'Salgy goşuň — kurýer sargydy gapyňyza getirer';
+
+  @override
+  String get addressesAdd => 'Salgy goş';
+
+  @override
+  String get addressesDefault => 'Esasy';
+
+  @override
+  String get addressesMenu => 'Salgy bilen hereketler';
+
+  @override
+  String get addressesEdit => 'Üýtget';
+
+  @override
+  String get addressesMakeDefault => 'Esasy et';
+
+  @override
+  String get addressesDeleteTitle => 'Salgy pozulsynmy?';
+
+  @override
+  String get addressesDeleted => 'Salgy pozuldy';
+
+  @override
+  String get addressNewTitle => 'Täze salgy';
+
+  @override
+  String get addressEditTitle => 'Salgyny üýtget';
+
+  @override
+  String get addressMyLocation => 'Meniň ýerim';
+
+  @override
+  String get addressMoveHint =>
+      'Bellik öýüňiziň üstünde durar ýaly kartany süýşüriň';
+
+  @override
+  String get addressLocating => 'Salgy kesgitlenýär…';
+
+  @override
+  String get addressLookupFailed => 'Salgyny kesgitläp bolmady';
+
+  @override
+  String get addressSave => 'Salgyny ýatda sakla';
+
+  @override
+  String addressRegion(String region) {
+    return 'Sebit: $region';
+  }
+
+  @override
+  String get videoMore => 'Giňişleýin';
+
+  @override
+  String get videoLike => 'Halaýaryn';
+
+  @override
+  String get videoFavourite => 'Halanlaryma';
+
+  @override
+  String get videoSoundOn => 'Sesi aç';
+
+  @override
+  String get videoSoundOff => 'Sesi öçür';
+
+  @override
+  String get videoPaused => 'Arakesme';
+
+  @override
+  String get videoEmpty => 'Entek wideo ýok';
 }

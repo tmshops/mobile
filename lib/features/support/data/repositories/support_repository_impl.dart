@@ -79,8 +79,9 @@ class SupportRepositoryImpl implements SupportRepository {
         final json = await _remote.recentOrders(languageCode);
         return _parse(
           () => [
-            for (final o in (json['orders'] as List<dynamic>)
-                .cast<Map<String, dynamic>>())
+            for (final o
+                in (json['orders'] as List<dynamic>)
+                    .cast<Map<String, dynamic>>())
               OrderRef(
                 number: o['number'] as String,
                 status: o['status'] as String,
@@ -117,8 +118,9 @@ class SupportRepositoryImpl implements SupportRepository {
               ? FindRequestStatus.found
               : FindRequestStatus.searching,
           product: switch (r['product']) {
-            final Map<String, dynamic> p =>
-              ProductSummaryModel.fromJson(p).toEntity(),
+            final Map<String, dynamic> p => ProductSummaryModel.fromJson(
+              p,
+            ).toEntity(),
             _ => null,
           },
         ),

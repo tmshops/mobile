@@ -340,6 +340,8 @@ class FakeCatalogBackend {
   List<_FakeProduct> _productsFor(Map<String, String> params) {
     final text = params[FakeApiParams.text];
     if (text != null) return _matchingText(text);
+    final collection = params[FakeApiParams.collection];
+    if (collection != null) return _collection(collection);
     final seller = params[FakeApiParams.seller];
     if (seller != null) {
       return [
@@ -363,6 +365,22 @@ class FakeCatalogBackend {
 
   /// Seller id of a brand's store: the brand in lower case.
   static String sellerIdOf(String brand) => brand.toLowerCase();
+
+  /// Home collections: «hits» are the best sellers, «new» the newest
+  /// generated ones.
+  List<_FakeProduct> _collection(String id) {
+    final all = _everything().toList();
+    return switch (id) {
+      'hits' =>
+        (all..sort((a, b) => b.sold.compareTo(a.sold)))
+            .take(_collectionSize)
+            .toList(),
+      'new' => all.reversed.take(_collectionSize).toList(),
+      _ => const [],
+    };
+  }
+
+  static const _collectionSize = 60;
 
   Iterable<_FakeProduct> _everything() sync* {
     for (final root in FakeCatalogTree.roots) {
